@@ -1,0 +1,67 @@
+<% carriers =
+{
+'AT&T' => 'att',
+'Verizon' => 'verizon',
+'T Mobile' => 'tmobile',
+'Sprint' => 'sprint',
+'Nextel' => 'nextel',
+'Virgin Mobile' => 'vmobile',
+'Alltel' => 'alltel',
+'Cricket' => 'cricket'
+}
+%>
+<div class="sms-send" data-ajax-modal="container">
+
+  <div class="modal-header">
+    <h3 class="modal-title">Send a Text Message</h3>
+    <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <%= form_tag url_for(:action => 'sms_send', :id => params[:id], :holding_id => params[:holding_id]),
+        :method => :post, :class => "sms-form form-horizontal", :data => {:ajax_modal => "preserve"} do %>
+
+
+    <div class="modal-body">
+      <p>With location and call number.</p>
+
+      <% if @error_message %>
+        <div class="alert alert-danger">
+          <%= @error_message %>
+           <a class="close" data-dismiss="alert" href="#">&times;</a>
+        </div>
+      <% elsif @success_message %>
+        <%# this special data/class tells the JS to close the modal and display
+            notice in main window %>
+        <div data-ajax-modal="close">
+          <div class="alert alert-success flash_messages">
+            <%= @success_message %>
+             <a class="close" data-dismiss="alert" href="#">&times;</a>
+          </div>
+        </div>
+      <% end %>
+
+        <%= hidden_field_tag(:referer, params[:referer] || request.referer ) %>
+        <div class="form-group">
+          <%= label_tag(:to, "Phone Number", :class => "col-sm-3") %>
+          <div class="col-sm-6">
+            <%= telephone_field_tag :to, params[:to], :class => "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= label_tag(:carrier, "Carrier", :class => "col-sm-3") %>
+          <div class="col-sm-6">
+            <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift(["Please select your carrier",'']), params[:carrier]), :class => "form-control") %>
+            <p class="text-muted small">Msg & Data Rates may apply</p>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= submit_tag "Send", :class => "btn btn-primary" %>
+    </div>
+
+  <% end %>
+</div>

@@ -1,0 +1,28 @@
+<div class="marc505">
+  <ul class="contents505 list-unstyled">
+
+    <% lines.each do |line| 
+       marc505 = line.marc_field
+    %>
+        <%if marc505.indicator1 =="1" || marc505.indicator1 == "2"%>
+          <li class="contents505-label">
+            Partial contents only. 
+          </li>
+        <% end %>
+        <% if url = marc505["u"] %>
+          <li class="marc505u">
+            Contents can be found at <a href="<%= url %>"><%= url %></a>
+          </li>
+        <% end %>
+        
+        <% 
+           if contents = split_505_contents(marc505) %>
+            <% contents.each do |line| %>
+              <li class="contents-line"><%= line %></li>
+            <% end %>
+        <% end %>        
+    <% end %>
+  </ul>
+</div>
+
+

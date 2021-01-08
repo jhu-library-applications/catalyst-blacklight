@@ -1,0 +1,7 @@
+# See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
+#
+# Keep Google out of Catalog for now, it's putting too much load on server.
+# Dec 2012. Might be able to let it back in when we re-architect things.
+# (And actualy, this may or may not be keeping it out anyway)
+User-Agent: *
+Disallow: /catalog?

@@ -1,0 +1,37 @@
+// modelled on bootstrap .navbar-collapse, to have
+// an element that is collapsible only at small sizes but is
+// always shown at large sizes. Combine this class with bootstrap
+// .collapse for that behavior
+
+$note-collapse: $screen-md-min !default;
+
+.collapse-note-content {
+  @media (min-width: $note-collapse) {
+    &.collapse {
+        display: block !important;
+        height: auto !important;
+    }
+  }
+}
+.collapse-note-fixed-heading {
+  display: none;
+  @media (min-width: $note-collapse) {
+    display: block;
+  }
+}
+.collapse-note-collapse-heading {
+  @media (min-width: $note-collapse) {
+    display: none;
+  }
+}
+.collapse-note {
+  @media (max-width: $note-collapse - 1) {
+    padding-left: $alert-padding;
+    padding-right: $alert-padding;
+    border: 1px solid transparent;
+    border-radius: $alert-border-radius;
+    @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+
+    margin-bottom: $line-height-computed;
+  }
+}

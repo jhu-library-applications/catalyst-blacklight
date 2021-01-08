@@ -1,0 +1,16 @@
+
+<dl class="dl-marc-display dl-horizontal dl-invert mt-4">
+  <% marc_presenter_list(){}.each do |field|
+     presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, field)
+     if presenter.should_display?
+  %>
+
+      <dt class="fieldLabel <%= presenter.css_classes.join(" ") %>" style="<%= presenter.style %>"   ><%= presenter.label %></dt>
+      <dd class="fieldData <%= presenter.css_classes.join(" ") %>" style="<%= presenter.style %>"  >
+        <%= render :partial => "marc_display/presenter_content", :locals => {:presenter => presenter } %>
+      </dd>
+<% end %>
+
+<% end %>
+
+</dl>

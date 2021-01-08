@@ -1,0 +1,15 @@
+the 'cronmail' script was written by jrochkind, to wrap
+cronjobs and send output as email, including special subject
+line for failed. 
+
+At time of this writing, it's source is kept at
+http://svn.mse.jhu.edu/repos/public/systems/trunk/unixutils/bin , 
+but here it's just a copy-and-pasted separate copy in local source,
+sorry. 
+
+it's in Catalyst source, so we can have our Capistrano deploy
+of cronjobs deploy cronjobs wrapped in cronmail. Particularly
+our mass indexing job. Using 'whenever' gem to have capistrano
+deploy cronjobs.
+
+TODO: Update the documentation about Capistrano

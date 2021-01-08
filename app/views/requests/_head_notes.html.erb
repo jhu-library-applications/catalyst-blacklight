@@ -1,0 +1,24 @@
+<div class="request-head-notes">
+  <div class="citation">
+    <div class="bib">
+      <span><%= heading_title(@document) -%>
+      <% if subtitle_line = heading_subtitle(@document) %>
+        : <%= subtitle_line %>
+      <% end %>
+      / <%= heading_stmt_resp(@document) %></span>
+    </div>
+
+    <div class="item">
+      <%= h(@ils_request.item_display) %>
+    </div>
+
+  </div>  
+
+  <% unless (head_notes = request_head_notes).empty? %>      
+    <ul class="alert alert-warning list-unstyled">
+      <% request_head_notes.each do |line| %>
+        <li><span class="ui-icon ui-icon-alert"></span><%= h(line[:text]) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

@@ -1,0 +1,23 @@
+<ul class="marc856">
+  <% lines.each do |line| 
+     marc856 = line.marc_field
+  %>
+    <li class="marcLine marc856">
+      <% if (materials = marc856["3"]) %>
+        <span class="marc8563">
+          <%= materials %> :
+        </span>
+      <% end %>
+      <% marc856.find_all { |sf| sf.code == 'z' || sf.code == 'u' }.each do |sf| %>
+        <% if sf.code == 'z' %>
+          <span class="marc856z"><%= sf.value %></span>
+        <% elsif sf.code == 'u' %>
+          <span class="marc856url">
+            <a href="<%= link_out_to_856(sf.value) %>" title="<%= sf.value %>"><%= marc856['y'] || url_display_as(sf.value) %></a>
+          </span>
+        <% end %>
+      <% end %>
+    </li>
+  
+  <% end %>
+</ul>

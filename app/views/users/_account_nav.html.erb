@@ -1,0 +1,10 @@
+<%# using our custom css styles to get buttonset navbar behavior, like
+    jquery-ui, but couldn't make the jquery-ui js or css classes themselves
+    do quite what we need. see our local css.
+-%>
+
+  <ul class="nav nav-pills account-nav">
+    <%= bootstrap_pill_link_to "Your Account", {:action => "show"}, {class: 'nav-item'} %>
+    <%= bootstrap_pill_link_to "Items Checked Out", {:action => "itemsout"}, {class: 'nav-item'} %>
+    <%= bootstrap_pill_link_to "Requests", {:action => "requests"}, {class: 'nav-item'} %>
+  </ul>

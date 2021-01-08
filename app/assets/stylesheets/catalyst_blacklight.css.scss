@@ -1,0 +1,39 @@
+// Import blacklight styles from blacklight gem, as well as bootstrap base.
+//
+// https://github.com/projectblacklight/blacklight/releases/tag/v4.0.0
+//
+// https://github.com/projectblacklight/blacklight/releases/tag/v4.0.0
+
+// our own variables to possibly override bootstrap's
+@import 'variables';
+
+// standard bootstrap and blacklight
+@import 'bootstrap';
+@import 'blacklight/blacklight';
+@import 'blacklight_marc';
+
+// now our own classes to override blacklights or bootstraps
+@import 'layout';
+@import 'advanced';
+@import 'articles';
+@import 'fonts';
+@import 'collapse_note';
+@import 'header_footer';
+@import 'search_results';
+@import 'catalog_show';
+@import 'holdings';
+@import 'icons';
+@import 'login';
+@import 'account';
+@import 'shelfbrowse';
+@import 'stackmap';
+@import 'requests';
+@import 'umlaut_content';
+@import 'did_you_mean';
+@import 'useful_links';
+@import 'reserves';
+
+@import 'print';
+
+// CSS for chosen.js, bootstrap theme option.
+@import 'chosen';

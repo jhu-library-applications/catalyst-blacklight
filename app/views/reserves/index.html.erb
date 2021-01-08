@@ -1,0 +1,20 @@
+<div class="reserves-index container">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render(:partial => "electronic_note") %>
+    </div>
+
+    <div class="col-md-9 reserves">
+      <h1 class="reserves-title">
+        <%= link_to "Reserves", :action => :index %>
+      </h1>
+
+      <% # Reserves Feature %>
+      <% if Flipper[:curbside_mode].enabled? %>
+        <%= render partial: 'reserves_curbside' %>
+      <% else %>
+        <%= render partial: 'reserves_default' %>
+      <% end %>
+    </div>
+  </div>
+</div>

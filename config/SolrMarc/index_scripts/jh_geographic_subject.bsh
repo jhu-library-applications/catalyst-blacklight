@@ -1,0 +1,84 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+
+
+// Creates topical region/geographic facet out of LCSH and marc 043. 
+// Normalizes LCSH to make for instance "... -- Germany -- Berlin " change to
+// "Berlin (Germany)"
+Set getGeoFacet(Record record, String marc043_pmap_name) {
+  Set resultSet = new LinkedHashSet();
+  
+  //Get the 043's, if any
+  
+  String marc043_map_name = indexer.loadTranslationMap(marc043_pmap_name);
+  marc043Map = indexer.findMap(marc043_map_name);
+  
+  
+  List marc043 = record.getVariableFields("043");
+  for( Object field : marc043) {
+    List subfields = field.getSubfields();
+    for(Object subfield : subfields) {
+      if (subfield.getCode() == 'a') {
+        //map it! First remove any trailing hyphens. 
+        code = subfield.getData();
+        code = code.replaceAll("\\-+$", "");        
+        
+        resultSet.add( Utils.remap( code, marc043Map, false) );
+        
+        
+      }
+    }
+  }
+  
+  // LCSH 651a and 691a go in more or less normally.
+  a_values = indexer.getFieldList(record, "651a:691a");
+  for(value : a_values ) {
+    resultSet.add( removePunct(value) );
+  }
+  // Get the LCSH subject geo facet subfields, normalizing
+  //651a:691a
+  
+  String[] fieldsWithZSpec = new String[] {"600","610","611","630","648","650","654","655","656","690", "651", "691"};
+  HashSet fieldsWithZ = new HashSet( Arrays.asList(fieldsWithZSpec));
+  
+  
+  allFields = record.getDataFields();
+  for(DataField field : allFields) {
+    if (fieldsWithZ.contains(field.getTag())) {
+      all_z = field.getSubfields('z');
+      if (all_z.size() == 2) {
+        //normalize to go in same buckets as the way regions are written in
+        //651a -- doesn't normalize everything correctly, but gets a lot. 
+        resultSet.add(removePunct(all_z.get(1).getData()) + " (" + removePunct(all_z.get(0).getData()) + ")");
+        
+        //"post up", add the first geo region too
+        resultSet.add( removePunct(all_z.get(0).getData()));
+      }
+      else {
+        for(subfield : all_z) {
+          resultSet.add( removePunct(subfield.getData())); 
+        }
+      }      
+    }
+  }
+  
+  //600zz:610zz:611zz:630zz:648zz:650zz:654zz:655zz:656zz:690zz
+  
+  
+  return resultSet;
+}
+
+/* removes trailing periods from value, to normalize for our facet. 
+   Values may have periods or not depending on where they were grabbed
+   from in the LCSH string. */
+String removePunct(String input) {
+  return input.replaceAll("\\. *$", "");
+}
+

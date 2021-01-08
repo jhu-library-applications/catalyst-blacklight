@@ -1,0 +1,19 @@
+<%# a generic message template, we use for outage messages, maybe more later. %>
+
+<%
+    # passing in as tempalte local preferable to iVar please. iVar used to be. 
+    title       = local_assigns[:title]     || @title
+    message     = local_assigns[:message]   || @message
+    exception   = local_assigns[:exception] || @exception
+%>
+<div  data-ajax-modal="container">
+  <div class="message alert alert-warning">
+    <h2 class="text-warning"><%= title|| "Notice" %></h2>
+    <div class="ui-state-highlight ui-corner-all notice">
+      <span class="ui-icon ui-icon-alert"></span>
+      <%= message || exception.try(:message) %>
+    </div>
+
+    <%= link_to "OK", request_done_path, :class => "submit btn btn-default dialog-close" %>
+  </div>
+</div>

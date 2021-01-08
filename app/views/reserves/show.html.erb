@@ -1,0 +1,33 @@
+<div class="reserves-show container">
+  <div class="row">
+
+    <div class="col-md-3">
+      <%= render(:partial => "electronic_note") %>
+    </div>
+
+    <div class="reserves col-md-9">
+      <h1 class="reserves-title"><%= link_to "Reserves", :action => :index %></h1>
+
+      <div class="reserves-show-course-header well">        
+        <%= render :partial => "course", :object => @course %>
+      </div>
+
+
+      <%= render "catalog/sort_and_per_page" %>
+          
+
+
+      <%= render 'catalog/results_pagination' %>  
+
+      
+      <%= render_document_index @document_list %>
+      
+
+      <%= render 'catalog/results_pagination' %>  
+
+      
+    </div>
+
+
+  </div>
+</div>

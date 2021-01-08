@@ -1,0 +1,31 @@
+
+# this file lists connection details for the Horizon sybase database. 
+# It is an ActiveRecord-style database.yml-like file, HOWEVER we aren't
+# actually using an AR Sybase connection -- couldn't get that to work. 
+# Instead the details in this file are used by other utilities, to get 
+# parameters to pass to the Java Horizon indexer, or to our jruby/DBI-based
+# horizon connection in pull_reserves.rb, etc. 
+
+defaults: &default
+  host: <%= ENV['HORIZON_HOST'] %>
+  port: <%= ENV['HORIZON_PORT'] || '2025' %>
+  db_name: <%= ENV['HORIZON_DB_NAME'] %>
+  login: <%= ENV['HORIZON_LOGIN'] %>
+  password: <%= ENV['HORIZON_PASSWORD'] %>
+  jdbcType: jTDS-Sybase
+
+development:
+  <<: *default
+
+demo:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
+

@@ -1,0 +1,99 @@
+<div class="container account account-requests">
+
+  <%= render(:partial => "account_nav") %>
+
+  <% if @items_available.length > 0 %>
+      <h2 class="visible-xs">Ready for pick up</h2>
+      <table class="table account-requested-ready-section">
+      <thead>
+        <tr>
+          <th class="item"><h2>Ready for pick up</h2></th>
+          <th class="location">Pick up location</th>
+          <th class="expires date">Pick up before</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @items_available.each do |item| %>
+        <tr>
+          <td class="item">
+              <% if item.solr_document %>
+                <%= render :partial => "bib_very_brief", :locals => {:document => item.solr_document}
+                %>
+              <%- else 
+                 # Can't find a solrdocument for some reason, oh well just display
+                 # the label that HIP gave us 
+              -%>
+              <span class="main_title"><%= h(item.label) %></span>
+              <% end %>
+              <dl class="dl-horizontal small request-ready-info">
+                <dt>Date placed: </dt><dd><%= h(item.date_initiated.to_formatted_s(:due_date)) %></dd>
+              </dl>
+          </td>
+          <td class="location">
+            <div class="visible-xs text-muted"><b>Pick up location</b></div>
+            <%= h(item.pickup_location) %>
+          </td>
+          <td class="expires-date date">
+            <div class="visible-xs text-muted"><b>Pick up before</b></div>
+            <%= h(item.date_complete.to_formatted_s(:due_date)) %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+      </table>
+  <% end %>
+
+
+  <% if @items_pending.length == 0%>
+    <div class="account account_section">
+      <h2>Requested</h2>
+      <p>None.</p>
+    </div>
+  <% else %>
+
+      <h2 class="visible-xs">Requested</h2>
+      <table class="table account-requested-section">
+      <thead>
+       <tr>
+        <th><h2>Requested</h2></th>
+        <th class="submitted-date date">Date placed</th>
+        <th>Expires</th>
+       </tr>      
+      </thead>
+      <tbody>
+      <% @items_pending.each do |item| %>
+        <tr>
+          <td class="item">
+              <% if item.solr_document %>
+                <%= render :partial => "bib_very_brief", :locals => {:document => item.solr_document}
+                %>
+              <%- else 
+                 # Can't find a solrdocument for some reason, oh well just display
+                 # the label that HIP gave us 
+              -%>
+              <span class="raw-title"><%= h(item.label) %></span>
+              <% end %>
+              <dl class="dl-horizontal request-pending-info small">
+                <dt>Pick up location: </dt><dd><%= h(item.pickup_location) %></dd>
+                <dt>Position in wait list:</dt><dd><%= h(item.queue_position) %></dd>
+                <dt>Current status:</dt><dd><%= h(item.item_status) %>  
+                  <% if item.due_date %>
+                    (Due: <%= item.due_date.to_formatted_s(:due_date) %>)
+                  <% end %>
+                </dd>
+              </dl>
+          </td>
+          <td class="submitted-date date">
+            <div class="visible-xs text-muted"><b>Requested on</b></div>
+            <%= h(item.date_initiated.to_formatted_s(:due_date)) if item.date_initiated %>
+          </td>
+          <td class="expires-date date">
+            <div class="visible-xs text-muted"><b>Request expires</b></div>
+            <%= h(item.date_complete.to_formatted_s(:due_date)) if item.date_complete %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+      </table>
+  <% end %>
+</div>

@@ -1,0 +1,58 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ * returns values(s) for languages. We need custom script because
+ * some of our MARC mash together multiple language codes
+ * in one subfield, need a custom script to pull them out and 
+ * map them indpendently. 
+ *
+ * @param record
+ * @param marcTagString matching fields that will include 3-character marc language codes, possibly including multiples of 3 chars mashed together.
+ * @param map the SolrMarc map to send codes through to get human display strings
+ * @param defaultString default for records with no found langauges, null if you don't want one.  
+ * @return Set of Strings containing human readable langauges.
+ */
+Set getLanguages(Record record, String tagStr, String map, String defaultString)
+{
+      
+    Set valuesFromMarc = indexer.getFieldList(record, tagStr);
+  
+    // Split any multiple-char sets
+    Set splitLanguageCodes = new HashSet();
+    Iterator i = valuesFromMarc.iterator();
+    while ( i.hasNext()) {
+      String value = (String) i.next();
+      if (value.length() == 3) {
+        //one code
+        splitLanguageCodes.add(value);
+      }
+      else if ( (value.length() % 3) == 0) {
+        // multiple of three, multiple codes
+        for(int i = 0; i < value.length(); (i = i+3)) {
+          splitLanguageCodes.add( value.substring(i, i+3)); 
+        }
+      }
+      // Not a multiple of three, forget it, we can't
+      // map it. 
+    }
+  
+    // Map it.     
+    String internalMapName = indexer.loadTranslationMap(map);
+    Set resultSet = Utils.remap(splitLanguageCodes, indexer.findMap(internalMapName), true);
+    
+    
+    // Default value?
+    if ( (defaultString != null) && resultSet.size() == 0) {
+      resultSet.add(defaultString); 
+    }
+    
+    return resultSet;
+}
+
+

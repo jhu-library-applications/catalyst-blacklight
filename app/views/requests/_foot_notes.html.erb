@@ -1,0 +1,11 @@
+<ul class="request-foot-notes list-unstyled">
+  <% if @ils_request.closed_stack_access_location %>
+    <li>The item will be available at <%= h(@ils_request.pickup_location) %> in 1-2 business days.</li>
+  <% end %>
+  <% if @ils_request.notification_method %>
+    <li class="text-muted">You will be notified by <%= @ils_request.notification_method %> when the item is available for pickup.</li>
+  <% end %>
+  <% if @ils_request.expire_date %>
+<!--      <li class="text-muted">Your request will expire if not yet filled by <%#= @ils_request.expire_date.to_formatted_s(:long) %>.</li>-->
+  <% end %>
+</ul>

@@ -1,0 +1,105 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ *
+ * @param record
+ */
+Set getDiscipline(Record record)
+{
+   String map = "jh_lc_discipline.properties";
+   String defaultString = "Unknown";
+  
+   // Trying to match things that look like LCC, and not match things
+   // that don't. Is tricky. 
+   String lcc_regexp_str = " *[A-Z]{1,3}[ .]*(?:(\\d+)(?:\\s*?\\.\\s*?(\\d+))?).*";
+    
+    Set resultSet = new LinkedHashSet();
+  
+    //We want each $a extracted in a seperate string, SolrMarc
+    //will do that when there's only one subfield mentioned. 
+    // Except we know that there are some false positives here,
+    // for some reason catalogers are repeating subfield $a in
+    // 090 and 096, with cutter numbers in an $a, which get
+    // mis-classified. sigh. 
+    String bib_lcc_candidate_spec = "050a:060a:090a:096a";
+    String[] local_call_spec = {"991","937"};
+    
+    Map lc_map = indexer.findMap(indexer.loadTranslationMap(map));
+
+    // Even bib fields for LCC need to be checked to see if it
+    // really looks like a classified LCC, not an "MLC", or 
+    // a local prefix in it's own $a, etc. 
+    Set bib_lcc_candidates = indexer.getFieldList(record, bib_lcc_candidate_spec);
+    for (candidate : bib_lcc_candidates) {
+      //System.err.println("Candidate: " + candidate);
+      if (candidate.matches(lcc_regexp_str)) {
+        //System.err.println("Matches! ");
+        resultSet.add( Utils.remap(candidate.substring(0,1).toUpperCase(), lc_map, true) );        
+      }
+    }            
+    
+    // Now deal with local ones, which we try to figure out if they are valid
+    // LCC or not. 
+    List local_call_nums = record.getVariableFields(local_call_spec);
+    for (marc_field : local_call_nums ) {
+      // we output call type 'processor' in subfield 'f' of our holdings
+      // fields, that sort of maybe tells us if it's an LCC field.
+      // When the data is right, which it often isn't. 
+      f_fields = marc_field.getSubfields('f');      
+      String call_type_processor = f_fields.size() > 0 ? f_fields.get(0).getData() : null;
+      
+      a_fields = marc_field.getSubfields('a');
+      String call_num = (a_fields.size() > 0 && a_fields.get(0).getData().length() >= 1) ? a_fields.get(0).getData() : null;
+      
+      if (call_num != null) {
+        //System.err.println("Local call num: " + call_num);
+        if (call_type_processor != null && call_type_processor.equals("sudoc")) {
+          //System.err.println("Gov pub");
+          resultSet.add("Government Publication");        
+        } else if (call_type_processor != null && call_type_processor.equals("lc")) { 
+          //run it through the map
+          
+          String mapped = Utils.remap(call_num.substring(0,1).toUpperCase(), lc_map, true);
+          //System.err.println("lc type, mapped: " + mapped);
+          if (mapped != null) {
+            resultSet.add(mapped);
+          }
+          
+        } else if (call_num.matches(lcc_regexp_str)) {
+          //System.err.println("Matches");
+          // If it LOOKS like an LCC, we're going to use it anyway, to try and
+          // increase our coverage.
+          String mapped = Utils.remap(call_num.substring(0,1).toUpperCase(), lc_map, true);
+  
+          if (mapped != null) {
+            resultSet.add(mapped);
+          }        
+        }
+      }
+    }
+    
+    //If it's got an 086, we'll put it in "Government Publication", to be
+    //consistent with when we do that from a local SuDoc call #.
+
+    
+    if (indexer.getFieldList(record, "086a").size() > 0) {
+     resultSet.add("Government Publication"); 
+    }
+    
+    
+    // Default value?
+    resultSet.remove(null); //null might have gotten in there, doesn't count.        
+    if ( (defaultString != null) && resultSet.size() == 0) {
+      resultSet.add(defaultString); 
+    }
+    
+    return resultSet;
+}
+
+

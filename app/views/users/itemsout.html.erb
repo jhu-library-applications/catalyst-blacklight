@@ -1,0 +1,113 @@
+<div class="container account account-items-out">
+
+  <%= render(:partial => "account_nav") %>
+
+  <% if @fetch_error.present? %>
+      <div class="alert alert-danger">      
+          We're sorry, there was a software error connecting to your borrower account.        
+      </div>
+  <% elsif @items.length == 0 %>
+    <p>None.</p>
+  <% else %>
+
+    <% if (overdue_count = @items.find_all {|i| i.overdue?}.length) > 0 %>
+      <div class="alert alert-danger">    
+        You have <%= pluralize(overdue_count, "overdue item") %>.    
+      </div>
+    <% end %>
+
+    <% if @items.length > 1 && @items.length <= 100 %>
+      <%= form_tag({ :action => "renew"}, :method => :post, :class=>"form-horizontal renew-all") do %>
+        <div class="row">
+            <div class="col-sm-3">
+              <%= submit_tag "Renew all items", :class => "btn btn-default btn-lg" %>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted">Not all materials may be renewed. Borrowers who have fines or blocks may not renew items. Items requested by other borrowers or which exceed renewal limits will not be renewed. Verify your due dates after renewal attempts. For questions or difficulties with renewals, contact the Circulation desk at your <%= link_to "home library", {:controller => "info", :action => "libraries"} %>.</p>
+            </div>
+        </div>
+      <% end %>
+    <% elsif @items.length > 100 %>
+      <%-
+          #  Two problems with renew all on huge number of items:
+          #    1) We'd need to change our screen scraping of HIP to use POST
+          #       instead of GET to avoid too long URL. (do-able)
+          #    2) Even in HIP itself, it can take 10 seconds, 20 seconds, or
+          #       timeout entirely for renew all on large number of items.
+          #       Less clear how to fix this -- a complicated background
+          #       process with progress bar, I guess. Not worth it right
+          #       now for the limited number of patrons (around 100) affected.
+       -%>
+       <p class="renew-all">Sorry, "renew all" function not available with more than 100 items
+          checked out.</p>
+     <% end %>
+    
+
+      <h2 class="visible-xs"><%= @items.length if @items && @items.length > 0 %> Items Checked Out</h2>
+      <table class="table items-out">
+        <thead>
+          <tr>
+            <th colspan="2"><h2><%= @items.length if @items && @items.length > 0 %> Items Checked Out</h2></th>
+            <th class="out-date date">Checked out</th>
+            <th class="due-date date">Due</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+        
+          <% @items.each do |item| %>
+            <tr>
+              <td class="renew">
+              <%= form_tag( {:action => "renew", :item_id => item.item_id}, :method => :post) do %>
+                  <%= hidden_field :item_out, :item_barcode, :value => item.item_barcode %>
+                  <%= hidden_field :item_out, :times_renewed, :value => item.times_renewed %>
+                  <%= hidden_field :item_out, :item_id, :value => item.item_id %>
+
+                  <% if flash[:renewed_item_ids] && flash[:renewed_item_ids].include?( item.item_id) %>
+                    <span class="ui-state-highlight ui-corner-all notice">Renewed.</span>
+                  <% elsif flash[:not_renewed_item_ids] && flash[:not_renewed_item_ids].include?(item.item_id) %>
+                    <div class="alert alert-danger">Could not renew.</div> 
+                  <% else %>
+                    <%= submit_tag "Renew", :class => "btn btn-default" %>
+                  <% end %>
+                <% end %>
+                
+              </td>
+              <td class="item">
+                
+                <span class="raw-title">
+                  <%= link_to_if (item.bib_id.present? && ! item.borrow_direct_item?), item.label, solr_document_path("bib_#{item.bib_id}") %>
+                  <% if item.borrow_direct_item? %>
+                    (BorrowDirect)
+                  <% end %>
+                </span>
+                
+                <dl class="dl-horizontal item-out-info text-muted small">
+                  <% if flash[:renew_errors] && flash[:renew_errors].keys.include?(item.item_id) %>
+                    <dt>Could not renew: </dt><dd class="alert-danger"><%= h( flash[:renew_errors][item.item_id] ) %>
+                  <% end %>
+                  <dt>Times renewed: </dt><dd><%= h(item.times_renewed) %></dd>
+                  <dt>Item barcode: </dt><dd><%= h(item.item_barcode) %></dd>
+                </dl>
+              
+              </td>
+              <td class="out-date date">
+                <div class="visible-xs text-muted"><b>Checked out</b></div>
+                <%= item.date_initiated.try{ |d| d.to_formatted_s(:due_date)} %>
+              </td>
+              <td class="due-date date">
+                <div class="visible-xs text-muted"><b>Due</b></div>
+                <% if item.overdue? %>
+                  <%= content_tag "span", item.date_complete.to_formatted_s(:due_date), :class => "text-danger" %>
+                <% elsif item.date_complete %>
+                  <%= item.date_complete.to_formatted_s(:due_date) %>              
+                  <div class="relative-due-date text-muted"><%= relative_due_date(item.date_complete) %></div>
+                <% end %> 
+              </td>
+            </tr>
+          <% end %>
+        
+        </tbody>
+      </table>  
+  <% end %>
+</div>

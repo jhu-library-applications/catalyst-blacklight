@@ -1,0 +1,15 @@
+.did_you_mean {
+	font-size: 120%;
+	font-weight: bold;
+  margin-top: ($line-height-computed / 2);
+  margin-bottom: 0;
+}
+
+.dym_prompt {
+  /* @extend .text-danger; */
+  color: #EB8F00;  
+}
+
+.dym_suggest {
+	font-style: italic;
+}

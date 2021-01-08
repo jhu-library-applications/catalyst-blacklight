@@ -1,0 +1,19 @@
+<div class="footer navbar navbar-expand-md navbar-static-bottom">
+  <div class="container">
+    <%= link_to :controller => "info", :action => "libraries" do -%>
+      <%= image_tag("libraries.logo.small.horizontal.blue.png", :class => "footer-logo", :alt => "Johns Hopkins University Libraries") -%>
+    <%- end -%>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <%= link_to  "Feedback", "mailto:ask@jhu.libanswers.com?Subject=Johns%20Hopkins%20Libraries%20Catalyst%20Feedback", {class: 'nav-link'}  %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Credits", {:controller => "info", :action => "credits"}, {class: 'nav-link'} %>
+      </li>
+    </ul>
+
+    <%= raw(@footer) %>
+  </div>
+</div>

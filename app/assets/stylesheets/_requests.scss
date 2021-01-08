@@ -1,0 +1,47 @@
+.request-head-notes {
+  margin-bottom: $line-height-computed;
+  ul {
+    margin-top: $line-height-computed;
+  }
+}
+
+.restricted-pickup-label {
+  font-weight: bold;
+  display: inline-block;
+}
+
+
+// Make panels in a modal expand to meet edges of modal
+.modal-dialog .panel.modal-panel-expand {
+  margin-left: (-1 * $modal-inner-padding);
+  margin-right: (-1 * $modal-inner-padding);
+  border-radius: 0;
+}
+
+// On BD panel's styled info, make body blue too
+.panel-info.borrow_direct .card-body {
+  background-color: $panel-info-heading-bg;
+}
+
+
+.panel-info.borrow_direct .panel-title {
+  // Make it match a standard h4
+  font-size: $font-size-h4;
+  color: $text-color;
+}
+
+// Make hr in panel-info match panel-info color
+.panel-info.borrow_direct hr {
+  border-color: $panel-info-border;
+}
+
+#curbside-banner {
+  width: 100%;
+  background-color: $jhuBlue;
+  border-radius: $input-border-radius;
+}
+
+#curbside-banner p{
+  padding: 10px;
+  color: white;
+}

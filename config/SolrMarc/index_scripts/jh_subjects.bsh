@@ -1,0 +1,28 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+
+org.solrmarc.index.SolrIndexer indexer = null;
+
+  /**
+   * returns subjects suitable for facet display. 
+   *
+   * @param record
+   * @param tagStr standard SolrMarc marc tag string spec
+   * @param seperator seperate subfields by? eg " -- "
+   * @param strDefault Default value if no subjects are found, null means none.
+   * @return Set of Strings containing human-displable pre-coordinated LCSH-style
+   */
+  Set getDisplaySubjects(Record record, String tagStr, String seperator, String strDefault) {
+    Set results = org.solrmarc.index.SolrIndexer.getAllSubfields(record, tagStr, " -- ");
+    
+    if ((strDefault != null) && (results.size() == 0)) {
+      results.add( strDefault ); 
+    }
+    return results;
+  }
+
+
+

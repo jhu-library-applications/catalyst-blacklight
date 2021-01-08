@@ -1,0 +1,4 @@
+[submodule "blacklight"]
+        path = blacklight
+        url = git@github.com:projectblacklight/blacklight.git
+

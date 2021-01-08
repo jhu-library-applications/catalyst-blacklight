@@ -1,0 +1,74 @@
+// Our own variables
+$jhuBlue: #002D72;
+$alt-text-muted: #00AB8E; // a blue-tinged muted, for display on grey background in some cases.
+$jhuBlue-hover: #7E7E7C;
+$jhuBrightBlue: #005EB8;
+$jhuGreen: #74AA50;
+$jhuDarkGreen: #286140;
+$jhuPurple: #8E3A80;
+
+// Overrides of bootstrap variables
+
+$navbar-inverse-bg: #fff;
+$navbar-inverse-link-color: $jhuBlue;
+
+// $navbar-inverse-bg: $jhuBlue;
+// $navbar-inverse-link-color: #fff;
+$state-danger-text: #EF4A81;
+
+// BS4 Upgrade
+$gray-300: #dee2e6 !default;
+$border-color: $gray-300 !default;
+
+// BS4 Upgrade - reimplement BS3 vars
+$screen-xs: 480px !default;
+$screen-xs-min: $screen-xs !default;
+
+$screen-sm: 768px !default;
+$screen-sm-min: $screen-sm !default;
+$screen-xs-max: ($screen-sm-min - 1) !default;
+
+$screen-md: 992px !default;
+$screen-md-min: $screen-md !default;
+$alert-padding: 4px;
+$state-info-bg: #d9edf7 !default;
+$state-info-border: darken(adjust-hue($state-info-bg, -10), 7%) !default;
+$alert-info-bg: $state-info-bg;
+$alert-info-border: darken(adjust-hue($state-info-bg, -10), 7%);
+$state-info-text: #31708f !default;
+$alert-info-text: $state-info-text;
+
+$font-size-base: 1rem !default;
+$font-size-h4: ceil(($font-size-base * 1.25)) !default; // ~18px
+
+$line-height-base: 1.428571429 !default; // 20/14
+$line-height-computed: floor(($font-size-base * $line-height-base)) !default; // ~20px
+
+$grid-gutter-width: 30px !default;
+$container-large-desktop: (1140px + $grid-gutter-width) !default;
+
+$font-size-large: ceil(($font-size-base * 1.25)) !default; // ~18px
+
+$navbar-default-toggle-border-color:       #ddd !default;
+$grid-float-breakpoint: $screen-sm-min !default;
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
+
+$border-radius-base:        4px !default;
+$well-bg:                     #f5f5f5 !default;
+$well-border:                 darken($well-bg, 7%) !default;
+$panel-default-heading-bg:    #f5f5f5 !default;
+$panel-info-border:           $state-info-border !default;
+$panel-info-heading-bg:       $state-info-bg !default;
+$panel-border-radius:         $border-radius-base !default;
+
+$list-group-border:             #ddd !default;
+
+$gray-base:              #000 !default;
+$gray-light:             lighten($gray-base, 46.7%) !default; // #777
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$text-color: $gray-dark !default;
+
+$padding-base-vertical:     0.25rem !default;
+$input-border:                   #ccc !default;
+
+$input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2) !default;

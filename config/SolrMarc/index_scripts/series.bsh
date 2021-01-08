@@ -1,0 +1,43 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ * Looks up marc values for ordinary indexer spec passed in as argument, removing trailing spaces. Also adds in 490a values, each as a seperate
+ value, for each 490 with indicator 1 == 0 
+ * @param record auto passed in by solrmarc
+ * @param spec an ordinary solrmarc field spec, or empty string.
+ * @return Set of Strings suitable for Series title facet, including your spec and appropriate 490$a values. 
+ */
+Set getSeriesFacet(Record record, String spec)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+    
+    if (! spec.equals("") ) {
+      /* Add in the default ones from our spec, apply removeTrailingPunct */ 
+      Set values = indexer.removeTrailingPunct(record, spec);
+      resultSet.addAll(values);
+    }
+      
+    /* Now add in the 490s only if they have indicator 0 */
+    /* Add all 'a' subfields, each as a seperate value, 
+       remove trailing punct. */    
+    for (DataField field : record.getVariableFields("490")) {
+      if (field.getIndicator1() == '0') {         
+         for (Subfield subfield : field.getSubfields()) {
+           if (subfield.getCode() == 'a') {  
+             resultSet.add( Utils.cleanData( subfield.getData() ));
+           }
+         }         
+      }
+    }
+    
+    return resultSet;
+}
+
+

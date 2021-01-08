@@ -1,0 +1,20 @@
+.db_data
+.env
+.env.*
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+.ruby-version
+/fonts
+/public/assets
+/vendor
+.ruby-gemset
+.idea
+/doc/rubycritic
+/doc/*.svg
+.byebug_history
+/coverage/
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

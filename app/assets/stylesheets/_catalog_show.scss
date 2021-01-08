@@ -1,0 +1,111 @@
+// styles for the 'show' item detail page, especially MARC
+
+.show-marc-heading {
+  @extend .clearfix;
+
+  .show-marc-heading-title {
+    margin-top: 5px;
+    line-height: 1;
+  }
+
+  .show-marc-subtitle {
+    font-weight: normal;
+    font-size: 80%;
+  }
+
+  .alternate-languages {
+    margin-top: ($line-height-computed / 2);
+    margin-bottom: ($line-height-computed / 2);
+  }
+}
+
+.show-marc-pre-head {
+  font-weight: bold;
+}
+
+.marcPrefix {
+  @extend .text-muted;
+  padding-right: 0.33em;
+}
+.subjects .marcPrefix {
+  //messing up the hover underline on links, hmm.
+  padding-right: 0;
+}
+
+.dl-marc-display dt {
+  // bootstrap wants to white-space:nowrap and truncate long labels. We don't.
+  white-space: normal;
+}
+
+.alternate-languages ul {
+  margin-bottom: 0;
+}
+
+.dl-marc-display {
+  .fieldLabel {
+    margin-bottom: ($line-height-computed / 4);
+  }
+  .fieldData {
+    // erasing margin on ul and double margin on .fieldData
+    // needed to preserve spacing on column collapse.
+    margin-bottom: ($line-height-computed);
+    ul {
+      margin-bottom: 0;
+    }
+  }
+
+  .list-marc-presenter-content li, .contents505 li {
+    margin-bottom: ($line-height-computed / 4);
+  }
+}
+
+.marc-show-extra-head {
+  margin-bottom: $line-height-computed;
+}
+
+// narrow padding on tools nav, we don't want as much
+// as bootstrap/BL default, and this matches our other sidebar
+// content
+.show-tools .nav > li > a, .show-tools .bookmark_toggle {
+  padding-top: ($line-height-computed / 4) !important;
+  padding-bottom: ($line-height-computed / 4) !important;
+}
+// and turn em into ordinary links please, undo the nav
+.show-tools .nav > li > a:hover {
+  color: $link-hover-color;
+  text-decoration: underline;
+  background-color: inherit;
+}
+
+// BL for some reason doesn't put the "Tools" heading in a panel-title, but
+// we want it to be as if.  BL 5.8.
+.panel.show-tools .panel-heading {
+  @extend h3;
+  @extend .panel-title;
+}
+
+// BL 7 reimplementation of .dl-horizontal
+@media (min-width: 768px) {
+  .dl-horizontal dt {
+    float: left;
+    width: 160px;
+    clear: left;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .dl-horizontal dd {
+    margin-left: 180px;
+  }
+}
+
+.dl-horizontal dd:before,
+.dl-horizontal dd:after, {
+  display: table;
+  content: " ";
+}
+
+.dl-horizontal dd:after {
+  clear: both;
+}

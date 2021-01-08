@@ -1,0 +1,38 @@
+<div class="modal-header border-bottom-0">
+  <h1 class="h3">Login</h1>
+  <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+
+<div class="login container">
+
+  <div class="card mb-4 jhed-login-panel">
+    <div class="card-header text-white bg-primary">Faculty, Students, &amp; Staff</div>
+    <div class="card-body mx-auto">
+      <%= link_to "Login with JHED", shibboleth_login_path(:referer => @referer), :class => "jhed-login-button btn btn-primary btn-lg" %>
+      <p><br><a href="https://my.johnshopkins.edu/tools/support/right.cfm?doc=logging_into_jhed">How do I find my JHED username?</a><br>
+        <a href="https://my.jh.edu/portal/web/help/how-do-i-reset-my-password">How do I reset my JHED password?</a></p>
+    </div>
+  </div>
+
+  <div class="card mb-4 barcode-login-panel">
+    <div class="card-header">Other Users</div>
+    <div class="card-body">
+      <p>For proxy borrowers and other borrowers without a JHED Login</p>
+      <%= render :partial=>'login_form' %>
+    </div>
+  </div>
+
+  <div class="card mb-4 jhed-only-login-panel">
+    <div class="card-header">SAIS Bologna or Nanjing users</div>
+    <div class="card-body mx-auto">
+      <%= link_to "SAIS Bologna or Nanjing login", shibboleth_login_path(:referer => @referer, :allow_no_horizon => "true"), :class => "jhed-only-login btn btn-outline-secondary" %>
+    </div>
+  </div>
+
+  <p class="text-info">
+    If you have difficulties logging into the catalog, please contact the <%= link_to "circulation desk at your home Library.", {:controller => "info", :action => "libraries"}, :target => "_blank" %>
+  </p>
+
+</div>

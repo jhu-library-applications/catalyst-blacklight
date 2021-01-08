@@ -1,0 +1,86 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ * returns values(s) for local library locations attached to items. Used
+ * for facetting.  
+ *
+ * Horizon is exporting item locations in 991$m, the value there is an
+ * internal code we need to translate to a human readable location. 
+ *
+ * We try to exclude call numbers attached to staff-only items, but note
+ * unhappily that some items may not be staff-only, but are attached to 
+ * copy records which are staff-only, and we have no way to tell.  
+ * @param record
+ * @return Set of Strings containing human readable locations. 
+ */
+Set getLocation(Record record, String defaultString)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+
+    List fields = record.getVariableFields("991");
+    fields.addAll( record.getVariableFields("937"));
+
+    for (DataField field : fields ) {
+        Subfield qSubField = field.getSubfield('q');
+        // Subfield q being ascii '1' means that this item is
+        // marked staff only, do not include it's call numbers. 
+        // Note we still may unhappily be including some items which,
+        // while not themselves staff-only, are attached to copies that
+        // are. 
+        if ( qSubField == null || ! (qSubField.getData().equals("1") || qSubField.getData().equals("true"))) {
+          Subfield locationSubfield = field.getSubfield('m');
+          if ( locationSubfield != null) {
+            locationCode = locationSubfield.getData();
+            //downcase please, seems HIP case is sometimes inconsistent,
+            //but means the same thing, our map is all lowercase. 
+            locationCode = locationCode.toLowerCase();
+            
+            
+            String locationMapName = indexer.loadTranslationMap("jh_locations.properties");
+            
+            String displayableLocation = Utils.remap(locationCode, indexer.findMap(locationMapName), true);            
+            if ( displayableLocation != null) {
+              resultSet.add( displayableLocation );
+            }
+            
+            /* and super location! */
+            String superLocationMap = indexer.loadTranslationMap("jh_super_locations.properties");
+            String displayableSuperLocation = Utils.remap(locationCode, indexer.findMap(superLocationMap), true);            
+            if ( displayableSuperLocation != null) {
+              resultSet.add( displayableSuperLocation );
+            }            
+            
+          }
+        }
+        
+        //And mapping one of our 700+ collection codes, only used
+        //for special collections location (we hope)
+        Subfield collectionSubfield = field.getSubfield('l');
+        if (collectionSubfield != null) {
+           //lowercase normalize cause HIP seems to like being case-insensitive,
+           //sigh. 
+           collectionCode = collectionSubfield.getData().toLowerCase();
+           
+           String collectionMapName = indexer.loadTranslationMap("jh_collection2location.properties");
+           String displayableLocation = Utils.remap(collectionCode, indexer.findMap(collectionMapName), true);            
+           if (displayableLocation != null) {
+              resultSet.add( displayableLocation); 
+           }
+        }                            
+        
+    }
+    
+    if (defaultString != null && resultSet.size() == 0) {
+      resultSet.add(defaultString); 
+    }
+              
+    return resultSet;
+}
+
+

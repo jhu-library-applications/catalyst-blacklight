@@ -1,0 +1,12 @@
+# JHU running 6.6.3 in production
+url: https://archive.apache.org/dist/lucene/solr/6.6.3/solr-6.6.3.zip
+validate: false
+instance_dir: tmp/solr
+download_dir: tmp/solr
+
+# Place any default configuration for solr_wrapper here
+extra_lib_dir: solr/lib/
+port: <%= ENV['SOLR_URL'] %>
+collection:
+  dir: solr/conf/
+  name: blacklight-core

@@ -1,0 +1,53 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ * returns facet values(s) for instrumentation found in MARC 048 field(s).
+ * @param record
+ * @return Set of Strings containing instrument names for all codes found in 048
+ */
+Set getInstrumentationFacet(Record record, String propertiesMapName)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+    LinkedHashSet codedValues = new LinkedHashSet();
+    
+    
+    /* fetch values */
+    List instrFields = record.getVariableFields("048");
+    for (Object field : instrFields ) {
+      if (field instanceof DataField) {
+        DataField dField = (DataField)field;
+        List subfields = dField.getSubfields();
+        for ( Object sField : subfields ) {
+          if (sField.getCode()== 'a' || sField.getCode()== 'b') {
+             subfieldValue = sField.getData();
+             // Unless there's at least two chars in the subfield, this
+             // is a mal-formed 048, we can do nothing with it. 
+             if ( subfieldValue.length() >= 2) {              
+               codedValues.add( subfieldValue.substring(0,2) );
+             }
+          }
+        }        
+      }
+    }
+    
+    /* map values */
+    if ( codedValues.size() > 0) {    
+      String instrMapName = indexer.loadTranslationMap(propertiesMapName);
+  
+      for (String instrCode : codedValues)
+      {                
+          resultSet.add( Utils.remap(instrCode, indexer.findMap(instrMapName), true) );                
+      }
+    }
+
+    return resultSet;
+}
+
+

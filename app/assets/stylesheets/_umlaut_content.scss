@@ -1,0 +1,203 @@
+// Over-ride the Blaclight show tools nav to not use so much space please
+// doenst work
+//ul.tools .nav > li > a {
+//  padding: 0;
+//}
+
+
+.cover-image-container {
+  float: right;
+  display: inline-block;
+}
+
+.umlaut-section.cover_image {
+  margin-bottom: 1em;
+  margin-left: 0.5em;
+  border: 1px solid $table-border-color;
+
+  @media (max-width: 700px) {
+    img.cover_image {
+      max-width: 100px !important;
+      max-height: 80px !important;
+    }
+  }
+  @media (max-width: 500px) {
+    display: none;
+  }
+
+}
+
+.umlaut-section.abstract {
+  margin-bottom: 10px;
+}
+
+p.umlaut-unavailable {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.section_prompt {
+  @extend .text-muted;
+  @extend .small;
+}
+
+h3.panel-title small {
+  font-size: 85%;
+}
+
+
+.umlaut-section.search_inside input[type=submit] {
+  text-transform : capitalize;
+}
+
+
+.umlaut-section .response_source {
+  @extend .text-muted;
+  @extend .small;
+}
+
+.umlaut-section ul.response_list {
+  @extend .list-unstyled;
+  margin-bottom: 0;
+  li.response_item {
+    padding-bottom: 8px;
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.response_list .response_item {
+  background:none !important;
+  padding:0 0 8px 0px !important;
+}
+
+.umlaut-section.fulltext li.response_item {
+  background:image-url("famfamfam/page_text.gif") no-repeat scroll 0 0 transparent;
+  padding:0 0 8px 22px;
+}
+.umlaut-section.audio li.response_item {
+  background:image-url("famfamfam/page_sound.gif") no-repeat scroll 0 0 transparent;
+  padding:0 18px 8px 22px;
+}
+.umlaut-section.excerpts li.response_item {
+  background:image-url("famfamfam/book_open.png") no-repeat scroll 0 0 transparent;
+  padding:0 18px 8px 22px;
+}
+
+
+.umlaut-section.search_inside .source {
+  display:block; /* put 'search via X' on line of it's own. */
+}
+
+.umlaut-section.search_inside div.input-group {
+  width: 100%;
+}
+
+/* expand contract content, space it out */
+
+.umlaut .collapse-toggle {
+  display: block;
+  margin-bottom: 10px;
+}
+.umlaut ul.response_list + .collapsible {
+  margin-top: 10px;
+}
+
+i.umlaut_icons-list-closed {
+  background-image: image-url("list-closed.png");
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: top;
+  margin-top: 1px;
+  padding-right: 6px;
+}
+i.umlaut_icons-list-open {
+  background-image: image-url("list-open.png");
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: top;
+  margin-top: 1px;
+  padding-right: 6px;
+}
+
+/* coverage summary, copy some styles from umlaut for better readability. */
+
+a:not(:hover) .coverage_summary {
+  color: $text-color;
+}
+
+.response_coverage_statement, .edition_warning, .response_notes {
+  @extend .text-muted;
+}
+
+.umlaut_load_message {
+  display: inline-block;
+  margin-top: $line-height-computed / 2;
+  margin-bottom: $line-height-computed / 2;
+
+}
+
+/* For BorrowDirect items, make the internal alerts fill the panel */
+
+.panel.umlaut.borrow_direct {
+  // If a p.alert is in a highlighted section, give it special styling
+  // as a ribbon, not a box-in-box.
+  .alert {
+    margin-left: -16px;
+    margin-right: -16px;
+
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  // If it's the LAST thing in the highlighted section, do better and merge
+  // it with the box itself
+  .umlaut_section_content > .alert:last-child {
+    margin-bottom: -16px;
+    margin-top: -16px;
+    border-bottom-right-radius: $panel-border-radius;
+    border-bottom-left-radius: $panel-border-radius;
+  }
+  .umlaut_section_content > hr {
+    margin-left: -12px;
+    margin-right: -12px;
+  }
+
+}
+
+#findit-wrapper{
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  text-align: right;
+  @media (max-width: 750px) {
+    text-align: left;
+  }
+  @media (max-width: 500px) {
+    text-align: left;
+  }
+}
+
+#findit-wrapper a {
+  margin-right: 34px;
+
+  @media (max-width: 1260px) {
+    margin-right: 32px;
+  }
+
+  @media (max-width: 950px) {
+    margin-right: 5px;
+  }
+  @media (max-width: 700px) {
+    margin-right: 0px;
+  }
+  @media (max-width: 500px) {
+    margin-right: 0px;
+  }
+}

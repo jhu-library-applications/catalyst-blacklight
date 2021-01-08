@@ -1,0 +1,6 @@
+<% if @spell_suggestion.present? %>
+<p class='did_you_mean'>
+  <span class="dym_prompt">Did you mean:</span> 
+  <span class="dym_suggest"><%= link_to @spell_suggestion, params.merge(:q => @spell_suggestion) %></span>
+</p>
+<% end %>

@@ -1,0 +1,13 @@
+john:
+  login: johndoe
+  email: johndoe@jhu.edu
+  crypted_password: abcdefg
+  last_search_url:
+  last_login_at:
+  password_salt: abcdefg
+  persistence_token: abcdefg
+  hopkins_id: johndoe
+  jhed_lid: johndoe
+  horizon_borrower_id: johndoe
+  name: John Doe
+  guest: false

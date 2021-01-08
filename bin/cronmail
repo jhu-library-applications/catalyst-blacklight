@@ -1,0 +1,109 @@
+#!/bin/bash
+# Jonathan Rochkind rochkind@jhu.edu Mar 2007
+
+# This script runs a command, captures it's stderr and stdout, and emails
+# them both to an email address given. The big innovation is that it will put
+# "FAILED: " at the beginning of the subject line of the email of the command
+#  returns a non-0 exit code. 
+#
+USAGE="Usage: `basename $0` -x COMMAND -e EMAILADDRS [-s SUBJECT] [-q] [-f FAILURE_RE] [-l additional logfile to search for FAILURE_RE]";
+
+
+# This is the datestamp we use in filenames
+# Better add on the PID to make sure and avoid collision in /tmp. 
+DATESTAMP="$(date +%Y%m%d-%H%M%S)-$$"
+START_TIME="$(date)"
+
+
+LOGDIR=/tmp  # Temporary holding place, deleted after email is sent. 
+
+testdir() {
+  # returns 1 if $1 is not a directory or is not readable or is not writable
+  test -d "$1" -a -r "$1" -a -w "$1"
+  return $?
+}
+
+createdir() {
+  # returns 1 if unable to create the directory $1
+  mkdir "$1"
+  return $?
+}
+
+
+E_OPTERROR=65
+SEND_NULL_OUTPUT=1 # Should we send mail even if there was no output? Default is yes. 
+
+while getopts "x:s:e:f:q" Option
+do
+	case $Option in
+	  x		)	COMMAND="$OPTARG";; # Command to run
+	  s		)   SUBJECT="$OPTARG";; # Subject of email sent
+	  e		) 	EMAIL="$OPTARG";; # address to send email to.
+    f   )   FAILURE_RE="$OPTARG";; # text in stderr or stdout to catch as failed 
+	  q   )   SEND_NULL_OUTPUT=0;; # Suppress mail sent for null output of command
+    l   )   OTHER_OUTPUT_FILE="$OPTARG";; # logfile created by our executed command, search it for FAILURE_RE. 
+	  *		)	echo "$USAGE" >&2 ; exit $E_OPTERROR;;  
+	esac
+done
+
+
+
+if [[ ! "$COMMAND" || ! "$EMAIL"  ]]
+then
+	echo "$USAGE" >&2
+	exit $E_OPTERROR
+fi
+
+if [[ ! "$SUBJECT" ]]
+then
+	SUBJECT="cronmail: $COMMAND"
+fi
+
+ERRLOG=$LOGDIR/cronmail_$DATESTAMP.err.log
+OUTLOG=$LOGDIR/cronmail_$DATESTAMP.out.log
+
+# file desc 3 will be logging and capturing errors
+exec 3>&1  # original stdout
+exec 4>&2  # original stderr
+exec 2>$ERRLOG
+exec 1>$OUTLOG
+
+echo "$COMMAND" | /bin/bash
+RESULT=$?
+
+if [[ $RESULT != 0 ]]
+then
+	SUBJECT="FAILED: $SUBJECT"
+fi
+
+# Look for -f arg in stderr or stdout. If found, treat as failed. 
+if [[ $FAILURE_RE != "" ]] && [[ `egrep "$FAILURE_RE" $ERRLOG` || `egrep "$FAILURE_RE" $OUTLOG` ]]
+then
+  SUBJECT="FAILED (-f regexp detected): $SUBJECT"
+  RESULT=1
+fi
+# Do we need to check the supplementary output file? 
+if [[ $RESULT != 1 && $FAILURE_RE != "" && $OTHER_OUTPUT_FILE != "" && `egrep '$FAILURE_RE' $OTHER_OUTPUT_FILE`  ]]
+then
+  SUBJECT="FAILED (-f regexp detected in -l other output file): $SUBJECT"
+  RESULT=1
+fi
+
+
+# Restore file handles. 
+exec 1>&3
+exec 2>&4
+
+
+# Send email. If SEND_NULL_OUTPUT is 0, don't send unless we have some output, or failure!
+if [[ $SEND_NULL_OUTPUT = 1 ||  -s $ERRLOG || -s $OUTLOG || $RESULT = 1 ]]
+then
+   (echo "command: $COMMAND"; echo; echo "started at: " $START_TIME ; echo ; echo "completion time:" `date`; echo;  echo "id: `id`"; echo; echo "STDERR:"; echo; cat $ERRLOG; echo; echo "STDOUT:"; echo; cat $OUTLOG) | mail -s "$SUBJECT" $EMAIL
+fi
+
+
+if [[ $? = "0" ]]   
+then
+	rm $ERRLOG
+	rm $OUTLOG
+fi

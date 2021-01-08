@@ -1,0 +1,99 @@
+<div data-ajax-modal="container">
+  <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
+      embedded BorrowDirect content %>
+  <%= content_tag 'div', :class => "request",
+        :data => {
+          :request_path => item_request_path(:id => @document.id, :item_id => @ils_request.item_id),
+          :borrow_direct_umlaut_wrapper => true
+        } do %>
+    <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:ajax_modal => "preserve"} do %>
+
+    <div class="modal-header">
+      <% if Flipper[:curbside_mode].enabled? %>
+        <h3 class="modal-title">Request Materials Through Book Pickup Service</h3>
+      <% else %>
+        <h3 class="modal-title">Place Request</h3>
+      <% end %>
+
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    </div>
+
+    <div class="modal-body">
+      <%= render :partial => "head_notes" %>
+
+
+
+      <% if show_borrow_direct?(@document) %>
+        <p><strong>This local copy is not immediately available for delivery.</strong></p>
+
+        <%= render 'borrow_direct', :document => @document,
+          :panel_title => "Get a copy faster from BorrowDirect",
+          :panel_classes => "panel-info" %>
+
+        <%# and a heading for the normal local request %>
+        <h4>Place local request for this copy</h4>
+        <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
+
+      <% end %>
+
+
+      <%= hidden_field :ils_request, :bib_id %>
+      <%= hidden_field :ils_request, :item_id %>
+      <%= hidden_field :ils_request, :notification_method %>
+
+      <% if Flipper[:curbside_mode].enabled? %>
+        <p class="text-muted">Process and pickup times vary by location.
+           <%= link_to "More information", "https://www.library.jhu.edu/about/news-events/covid-19-updates/return-to-research/#pick-up", target: :_blank %>
+         </p>
+      <% end %>
+
+      <% if @ils_request.available_locations.length > 1 %>
+        <div class="form-group">
+
+          <% if Flipper[:curbside_mode].enabled? %>
+            <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
+          <% else %>
+            <%= label :ils_request, :pickup_location, "Deliver to", :class => "col-sm-3" %>
+          <% end %>
+
+          <div class="col-sm-9">
+            <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control" %>
+          </div>
+        </div>
+      <% elsif @ils_request.available_locations.length == 1 %>
+        <div class="form-group bg-warning text-warning">
+            <%= hidden_field :ils_request, :pickup_location %>
+            <span class="col-sm-3 restricted-pickup-label">Can only be accessed at</span>
+            <div class="col-sm-9 restricted-pickup-location">
+              <%= h(@ils_request.available_locations.first.description) %>
+            </div>
+        </div>
+      <% end %>
+
+        <div class="form-group">
+          <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
+          <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
+             # on moving it to 255.
+          %>
+          <div class="col-sm-9">
+            <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control" %>
+          </div>
+        </div>
+
+        <% if Flipper[:curbside_mode].enabled? %>
+          <div id="curbside-banner">
+            <p>You will receive an email notification when your item is ready for pickup. Please wait for the notification before coming to pick up your item.</p>
+          </div>
+        <% else %>
+          <%= render :partial => "foot_notes" %>
+        <% end %>
+      </div>
+
+      <div class="modal-footer">
+        <%= link_to "Cancel", request_done_path, :class=>"btn btn-default cancel", :data => {:dismiss => "modal"} %>
+        <%= submit_tag "Request", :class => "btn btn-primary submit" %>
+      </div>
+
+    <% end %>
+  <% end %>
+</div>

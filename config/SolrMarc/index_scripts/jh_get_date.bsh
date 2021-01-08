@@ -1,0 +1,95 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+// Max estimation -- biggest delta of unknown dates that we'll take the
+// middle of and use it as the date. 
+int estimate_tolerance = 15;
+// Values above this amount will be ignored, probably errors. 
+int max_year = new GregorianCalendar().get(Calendar.YEAR) + 6;
+int min_year = 500;
+ 
+
+/* Built in getDate only looks in 260c. We will continue using 260c date if
+found, but if not, look at 008 "date1". */
+String jhGetDate(Record record) {
+  Integer found_date = null;
+  // first try 008.     
+  field008 = indexer.getFirstFieldVal(record, "008");
+  if (field008 != null && field008.length() > 11) {
+    //date type 'q' means a questionable range from date1 to date2
+    //'n' means date unknown. Others, we use date1. 
+    char date_type = field008.charAt(6);    
+    String date1str = field008.substring(7,11);
+    String date2str;
+    if (field008.length() > 15) {
+      date2str = field008.substring(11,15);
+    }
+    
+    //range of dates, for questionable or multi-part. 
+    if (date_type == 'q' || date_type == 'm' ) {
+      //it's somewhere between date1 and date2. Is that within
+      //our tolerance?  Replace silly MARC u's with what they really
+      // ought to be in a 'q'. If date1 or date2 don't parse, possibly
+      //forget it. 
+      try {
+        int date1 = Integer.parseInt( date1str.replaceAll("u", "0") );
+        int date2 = (date2str != null) ? Integer.parseInt( date2str.replaceAll("u", "9") ) : 9999;
+        
+        if ((date2 > date1) && (date2 - date1) <= estimate_tolerance) {
+          found_date = ((date2+date1)/2);
+        }
+      }
+      catch(NumberFormatException e) {
+      }
+    }
+    
+    if (found_date == null && date_type != 'n' && date_type != 'q' && date_type != 'm') {
+      //In type 'r', second date is original publication date, I guess
+      //we'll use that?  Otherwise, date1. 
+      String candidateDate;
+      if (date_type == 'r' && date2str != null) {
+        candidateDate = date2str;
+      } else {
+       candidateDate = date1str;
+      }
+      // deal with "u's". 
+      int u_count = 0;
+      while (candidateDate != null && candidateDate.matches("u")) {
+        u_count++;
+        candidateDate = candidateDate.replaceFirst("u", "0");
+      }            
+      try {
+        found_date = Integer.parseInt(candidateDate);
+        if (u_count > 0) {
+          delta = Math.pow(10, u_count);
+          if (delta <= estimate_tolerance) {
+            found_date = found_date + (delta/2); 
+          }
+        }
+      }
+      catch(NumberFormatException e) {
+      }
+      
+    }
+  }    
+  if (found_date == null) {
+    //Try a 260c
+    try {
+      found_date = Integer.parseInt(indexer.getDate(record));
+    }
+    catch(NumberFormatException e) {
+    }
+  }
+  
+  if (found_date != null && (found_date > max_year || found_date < min_year))
+    found_date = null;
+
+  return (found_date == null) ? null : Integer.toString(found_date);
+}
+

@@ -1,0 +1,32 @@
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main-container {
+  overflow:auto;
+  padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+a {
+  color: $jhuBlue;
+  &:hover {
+    color: $jhuBlue-hover;
+  }
+  &:visited:not(.btn) {
+    color: $jhuBlue-hover;
+  }
+}
+
+.btn-outline-secondary:hover:not(.remove) {
+  color: #FFFFFF;
+  background-color: $gray-light !important;
+  border-color: $gray-light !important;
+}
+.bg-primary {
+  background-color: $jhuBlue !important;
+  color: #FFFFFF !important;
+}

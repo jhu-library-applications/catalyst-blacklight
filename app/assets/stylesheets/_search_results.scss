@@ -1,0 +1,167 @@
+// sass import into a context with bootstrap3 present so we can use
+// it's variables for consistency.
+
+// the Catalog#index search results page
+
+#sidebar {
+
+  #facets {
+
+    .facet-limit-active {
+      border-color: $jhuDarkGreen !important;
+
+      .card-header {
+        background-color: $jhuDarkGreen !important;
+        border-color: $jhuDarkGreen !important;
+
+        .btn {
+          color: #FFFFFF !important;
+        }
+      }
+      .facet-values li .selected {
+        color: $jhuDarkGreen !important;
+      }
+    }
+  }
+}
+
+#documents {
+  .list-group {
+    margin-bottom:1rem;
+  }
+
+  .list-group-item {
+    margin-bottom: 15px;
+  }
+
+  h3.index_title {
+    @extend h4;
+    font-size: 18px;
+
+    .index-title-subhead {
+      font-weight: normal;
+      font-size: 75%;
+      @extend .text-muted;
+    }
+  }
+}
+
+.search-results-item{
+  font-size: 14px;
+
+  .results-item-key-details {
+    margin-bottom: ($line-height-computed / 2);
+  }
+
+  .results-item-section {
+    margin-bottom: ($line-height-computed / 2);
+  }
+
+  .results-item-line {
+    margin-bottom: 0;
+  }
+
+  li.holding .status, li.holding .action-container {
+    padding-right: 0px;
+  }
+
+  li.holding .status, li.holding .action-container {
+    width: 31%;
+  }
+
+  .marc856 {
+    @extend .list-unstyled;
+    li {
+      margin-bottom: ($line-height-computed / 2);
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+
+
+@mixin responsive-nav-controls {
+  // On small screens, make it full-width to conserve space
+  margin-right: -15px;
+  margin-left: -15px;
+  border-radius: 0;
+
+  // Bigger screens, it's in a well seperated from everything else.
+  @media (min-width: $grid-float-breakpoint) {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+
+/* We want to put #sortAndPerPage in a well */
+.blacklight-catalog-index, .bento_search, .reserves {
+ #sortAndPerPage {
+    @include responsive-nav-controls;
+    @media (min-width: $grid-float-breakpoint) {
+      border-radius: $border-radius-base;
+    }
+    background-color: $well-bg;
+    border: 1px solid $well-border;
+    padding: 16px 19px 16px 19px;
+  }
+  .btn-outline-secondary {
+    background-color: #FFFFFF;
+  }
+
+  .sort-dropdown, .per-page-dropdown {
+    &.show {
+      .dropdown-menu > .dropdown-item:focus {
+        background-color: $jhuBlue;
+      }
+    }
+  }
+}
+
+/* on catalog and reserves, sortAndPerPage is actually joined into one
+   box with adjoining constraints or reserves section layout. */
+.blacklight-catalog-index, .reserves {
+  #sortAndPerPage {
+    @include responsive-nav-controls;
+    @media (min-width: $grid-float-breakpoint) {
+      border-radius: $border-radius-base;
+    }
+    padding: 8px;
+  }
+  .constraints-container {
+    @include responsive-nav-controls;
+    @media (min-width: $grid-float-breakpoint) {
+      border-top-left-radius: $border-radius-base;
+      border-top-right-radius: $border-radius-base;
+    }
+
+    // hide at small sizes
+    .constraints-label, .catalog_startOverLink {
+      display: none;
+      padding: 9px 12px;
+      @media (min-width: $grid-float-breakpoint) {
+        display: inline;
+      }
+    }
+
+
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+
+
+
+/* Indent search results, at non-tiny screen sizes */
+@media (min-width: $screen-sm-min) {
+  .index_title, .bento_item_title {
+    text-indent: -20px;
+    margin-left: 20px;
+  }
+  .search-results-item, .bento_item_body {
+    padding-left: 20px;
+  }
+}

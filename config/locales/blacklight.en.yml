@@ -1,0 +1,6 @@
+en:
+  blacklight:
+    application_name: JH Libraries
+    search:
+      facets:
+        title: Refine your search

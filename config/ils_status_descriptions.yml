@@ -1,0 +1,124 @@
+# User-presentable explanations of categories from the ILS: 
+# collections, item status, etc. 
+# Used by the InfoController
+
+# These used to provide more specific information about each status,
+# sometimes with longer descriptions. Updated 20 Jan 2015 per PI/CRD
+# request -- the statuses are now pretty generic, mostly the same
+# for each unavailable status. Do we really need this feature anymore?
+# Unclear. 
+
+# Only a minimum of collections and item statuses are in here, there
+# are hundreds in the ILS, but this duplicates what we had listed 
+# in the HIP pop up info pages. 
+#
+# If we actually want to do all of them, another strategy may be required,
+# like generating this from Horizon database itself instead of manually
+# writing it. 
+#
+# There are complicated rules for how items in here are matched to actual
+# ILS values for displaying info, see InfoController. 
+#
+# Beware "explanation" value is raw HTML, although it has paragraphs added to
+# it. 
+#
+# YAML file is run through ERB, so you can use ERB here. 
+
+  DEFAULT:
+    explanation: 'For information on this status, ask staff at your library, or email us a question at <a href="mailto:ask@jhu.libanswers.com">ask@jhu.libanswers.com</a>'
+
+  Ask at AV:
+    item_status_codes:
+      - ebwa
+    explanation: The Audio/Visual (AV) service point is located in the Eisenhower Library at A-Level, next to the central elevators.
+
+  Ask at Circ: &ask_at_circ_status
+    item_status_codes:
+      - ebw
+      - wbw
+    explanation: To request this item go to the Circulation/Service Desk.
+
+  Bound With: *ask_at_circ_status
+
+  Ask at ILS:
+    explanation: "Unavailable. Use BorrowDirect to request a different copy.  For additional help, ask a library staff member."
+
+  Ask at GPML:
+    item_status_codes:
+      - ebwg
+    explanation: "To request this item, go to the Circulation/Service Desk."
+
+  Available:
+    # false means no description desired. 
+    explanation: false
+    #This item is not checked out by another patron and should be on the shelf.  If you need assistance finding this item, ask a library staff member.
+
+  Being Repaired:
+    item_status_codes:
+      - 'epBKRP'
+      - 'epcbind'
+      - 'epCBO'
+      - 'epCONSR'
+      - 'epPREP'
+    explanation: "This item is unavailable. Use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  Bindery: &bindery_status
+    item_status_codes:
+      - abind
+      - b
+      - ecbind
+      - gbind
+      - sbind
+      - wbind
+    explanation: "This item is unavailable. Use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  Checked Out:
+    explanation: "Another patron is currently using this item. Use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  In Process:
+    explanation: "Use the request button to place a hold on this item."
+
+  Item being held:
+    item_status_codes:
+      - h
+      - csa
+    explanation: "Use the request button to request this item OR use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  Long Overdue/Lost/Missing:
+    item_status_codes:
+      - amiss
+      - emiss
+      - gso
+      - m
+      - mi
+      - wmiss
+      - alost
+      - elost
+      - l
+      - wlost
+      - x
+    explanation: "Use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  Newly Acquired:
+    explanation: "Use the request button to place a hold on this item OR use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+
+  Not Yet Requestable:
+    item_status_code: ebkondm
+    explanation: "Use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  On Order:
+    explanation: "Use the request button to place a hold on this item OR use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  Recall:
+    explanation: "Use the request button to be added to the waiting list for this item OR use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  Transit:
+    explanation: "Use the request button to place a hold on this item OR use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+  Transit Recall:
+    explanation: "Use the request button to be added to the waiting list for this item OR use BorrowDirect to request a different copy. For additional help, ask a library staff member."
+
+# Fake one, trying to aid our interface a bit
+  Multiple items:
+    explanation: Click on the record title to see all items on the detailed screen.  

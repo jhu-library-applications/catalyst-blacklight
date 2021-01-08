@@ -1,0 +1,20 @@
+<%# error screen used to show people who managed to log in with JHED, but
+    have no linked horizon_borrower_id, that they can't use horizon borrower
+    features like items out and requests. %>
+
+
+
+<div class="alert alert-warning">
+	<h1>We're sorry, borrower features are not available to your account.</h1>
+
+ 	<p>Sorry, borrower account features such as Requests and Items Out are not available to you, with your JHED login:
+ 		<strong>'<%= current_user.try(:jhed_lid) %>'</strong>.
+ 	</p>
+
+ 	<p>No borrower account could be found linked to your JHED login.</p>
+
+	<p>Please contact the circulation desk at your  
+		<%= link_to "home library",  {:controller => "info", :action => "libraries"}%> 
+	if you should have a borrower account.</p>
+
+</div>

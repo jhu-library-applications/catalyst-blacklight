@@ -1,0 +1,72 @@
+<div class="container account account-profile">
+
+  <%= render(:partial => "account_nav") %>
+
+   
+  <% if @notes.length > 0 || @total_fines %>
+      <table class="table account-notes">
+        <thead>
+          <tr>
+            <th colspan="3">
+              <h2>Fines and Notes</h2>
+              <% if @total_fines %>
+                <dl class="dl-horizontal">
+                <dt>Total fines owed: </dt><dd><%= h(@total_fines)%></dd>
+                </dl>
+              <% end %>
+            </th>
+            <th>Charge</td>
+          </tr>
+        </thead>
+        <% @notes.each do |note| %>
+          <tr>
+            <td class="date note-date"><%= note.date.to_formatted_s(:due_date) %></td>
+            <td class="reason"><%= h(note.reason) %></td>
+            <td class="note"><%= h(note.note) %></td>
+            <td class="fee"><%= h(note.fee) %></td>
+          </tr>
+        <% end %>
+      </table>
+  <% end %>
+
+
+
+  <div class="account-info">
+      <div class="account-show-heading">
+        <h2>Your Account</h2>
+      </div>
+
+
+      <dl class="dl-horizontal">
+        <dt>JHED login</dt>
+        <dd><%= current_user.jhed_lid ? h(current_user.jhed_lid) : "Not on file" %></dd>
+            
+        <dt>Home library</dt>
+          <dd><%= h(@profile.home_library)%></dd>
+        
+        <dt><label for="user_email">Email</label></dt>
+          <dd><%= h(@profile.email) %>
+          <p class="text-muted small">To change your Hopkins address, choose the myProfile option at <a href="http://my.jhu.edu/">https://my.jhu.edu</a>. </p>
+          </dd>      
+        <dt>Phone</dt>
+          <dd><%= h(@profile.phone)%></dd>
+        
+        
+        <dt>Name</dt>
+          <dd><%= h(@profile.name)%></dd>
+        <dt>Address</dt>
+        <dd>
+          <% @profile.address_array.each do |line| %>
+            <%= h(line) %><br/>
+          <% end %>
+        </dd>
+
+        
+        <dt>Library Card Expires</dt>
+        <dd><%= @profile.card_expiration.to_formatted_s(:due_date) if @profile.card_expiration %></dd>
+      </dl>
+  </div>
+
+
+<p>If your account information needs to be corrected, contact the Circulation desk at your <%= link_to "home library",  {:controller => "info", :action => "libraries"}%>.</p>
+</div>

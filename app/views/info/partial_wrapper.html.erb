@@ -1,0 +1,12 @@
+<%# super hack. We have some partials in info, that we sometimes want 
+    to render as 'top level', in teh application-level layout. This used to just
+    plain work, but in rails 3.2.9 stopped wroking. Workaround is to make this
+    lame full template, that does nothing but render the partial mentioned
+    in the local argument, but now it can be wrapped in a layout. 
+    
+    from controller:
+    
+    render "partial_wrapper", :locals => {:partial => "some_partial_name"}, :layout => whatever
+%>
+
+<%= render partial %>

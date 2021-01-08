@@ -1,0 +1,28 @@
+<%# Overridden from Blacklight views/catalog/_show_tools in BL 5.9.
+    We override solely for the purpose of adding our Shelf Browse
+    section at the end %>
+
+<%= render :partial => 'show_tools' %>
+
+<% unless @document.more_like_this.empty? %>
+  <div class="card">
+    <div class="card-header">More Like This</div>
+    <div class="card-body">
+      <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
+    </div>
+  </div>
+<% end %>
+
+<%# local JH starts here  %>
+
+<% if (Rails.application.config.x.suppress_browse != true) && (browse_sort_key = shelf_browse_sort_key_for(@document)) %>
+  <div class="card mt-4">
+    <div class="card-header"><h3 class="card-title h6 mb-0">Virtual Shelf Browse</h3></div>
+    <div class="card-body">
+      <p class="section_prompt">
+        See similar material that would be shelved with this item, across all Hopkins libraries.
+      </p>
+      <%= link_to "Browse", shelfbrowse_path(:origin_sort_key => browse_sort_key), :class => "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

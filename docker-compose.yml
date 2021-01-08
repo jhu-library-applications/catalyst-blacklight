@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  #  solr:
+  #  build: "$PWD/../blacklight-solr/"
+  #  ports:
+  #   - "$SOLR_EXTERNAL_PORT:$SOLR_PORT"
+  #  volumes:
+  #  - "$PWD/../blacklight-solr:/opt/solr/example/blacklight_solr"
+  #  command: java -jar start.jar
+
+  #  db:
+  #    image: mysql:5.7
+  #    volumes:
+  #      - db_data:/var/lib/mysql
+  #    ports:
+  #      - "${MYSQL_EXTERNAL_PORT}:${MYSQL_PORT}"
+  #    restart: always
+  #    dns:
+  #      - "$DNS_1"
+  #      - "$DNS_2"
+  #    environment:
+  #      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+  #      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+  #      MYSQL_USER: "${MYSQL_USER}"
+  #      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+
+  catalyst:
+    #depends_on:
+    #  - db
+    build: .
+    environment:
+      SOLR_URL: "${APP_SOLR_URL}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    dns:
+      - "$DNS_1"
+      - "$DNS_2"
+    working_dir: "${APP_DIR}" 
+    volumes:
+      - "${PWD}:${APP_DIR}"
+    ports:
+      - "${APP_EXTERNAL_PORT}:${APP_PORT}"
+    command: >
+      bash -c "bundle install 
+      && bundle exec rails s -p ${APP_PORT} -b '0.0.0.0'"

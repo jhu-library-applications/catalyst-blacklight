@@ -1,0 +1,45 @@
+<%# the search bar that has a search form and links to change search area,
+    choosing both based on current search area
+%>
+
+<div class="navbar navbar-default navbar-static-top navbar-top-lower">
+  <% search_area = current_search_area() %>
+    <div class="search-navbar">
+      <div role="group" aria-label="Search Options" data-preserve-search-context="true">
+
+        <%= render_search_button("Catalog", search_area == :catalog,
+                search_url_context(:controller => "catalog", :action => "index"))
+        %>
+
+        <%= render_search_button("Articles", current_page?('/articles'),
+                search_url_context(:controller => "articles", :action => "index"))
+        %>
+
+        <%# reserves is it's own separate button, that does not keep search context
+            hidden at very small sizes, we list it in the navbar buttons instead
+            at small size.
+        %>
+
+        <span class="reserves-btn">
+            <%= render_search_button("Reserves", search_area == :reserves, {:controller => "reserves", :action => "index"}) %>
+        </span>
+      </div>
+    </div>
+
+    <%# now the search form itself. No search form for Reserves. %>
+
+    <% if search_area == :catalog && params[:controller] != 'advanced'%>
+        <%= render "catalog/search_form" %>
+
+    <% elsif [:reserves, :user, :login].include? search_area  %>
+        <%# nothing %>
+
+    <% elsif params[:controller] == 'articles' %>
+      <%= render "articles/search_form" %>
+
+    <% elsif params[:controller] != 'advanced' %>
+      <%= render "catalog/search_form" %>
+
+    <% end %>
+
+</div>

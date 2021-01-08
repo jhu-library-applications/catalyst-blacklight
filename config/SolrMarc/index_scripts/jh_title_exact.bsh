@@ -1,0 +1,92 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ * Gets some strings to use for 'exact title' exactMatch field, from 245ak
+ * and 245akb. Also deals with non-filing chars. 
+ * Can return multiple strings if non-filing chars or 'b' is present. 
+ * Doesn't worry
+ * about punctuation, as that should be normalized by the exactMatch field
+ * this is destined for. 
+ * @param record
+ * @return Set of Strings suitable for exactMatch field. 
+ */
+Set getTitleExact(Record record)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+
+    List fields = record.getVariableFields("245");
+
+    for (DataField field : fields ) {
+      String title = assembleSubfields(field, new char[] {'a','k'});
+      resultSet.add( title );
+            
+      filingTitle = filingVersion(field, title);
+      if (filingTitle != null) {
+        resultSet.add(filingTitle);
+      }
+      
+      String subTitle = assembleSubfields(field, new char[] {'b'});
+      if (! subTitle.equals("")) {        
+        resultSet.add(title + " " + subTitle);
+        if (filingTitle != null) {
+          resultSet.add(filingTitle + " " + subTitle);
+        }
+      }      
+    }
+              
+    return resultSet;
+}
+
+/* Take a marc field, and an array of subfield codes, return a string
+   with all matching subfield values in order joined by space. */
+String assembleSubfields(field, codeList) {
+  components = new ArrayList();
+  for (code : codeList ) {
+     subfield = field.getSubfield(code);
+     if (subfield != null) {
+       components.add( subfield.getData());
+     }
+  }
+  return join(components, " ");
+}
+
+/* Filing version, taking into account non-filing indicators. Returns
+   null if non-filing indicators can't be applied. */
+String filingVersion(field245, aString) {
+  char cInd = field245.getIndicator2();
+  int ind2 = 0;
+  try {
+    ind2 = Integer.parseInt(Character.toString(cInd));
+  }
+  catch(NumberFormatException e) {
+  }
+  
+  if (ind2 > 0 && ind2 < aString.length()) {
+    return aString.substring(ind2); 
+  }
+  else {
+    return null;
+  }
+}
+
+String join(list, delimiter) {
+  if (list.isEmpty())
+    return "";
+ 
+  StringBuilder sb = new StringBuilder();
+ 
+  for (String item : list)
+    sb.append(item + delimiter);
+ 
+  sb.delete(sb.length()-delimiter.length(), sb.length());
+ 
+  return sb.toString();
+ 
+}
+

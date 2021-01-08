@@ -1,0 +1,39 @@
+<div class="well">
+  <%= form_tag nil, {:method => :get, :class => "reserves-search form-inline" } do %>
+    <label for="q">Instructor or Course beginning with &nbsp;</label>
+    <div class="input-group">
+      <%= text_field_tag 'q', params[:q], :class=>"reserves-q form-control", :'data-autocomplete' => url_for(params.merge(:format => "json", :page => nil, :q=>nil, :per_page=>"6")) %>
+      <span class="input-group-append">
+        <%= submit_tag "Find", :class => "btn btn-outline-secondary" %>
+      </span>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <div class="reserves-location-limits">
+    <%= link_to_unless(params[:location].nil?, "ALL", params.merge(:location => nil, :page=>nil), {:class =>"btn btn-default"}) do  %>
+      <span class="btn btn-primary active">ALL</span>
+    <% end %>
+    <% @locations.each_with_index do |location, i| %>
+      <%= link_to_unless((params[:location] == location.location_code), location.location, params.merge(:page => nil, :location => location.location_code), {:class => "btn btn-default"})  do |name| %>
+
+        <span class="btn btn-primary active"><%= name %></span>
+
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div class="pagination well">
+  <%= render :partial => 'paginate_compact', :object => @courses %>
+</div>
+
+<p><%= render :partial => "course", :collection=>@courses  %></p>
+
+<div class="pagination">
+  <% # will_paginate is called oddly because we want next/prev together
+     # at left for screen reader accessibility. We use CSS to restore
+     # a more conventional next-on-right. %>
+  <%= paginate @courses, :theme => 'blacklight' %>
+</div>

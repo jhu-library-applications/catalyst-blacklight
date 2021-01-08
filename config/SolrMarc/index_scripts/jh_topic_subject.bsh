@@ -1,0 +1,50 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+
+
+// Only special thing this does is make sure the first letter of the topic
+// is capitalized, for consistency. Medical subjects seem to not always
+// capitalize subdivisions. Also remove leading and trailing whitespace while
+// we're at it. 
+//
+// But then since we need a custom function for that, we also need to strip
+// trailing punct, add a default value, etc. 
+Set getTopicFacet(Record record, String tag_spec) {
+  Set resultSet = new LinkedHashSet();
+  
+  Pattern lowercase_first_letter = Pattern.compile("^[a-z]");
+  
+  original = indexer.getFieldList(record, tag_spec);
+  for (value : original) {
+    value = value.replaceFirst("^\\s*", "");
+    value = value.replaceFirst("[.,;]*$", "");
+    
+    Matcher m = lowercase_first_letter.matcher(value);
+    if (m.find()) {      
+      letter = m.group(0);
+      if (letter != null) {
+        value = m.replaceFirst( letter.toUpperCase() ); 
+      }
+    }
+
+    resultSet.add(value);
+  }
+  
+  //We default in our topic facet. 
+  if (resultSet.size() == 0) {
+    resultSet.add("Unspecified");
+  }
+  
+  return resultSet;
+}
+

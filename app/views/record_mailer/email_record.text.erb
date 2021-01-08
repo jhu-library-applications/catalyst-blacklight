@@ -1,0 +1,23 @@
+<%-   unless @message.blank? -%>
+<%= @message %>
+
+<%-   end -%>
+<%-   @documents.each do |document| -%>
+<%-   if document.respond_to?(:to_marc) and ! document.to_marc['245'].nil? -%>
+<%=     document.to_marc['245'].subfields.collect {|sf| sf.value}.join(" ") %>
+
+  <%=   catalog_url(document[:id], @url_gen_params) %>
+
+<%-     if document.respond_to?(:to_holdings) && !document.to_holdings.blank?
+          document.to_holdings.each do |holding| -%>
+  <%=         word_wrap(holding.collection.display_label, :line_width=>60).gsub("\n", "\n    ") -%>
+  <%=         word_wrap("#{holding.call_number} #{holding.copy_string}", :line_width=>60).gsub("\n", "\n    ") unless holding.call_number.blank? && holding.copy_string.blank? -%>
+
+<%-        end -%>
+<%-     end -%>
+
+<%-   end -%>
+<%-  end -%>
+
+--
+Records sent by request from https://catalyst.library.jhu.edu

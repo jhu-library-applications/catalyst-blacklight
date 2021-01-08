@@ -1,0 +1,70 @@
+<%
+  self.extend(MarcDisplayLogic::MarcLogicProcs)
+
+
+  title_descr = { :source => "245afnps", :formatter=> marc_logic(:format_strip_edge_punctuation) }
+  title_line = MarcDisplay::FieldPresenter.new(document, document.to_marc, title_descr).lines[0]
+  
+  main_entry_desc  = {:source => ["100abcdefgjklmnopqrstu4", "110abcdefgjklmnopqrstu4", "111acdefgklnpqstu4"]}
+  main_entry_line = MarcDisplay::FieldPresenter.new(document, document.to_marc, main_entry_desc).lines[0]
+  
+  
+  
+  subtitle_descr = {:source => "245b", :formatter=> marc_logic(:format_strip_edge_punctuation)}
+  subtitle_line = MarcDisplay::FieldPresenter.new(document, document.to_marc, subtitle_descr).lines[0]
+  
+  
+  stmt_resp_descr = { :source => "245c", :formatter=> marc_logic(:format_strip_edge_punctuation) }
+  stmt_resp_line = MarcDisplay::FieldPresenter.new(document, document.to_marc, stmt_resp_descr).lines[0]
+  
+  type_descr = { :source => {:solr_field => "format"}}
+  type_lines = MarcDisplay::FieldPresenter.new(document, document.to_marc, type_descr).lines
+
+  
+  
+  language_descr = { :source => {:solr_field => "language_facet"}}
+  language_lines = MarcDisplay::FieldPresenter.new(document, document.to_marc, language_descr).lines
+  
+  
+  pub_date_descr = {:source => {:solr_field => "pub_date"}}
+  pub_date_line = MarcDisplay::FieldPresenter.new(document, document.to_marc, pub_date_descr).lines[0]
+  
+  
+
+%>
+
+<div class="recordHeading">
+
+  <div class="key_details">
+    <%- if type_lines.length > 0 -%>
+      <%= type_lines.collect {|l| l.join }.join(", ") -%>
+    <%- end -%>
+    <%- if language_lines.length > 0 -%>
+      in <%= language_lines.collect {|l| l.join}.join(", ") -%>
+    <%- end -%>
+    <%- if pub_date_line -%>, <%= pub_date_line.join -%>
+    <%- end -%>
+  </div>
+  
+  <h1 class="title"><%= render(:partial => "marc_display/marc_line", :locals => {:line => title_line}) %>
+  <% if subtitle_line %>
+    : <span class="subtitle"><%= render(:partial => "marc_display/marc_line", :locals => {:line => subtitle_line}) %></span>
+  <% end %>
+  
+  </h1>
+  
+  <% if stmt_resp_line || main_entry_line %>  
+    <div class="author">
+      <% if stmt_resp_line %>
+        <%= render(:partial => "marc_display/marc_line", :locals => {:line => stmt_resp_line}) 
+        %>
+      <% end %>
+      
+      <% if main_entry_line %>
+        (<%= render(:partial => "marc_display/marc_line", :locals => {:line => main_entry_line}) %>)
+      <% end %>    
+    </div>
+  <% end %>
+
+</div>
+

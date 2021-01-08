@@ -1,0 +1,52 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ * returns values(s) for local item call numbers attached to bib.  
+ 
+ * JHU call number searchable. Horizon is exporting call numbers in 991$a, with
+ * the "copy" portion in 991$c. We won't include copy numbers right now, as we 
+ * don't have an auto-left-anchored search yet. This is a 'naive' first try
+ * at call number search.
+ *
+ * We try to exclude call numbers attached to staff-only items, but note
+ * unhappily that some items may not be staff-only, but are attached to 
+ * copy records which are staff-only, and we have no way to tell.  
+ * @param record
+ * @return Set of Strings containing call numbers
+ */
+Set getCallNumber(Record record)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+
+    List fields = record.getVariableFields("991");
+    fields.addAll(record.getVariableFields("937"));
+      
+    for (DataField field : fields ) {
+        Subfield qSubField = field.getSubfield('q');
+        // Subfield q being ascii '1' means that this item is
+        // marked staff only, do not include it's call numbers. 
+        // Note we still may unhappily be including some items which,
+        // while not themselves staff-only, are attached to copies that
+        // are. 
+        if ( qSubField == null || ! qSubField.getData().equals("1")) {
+          callNumSubfield = field.getSubfield('a');
+          if ( callNumSubfield != null) {
+            callNum = callNumSubfield.getData();
+          
+            if ( callNum != null) {
+              resultSet.add(  callNum );
+            }
+          }
+        }
+    }
+              
+    return resultSet;
+}
+
+

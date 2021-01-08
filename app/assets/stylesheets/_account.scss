@@ -1,0 +1,97 @@
+.account-nav {
+  margin-bottom: $line-height-computed;
+}
+
+.renew-all {
+  margin-top: $line-height-computed * 1.5;
+  margin-bottom: $line-height-computed;
+}
+
+.account thead h2 {
+  margin: 0;
+}
+
+td.date {
+  min-width: 9em;
+}
+.account-profile td.reason {
+  min-width: 16em;
+}
+td.item {
+  // won't really go to 100%, but this seems to be teh way
+  // to say this td should stretch to fill as much as possible *
+  width: 100%;
+}
+td.location {
+  white-space: nowrap;
+}
+
+table.items-out .alert {
+  margin-bottom: 0;
+}
+
+.item-out-info, .request-ready-info, .request-pending-info {
+  margin-top: ($line-height-computed / 4);
+  margin-bottom: 0;
+}
+
+.account table {
+  margin-bottom: $line-height-computed * 2;
+}
+
+.account .dl-horizontal dt {
+  @extend .text-muted;
+  font-weight: normal;
+}
+
+.account-show-heading h2 {
+  // make it look like a table.thead/tr, even though it's not
+  border-bottom: 2px solid $table-border-color;
+  padding-top: $table-cell-padding;
+  padding-bottom: $table-cell-padding;
+}
+
+// On small screens, we make the tables collapse to be not-so-tably,
+// sort of like: http://css-tricks.com/responsive-data-tables/
+// At the moment, the HTML is a table and we collapse -- would it
+// be better to do mobile-first where media queries turn it into a table? 
+// Probably, especially for IE, but it's challening,
+// this is good enough for now. 
+table.items-out, table.account-requested-section, table.account-requested-ready-section {
+  @media (max-width: $screen-xs-max) {    
+    display: block;    
+    thead {
+      display: none;
+    }
+    tbody, tr, td {      
+      display: block;
+    }
+    & > tbody > tr > td {
+      border: none;
+    }
+    tr {
+      clear: both;
+      border-top: 1px solid #dddddd;
+    }
+    td.renew {
+      clear: both;
+      float: left;
+      display: inline-block
+    }
+    .items-out-info {
+      display: none;
+    }
+    td.out-date {
+      float: left;
+      clear: both;
+      width: 50%;
+    }
+    td.due-date {
+      float: left;
+      width: 50%;
+    }
+    .item-out-info {
+      display: none;
+    }
+  }
+}

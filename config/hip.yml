@@ -1,0 +1,30 @@
+# This file used for controlling both where to find an actual HIP for
+# screen-scraping, and where to find our Horizon web services java web app.
+# WS web app is assumed to be on the catalyst server at /ws, unless a web_service_url
+# key is given with complete URL path to ws web app.
+#
+# We currently use a Horizon web service app that's located on production
+# catalyst server instead of HIP server. https://wiki.library.jhu.edu/x/kgDF
+
+defaults: &default
+  host: <%= ENV['HIP_HOST'] %>
+  web_service_url: <%= ENV['HORIZON_WS_URL'] || "http://localhost:8080/ws" %>
+  borrower_ws_auth:
+    username: <%= ENV['BORROWER_WS_USERNAME'] %>
+    password: <%= ENV['BORROWER_WS_PASSWORD'] %>
+
+development:
+  <<: *default
+
+demo:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
+

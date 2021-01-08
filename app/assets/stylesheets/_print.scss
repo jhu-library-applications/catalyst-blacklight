@@ -1,0 +1,60 @@
+// Special print styles for Catalyst, including undoing some of Bootstraps
+
+@media print {
+
+  // Undo bootstrap's addition of URL text to all links. May be useful
+  // in some places, but not everywhere. And we don't feel like spending
+  // time to try to put it just in teh right places (856 links?)
+  a[href]:after {
+    content: "";
+  }
+
+  // Now hide certain things that there's no reason to show in print,
+  // buttons and interactive UX elements and such. 
+  .search-widgets, .clear-bookmarks, 
+    .blacklight-catalog-index .constraints-container .catalog_startOverLink, 
+    .pagination, .toggle_bookmark, .bookmarkTools, .footer .nav,
+    .action-container .request, .sort-and-page-controllers {
+    display: none;
+  }
+
+  /* We're gonna hide the whole sidebar on both search results and item detail
+     pages -- we might end up hiding stuff we want, but the classes aren't quite right
+    to let us hide just what we want, and it seems the whole sidebar is unneeded
+    in print I think */
+  #sidebar, .navbar-toggle {
+    display: none;
+  }
+
+  .footer  {
+    border: none;
+  }
+
+  #appliedParams, index #sortAndPerPage, .blacklight-catalog-index  #sortAndPerPage {
+    border: none;
+  }
+
+  // We want to show the navbar even though Bootstrap doesn't want us to
+  .navbar {
+    display: block;
+  
+    .search-query-form {
+      display: none;
+    }
+
+    // Hide the search navbar buttons EXCEPT the active one, as a header
+    .search-navbar {
+      text-align: left;
+
+      .search-option {
+        display:none;
+        border: none;
+      }
+      .search-option.active {
+        display: inline-block;
+      }
+    }
+  }
+
+
+}

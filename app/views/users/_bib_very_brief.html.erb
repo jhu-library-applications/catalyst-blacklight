@@ -1,0 +1,8 @@
+<%# local parameter 'document' is a SolrDocument %> 
+
+ <a href="<%= solr_document_path(document["id"]) %>" class="title"><span class="main_title"><%= heading_title(document) -%></span>
+    <% if subtitle_line = heading_subtitle(document) %>
+      : <span class="subtitle"><%= subtitle_line %></span>
+    <% end %>  
+  </a>
+ 

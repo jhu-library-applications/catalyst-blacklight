@@ -1,0 +1,7 @@
+<div class="call-num-actions holding-line row">
+  <% unless holding.call_number.blank? or params[:action] == 'copy' %>
+      <%= link_to( {:controller => "catalog", :action => "sms_form", :id => document_id, :holding_id => holding.id}, :class => "sms_link btn btn-default btn-sm", :title => "send mobile phone TXT message with call number", :data => {:blacklight_modal => "trigger"}) do %>
+          <span class="glyphicon glyphicon-phone"></span> txt
+      <% end %>
+  <% end %>
+</div>

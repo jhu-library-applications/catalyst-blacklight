@@ -1,0 +1,54 @@
+/* HIDE much of the layout wrapper for shelfbrowse page. 
+   We trigger on .blacklight-catalog-shelfbrowse class, that the layout
+   automatically adds to <body>, using Blacklight functionality that
+   adds a class for the controller and action in use. */
+
+
+.blacklight-catalog-shelfbrowse {
+  height: inherit;
+  .footer, .navbar-top-lower {
+    display: none;
+  }
+
+  .header {
+    margin-bottom: 0;
+  }
+
+  // Turn off bootstrap container and row, it messes with our CSS. 
+  #main-container {
+    padding: 0;
+    margin: 12px auto;
+    width: auto;
+
+    & > .row {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  // Item search result is used on the shelfbrowse page,
+  // Make it fit in better. 
+  .stack-item-panel {
+    .search-results-item {
+      padding: 0;
+    }
+
+    .shelfbrowse-call-number {
+      font-size: 12px; // try to make it match type/language in heading, sorry for hacky
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+    }
+
+    h5.index_title {
+      text-indent: 0;
+      margin-left: 0;
+    }
+
+    .pub-date {
+      font-weight: bold;
+    }
+
+  }
+
+
+
+}

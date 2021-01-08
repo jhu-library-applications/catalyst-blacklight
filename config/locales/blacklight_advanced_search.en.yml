@@ -1,0 +1,6 @@
+en:
+  blacklight_advanced_search:
+    form:
+      title: Advanced Search
+      limit_criteria_heading_html: Other attributes
+      query_criteria_heading_html: Field search

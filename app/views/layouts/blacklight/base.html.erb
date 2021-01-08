@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <%- if Rails.env.production? %>
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-KVWVGLP');</script>
+      <!-- End Google Tag Manager -->
+    <%- end %>
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <!-- We embed the URL to the Umlaut (Find It) JQuery Content Utility here, so
+         the umlaut_include.js script can use it to load the JS asynchronously
+         when needed. Strip the "http:" or "https:" to have a protocol-relative
+         URL depending on if this page is http or https-->
+    <%= tag "link", :name  => "data-umlaut-update-html-link prefetch",
+            :href  => JHConfig.params[:umlaut_base_url].gsub(/\Ahttps?\:/ , '') +
+                      "/assets/umlaut/update_html.js"
+    %>
+
+    <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
+    <!--[if IEMobile]>
+      <meta http-equiv="cleartype" content="on">
+    <![endif]-->
+
+    <title><%= h(@page_title || application_name) %></title>
+    <%= opensearch_description_tag application_name, opensearch_catalog_url(format: 'xml') %>
+    <%= favicon_link_tag asset_path('favicon-32x32.png') %>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= content_for(:head) %>
+ </head>
+
+
+  <body class="<%= render_body_class %>">
+    <div id="wrap">
+      <%- if Rails.env.production? %>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVWVGLP"
+                        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+      <%- end %>
+
+
+      <!--Top Navigation for Home Links-->
+      <nav role="navigation">
+        <% if Flipper[:navbar_banner_alert].enabled? %>
+          <div id="navbar-banner-alert">
+            <span>Notice: </span> Due to building closures, requests will take approximately 2 weeks to fill. Please be assured that we are working hard to fill your request.
+          </div>
+        <% else %>
+          <div id="navbar-banner-alert">
+            <span>Demo of Full Service Settings</span>
+          </div>
+        <% end %>
+
+        <%= render :partial=>'shared/libraries' %>
+        <%= render :partial=>'/user_util_links' %>
+      </nav>
+
+      <div id="search-bar" class="search-container">
+        <div class="container">
+          <%= render :partial => "search_bar" %>
+        </div>
+      </div>
+
+
+      <main id="main-container" class="<%= container_classes %>" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
+        <%= content_for(:container_header) %>
+
+        <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
+
+        <div class="row">
+          <%= content_for?(:content) ? yield(:content) : yield %>
+        </div>
+      </main>
+
+
+      <%= render partial: 'shared/modal' %>
+    </div>
+    <%= render partial: 'shared/footer' %>
+  </body>
+</html>

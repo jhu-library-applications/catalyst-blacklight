@@ -1,0 +1,204 @@
+<% # search form for Articles %>
+
+<noscript>
+  <style type="text/css">
+    .sr-only {
+      display:inline;
+      position: initial;
+    }
+  </style>
+</noscript>
+
+<div class="container">
+  <div class="row mt-4" style="width:100%;">
+
+    <% if params[:bento_redirect] %>
+      <div class="alert alert-warning col-sm-12">
+        <p class="mb-0"><strong>Notice:</strong> Embedded Articles search in Catalyst has been removed. Please search article databases directly using the form below.</p>
+      </div>
+    <% end %>
+
+    <div id="articles-instructions" class="col-12">
+      <p>Search for scholarly articles using Google Scholar or a database. Databases require JHED login.</p>
+    </div>
+
+    <div class="form-selector col-12 col-md-3 pb-2">
+      <h1 class="sr-only">Johns Hopkins Libraries</h1>
+      <h2 class="sr-only">Search for Articles</h2>
+      <h3 class="sr-only">Database Selector</h3>
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle btn-block" type="button" id="article-form-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          EBSCO databases
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" data-form="#af-basic" data-toggle="collapse" href="#af-basic" role="button" aria-controls="af-google af-basic af-jstor af-pubmed af-proq">EBSCO databases</a>
+          <a class="dropdown-item" data-form="#af-google" data-toggle="collapse" href="#af-google" role="button" aria-controls="af-google af-basic af-jstor af-pubmed af-proq">Google Scholar</a>
+          <a class="dropdown-item" data-form="#af-jstor" data-toggle="collapse" href="#af-jstor" role="button" aria-controls="af-google af-basic af-jstor af-pubmed af-proq">JSTOR database</a>
+          <a class="dropdown-item" data-form="#af-proq" data-toggle="collapse" href="#af-proq" role="button" aria-controls="af-google af-basic af-jstor af-pubmed af-proq">ProQuest databases</a>
+          <a class="dropdown-item" data-form="#af-pubmed" data-toggle="collapse" href="#af-pubmed" role="button" aria-controls="af-google af-basic af-jstor af-pubmed af-proq">PubMed database</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="article-forms" class="col">
+      <div class="form-display collapse multi-collapse" id="af-google">
+        <h3 class="sr-only">Search Google Scholar</h3>
+        <form class="search-form" action="https://scholar.google.com/scholar" data-search-type="Google Scholar" target="_blank" _lpchecked="1">
+          <label for="google_s" class="sr-only">Search for full-text articles, patents, and more</label>
+          <div class="input-group">
+            <%= text_field_tag :q, params[:q], :class => "q form-control copy-input", :placeholder => 'Search for full-text articles, patents, and more', :autofocus => "true", :name => "as_q", :id => "google_s" %>
+
+            <input type="hidden" value="en" name="hl">
+            <input id="inst" name="inst" type="hidden" value="5082568988407155951">
+
+            <span class="input-group-append">
+              <button type="submit" class="btn btn-primary search-btn">
+                <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-display collapse multi-collapse show" id="af-basic">
+        <h3 class="sr-only">Search EBSCO Databases</h3>
+        <form class="search-form" action="https://search.ebscohost.com/login.aspx" data-search-type="EBSCO Articles Basic Search" target="_blank" _lpchecked="1">
+          <label for="as_q" class="sr-only">Search full-text articles and citations across many disciplines</label>
+
+          <div class="input-group">
+            <%= text_field_tag :q, params[:q], :class => "q form-control copy-input", :placeholder => 'Search full-text articles and citations in the humanities and sciences', :autofocus => "true", :name => "bquery", :id => "as_q" %>
+
+            <input type="hidden" name="direct" value="true">
+            <input type="hidden" name="scope" value="site">
+            <input type="hidden" name="type" value="1">
+            <input type="hidden" name="site" value="ehost-live">
+            <input type="hidden" name="db" value="a9h">
+            <input type="hidden" name="db" value="awn">
+            <input type="hidden" name="db" value="ahl">
+            <input type="hidden" name="db" value="rfh">
+            <input type="hidden" name="db" value="rzh">
+            <input type="hidden" name="db" value="cmedm">
+            <input type="hidden" name="db" value="ufh">
+            <input type="hidden" name="db" value="eoh">
+            <input type="hidden" name="db" value="20h">
+            <input type="hidden" name="db" value="eric">
+            <input type="hidden" name="db" value="flh">
+            <input type="hidden" name="db" value="f3h">
+            <input type="hidden" name="db" value="fmh">
+            <input type="hidden" name="db" value="geh">
+            <input type="hidden" name="db" value="8gh">
+            <input type="hidden" name="db" value="hch">
+            <input type="hidden" name="db" value="hia">
+            <input type="hidden" name="db" value="22h">
+            <input type="hidden" name="db" value="hgh">
+            <input type="hidden" name="db" value="ijh">
+            <input type="hidden" name="db" value="lxh">
+            <input type="hidden" name="db" value="f5h">
+            <input type="hidden" name="db" value="mth">
+            <input type="hidden" name="db" value="mzh">
+            <input type="hidden" name="db" value="phl">
+            <input type="hidden" name="db" value="pdh">
+            <input type="hidden" name="db" value="psyh">
+            <input type="hidden" name="db" value="rih">
+            <input type="hidden" name="db" value="rph">
+            <input type="hidden" name="db" value="s3h">
+            <input type="hidden" name="db" value="trh">
+            <input type="hidden" name="db" value="mah">
+            <input type="hidden" name="db" value="bth">
+            <input type="hidden" name="db" value="cja">
+            <input type="hidden" name="db" value="lft">
+            <input type="hidden" name="db" value="asf">
+            <input type="hidden" name="db" value="hsr">
+            <input type="hidden" name="db" value="rgr">
+            <input type="hidden" name="db" value="ofm">
+            <input type="hidden" name="lang" value="en">
+            <input type="hidden" name="authtype" value="ip,shib">
+            <input type="hidden" name="custid" value="s3555202">
+            <input type="hidden" name="ssl" value="Y">
+
+            <span class="input-group-append">
+              <button type="submit" class="btn btn-primary search-btn">
+                <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-display collapse multi-collapse" id="af-jstor">
+        <h3 class="sr-only">Search JSTOR</h3>
+        <form class="search-form" action="https://shibbolethsp.jstor.org/start" data-search-type="JSTOR" target="_blank" _lpchecked="1">
+          <label for="jstor_s" class="sr-only">Search full-text articles and books in the humanities and sciences</label>
+
+          <div class="input-group">
+            <%= text_field_tag :q, params[:q], :class => "q form-control copy-input", :placeholder => 'Search full-text articles and books in the humanities and sciences', :autofocus => "true", :name => "Query", :id => "jstor_s" %>
+
+            <input type="hidden" name="entityID" value="urn:mace:incommon:johnshopkins.edu">
+            <input type="hidden" name="site" value="jstor">
+            <input id="jstor-dest" type="hidden" name="dest" value="">
+
+            <span class="input-group-append">
+              <button type="submit" class="btn btn-primary search-btn">
+                <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-display collapse multi-collapse" id="af-pubmed">
+        <h3 class="sr-only">Search PubMed</h3>
+        <form class="search-form" action="https://pubmed.ncbi.nlm.nih.gov/" data-search-type="PubMed" target="_blank" _lpchecked="1">
+          <label for="pubmed_s" class="sr-only">Search millions of citations to articles in biomedical sciences</label>
+
+          <div class="input-group">
+            <%= text_field_tag :q, params[:q], :class => "q form-control copy-input", :placeholder => 'Search millions of citations to articles in biomedical sciences', :name => "term", :id => "pubmed_s" %>
+
+            <input type="hidden" value="jhumlib" name="otool">
+
+            <span class="input-group-append">
+              <button type="submit" class="btn btn-primary search-btn">
+                <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-display collapse multi-collapse" id="af-proq">
+        <h3 class="sr-only">Search ProQuest</h3>
+        <form class="search-form" action="https://search.proquest.com/runSearch" data-search-type="ProQuest" target="_blank" _lpchecked="1">
+          <label for="proq_s" class="sr-only">Search full-text articles and citations across many disciplines</label>
+
+          <div class="input-group">
+            <%= text_field_tag :q, params[:q], :class => "q form-control copy-input", :placeholder => 'Search full-text articles and citations across many disciplines', :name => "query", :id => "proq_s" %>
+
+            <input type="hidden" name="accountid" value="11752">
+
+            <span class="input-group-append">
+              <button type="submit" class="btn btn-primary search-btn">
+                <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="mt-4">
+        <p><strong>Need something more specialized?</strong><br/>
+          <%= link_to "//databases.library.jhu.edu/" do %>
+            Search in a subject-specific database
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-11.5.5a.5.5 0 0 1 0-1h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5z"/>
+            </svg>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

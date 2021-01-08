@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col">
+    <div class="navbar navbar-expand-md navbar-dark bg-dark" id="jhu-main-nav">
+          <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#jhu-navbar">
+            <span class="navbar-toggler-icon"></span>
+            <span class="sr-only">Toggle library links menu navigation</span>
+          </button>
+          <div class="collapse navbar-collapse" id="jhu-navbar">
+            <ul class="navbar-nav">
+              <% I18n.t("jhu_public.jhu_nav.links").each do |site| %>
+                <li class="nav-item">
+                  <%= link_to site[:label], site[:link], {class: 'nav-link'} %>
+                </li>
+              <% end %>
+            </ul>
+          </div><!-- /.nav-collapse -->
+    </div>
+  </div>
+</div>

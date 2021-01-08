@@ -1,0 +1,24 @@
+<%- # individual <ul> block for a given presenter, ordinarily wrapped in a dl/dt/dd by _marc_display
+    # requires local 'presenter' with a MarcDisplay::FieldPresenter  
+
+-%>
+
+
+
+          <% if presenter.custom_partial %>
+            <%= render(:partial => presenter.custom_partial, 
+                   :locals=>{:display_config => presenter.config,
+                             :lines => presenter.lines,
+                             :presenter => presenter } ) %>
+          <% elsif presenter.render_with_helper %>
+            <%= method(presenter.render_with_helper).call %>
+          <% elsif presenter.lines.present? %>
+            <ul class="list-marc-presenter-content list-unstyled">
+              <% presenter.lines.each do |line| %>
+                 <li class="marcLine <%= line.css_classes.join(" ") %>">
+                    <%= render(:partial => "marc_display/marc_line", :locals => {:line => line}) %>  
+                 </li>
+             <% end %>
+           </ul>
+         <% end %>
+

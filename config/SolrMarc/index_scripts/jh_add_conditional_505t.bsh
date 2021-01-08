@@ -1,0 +1,43 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+  *  Adds the marc tag spec listed as argument, then also adds
+  *  505$t, but only if the 505 has an $r.  Used so for a marc for
+  *  an edited collection, titles of individual essays will be added
+  *  to title index -- but try to avoid adding chapter names from monographs
+  *  to title index, they confuse people. So only add 550$t title, if there's
+  *  a 505$r author, suggesting these are individual essays with authors.
+ */
+
+Set addConditional505t(Record record, String spec)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+
+    resultSet.addAll( indexer.getLinkedFieldCombined(record, spec) );
+
+    List fields505 = record.getVariableFields("505");
+
+
+    for (DataField field : fields505 ) {
+        Subfield rSubField = field.getSubfield('r');
+
+        // Only if we have an $r subfield, index all $t subfields
+        if (rSubField != null) {
+            List subfieldsT = field.getSubfields('t');
+            for (Subfield s: subfieldsT) {
+                resultSet.add( s.getData());
+            }
+        }
+    }
+
+
+    return resultSet;
+}
+
+

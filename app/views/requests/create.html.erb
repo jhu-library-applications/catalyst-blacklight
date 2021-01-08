@@ -1,0 +1,21 @@
+<div class="request" data-ajax-modal="container">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Request Placed</h3>
+  </div>
+  
+  <div class="modal-body">
+    <%= render :partial => "head_notes" %>
+    
+    <p>
+      Item will be delivered and held for you at <strong><%= @pickup_location %></strong>.
+    </p>
+
+    <%= render :partial => "foot_notes" %>
+  </div>
+
+  <div class="modal-footer">
+    <%= link_to "OK", request_done_path, :class => "btn btn-primary", :data => {:dismiss => "modal"} %>
+  </div>  
+
+</div>

@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    For information on how to customize this file, please see
+    http://wiki.apache.org/solr/SchemaXml.  The page also has a link to an
+    extensively commented version of this file.
+-->
+<!-- a note on stopwords. We have removed all stopwords filtering from config,
+     because they tend to mess up dismax unless you are VERY careful. If
+     there are performance problems relating to indexing very common words,
+     erik hatcher recommends using the "commongrams" features. -->
+
+<schema name="JH Catalyst" version="1.6"> <!-- version was 1.3 in pre solr 4.3 version of catalyst -->
+  <!-- attribute "name" is the name of this schema and is only used for display purposes.
+       Applications should change this to reflect the nature of the search collection.
+       version="1.2" is Solr's version number for the schema syntax and semantics.  It should
+       not normally be changed by applications.
+       1.0: multiValued attribute did not exist, all fields are multiValued by nature
+       1.1: multiValued attribute introduced, false by default
+       1.2: omitTermFreqAndPositions attribute introduced, true by default except for text fields.
+       1.3: removed optional field compress feature
+     -->
+
+
+  <types>
+    <!-- The StrField type is not analyzed, but indexed/stored verbatim. -->
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+
+
+    <!-- boolean type: "true" or "false" -->
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
+    <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
+    <fieldtype name="binary" class="solr.BinaryField"/>
+
+
+    <!-- The optional sortMissingLast and sortMissingFirst attributes are
+         currently supported on types that are sorted internally as strings.
+	       This includes "string","boolean","sint","slong","sfloat","sdouble","pdate"
+       - If sortMissingLast="true", then a sort on this field will cause documents
+         without the field to come after documents with the field,
+         regardless of the requested sort order (asc or desc).
+       - If sortMissingFirst="true", then a sort on this field will cause documents
+         without the field to come before documents with the field,
+         regardless of the requested sort order.
+       - If sortMissingLast="false" and sortMissingFirst="false" (the default),
+         then default lucene sorting will be used which places docs without the
+         field first in an ascending sort and last in a descending sort.
+    -->
+
+    <!--
+      Default numeric field types. For faster range queries, consider the tint/tfloat/tlong/tdouble types.
+    -->
+    <fieldType name="int" class="solr.TrieIntField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+
+    <!--
+     Numeric field types that index each value at various levels of precision
+     to accelerate range queries when the number of values between the range
+     endpoints is large. See the javadoc for NumericRangeQuery for internal
+     implementation details.
+
+     Smaller precisionStep values (specified in bits) will lead to more tokens
+     indexed per value, slightly larger index size, and faster range queries.
+     A precisionStep of 0 disables indexing at different precision levels.
+    -->
+    <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+
+
+    <!-- old solr integer type, now defined as 'pint' as well. D
+         Does not use trie, is not sortable, except for backwards
+         compat, use 'int' instead. -->
+    <!--TODO: this is causing errors
+    java.lang.NullPointerException
+    at org.apache.lucene.util.NumericUtils.prefixCodedToInt(NumericUtils.java:254)
+    The type is changed to string so we don't need this any more. We need a second look
+    to make sure nothing is broken
+    -->
+    <!-- <fieldType name="integer" class="solr.TrieIntField" omitNorms="true"/> -->
+
+
+    <!-- The format for this date field is of the form 1995-12-31T23:59:59Z, and
+         is a more restricted form of the canonical representation of dateTime
+         http://www.w3.org/TR/xmlschema-2/#dateTime
+         The trailing "Z" designates UTC time and is mandatory.
+         Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z
+         All other components are mandatory.
+
+         Expressions can also be used to denote calculations that should be
+         performed relative to "NOW" to determine the value, ie...
+
+               NOW/HOUR
+                  ... Round to the start of the current hour
+               NOW-1DAY
+                  ... Exactly 1 day prior to now
+               NOW/DAY+6MONTHS+3DAYS
+                  ... 6 months and 3 days in the future from the start of
+                      the current day
+
+         Consult the DateField javadocs for more information.
+
+         Note: For faster range queries, consider the tdate type
+      -->
+    <fieldType name="date" class="solr.TrieDateField" omitNorms="true" precisionStep="0" positionIncrementGap="0"/>
+
+    <!-- A Trie based date field for faster date range queries and date faceting. -->
+    <fieldType name="tdate" class="solr.TrieDateField" omitNorms="true" precisionStep="6" positionIncrementGap="0"/>
+
+
+    <!--
+      Note:
+      These should only be used for compatibility with existing indexes (created with older Solr versions)
+      or if "sortMissingFirst" or "sortMissingLast" functionality is needed. Use Trie based fields instead.
+
+      Plain numeric field types that store and index the text
+      value verbatim (and hence don't support range queries, since the
+      lexicographic ordering isn't equal to the numeric ordering)
+    -->
+    <fieldType name="pint" class="solr.TrieIntField" omitNorms="true"/>
+    <fieldType name="plong" class="solr.TrieLongField" omitNorms="true"/>
+    <fieldType name="pfloat" class="solr.TrieFloatField" omitNorms="true"/>
+    <fieldType name="pdouble" class="solr.TrieDoubleField" omitNorms="true"/>
+    <fieldType name="pdate" class="solr.TrieDateField" sortMissingLast="true" omitNorms="true"/>
+
+    <!--
+      Note:
+      These should only be used for compatibility with existing indexes (created with older Solr versions)
+      or if "sortMissingFirst" or "sortMissingLast" functionality is needed. Use Trie based fields instead.
+
+      Numeric field types that manipulate the value into
+      a string value that isn't human-readable in its internal form,
+      but with a lexicographic ordering the same as the numeric ordering,
+      so that range queries work correctly.
+    -->
+    <fieldType name="sint" class="solr.TrieIntField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="slong" class="solr.TrieLongField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="sfloat" class="solr.TrieFloatField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="sdouble" class="solr.TrieDoubleField" sortMissingLast="true" omitNorms="true"/>
+
+
+    <!-- The "RandomSortField" is not used to store or search any
+         data.  You can declare fields of this type it in your schema
+         to generate pseudo-random orderings of your docs for sorting
+         purposes.  The ordering is generated based on the field name
+         and the version of the index, As long as the index version
+         remains unchanged, and the same field name is reused,
+         the ordering of the docs will be consistent.
+         If you want different psuedo-random orderings of documents,
+         for the same version of the index, use a dynamicField and
+         change the name
+     -->
+    <fieldType name="random" class="solr.RandomSortField" indexed="true" />
+
+
+    <!-- solr.TextField allows the specification of custom text analyzers
+         specified as a tokenizer and a list of token filters. Different
+         analyzers may be specified for indexing and querying.
+
+         The optional positionIncrementGap puts space between multiple fields of
+         this type on the same document, with the purpose of preventing false phrase
+         matching across fields.
+
+         For more info on customizing your analyzer chain, please see
+         http://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters
+     -->
+    <fieldType name="text" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+      <!-- separate analysis for query/index only for the purpose of
+           different WordDelimiterFilter configuration.
+           https://issues.library.jhu.edu/browse/HELP-9749
+        -->
+      <analyzer type="index">
+       <!-- the rulefiles thing is to keep ICUTokenizerFactory from stripping punctuation,
+            so our synonym filter involving C++ etc can still work.
+            From: https://mail-archives.apache.org/mod_mbox/lucene-solr-user/201305.mbox/%3C51965E70.6070409@elyograg.org%3E
+            the rbbi file is in our local ./conf, copied from lucene source tree -->
+       <tokenizer class="solr.ICUTokenizerFactory" rulefiles="Latn:Latin-break-only-on-whitespace.rbbi"/>
+
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="punctuation-whitelist.txt" ignoreCase="true" expand="false"/>
+        <filter class="solr.FlattenGraphFilterFactory"/>
+
+        <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1"/>
+
+
+        <!-- folding need sto be after WordDelimiter, so WordDelimiter
+             can do it's thing with full cases and such -->
+        <filter class="solr.ICUFoldingFilterFactory" />
+
+        <filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+       <!-- the rulefiles thing is to keep ICUTokenizerFactory from stripping punctuation,
+            so our synonym filter involving C++ etc can still work.
+            From: https://mail-archives.apache.org/mod_mbox/lucene-solr-user/201305.mbox/%3C51965E70.6070409@elyograg.org%3E
+            the rbbi file is in our local ./conf, copied from lucene source tree -->
+       <tokenizer class="solr.ICUTokenizerFactory" rulefiles="Latn:Latin-break-only-on-whitespace.rbbi"/>
+
+       <filter class="solr.SynonymGraphFilterFactory" synonyms="punctuation-whitelist.txt" ignoreCase="true" expand="false"/>
+
+       <!-- split on numerics neccessary for call number searching to work as expected -->
+        <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0" splitOnNumerics="1"/>
+
+
+        <!-- folding need sto be after WordDelimiter, so WordDelimiter
+             can do it's thing with full cases and such -->
+        <filter class="solr.ICUFoldingFilterFactory" />
+
+        <filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- Analyzed Text, no Stemming or Synonyms -->
+    <!-- TODO: Shoudl we make the WordDelimiter less aggresive too? See solr sample schema.xml
+         should we turn off autoGeneratePhraseQueries for non-whitespace-delimited languages? -->
+    <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+       <!-- separate analysis for query/index only for the purpose of
+           different WordDelimiterFilter configuration.
+           https://issues.library.jhu.edu/browse/HELP-9749
+        -->
+      <analyzer type="index">
+        <tokenizer class="solr.ICUTokenizerFactory" rulefiles="Latn:Latin-break-only-on-whitespace.rbbi"/>
+
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="punctuation-whitelist.txt" ignoreCase="true" expand="false"/>
+
+        <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1" />
+
+        <filter class="solr.ICUFoldingFilterFactory" />
+
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.ICUTokenizerFactory" rulefiles="Latn:Latin-break-only-on-whitespace.rbbi"/>
+
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="punctuation-whitelist.txt" ignoreCase="true" expand="false"/>
+
+        <!-- split on numerics neccessary for call number searching to work as expected -->
+        <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0" splitOnNumerics="1" />
+
+        <filter class="solr.ICUFoldingFilterFactory" />
+
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+      </analyzer>
+    </fieldtype>
+
+    <!-- Less flexible matching, but less false matches.  Probably not ideal for product names, but may be good for SKUs.  Can insert dashes in the wrong place and still match. -->
+    <fieldType name="textTight" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+        <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+        <!-- this filter can remove any duplicate tokens that appear at the same position - sometimes
+             possible with WordDelimiterFilter in conjuncton with stemming. -->
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+
+
+
+
+    <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100" >
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <!-- <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/> -->
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+ <!-- This is an example of using the KeywordTokenizer along
+         With various TokenFilterFactories to produce a sortable field
+         that does not include some properties of the source text
+      -->
+    <fieldType name="alphaOnlySort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+      <analyzer>
+        <!-- KeywordTokenizer does no actual tokenizing, so the entire
+             input string is preserved as a single token
+          -->
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <!-- The LowerCase TokenFilter does what you expect, which can be
+             when you want your sorting to be case insensitive
+          -->
+        <filter class="solr.LowerCaseFilterFactory" />
+        <!-- The TrimFilter removes any leading or trailing whitespace -->
+        <filter class="solr.TrimFilterFactory" />
+        <!-- The PatternReplaceFilter gives you the flexibility to use
+             Java Regular expression to replace any sequence of characters
+             matching a pattern with an arbitrary replacement string,
+             which may include back references to portions of the original
+             string matched by the pattern.
+
+             See the Java Regular Expression documentation for more
+             information on pattern and replacement string syntax.
+
+             http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/package-summary.html
+          -->
+        <!-- <filter class="solr.PatternReplaceFilterFactory"
+                pattern="([^a-z])" replacement="" replace="all"
+        /> -->
+      </analyzer>
+    </fieldType>
+
+    <fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField" >
+      <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
+      </analyzer>
+    </fieldtype>
+
+
+    <fieldtype name="payloads" stored="false" indexed="true" class="solr.TextField" >
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <!--
+        The DelimitedPayloadTokenFilter can put payloads on tokens... for example,
+        a token of "foo|1.4"  would be indexed as "foo" with a payload of 1.4f
+        Attributes of the DelimitedPayloadTokenFilterFactory :
+         "delimiter" - a one character delimiter. Default is | (pipe)
+         "encoder" - how to encode the following value into a playload
+         float -> org.apache.lucene.analysis.payloads.FloatEncoder,
+         integer -> o.a.l.a.p.IntegerEncoder
+         identity -> o.a.l.a.p.IdentityEncoder
+            Fully Qualified class name implementing PayloadEncoder, Encoder must have a no arg constructor.
+         -->
+        <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="float"/>
+      </analyzer>
+    </fieldtype>
+
+    <!-- since fields of this type are by default not stored or indexed,
+         any data added to them will be ignored outright.  -->
+    <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" />
+
+
+    <!-- JHU added type for ISSNs, basically to ensure that a search
+         with or without a hyphen will still match, on input with
+         or without a hyphen. By removing the hyphens.
+
+         ISSNs sent to fields of this type should be sent ONE issn per
+         indexed value, on indexing. If you try to combine multiple ISSNs
+         in one indexed value, it isn't going to work quite right. But you can
+         send a value that includes an ISSN along with extraneous text
+         (like "paperback" etc) in it. -->
+    <fieldType name="issn" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+      <analyzer>
+        <!-- normal text analyzer like ICU will NOT work here
+             to do what we want. We accidentally switched to ICU
+             in Solr 4.3, that was bad.
+
+             In the past, for reasons we don't understand
+             a KeywordTokenizer also didn't work, it didn't
+             allow a query with a hyphen in it to match, and
+             other mysterious problems too.
+             WhitespaceTokenizer works out to do what we want. -->
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+
+
+        <filter class="solr.LowerCaseFilterFactory"/>
+
+        <!-- remove anything that's not a digit or x -->
+        <filter class="solr.PatternReplaceFilterFactory"
+                pattern="([^0-9x])" replacement="" replace="all"
+        />
+        <!-- keep things that look like ISSNs only - important
+             not to accidentally keep single digits or letter x,
+             or you'll get all sorts of false matches in general
+             search that includes this field. Because we're allowing
+             multiple ISSNs in the same field, and trying to allow
+             an ISSN split on whitespace too, we keep anything
+             that's 3-7 digits followed by a X. -->
+        <filter class="solr.PatternReplaceFilterFactory"
+                pattern="^(?![0-9]{3,7}[0-9x]).*" replacement=""
+        />
+
+        <!-- get rid of empty string tokens. max is required, although
+             we don't really care. -->
+        <filter class="solr.LengthFilterFactory" min="1" max="100"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- ISBN field that will automatically convert all ISBNs (index and query
+     time into ISBN-13's for normalization. Uses Bill Dueber's plugin
+     http://github.com/billdueber/lib.umich.edu-solr-stuff
+     Custom analyzer in ./lib/solr-umichnormalizers-4.3-SNAPSHOT.jar -->
+    <fieldType name="isbn" class="solr.TextField"  omitNorms="true">
+       <analyzer>
+         <tokenizer class="solr.KeywordTokenizerFactory"/>
+
+         <!-- <filter class="edu.umich.lib.solr.analysis.ISBNLongifierFilterFactory"/> -->
+         <!-- remove punctuation, and remove 0-length tokens.
+              For reasons I do not entirely understand,
+             this is neccesary to avoid messing up the 'mm' scoring
+             on dismax qf including this field. Since I do not understand it,
+             I may not have entirely fixed it. jrochkind.  -->
+        <filter class="solr.PatternReplaceFilterFactory"
+                pattern="([\p{Punct}])" replacement="" replace="all"
+        />
+        <!-- we want to remove 0-length tokens, don't really care about
+        the 'max' -->
+        <filter class="edu.umich.lib.solr_filters.ISBNNormalizerFilterFactory"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+        <filter class="solr.LengthFilterFactory" min="1" max="100"/>
+       </analyzer>
+     </fieldType>
+
+     <!-- Full string, stripped of \W and lowercased, for exact
+     matching. Note this non-tokenized field won't
+     actually work in ordinary searches, since lucene or dismax query
+     parsers split on whitespace before it gets to the analyzers. But it
+     DOES work in 'pf' for some reason, I guess pf doens't go through
+     that step of query parser first. -->
+     <fieldType name="exactmatch" class="solr.TextField" omitNorms="true">
+       <analyzer>
+         <tokenizer class="solr.KeywordTokenizerFactory"/>
+
+         <filter class="solr.ICUFoldingFilterFactory" />
+
+         <filter class="solr.LowerCaseFilterFactory"/>
+         <filter class="solr.PatternReplaceFilterFactory"
+              pattern="[^\p{L}\p{N}]+" replacement=" "  replace="all"
+         />
+         <filter class="solr.TrimFilterFactory"/>
+       </analyzer>
+     </fieldType>
+
+
+     <!-- LCCN field will normalize LCCN's according to LC's rules, to allow
+          searches on alternate forms of the same LCCN to match. Also from
+          Bill Dueber's package. http://github.com/billdueber/lib.umich.edu-solr-stuff
+          custom analzyer in ./lib/solr-umichnormalizers-4.3-SNAPSHOT.jar -->
+      <fieldType name="lccn" class="solr.TextField"  omitNorms="true">
+       <analyzer>
+         <tokenizer class="solr.KeywordTokenizerFactory"/>
+         <filter class="solr.LowerCaseFilterFactory"/>
+
+         <filter class="edu.umich.lib.solr_filters.LCCNNormalizerFilterFactory"/>
+
+         <!-- remove punctuation, and remove 0-length tokens.
+             For reasons I do not entirely understand,
+             this is neccesary to avoid messing up the 'mm' scoring
+             on dismax qf including this field. Since I do not understand it,
+             I may not have entirely fixed it. jrochkind.  -->
+        <filter class="solr.PatternReplaceFilterFactory"
+                pattern="([\p{Punct}])" replacement="" replace="all"
+        />
+        <!-- we want to remove 0-length tokens, don't really care about
+        the 'max' -->
+        <filter class="solr.LengthFilterFactory" min="1" max="100"/>
+       </analyzer>
+     </fieldType>
+
+     <!-- experimenting with a  call number type search.
+          A non-tokenized field (means be careful using with dismax), which
+          normalizes to some extent, lowercases, changes punctuation to
+          spaces, collapses whitespace. Later I want to make this
+          be a left-anchored search, possibly by tokenizing. Requires
+          some patches to BL. -->
+     <fieldType name="callNumberIndexed" class="solr.TextField" omitNorms="false">
+      <analyzer>
+          <tokenizer class="solr.KeywordTokenizerFactory"/>
+          <filter class="solr.TrimFilterFactory" />
+          <filter class="solr.LowerCaseFilterFactory"/>
+          <filter class="solr.PatternReplaceFilterFactory"
+                pattern="([^a-zA-Z0-9])" replacement=" " replace="all"
+          />
+          <filter class="solr.PatternReplaceFilterFactory"
+                pattern="( +)" replacement=" " replace="all"
+          />
+      </analyzer>
+     </fieldType>
+
+
+  </types>
+
+
+
+  <fields>
+    <!-- NOTE: this is not a full list of fields in the index; dynamic fields are also used -->
+    <field name="id" type="string" indexed="true" stored="true" required="true" />
+    <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
+
+    <!-- _version_ used by Solr, not sure for what -->
+    <field name="_version_" type="long" indexed="true" stored="true"/>
+
+    <!-- keep track of what the source of a record was, for now it will always be
+         set to 'horizon' by SolrMarc -->
+    <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
+
+    <!-- default, catch all search field -->
+    <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
+
+    <!-- these display fields are NOT multi-valued -->
+    <field name="marc_display" type="string" indexed="false" stored="true" multiValued="false"/>
+    <field name="title_display" type="string" indexed="false" stored="true" multiValued="false"/>
+    <field name="subtitle_display" type="string" indexed="false" stored="true" multiValued="false"/>
+    <!-- author should not really be multi-valued, but some of our
+         records have bad data which ends up being thus. We'll let it
+         be indexed. -->
+    <field name="author_display" type="exactmatch" indexed="true" stored="true" multiValued="true"/>
+
+    <!-- isbn field uses special long-ifying filter for ISBN-13 normalization. Also stored for display in default Blacklight view.
+    -->
+    <field name="isbn_t" type="isbn" indexed="true" stored="true" multiValued="true"/>
+
+    <!-- LCCN uses special normlizing filter form Bill Dueber. Don't bother storing it. -->
+    <field name="lccn" type="lccn" indexed="true" stored="false" multiValued="true"/>
+
+    <!-- these fields are also used for display, so they must be stored -->
+    <field name="language_facet" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="subject_topic_facet" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="subject_era_facet" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="subject_geo_facet" type="string" indexed="true" stored="true" multiValued="true" />
+    <!-- pub_date is used for facet and display so it must be indexed and stored -->
+    <!-- see above for the error in the "integer" def. Change type to "string" but need a second look -->
+    <field name="pub_date" type="string" indexed="true" stored="true" multiValued="true"/>
+    <!-- sint has a bug with StatsComponent in the version of Solr we're using,
+         so we use slong. StatsComponent is used with the date range limit.
+         We REALLY should upgrade to 1.4.1 stable, and use 1.4 trie int instead.
+         -->
+    <!-- TODO: the above comment is out of date. It should be removed after tests -->
+    <field name="pub_date_sort" type="tint" indexed="true" stored="false" multiValued="false"/>
+    <!-- format is used for facet, display, and choosing which partial to use for the show view, so it must be stored and indexed -->
+    <field name="format" type="string" indexed="true" stored="true" multiValued="true"/>
+
+    <!-- JHU added field for issn lookups -->
+    <field name="issn" type="issn" indexed="true" stored="false" multiValued="true"/>
+    <field name="issn_related" type="issn" indexed="true" stored="false" multiValued="true" />
+
+
+
+    <!--- dynamic field definitions -->
+
+
+    <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
+    <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+    <dynamicField name="*_l"  type="long"   indexed="true"  stored="true"/>
+    <dynamicField name="*_t"  type="text"    indexed="true"  stored="false" multiValued="true"/>
+    <dynamicField name="*_exactmatch" type="exactmatch" indexed="true" stored="false" multiValued="true"/>
+    <dynamicField name="*_b"  type="boolean" indexed="true"  stored="true"/>
+    <dynamicField name="*_f"  type="float"  indexed="true"  stored="true"/>
+    <dynamicField name="*_d"  type="double" indexed="true"  stored="true"/>
+    <dynamicField name="*_dt" type="date"    indexed="true"  stored="true"/>
+    <dynamicField name="random*" type="random" />
+
+    <dynamicField name="*_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <dynamicField name="*_display" type="string" indexed="false" stored="true" multiValued="true" />
+    <dynamicField name="*_sort" type="alphaOnlySort" indexed="true" stored="false"/>
+    <dynamicField name="*_unstem" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <dynamicField name="*spell" type="textSpell" indexed="true" stored="false" multiValued="true"/>
+
+  </fields>
+
+  <uniqueKey>id</uniqueKey>
+  <!-- defaultSearchField and solrQueryParser@defaultOperator are deprecated in solr 6. Move settings to solrconfig.xml/requestHandler -->
+  <!-- <defaultSearchField>text</defaultSearchField> -->
+  <!-- <solrQueryParser defaultOperator="OR"/> -->
+
+  <!-- Copy Fields -->
+
+  <!-- copy certain things to 'text' that were expanded by indexer, or that aren't otherwise included by the 'all fields' in indexer (all fields is really just fields greater than 99 in solrmarc.)  -->
+  <copyField source="language_facet" dest="text"/>
+  <copyField source="language_facet" dest="text_unstem"/>
+  <copyField source="instrumentation_facet" dest="text"/>
+  <copyField source="instrumentation_facet" dest="text_unstem"/>
+  <copyField source="discipline_facet" dest="text"/>
+  <copyField source="discipline_facet" dest="text_unstem"/>
+  <copyField source="format" dest="text"/>
+  <copyField source="format" dest="text_unstem"/>
+  <copyField source="other_number_t" dest="text"/>
+  <copyField source="other_number_t" dest="text_unstem"/>
+
+  <!-- copy the Solr identifier (bib_X for Horizon bib#'s) to both text
+       and numbers. -->
+  <copyField source="id" dest="text"/>
+  <copyField source="id" dest="text_unstem"/>
+  <copyField source="id" dest="other_number_unstem"/>
+
+
+  <!-- copy certain things to "exactmatch" fields, for relevancy boosting -->
+  <copyField source="subject_facet" dest="subject_exactmatch" />
+
+  <!-- unstemmed fields -->
+  <copyField source="title_t" dest="title_unstem"/>
+  <copyField source="title1_t" dest="title1_unstem"/>
+  <copyField source="title2_t" dest="title2_unstem"/>
+  <copyField source="title3_t" dest="title3_unstem"/>
+  <copyField source="title_series_t" dest="title_series_unstem"/>
+  <copyField source="author_t" dest="author_unstem"/>
+  <copyField source="author2_t" dest="author_addl_unstem"/>
+  <copyField source="subject_t" dest="subject_unstem"/>
+  <copyField source="subject_topic_facet" dest="subject_topic_unstem"/>
+  <copyField source="text" dest="text_unstem"/>
+  <copyField source="text_extra_boost_t" dest="text_extra_boost_unstem" />
+
+  <!-- sort fields -->
+  <copyField source="pub_date" dest="pub_date_sort"/>
+
+  <!-- spellcheck fields -->
+  <!-- default spell check;  should match fields for default request handler -->
+  <!-- it won't work with a copy of a copy field -->
+  <copyField source="*_t" dest="spell"/>
+  <copyField source="*_facet" dest="spell"/>
+  <!-- title spell check;  should match fields for title request handler -->
+  <copyField source="title_t" dest="title_spell"/>
+  <copyField source="title1_t" dest="title_spell" />
+  <copyField source="title2_t" dest="title_spell"/>
+  <copyField source="title3_t" dest="title_spell"/>
+  <copyField source="title_series_t" dest="title_spell"/>
+  <!-- author spell check; should match fields for author request handler -->
+  <copyField source="author_t" dest="author_spell"/>
+  <copyField source="author2_t" dest="author_spell"/>
+  <!-- subject spell check; should match fields for subject request handler -->
+  <copyField source="subject_t" dest="subject_spell"/>
+  <!-- series spell check; includes only fields from series request handler -->
+  <copyField source="title_series_t" dest="series_spell"/>
+
+
+  <!-- OpenSearch query field should match request handler search fields -->
+  <copyField source="title_t" dest="opensearch_display"/>
+  <copyField source="title1_t" dest="opensearch_display"/>
+  <copyField source="title2_t" dest="opensearch_display"/>
+  <copyField source="title3_t" dest="opensearch_display"/>
+  <copyField source="title_series_t" dest="opensearch_display"/>
+  <copyField source="author_t" dest="opensearch_display"/>
+  <copyField source="author2_t" dest="opensearch_display"/>
+  <copyField source="subject_t" dest="opensearch_display"/>
+
+</schema>

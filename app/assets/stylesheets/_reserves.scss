@@ -1,0 +1,39 @@
+.reserves-title {
+  margin-top: 0;
+}
+
+.reserves-q {
+  width: 200px;
+}
+
+.reserves-search {
+  margin-bottom: $line-height-computed / 2;
+}
+
+.reserves-location-limits .btn {
+  margin-bottom: $line-height-computed / 4;
+}
+
+.ereserves-note p {
+  //more margin
+  margin-bottom: $line-height-computed;
+}
+
+/* join reserves-show-course-header and pagination in one box, matching
+   catalog search results */
+.reserves-show-course-header {
+  margin-top: $line-height-computed;
+  h2, h3 {
+    margin-top: 0;
+  }
+  border-bottom: none;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-bottom: 0;
+}
+
+.reserves-btn {
+  //margin-left: $line-height-computed * 2;
+  display: inline-block;
+  vertical-align: top;
+}

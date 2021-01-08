@@ -1,0 +1,25 @@
+<%# getting the whitespace right in this partial is kind of ridiculous, sorry a better technique is needed. -%>
+  <%- if ( prefix = line.prefix ) -%>
+    <span class="marcPrefix"><%= prefix %>:</span>
+  <%- end -%>
+  <%- if (alink = line.link) && alink.as_whole_line? && alink.hash_for_url -%>
+    <a href="<%= url_for(alink.hash_for_url) %>">
+  <%- end -%>
+  <%- line.parts.each_with_index do |part, i| -%>
+    <span class="marcLinePart <%= part.css_classes.join(" ") -%>">
+      <%- if (prefix = part.prefix) || (raw_prefix = part.raw_prefix) -%>
+        <span class="marcPrefix">
+            <%= (prefix || raw_prefix) %><%- unless raw_prefix -%>:<%- end -%>
+        </span>
+      <%- end -%>
+      <%= part.formatted_value.to_s.html_safe %>
+    </span>
+  <%- end -%>            
+  <%- if (alink = line.link ) -%>
+    <%- if alink.as_suffix? -%>
+      <%= link_to alink.link_text, alink.hash_for_url %>
+    <%- end -%>
+    <%- if alink.as_whole_line? -%>
+      </a>
+    <%- end -%>                
+  <%- end -%>

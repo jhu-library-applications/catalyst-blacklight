@@ -1,0 +1,226 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/** Transformational hashes **/
+static HashMap leader_6_7 = null;
+public static leader_6_7_map() {
+  if (leader_6_7 == null) {
+    leader_6_7 = new HashMap();
+    leader_6_7.put("aa", "Book"); // May be chapter level. 
+    leader_6_7.put("ab", "Journal/Newspaper"); // serial 'component' may be article
+    leader_6_7.put("am", "Book");
+    leader_6_7.put("as", "Journal/Newspaper");
+    leader_6_7.put("ta", "Book");
+    leader_6_7.put("tm", "Book"); 
+  }
+  return leader_6_7;
+}
+static HashMap leader_6 = null;
+public static leader_6_map() {
+  if ( leader_6 == null) {
+   leader_6 = new HashMap();
+   leader_6.put("c", "Musical Score");
+   leader_6.put("d", "Musical Score");
+   leader_6.put("e", "Map/Globe");
+   leader_6.put("f", "Map/Globe");
+   leader_6.put("i", "Non-musical Recording");
+   leader_6.put("j", "Musical Recording");
+   leader_6.put("k", "Image");
+   leader_6.put("m", "Software/Data");
+   leader_6.put("g", "Video/Film");
+  }
+  return leader_6;
+}
+static HashMap field_007_0 = null;
+// Map keys are Chars. 
+public static field_007_0_map() {
+  if ( field_007_0 == null) {
+    field_007_0 = new HashMap();
+    field_007_0.put('a', "Map/Globe"); // map
+    field_007_0.put('d', "Map/Globe");// globe
+    field_007_0.put('k', "Image"); // non projected graphic
+    field_007_0.put('q', "Musical Score"); 
+    field_007_0.put('r', "Image"); // remote sensing image
+    field_007_0.put('v', "Video/Film"); // video
+    field_007_0.put('m', "Video/Film"); // motion picture
+  }
+  return field_007_0;
+}
+
+
+/**
+ * Looks up marc values for ordinary indexer spec passed in as argument, removing trailing spaces. Also adds in 490a values, each as a seperate
+ value, for each 490 with indicator 1 == 0 
+ * @param record auto passed in by solrmarc
+ * @param spec an ordinary solrmarc field spec, or empty string.
+ * @return Set of Strings suitable for Series title facet, including your spec and appropriate 490$a values. 
+ */
+Set getFormatFacet(Record record)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+    
+    String leader =   record.getLeader().toString();
+    //Set field006 = indexer.getFieldList(record, "006");
+    //String field008 = indexer.getFieldList(record, "008");
+    String gmd = indexer.getFirstFieldVal(record, "245h");
+
+
+    Set field007Set = indexer.getFieldList(record, "007");    
+    Set fields007Byte0 = new LinkedHashSet();
+    Set fields007Byte1 = new LinkedHashSet();
+    for ( String field007 : field007Set) {
+      if (field007.length() > 0) { fields007Byte0.add( field007.charAt(0)); }
+      if (field007.length() >= 2) { fields007Byte1.add( field007.charAt(1)); }
+    }
+    
+    
+    
+    // First try bytes 6 and 7 of leader against our two byte
+    // leader hash. 
+    String mapped_leader_67 = leader_6_7_map().get(  leader.substring(6, 8)  );
+    
+    if (mapped_leader_67 != null) { resultSet.add( mapped_leader_67 ); }
+    // If we didn't get one there, we can try just byte 6. 
+    if (resultSet.size() == 0) {    
+      String mapped_leader_6 = leader_6_map().get( leader.substring(6,7) );
+      if (mapped_leader_6 != null) { resultSet.add( mapped_leader_6); }
+    }
+    
+    
+    
+    // If we still didn't get one, give field(s) 007 byte 0 
+    if ( resultSet.size() == 0) {
+      for ( aByte : fields007Byte0) {
+        mapped = field_007_0_map().get( aByte );
+        if (mapped != null) { resultSet.add( mapped ); }
+      }           
+    }
+
+    
+    /* Okay, now add on our carrier/physical type things. Manuscript, Microform, Online, etc. */
+    // Manuscript
+    char leader_06 = (leader!= null && leader.length() > 5) ? leader.charAt(6) : 0;
+    char leader_08 = (leader != null && leader.length() > 7) ? leader.charAt(8) : 0;
+        // leader 6 t=Manuscript Language Material, d=Manuscript Music,
+        // f=Manuscript Cartograhpic 
+    if  ( leader_06 == 't' || leader_06 == 'd' || leader_06 == 'f' ||
+            // leader 06 = 'b' is obsolete, but if it exists it means archival countrl
+          leader_06 == 'b' ||
+            // leader 8 a=archival control
+          leader_08 == 'a'
+          ) {
+      resultSet.add("Manuscript/Archive"); 
+    }
+    
+    // Microform
+    // field 007 byte 0 means microfilm. But many of our microform items
+    // don't have an 007. Theoretically we could look at the very confusing
+    // 006 and 008, but those don't seem to be filled out either, need to
+    // talk to a cataloger about that. Meanwhile, we'll resort to GMD.
+    if (  fields007Byte0.contains('h') ||
+          leader_6 == 'h' || // leader06 h is obsolete, but might still be in data. 
+          (gmd != null && gmd.startsWith("[microform]")))
+    {
+      resultSet.add("Microform"); 
+    }
+    
+    // Legacy "Available Online" just checked for the presence of an 856
+    // with an http, as far as I can tell. This isn't sufficient to indicate
+    // available online, the 856 http might not be full text. We'll try 007
+    // and GMD for now. 006 and 008 might have helped if they were present,
+    // but I think they generally aren't. 
+    // Electronic resource => "Online".
+    //field 007[0]=='c' means 'electronic resource', for field007[0]=='c', 
+    //field007[1]=='r' means 'remote access'. 
+    if ( (fields007Byte0.contains('c') && fields007Byte1.contains('r') ) ||
+          // if the GMD is electronic resource, we count is as online only
+          // if NO 007[0] is 'c', cause otherwise we already know it's
+          //electronic but not online, or the above clause would have caught
+          //it. 
+         ( (! fields007Byte0.contains('c')) &&  gmd != null &&   
+           gmd.startsWith("[electronic resource]")
+         )
+       )
+    {
+      resultSet.add("Online"); 
+    }
+    
+    // PRINT: Chris Case algorithm, if has an RDA 338, then it's
+    // 'print' iff it has a value of 'volume', 'sheet', or 'card'. 
+    // If it does NOT have a RDA 338, then it's 'print' iff it has
+    // NO $245$h GMD.
+    //
+    // EXCEPT, due to legacy data that messes this up, we will NOT
+    // mark 'print' if it's already been marked an audio recording. 
+    //
+    // This algorithm is going to get some things wrong in both directions,
+    // our data is just not consistent enough, but we think this may be
+    // good enough to give users value. 
+    if (! (resultSet.contains("Non-musical Recording") || resultSet.contains("Musical Recording")) ) {
+      rdaStyleFormat = false;
+      print = false;
+      for (field : record.getVariableFields("338")) {
+         vocab = field.getSubfield('2');
+         aSf     = field.getSubfield('a');
+         a       = (aSf == null ? "" : aSf.getData());
+         bSf     = field.getSubfield('b');
+         b       = (bSf == null ? "" : bSf.getData());
+         if ( vocab != null && vocab.getData().equals( "rdacarrier" ) ) {         
+           rdaStyleFormat = true;
+           if ( a.equals("volume") || a.equals("card") || a.equals("sheet") || b.equals("nc")     || b.equals("no")   || b.equals("nb")) {                
+              print = true;
+              break;
+           }          
+         }
+      }
+      if (print == false && rdaStyleFormat == false) {
+        // AACR2Style
+        field245 = record.getVariableField("245"); 
+        if (field245 != null && field245.getSubfield('h') == null) {
+          print = true;
+        }
+      }
+      if (print == true) {
+        resultSet.add("Print"); 
+      }
+    }
+    
+    
+    // THESES.  If it has a 502, it's a thesis. 
+    if ( record.getVariableFields("502").size() > 0) {
+       resultSet.add("Dissertation/Thesis");
+       // Let's say if it's a thesis, it's not a 'Book. 
+       resultSet.remove("Book");
+       // Thought about removing Theses from "Manuscripts" bucket too,
+       // but some of em really are ancient manuscript rare books type
+       // stuff, even though some of them aren't. oh well. 
+    }
+    
+    // CONFERENCE proceedings. Check all 6xx for $v Congresses. 
+    allFields = record.getVariableFields();
+    for( field : allFields ) {
+      if (field.getTag().charAt(0) == '6') {
+        subfields = field.getSubfields('v');
+        for (sf : subfields ) {
+          if (sf.getData().matches("^\\s*(C|c)ongresses\\.?\\s*$")) {
+            resultSet.add("Conference"); 
+          }
+        }
+      }
+    }
+        
+    // If no other format at all, we'll still call it "Other".  
+    if (resultSet.size() == 0) {
+      resultSet.add("Other"); 
+    }        
+    
+    return resultSet;
+}
+
+

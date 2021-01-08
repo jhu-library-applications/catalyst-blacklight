@@ -1,0 +1,54 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+
+// Gets chronological facets out of LCSH. Mostly just takes the 
+// chron subdivisions, but for 651 with a chron facet fitting the form
+// "aaaaa, yyyy-yyyy", it will add in the $a. For instance:
+// 651   a| United States x| History y| Civil War, 1861-1865
+//    --> "United States, Civil War, 1861-1865"
+Set getChronFacet(Record record) {
+  Set resultSet = new LinkedHashSet();
+  
+  //First add normal ones as per normal, but remove trailing periods to
+  // normalize, since some have periods and some don't.
+  simple_elements = indexer.getFieldList(record, "600y:610y:611y:630y:648ay:650y:654y:656y:690y");
+  for (value : simple_elements) {
+    resultSet.add( removePunct(value)); 
+  }
+    
+  
+  //Now deal with our special ones, in a geographic field, and meeting
+  //our pattern, then add geographic term as prefix. 
+  allFields = record.getDataFields();
+  for(DataField field : allFields ) {
+    if ( field.getTag().equals("651") || field.getTag().equals("691")) {
+      y_subfields = field.getSubfields('y');
+      for (subfield : y_subfields) {
+        if (subfield.getData().matches( "^\\s*.+,\\s+(ca.\\s+)?\\d\\d\\d\\d?(-\\d\\d\\d\\d?)?( B\\.C\\.)?[.,; ]*$" )) {
+          // It's the pattern we want to add the 'a' to also. 
+          resultSet.add(  removePunct(field.getSubfield('a').getData()) + ": " + removePunct(subfield.getData()));
+        }
+        else {
+          resultSet.add( removePunct( subfield.getData() ));
+        }
+      }
+    }
+  }
+    
+  return resultSet;
+}
+
+/* removes trailing periods from value, to normalize for our facet. 
+   Values may have periods or not depending on where they were grabbed
+   from in the LCSH string. */
+String removePunct(String input) {
+  return input.replaceAll("\\. *$", "");
+}
+

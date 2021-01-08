@@ -1,0 +1,12 @@
+<% if local_assigns[:call_number] %>
+    <p class="shelfbrowse-call-number text-muted">
+      <%= call_number %>
+    </p>
+<% end %>
+
+<%# I _think_ these are standard blacklight methods, not positive.  %>
+<h5 class="index_title">
+    <%= link_to_document document, document_heading(document), :counter => 0 %>
+</h5>
+
+<%= render_document_partial(document, :index) %>

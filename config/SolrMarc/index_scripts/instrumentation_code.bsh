@@ -1,0 +1,63 @@
+import org.marc4j.marc.Record;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.solrmarc.tools.Utils;
+
+// define the base level indexer so that its methods can be called from the script.
+// note that the SolrIndexer code will set this value before the script methods are called.
+org.solrmarc.index.SolrIndexer indexer = null;
+
+/**
+ * Looks in instrumentation found in MARC 048 field(s). Returns actual
+ * marc codes, but breaks them down into a numeric and non-numeric
+ * version. For instance "ba01" will be indexed as both "ba01" and "ba".
+ * ALSO, if the code is in a subfield b (soloist), it'll be indexed
+ * _additionally_ as "ba01.s" and "ba.s".  
+ * @param record
+ * @return Set of String codes
+ */
+Set getInstrumentationCodes(Record record)
+{
+    LinkedHashSet resultSet = new LinkedHashSet();
+    String soloist_suffix = ".s";
+    
+    /* fetch values */
+    
+    List instrFields = record.getVariableFields("048");
+    for (Object field : instrFields ) {
+      if (field instanceof DataField) {
+        DataField dField = (DataField)field;
+        List subfields = dField.getSubfields();
+        for ( Object sField : subfields ) {
+          if (sField.getCode()== 'a' || sField.getCode()== 'b') {
+             subfieldValue = sField.getData();
+             // Unless there's at least two chars in the subfield, this
+             // is a mal-formed 048, we can do nothing with it. 
+             if ( subfieldValue.length() >= 2) {              
+               //index as both without number and with number, if present.
+               //index as special solo token if subfield b. 
+               resultSet.add(  subfieldValue );
+               boolean soloist = false;
+               if (sField.getCode() == 'b') {
+                  soloist = true;
+                  resultSet.add( subfieldValue + soloist_suffix);
+               }
+               
+               if (subfieldValue.length() >= 4) {
+                  String bare = subfieldValue.substring(0,2);
+                  resultSet.add( bare  );
+                  if (soloist) {
+                    resultSet.add( bare + soloist_suffix);
+                  }
+               }
+               
+             }
+          }
+        }        
+      }
+    }
+    
+    return resultSet;
+}
+
+

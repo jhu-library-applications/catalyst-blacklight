@@ -1,0 +1,10 @@
+version: '2'
+services:
+  solr:
+    build: .
+    ports:
+      - "$EXTERNAL_PORT:$INTERNAL_PORT"
+    volumes:
+      - "$PWD:/opt/solr/example/blacklight_solr"
+    command: java -jar start.jar
+

@@ -1,0 +1,51 @@
+
+// Custom Typography to match JHU Brand Identity
+$fontFamily1: 'gentona',sans-serif;
+$fontFamily2: 'titling-gothic-medium',sans-serif;
+$fontMedium: 500;
+$fontBold: 700;
+//$fontPath: '//www.library.jhu.edu/wp-content/themes/sheridan-libraries-theme/fonts';
+/* In type partial */
+/* GENTONA */
+/*=== Medium (500) ===*/
+@font-face {
+  font-family: 'gentona';
+  src: font-url('Gentona-Medium.eot');
+  src: font-url('Gentona-Medium.eot?#iefix') format('embedded-opentype'),
+       font-url('Gentona-Medium.woff') format('woff'),
+       font-url('Gentona-Medium.ttf') format('truetype');
+  font-weight: $fontMedium;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'gentona';
+  src: font-url('Gentona-MediumItalic.eot');
+  src: font-url('Gentona-MediumItalic.eot?#iefix') format('embedded-opentype'),
+       font-url('Gentona-MediumItalic.woff') format('woff'),
+       font-url('Gentona-MediumItalic.ttf') format('truetype');
+  font-weight: $fontMedium;
+  font-style: italic;
+}
+
+/* TITLING GOTHIC */
+/*=== Regular (300) ===*/
+@font-face {
+  font-family: 'titling-gothic';
+  src: font-url('Titling-Gothic-Regular.eot');
+  src: font-url('Titling-Gothic-Regular.eot?#iefix') format('embedded-opentype'),
+       font-url('Titling-Gothic-Regular.woff') format('woff'),
+       font-url('Titling-Gothic-Regular.ttf') format('truetype'),
+       font-url('Titling-Gothic-Regular.svg#titlinggothicregular') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+/*=== Medium (500) ===*/
+@font-face {
+  font-family: 'titling-gothic-medium';
+  src: font-url('Titling-Gothic-Medium.eot');
+  src: font-url('Titling-Gothic-Medium.eot?#iefix') format('embedded-opentype'),
+       font-url('Titling-Gothic-Medium.woff') format('woff'),
+       font-url('Titling-Gothic-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}

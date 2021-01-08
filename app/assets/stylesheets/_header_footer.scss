@@ -1,0 +1,515 @@
+// sass import into a context with bootstrap3 present so we can use
+// it's variables for consistency.
+
+// Define our catalyst header nav and footer.
+body {
+  font-family: $fontFamily1;
+}
+
+
+#jhu-main-nav {
+  padding: .5rem 2rem !important;
+  margin: 0;
+  border-radius: 0;
+  .navbar-inner {
+    margin: 0;
+  }
+  button.navbar-toggle{
+    margin: 5px 0 0 0;
+  }
+  .navbar-home-links {
+    padding:0;
+  }
+  .navbar-inner .container {
+      margin:0;
+  }
+
+  //styles for the row of home links
+  background-color: $jhuBlue !important;
+  color: #FFF;
+  a {
+    color: #FFF;
+    padding: .5rem 1rem;
+  }
+  a:hover {
+    text-decoration:underline;
+  }
+  a:visited {
+    color: #FFF;
+  }
+  @media (max-width: $screen-sm-min) {
+    padding: 0 15px 0 15px;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    padding: inherit;
+
+    .btn-navbar { display: none; }
+    .nav-collapse, .collapse {
+      display: block;
+      height: auto !important;
+    }
+  }
+  .navbar-home-links {
+    padding: 0;
+    margin: 0;
+  }
+  ul.nav {
+    padding: 0;
+    margin: 15px 0 0 0;
+    position: relative;
+    left: 0;
+    display: inline-block;
+    font-size: 15px;
+
+    li {
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      a {
+        padding: 0 0 0 1em;
+        margin: 0;
+	color: #fff;
+	&:hover {
+	  background-color: inherit;
+    	  color: #fff;
+	}
+      }
+    }
+
+    @media (max-width: $screen-sm-min ) {
+      margin-top: 45px;
+      float:none;
+      li {
+        display: block;
+      }
+    }
+  }
+
+  #jhu-nav-heading-text.navbar-toggle  {
+    border: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: bottom;
+    height: 40px;
+    background: inherit;
+    text-transform: uppercase;
+    color: #fff;
+    a {
+      color: #fff;
+    }
+  }
+
+  .icon-bar {
+    background-color:#fff;
+  }
+}
+
+#jhu-app-nav {
+  a {
+    color: $jhuBlue;
+    &:visited {
+      color: $jhuBlue-hover;
+    }
+  }
+  .nav-link {
+    color: $jhuBlue !important;
+  }
+}
+
+.navbar-container {
+  max-width: $container-large-desktop;
+  padding-top: 25px;
+  @media (max-width: $screen-sm-min - 1) {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+  @media (max-width: $screen-md-min) {
+    margin-top: 0;
+  }
+}
+
+.navbar-home-links {
+  display: block;
+  float:none;
+  font-weight: 400;
+  color: #fff;
+  ul {
+    padding: 0 5px 5px 0;
+    margin-top: -10px;
+    li {
+      display: inline-block;
+      a {
+        margin: 0 15px 0 15px;
+        color: #fff;
+        &.link-feedback {
+          color: $state-danger-text
+        }
+        &:hover {
+          color: #fff;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  @media (max-width: $screen-sm-min) {
+    font-size: ceil($font-size-large * 0.75);
+    ul {
+      padding-bottom: 0;
+      li {
+        line-height: 2.2em;
+        margin: 0 5px 0 5px;
+      }
+    }
+  }
+}
+.navbar-home-links-header {
+  font-family: $fontFamily2;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  font-weight: 500;
+  font-style: normal;
+  margin: 0 15px 0 0;
+  @media (max-width: $screen-sm-min) {
+    display: none;
+  }
+}
+// define styles for nav menu
+
+.navbar-inverse .navbar-nav {
+  font-size: ceil($font-size-large * 0.8);
+  font-weight: 400;
+  color: $jhuBlue;
+  li {
+    a {
+      color: $jhuBlue;
+      &.link-feedback {
+        color: $state-danger-text
+      }
+      &:hover {
+        color: $jhuBlue-hover;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// .navbar-nav > li > a.link-feedback {
+//   color: $state-danger-text;
+// }
+
+//default bootstrap does weird things here, fix em
+.navbar-static-bottom {
+  @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.navbar-top-lower {
+  @include box-shadow(inset 0 -1px 1px rgba(0, 0, 0, 0.05));
+}
+
+// header brand in custom font which then wants custom size
+.navbar-brand {
+  color: $jhuBlue !important;
+  font-family: $fontFamily2;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  font-weight: 500;
+  font-style: normal;
+  // small one to begin with, at small sizes
+  // at larger sizes where there's more room, it
+  // can be bigger
+  &:hover {
+    color: $jhuBlue-hover !important; //override white hover color
+  }
+  @media (max-width: $screen-xs-min) {
+    margin-left: 30px; //align left edge with logo text
+  }
+  @media (max-width: $screen-md-min) {
+    font-size: 24px;
+    margin-top: -11px;
+  }
+  @media (min-width: $screen-md-min) {
+    font-size: 2rem;
+  }
+}
+.navbar-logo {
+  float: left;
+  width: 250px;
+  margin-top: -30px;
+  margin-left: -15px!important;
+  @media (max-width: $screen-md-min) {
+    width:200px;
+  }
+  @media (max-width: $screen-xs-min) {
+    margin-right: 100px; //bump site branding onto the next line
+  }
+}
+
+.navbar-toggle {
+  border-color: $navbar-default-toggle-border-color !important;
+  margin-right: 30px;
+  margin-top: -10px;
+  background-color: #7E7E7C;
+  &:hover {
+    background-color: #4A484C;
+  }
+}
+
+// logo has some left margin we don't want.
+
+
+.footer {
+  position: relative;
+  margin-top: -150px; /* negative value of footer height */
+  height: 150px;
+  clear:both;
+  padding-top:20px;
+
+  .footer-logo {
+    float: left;
+    margin-left: -10px;
+    width: 200px;
+  }
+}
+
+.footer .navbar-nav {
+  //hacky way to make it line up with brand logo
+  margin-top: 15px;
+}
+
+
+
+// Fix apparent bug in bootstrap, the collapsed navbar links, when hidden,
+// are showing up flush against screen, they need a margin/padding. Can't
+// figure out if we're doing something wrong, or a bug in bootstrap. Other less
+// hacky solutions than this failed.
+@media (max-width: $grid-float-breakpoint-max) {
+  .navbar-collapse .navbar-nav {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    li {
+      margin-left: 15px;
+      margin-right: 15px;
+      // and as long as we're doing custom things, let's add a horizontal line
+      // that i'm not sure why bootstrap doesn't do here either.
+      border-bottom: 1px solid transparent;
+      border-color: #001f4f;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    }
+  }
+}
+
+// custom styles to our search form(s), the catalog search form as well
+// as possibly others.
+
+
+.input-online-only {
+  label {
+    display: inline;
+    font-weight: normal;
+  }
+}
+
+.search-navbar {
+  width:100%;
+  text-align: center;
+}
+
+#search {
+  width:100%;
+}
+
+.btn.active {
+  cursor: default;
+  background-color: $jhuBlue !important;
+  border-color: $jhuBlue !important;
+}
+.btn-default {
+  color: #333;
+  &:visited {
+    color: #333;
+  }
+}
+
+.search-field-form-selector,
+.form-selector {
+  .show {
+    & > .btn-primary.dropdown-toggle {
+      background-color: $jhuDarkGreen;
+      border-color: $jhuDarkGreen;
+    }
+    .dropdown-menu > .dropdown-item:focus {
+      background-color: $jhuBlue;
+      color: #FFFFFF;
+    }
+  }
+}
+
+.btn-primary,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary.active:not(:disabled):not(.disabled),
+.show > .btn-primary.dropdown-toggle {
+  background-color: $jhuBlue;
+  border-color: $jhuBlue;
+  &:hover, &:focus{
+    background-color: $jhuDarkGreen;
+    border-color: $jhuDarkGreen;
+  }
+}
+.search-query-form {
+  margin-top: ($line-height-computed / 2);
+}
+
+.search-container {
+  padding-bottom: 0px;
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
+  border-style: solid;
+  border-width: 1px 0 1px;
+  margin-bottom: 15px;
+
+  .search-option {
+    margin-top: ($line-height-computed / 2);
+  }
+
+  .reserves-btn {
+    //margin-left: $line-height-computed * 2;
+  }
+}
+
+.pagination {
+
+  li.page-item:not(.disabled) {
+    &.active {
+      span {
+        background-color: $jhuBlue;
+        border-color: $jhuBlue;
+        color: #FFFFFF;
+      }
+    }
+    a.page-link {
+      color: $jhuBlue;
+    }
+  }
+}
+
+.search-options {
+  text-align: right;
+  @media screen and (max-width: $screen-md) {
+    margin-top: ($line-height-computed / 2);
+    .input-online-only {
+      float: left;
+    }
+  }
+  @media screen and (max-width: ($screen-xs-min - 1)) {
+    .link-more-search-options {
+      float: left;
+      clear: left;
+    }
+  }
+}
+
+// over-ride Bootstrap input group add-on that contains a select,
+// to make it position like a bootstrap input group addon, but without
+// background color and padding, to leave room for an actual form-control select, phew.
+.input-group-addon.with-select {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  background-color: transparent;
+  border: none;
+
+  select {
+    width: auto;
+    @media (max-width: ($screen-xs-min - 1)) {
+      max-width: 4em;
+    }
+  }
+}
+// our weird select thing broke radius on search input, add it back
+input.q {
+  border-top-left-radius: $input-border-radius !important;
+  border-bottom-left-radius: $input-border-radius !important;
+}
+
+.submit-search-text {
+  // hide 'search' label at very small screens, magnifying glass
+  // icon should still be there.
+  @media screen and (max-width: $screen-xs-min ) {
+    // copied from .sr-only, sadly can't seem to use @extend in a media
+    // query like this, have to copy.
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+}
+
+// Reserves link is in search bar above very small sizes, but
+// in top navbar links at very small sizes.
+.navbar-nav .reserves-btn {
+  @media (min-width: $screen-xs-min) {
+    display: none;
+  }
+}
+.search-navbar .reserves-btn {
+  @media (max-width: $screen-xs-min - 1 ) {
+    display: none;
+  }
+}
+
+#navbar-banner-alert {
+  width: 100%;
+  background-color: #2c2c33;
+  color: white;
+  text-align: center;
+  padding: 22px 0;
+  font-size: 16px;
+}
+
+/* chat corrections */
+.lcs_slide_out-b.open header a,
+.lcs_slide_out-b header a {
+  top: -45px !important;
+  background: #8D3A80 !important;
+  border-radius: 4px 4px 0 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 12px 25px !important;
+  font-family: 'GentonaMedium', sans-serif;
+  text-decoration: none;
+  bottom: auto !important;
+  left: auto !important;
+  right: 0 !important;
+  font-size: .875em;
+}
+.lcs_load {
+  padding:0 !important;
+}
+.lcs_slide_out {
+  border:0 !important;
+  box-shadow: 0 0 30px rgba(0,0,0,.6) !important;
+}
+.lcs_slide_out-b {
+  margin: 0 2em;
+}
+.lcs_slide_out-b.open header a{
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.6) !important;
+
+  &:after{
+    content:'';
+    display:inline-block;
+    background-image: url('images/icon-close-white.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+}

@@ -1,0 +1,17 @@
+<div class="request" data-ajax-modal="container">
+  <div class="modal-header">
+    <h3 class="modal-title">Account unavailable</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  </div>
+
+  <div class="modal-body alert alert-danger">
+    <p>Sorry, your account does not seem to be available for requests.</p>
+
+    <p>Your borrower account may be disabled or expired. Please contact the <%= link_to "circulation
+    desk at your home library", {:controller => "info", :action => "libraries"}, :class => "alert-link" %>.</p>
+  </div>
+
+  <div class="modal-footer">
+    <%= link_to "OK", request_done_path, :class => "btn btn-primary",  :data => {:dismiss => "modal"} %>
+  </div>
+</div>

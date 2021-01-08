@@ -1,0 +1,39 @@
+# See https://docs.docker.com/compose/env-file/
+# no quotes or special characters
+
+# Sets environment variables used in docker-compose.yml
+# Note: Dockerfile does not use external params by design
+# TO CONFIGURE: cp to .env and replace {{ }}
+# .env is ignored and will not be checked in
+
+# Used in the Catalyst Rails App
+
+# used in horizon.conf
+HORIZON_HOST={{ horizon_db_server }}
+HORIZON_DB_NAME={{ horizon_db_name }}
+HORIZON_LOGIN={{ horizon_db_user }}
+HORIZON_PASSWORD={{ horizon_db_password }}
+
+# used in blacklight.conf
+SOLR_URL={{ solr_slave_url }}
+SOLR_REPLICATE_MASTER_URL={{ solr_replicate_master_url }}
+
+# used in docker-compose.yml
+APP_DIR=/opt
+EXTERNAL_PORT=3000
+INTERNAL_PORT=3000
+
+MYSQL_ROOT_PASSWORD={{ gernerate_a_docker_mysql_root_password }}
+MYSQL_DATABASE=catalyst
+MYSQL_USER=catalyst
+MYSQL_PASSWORD={{ gernerate_a_docker_mysql_password }}
+MYSQL_EXTERNAL_PORT=33308
+MYSQL_INTERNAL_PORT=3306
+
+# Flipper auth vars
+FLIPPER_USERNAME={{ flipper_username }}
+FLIPPER_PASSWORD={{ flipper_password }} 
+
+# JHU internal DNS settings
+DNS_1=10.200.1.1
+DNS_2=10.200.2.2

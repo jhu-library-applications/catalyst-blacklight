@@ -1,0 +1,40 @@
+<div class="stackmap" data-ajax-modal="container">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Item Floor Map</h3>
+  </div>
+
+  <div class="modal-body">
+    <% if @map_info && @map_info.status == "OK" %>
+      <div class="row">
+        <div class="col-sm-6 col-md-4">
+        	<dl class="stackmap-location">
+         	 <dt>Shelf/Service Location</dt>
+           <dd>
+             <% if @map_info.floor_name.present? %>
+              <%= @map_info.floor_name %>,
+             <% end %>
+             <%= @map_info.range_name %>
+           </dd>
+        	</dl>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+          <dl class="stackmap-call-number">
+            <dt>Call number</dt>
+            <dd><%= params[:call_number] %></dd>
+          </dl>
+        </div>
+
+      </div>
+
+    	<%= image_tag  @map_info.map_url, :alt => @map_info.range_name, :class => "stackmap" %>	
+    <% else %>
+    	<div class="alert alert-danger">          
+        Sorry, error fetching map information: <%= @map_info && @map_info.error %>
+      </div>  
+    <% end %>
+  </div>
+</div>
+

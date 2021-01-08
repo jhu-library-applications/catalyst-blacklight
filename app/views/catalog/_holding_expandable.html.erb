@@ -1,0 +1,147 @@
+<% #   pass in locals:
+   #   1) 'holding_expandable', consisting of a Holding model object.
+   #   using the collection calling convention for partials will accomplish
+   #   that.
+   #
+   #   2) 'document_id', the solr id of the host document, used for linking
+   #   to contained items.
+   #
+   #
+   #  Frequently used with collection rendering, eg:
+   #  render :partial => "holding", :collection => document.to_holdings, :locals => {:document_id => document["id"] }
+    holding = local_assigns[:holding_expandable]
+%>
+
+<li class="holding list-group-item">
+  <%# it's an <a> so it can be tabbed to with keyboard to expand/contract %>
+  <div class="holding-visible" data-toggle="collapsible-holdings-trigger" href="#">
+    <div class="row holding-line-one">
+      <div class="collection col-sm-8">
+        <%= holding.collection.display_label %>
+      </div>
+
+      <div class="action-container col-sm-4">
+        <% # Holdings %>
+        <% if Flipper[:curbside_mode].enabled? %>
+          <%= render partial: 'holding_expandable_curbside_request', locals: { document: document, document_id: document_id, holding: holding } %>
+        <% else %>
+          <%= render partial: 'holding_expandable_default_request', locals: { document: document, document_id: document_id, holding: holding } %>
+        <% end %>
+      </div>
+    </div>
+
+    <% @hide_collapse_div = !holding.due_date && !holding.notes.present? && !holding.run_statements.present? && !holding.has_children? && !((description = IlsStatus.find_by_holding(holding, :default_fallback => false)) &&
+        (description.explanation)) %>
+    <div class="row holding-line-two">
+      <div class="call-number col-8">
+        <%= holding.call_number %>
+        <% unless holding.copy_string.blank? %>
+          <span class="copy"><%= h(holding.copy_string) %></span>
+        <% end %>
+
+        <!-- if there's an RMST, display it in a hidden DIV, that'll
+             be turned on by some javascript for 'staff info'. -->
+        <% if holding.localInfo["moravia_rmst"].present? %>
+          <div style="display:none" class="rmst">
+            <em>For Library use, rmst and barcode last 4:</em>
+              <%= h(holding.localInfo["moravia_rmst"]) %>
+              <%= h((holding.localInfo["ibarcode"] || "")[-4, 4]) %>
+          </div>
+        <% end %>
+
+        <% if (Rails.application.config.x.suppress_browse != true) && (browse_sort_key = shelf_browse_sort_key_for(document)) %>
+                  <span> | </span>
+                  <span class="glyphicon glyphicon-book"></span> <%= link_to "Virtual Shelf Browse", shelfbrowse_path(:origin_sort_key => browse_sort_key) %>
+                <% end %>
+
+      </div>
+
+      <div class="status col-4 <%= holding_status_classes(holding) %>">
+        <% if Flipper[:curbside_mode].enabled? %>
+          <% # Do not present status in curbside mode %>
+        <% else %>
+          <span class="status_text">
+            <% if holding.status && holding.status.display_label %>
+              <%- unless holding.special_collection? %>
+                <%= holding.status.display_label %>
+              <%- end %>
+            <% elsif holding.has_children? %>
+              Multiple Items
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+
+      <% if !@hide_collapse_div  %>
+        <span class="icon"></span>
+      <% end %>
+    </div>
+
+  </div>
+
+    <div data-toggle="collapsible-holdings-content" class="collapse-holdings collapse">
+
+      <% # TXT feature %>
+      <% if Flipper[:curbside_mode].enabled? %>
+        <% # Do not show txt feature in curbside mode %>
+      <% else %>
+        <%= render partial: 'holding_expandable_default_txt_message', locals: { document: document, document_id: document_id, holding: holding } %>
+      <% end %>
+
+      <% if holding.due_date %>
+          <%# see definitions of :due_date formats for Date and Time in
+              config/initializers/formats.rb %>
+          <div class="due holding-line row">
+            <span class="due-label">Checked out, Due:</span> <%= holding.due_date.to_formatted_s(:due_date) %>
+          </div>
+      <% end %>
+
+      <% if holding.notes.present? || holding.run_statements.present? || holding.has_children? %>
+
+        <% unless holding.notes.empty? %>
+          <ul class="list-unstyled holding-line notes">
+            <% holding.notes.each do |note| %>
+              <li class="note"><%= note %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <% unless holding.run_statements.empty? %>
+          <div class="holding-line">
+            <% holding.run_statements_by_type.keys.each do |run_type| %>
+              <% if (label = run_type_label_for(run_type)) %>
+                <h5 class="run_statements_<%= run_type.parameterize %> run_statements_heading"><%= label %></h5>
+              <% end %>
+              <ul class="list-unstyled run-statements run-statements-<%= run_type.parameterize %>">
+                <% holding.run_statements_by_type[run_type].each do |run_stmt| %>
+                  <li>
+                    <%= h(run_stmt.display_statement) %>
+                      <% if run_stmt.note %>
+                        <span class="note"><%= h(run_stmt.note) %></span>
+                      <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+        <% end %>
+
+          <% if  holding.has_children? %>
+            <div class="item-children holding-line">
+
+                <%= link_to({:controller => "catalog", :action => "copy", :id => document_id, :copy_id => holding.id}, :class=>"item-children-link") do %>
+                  Items <span class="collapse-icon"></span>
+                <% end %>
+
+            </div>
+          <% end %>
+      <% end %>
+
+
+      <% if (description = IlsStatus.find_by_holding(holding, :default_fallback => false)) &&
+            (description.explanation) %>
+        <div class="holding-line status-description">
+          <%= raw description.explanation %>
+        </div>
+      <% end %>
+</li>

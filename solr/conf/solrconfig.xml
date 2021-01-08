@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    For information on how to customize this file, please see
+    http://wiki.apache.org/solr/SolrConfigXml. The page also has a link to
+    an extensively commented version of this file.
+
+    JHU: We set properties enable.master and enable.searcher in solr.xml for
+    this core. Master has replication master, and no warming queries. searcher
+    has replication slave and warming queries. Maybe other differences in the
+    future. You could set both to true to get both behaviors.
+-->
+<config>
+  <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
+
+
+  <luceneMatchVersion>6.6</luceneMatchVersion>
+
+  <!-- In 6.6, by default solr uses managed_schema. Configure it to use the classic schema.xml -->
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
+    <!--  The DirectoryFactory to use for indexes.
+        solr.StandardDirectoryFactory, the default, is filesystem based.
+        solr.RAMDirectoryFactory is memory based, not persistent, and doesn't work with replication. -->
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
+
+  <!-- lib directives can be used to instruct Solr to load an Jars identified
+       and use them to resolve any "plugins" specified in your solrconfig.xml or
+       schema.xml (ie: Analyzers, Request Handlers, etc...).
+
+       All directories and paths are resolved relative the instanceDir.
+
+       If a "./lib" directory exists in your instanceDir, all files found in it
+       are included as if you had used the following syntax...
+
+              <lib dir="./lib" />
+    -->
+  <!-- A dir option by itself adds any files found in the directory to the
+       classpath, this is useful for including all jars in a directory.
+    -->
+  <!-- <lib dir="../../contrib/extraction/lib" /> -->
+  <!-- When a regex is specified in addition to a directory, only the files in that
+       directory which completely match the regex (anchored on both ends)
+       will be included.
+    -->
+  <!-- <lib dir="../../dist/" regex="apache-solr-cell-\d.*\.jar" /> -->
+  <!-- <lib dir="../../dist/" regex="apache-solr-clustering-\d.*\.jar" /> -->
+  <!-- If a dir option (with or without a regex) is used and nothing is found
+       that matches, it will be ignored
+    -->
+  <!-- <lib dir="../../contrib/clustering/lib/downloads/" /> -->
+
+  <!-- <dataDir>${dataDir}</dataDir> -->
+  <!-- jhu, we don't specify a dataDir at all, want to use default location,
+       ./data in current core solr.home -->
+
+  <!-- index time configurations -->
+  <indexConfig>
+    <!-- maxFieldLength was removed in 4.0. To get similar behavior, include a
+         LimitTokenCountFilterFactory in your fieldType definition. E.g.
+     <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="10000"/>
+    -->
+    <!-- Maximum time to wait for a write lock (ms) for an IndexWriter. Default: 1000 -->
+    <!-- <writeLockTimeout>1000</writeLockTimeout>  -->
+
+    <!-- The maximum number of simultaneous threads that may be
+         indexing documents at once in IndexWriter; if more than this
+         many threads arrive they will wait for others to finish.
+         Default in Solr/Lucene is 8. -->
+    <!-- <maxIndexingThreads>8</maxIndexingThreads>  -->
+
+    <!-- Expert: Enabling compound file will use less files for the index,
+         using fewer file descriptors on the expense of performance decrease.
+         Default in Lucene is "true". Default in Solr is "false" (since 3.6) -->
+    <!-- <useCompoundFile>false</useCompoundFile> -->
+
+    <!-- ramBufferSizeMB sets the amount of RAM that may be used by Lucene
+         indexing for buffering added documents and deletions before they are
+         flushed to the Directory.
+         maxBufferedDocs sets a limit on the number of documents buffered
+         before flushing.
+         If both ramBufferSizeMB and maxBufferedDocs is set, then
+         Lucene will flush based on whichever limit is hit first.  -->
+    <!-- <ramBufferSizeMB>100</ramBufferSizeMB> -->
+    <!-- <maxBufferedDocs>1000</maxBufferedDocs> -->
+
+    <!-- Expert: Merge Policy
+         The Merge Policy in Lucene controls how merging of segments is done.
+         The default since Solr/Lucene 3.3 is TieredMergePolicy.
+         The default since Lucene 2.3 was the LogByteSizeMergePolicy,
+         Even older versions of Lucene used LogDocMergePolicy.
+      -->
+    <!--
+        <mergePolicy class="org.apache.lucene.index.TieredMergePolicy">
+          <int name="maxMergeAtOnce">10</int>
+          <int name="segmentsPerTier">10</int>
+        </mergePolicy>
+      -->
+
+    <!-- Merge Factor
+         The merge factor controls how many segments will get merged at a time.
+         For TieredMergePolicy, mergeFactor is a convenience parameter which
+         will set both MaxMergeAtOnce and SegmentsPerTier at once.
+         For LogByteSizeMergePolicy, mergeFactor decides how many new segments
+         will be allowed before they are merged into one.
+         Default is 10 for both merge policies.
+      -->
+    <!--
+    <mergeFactor>10</mergeFactor>
+      -->
+
+    <!-- Expert: Merge Scheduler
+         The Merge Scheduler in Lucene controls how merges are
+         performed.  The ConcurrentMergeScheduler (Lucene 2.3 default)
+         can perform merges in the background using separate threads.
+         The SerialMergeScheduler (Lucene 2.2 default) does not.
+     -->
+    <!--
+       <mergeScheduler class="org.apache.lucene.index.ConcurrentMergeScheduler"/>
+       -->
+
+    <!-- LockFactory
+
+         This option specifies which Lucene LockFactory implementation
+         to use.
+
+         single = SingleInstanceLockFactory - suggested for a
+                  read-only index or when there is no possibility of
+                  another process trying to modify the index.
+         native = NativeFSLockFactory - uses OS native file locking.
+                  Do not use when multiple solr webapps in the same
+                  JVM are attempting to share a single index.
+         simple = SimpleFSLockFactory  - uses a plain file for locking
+
+         Defaults: 'native' is default for Solr3.6 and later, otherwise
+                   'simple' is the default
+
+         More details on the nuances of each LockFactory...
+         http://wiki.apache.org/lucene-java/AvailableLockFactories
+    -->
+    <lockType>${solr.lock.type:native}</lockType>
+
+    <!-- Unlock On Startup
+
+         If true, unlock any held write or commit locks on startup.
+         This defeats the locking mechanism that allows multiple
+         processes to safely access a lucene index, and should be used
+         with care. Default is "false".
+
+         This is not needed if lock type is 'single'
+     -->
+    <!--
+    <unlockOnStartup>false</unlockOnStartup>
+      -->
+
+    <!-- Expert: Controls how often Lucene loads terms into memory
+         Default is 128 and is likely good for most everyone.
+      -->
+    <!-- <termIndexInterval>128</termIndexInterval> -->
+
+    <!-- If true, IndexReaders will be reopened (often more efficient)
+         instead of closed and then opened. Default: true
+      -->
+    <!--
+    <reopenReaders>true</reopenReaders>
+      -->
+  </indexConfig>
+
+
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <!-- Enables a transaction log, used for real-time get, durability, and
+         and solr cloud replica recovery.  The log can grow as big as
+         uncommitted changes to the index, so use of a hard autoCommit
+         is recommended (see below).
+         "dir" - the target directory for transaction logs, defaults to the
+         solr data directory.  -->
+    <!-- <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>
+    </updateLog> -->
+
+   <!-- A prefix of "solr." for class names is an alias that
+         causes solr to search appropriate packages, including
+         org.apache.solr.(search|update|request|core|analysis)
+     -->
+
+   <!-- AutoCommit
+
+         Perform a hard commit automatically under certain conditions.
+         Instead of enabling autoCommit, consider using "commitWithin"
+         when adding documents.
+
+         http://wiki.apache.org/solr/UpdateXmlMessages
+
+         maxDocs - Maximum number of documents to add since the last
+                   commit before automatically triggering a new commit.
+
+         maxTime - Maximum amount of time in ms that is allowed to pass
+                   since a document was added before automatically
+                   triggering a new commit.
+         openSearcher - if false, the commit causes recent index changes
+           to be flushed to stable storage, but does not cause a new
+           searcher to be opened to make those changes visible.
+
+         If the updateLog is enabled, then it's highly recommended to
+         have some sort of hard autoCommit to limit the log size.
+      -->
+    <autoCommit>
+      <maxDocs>100000</maxDocs>
+      <!-- we're not using maxtime right now, but we are using maxdocs, so
+           when we do really huge adds from the ILS, it'll pause to commit
+           every so often instead of waiting until the end. Waiting until
+           the end ends up seriously increasing disk usage, and RAM
+           and CPU of committing. On the other hand, committing too frequently,
+           and the autowarm queries haven't finished by the next commit, and you
+           wind up with spiraling RAM and CPU usage out of control. We might be able to have much less than 100k, but trying to figure things out,
+           it gets confusing, better safe than sorry. -->
+      <!-- <maxTime>1000</maxTime> -->
+      <openSearcher>true</openSearcher>
+    </autoCommit>
+    <!-- Update Related Event Listeners
+
+         Various IndexWriter related events can trigger Listeners to
+         take actions.
+
+         postCommit - fired after every commit or optimize command
+         postOptimize - fired after every optimize command
+      -->
+    <!-- The RunExecutableListener executes an external command from a
+         hook such as postCommit or postOptimize.
+
+         exe - the name of the executable to run
+         dir - dir to use as the current working directory. (default=".")
+         wait - the calling thread waits until the executable returns.
+                (default="true")
+         args - the arguments to pass to the program.  (default is none)
+         env - environment variables to set.  (default is none)
+      -->
+    <!-- This example shows how RunExecutableListener could be used
+         with the script based replication...
+         http://wiki.apache.org/solr/CollectionDistribution
+      -->
+    <!--
+       <listener event="postCommit" class="solr.RunExecutableListener">
+         <str name="exe">solr/bin/snapshooter</str>
+         <str name="dir">.</str>
+         <bool name="wait">true</bool>
+         <arr name="args"> <str>arg1</str> <str>arg2</str> </arr>
+         <arr name="env"> <str>MYVAR=val1</str> </arr>
+       </listener>
+      -->
+  </updateHandler>
+
+  <!-- query time configurations -->
+  <query>
+   <!-- Maximum number of clauses in a boolean query... in the past, this affected
+    range or prefix queries that expanded to big boolean queries - built in Solr
+    query parsers no longer create queries with this limitation.
+    An exception is thrown if exceeded.  -->
+    <maxBooleanClauses>1024</maxBooleanClauses>
+
+        <!-- There are two implementations of cache available for Solr,
+         LRUCache, based on a synchronized LinkedHashMap, and
+         FastLRUCache, based on a ConcurrentHashMap.  FastLRUCache has faster gets
+         and slower puts in single threaded operation and thus is generally faster
+         than LRUCache when the hit ratio of the cache is high (> 75%), and may be
+         faster under other scenarios on multi-cpu systems. -->
+    <!-- Cache used by SolrIndexSearcher for filters (DocSets),
+         unordered sets of *all* documents that match a query.
+         When a new searcher is opened, its caches may be prepopulated
+         or "autowarmed" using data from caches in the old searcher.
+         autowarmCount is the number of items to prepopulate.  For LRUCache,
+         the autowarmed items will be the most recently accessed items.
+       Parameters:
+         class - the SolrCache implementation LRUCache or FastLRUCache
+         size - the maximum number of entries in the cache
+         initialSize - the initial capacity (number of entries) of
+           the cache.  (seel java.util.HashMap)
+         autowarmCount - the number of entries to prepopulate from
+           and old cache.
+         -->
+    <filterCache class="solr.FastLRUCache"
+        size="512" initialSize="512" autowarmCount="128"/>
+
+    <!-- Cache used to hold field values that are quickly accessible
+         by document id.  The fieldValueCache is created by default
+         even if not configured here.
+      <fieldValueCache
+        class="solr.FastLRUCache"
+        size="512"
+        autowarmCount="128"
+        showItems="32"
+      />
+    -->
+
+       <!-- queryResultCache caches results of searches - ordered lists of
+         document ids (DocList) based on a query, a sort, and the range
+         of documents requested.  -->
+    <queryResultCache class="solr.LRUCache"
+        size="512" initialSize="512" autowarmCount="32"/>
+
+    <!-- documentCache caches Lucene Document objects (the stored fields for each document).
+     Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
+    <documentCache class="solr.LRUCache"
+        size="8192" initialSize="8192" autowarmCount="512"/>
+
+    <!-- If true, stored fields that are not requested will be loaded lazily.
+      This can result in a significant speed improvement if the usual case is to
+      not load all stored fields, especially if the skipped fields are large
+      compressed text fields.
+    -->
+    <enableLazyFieldLoading>true</enableLazyFieldLoading>
+
+   <!-- An optimization for use with the queryResultCache.  When a search
+     is requested, a superset of the requested number of document ids
+     are collected.  For example, if a search for a particular query
+     requests matching documents 10 through 19, and queryWindowSize is 50,
+     then documents 0 through 49 will be collected and cached.  Any further
+     requests in that range can be satisfied via the cache.  -->
+    <queryResultWindowSize>50</queryResultWindowSize>
+
+    <!-- Maximum number of documents to cache for any entry in the
+         queryResultCache. -->
+    <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+
+
+    <!-- a newSearcher event is fired whenever a new searcher is being prepared
+      and there is a current searcher handling requests (aka registered).
+      It can be used to prime certain caches to prevent long request times for
+      certain requests.
+    -->
+    <!-- QuerySenderListener takes an array of NamedList and executes a
+         local query request for each NamedList in sequence. -->
+    <!-- JHU: only fire warming queries when property enable.searcher=true in solr.xml
+         for this core, we don't want expensive warming queries on our replication
+         master that won't be searched. -->
+    <listener event="newSearcher" class="solr.QuerySenderListener" enable="${enable.searcher:false}">
+          <arr name="queries">
+        <!-- query for all objects (default query) for home page facets -->
+        <lst>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">10</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">location_facet</str>
+          <str name="facet.field">language_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">series_facet</str>
+          <str name="facet.field">subject_era_facet</str>
+          <str name="facet.field">subject_geo_facet</str>
+          <str name="facet.field">subject_topic_facet</str>
+          <str name="facet.field">instrumentation_facet</str>
+        </lst>
+        <!-- for each possible sort -->
+        <lst>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">pub_date_sort desc, title_sort asc</str>
+        </lst>
+        <lst>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">author_sort asc, title_sort asc</str>
+        </lst>
+        <lst>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">title_sort asc, pub_date_sort desc</str>
+        </lst>
+        <!-- query for single document to populate filter cache -->
+        <lst>
+          <str name="q">id:00282214</str>
+          <str name="qt">standard</str>
+          <str name="rows">0</str>
+          <str name="fl">score</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">10</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">location_facet</str>
+          <str name="facet.field">language_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">series_facet</str>
+          <str name="facet.field">subject_era_facet</str>
+          <str name="facet.field">subject_geo_facet</str>
+          <str name="facet.field">subject_topic_facet</str>
+          <str name="facet.field">instrumentation_facet</str>
+        </lst>
+      </arr>
+    </listener>
+
+    <!-- a firstSearcher event is fired whenever a new searcher is being
+         prepared but there is no current registered searcher to handle
+         requests or to gain autowarming data from. -->
+    <!-- JHU: only fire warming queries when property enable.searcher=true in solr.xml
+         for this core, we don't want expensive warming queries on our replication
+         master that won't be searched. -->
+    <listener event="firstSearcher" class="solr.QuerySenderListener" enable="${enable.searcher:false}">
+      <arr name="queries">
+        <!-- query for all objects (default query) for home page facets -->
+        <lst>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">10</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">location_facet</str>
+          <str name="facet.field">language_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">series_facet</str>
+          <str name="facet.field">subject_facet</str>
+          <str name="facet.field">subject_era_facet</str>
+          <str name="facet.field">subject_geo_facet</str>
+          <str name="facet.field">subject_topic_facet</str>
+          <str name="facet.field">instrumentation_facet</str>
+        </lst>
+        <!-- for each possible sort -->
+        <lst>
+          <str name="q">anything</str>
+          <str name="facet">false</str>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">pub_date_sort desc, title_sort asc</str>
+        </lst>
+        <lst>
+          <str name="q">anything</str>
+          <str name="facet">false</str>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">author_sort asc, title_sort asc</str>
+        </lst>
+        <lst>
+          <str name="q">anything</str>
+          <str name="facet">false</str>
+          <str name="rows">0</str>
+          <str name="fl">score,*</str>
+          <str name="sort">title_sort asc, pub_date_sort desc</str>
+        </lst>
+        <!-- query for single document to populate filter cache -->
+        <lst>
+          <str name="q">id:00282214</str>
+          <str name="qt">standard</str>
+          <str name="rows">0</str>
+          <str name="fl">score</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">10</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">location_facet</str>
+          <str name="facet.field">language_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">series_facet</str>
+          <str name="facet.field">subject_facet</str>
+          <str name="facet.field">subject_era_facet</str>
+          <str name="facet.field">subject_geo_facet</str>
+          <str name="facet.field">subject_topic_facet</str>
+          <str name="facet.field">instrumentation_facet</str>
+        </lst>
+      </arr>
+    </listener>
+    <!-- If a search request comes in and there is no current registered searcher,
+     then immediately register the still warming searcher and use it.  If
+     "false" then all requests will block until the first searcher is done
+     warming. -->
+    <useColdSearcher>false</useColdSearcher>
+    <!-- Maximum number of searchers that may be warming in the background
+      concurrently.  An error is returned if this limit is exceeded. Recommend
+      1-2 for read-only slaves, higher for masters w/o cache warming. -->
+    <maxWarmingSearchers>2</maxWarmingSearchers>
+  </query>
+
+  <!--
+  Let the dispatch filter handler /select?qt=XXX
+  handleSelect=true will use consistent error handling for /select and /update
+  handleSelect=false will use solr1.1 style error formatting
+  -->
+  <requestDispatcher handleSelect="true" >
+      <!--Make sure your system has some authentication before enabling remote streaming!  -->
+    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048" />
+        <!-- Set HTTP caching related parameters (for proxy caches and clients).
+
+         To get the behaviour of Solr 1.2 (ie: no caching related headers)
+         use the never304="true" option and do not specify a value for
+         <cacheControl>
+    -->
+    <!-- <httpCaching never304="true"> -->
+    <httpCaching lastModifiedFrom="openTime" etagSeed="Solr">
+       <!-- lastModFrom="openTime" is the default, the Last-Modified value
+            (and validation against If-Modified-Since requests) will all be
+            relative to when the current Searcher was opened.
+            You can change it to lastModFrom="dirLastMod" if you want the
+            value to exactly corrispond to when the physical index was last
+            modified.
+
+            etagSeed="..." is an option you can change to force the ETag
+            header (and validation against If-None-Match requests) to be
+            differnet even if the index has not changed (ie: when making
+            significant changes to your config file)
+
+            lastModifiedFrom and etagSeed are both ignored if you use the
+            never304="true" option.
+       -->
+      <!-- If you include a <cacheControl> directive, it will be used to
+      generate a Cache-Control header, as well as an Expires header
+      if the value contains "max-age="
+
+      By default, no Cache-Control header is generated.
+
+      You can use the <cacheControl> option even if you have set
+      never304="true"
+      -->
+      <!-- <cacheControl>max-age=30, public</cacheControl> -->
+   </httpCaching>
+
+  </requestDispatcher>
+
+  <!-- blacklight does not use the standard request handler -->
+  <requestHandler name="standard" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+      <str name="q.op">AND</str>
+      <str name="df">text</str>
+    </lst>
+  </requestHandler>
+
+
+  <!-- Searching using dismax. Set up for "All Fields, but
+        blacklight_config.rb also uses this request handler for other
+        searches, over-riding some of it's solr parameters. -->
+  <requestHandler name="search" class="solr.SearchHandler" default="true" >
+    <lst name="defaults">
+      <str name="defType">edismax</str>
+      <str name="echoParams">explicit</str>
+      <str name="q.alt">*:*</str>
+      <str name="mm">3&lt;-1 6&lt;80%</str>
+      <str name="qf">
+        title_unstem^80
+        title1_unstem^60
+        title2_unstem^40
+        title3_unstem^20
+
+        title_t^30
+        title1_t^25
+        title2_t^15
+        title3_t^10
+
+        author_unstem^90
+        author2_unstem^40
+        author_display
+
+        subject_unstem^20
+        subject_t^10
+
+        title_series_unstem^10
+        title_series_t^5
+
+        isbn_t
+        issn
+        issn_related
+        local_call_number_t
+        oclcnum_t
+        lccn
+        instrumentation_code_unstem
+
+        text
+        text_unstem^2
+        text_extra_boost_t^4
+        text_extra_boost_unstem^6
+      </str>
+      <str name="pf">
+        title_exactmatch^500
+
+        title_unstem^320
+        title1_unstem^240
+        title2_unstem^160
+        title3_unstem^80
+
+        author_unstem^400
+        author_addl_unstem^240
+        author_display
+
+        subject_unstem^80
+
+        title_series_unstem^60
+
+        title1_t^60
+        title2_t^50
+        subject_t^10
+        title_series_t^40
+
+        other_number_t^40
+        text_unstem^80
+        text^10
+      </str>
+      <int name="ps">3</int>
+      <float name="tie">0.01</float>
+
+      <!-- NOT using marc_display because it is large and will slow things down for search results -->
+      <!-- jrochkind 15 Dec 2009. AM using marc_display, becuase it makes
+           the coding much simpler, and my initial tests show perf diff
+           is tolerable, and slowdown is located in BL code that should be
+           optimized, nto solr. -->
+      <str name="fl">
+        id,
+        marc_display,
+        score,
+        author_display,
+        author_vern_display,
+        format,
+        isbn_t,
+        language_facet,
+        lc_callnum_display,
+        discipline_facet,
+        material_type_display,
+        published_display,
+        published_vern_display,
+        pub_date,
+        title_display,
+        title_vern_display,
+        subject_topic_facet,
+        subject_geo_facet,
+        subject_era_facet,
+        subtitle_display,
+        subtitle_vern_display,
+        url_fulltext_display,
+        url_suppl_display
+      </str>
+
+      <str name="facet">true</str>
+      <str name="facet.mincount">1</str>
+      <str name="facet.limit">9</str>
+      <str name="facet.field">format</str>
+      <str name="facet.field">discipline_facet</str>
+      <str name="facet.field">language_facet</str>
+      <str name="facet.field">pub_date</str>
+      <str name="facet.field">subject_era_facet</str>
+      <str name="facet.field">subject_geo_facet</str>
+      <str name="facet.field">subject_topic_facet</str>
+
+      <str name="spellcheck">false</str>
+      <str name="spellcheck.dictionary">default</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.collate">false</str>
+      <str name="spellcheck.count">5</str>
+
+      <!-- Blacklight-search specific values, will be used as Solr LocalParams -->
+      <str name="title_qf">
+        title_unstem^80
+        title1_unstem^60
+        title2_unstem^40
+        title3_unstem^20
+
+        title_t^30
+        title1_t^25
+        title2_t^15
+        title3_t^10
+
+        title_series_unstem^25
+        title_series_t^10
+      </str>
+      <str name="title_pf">
+        title_exactmatch^500
+
+        title_unstem^320
+        title1_unstem^240
+        title2_unstem^160
+        title3_unstem^80
+
+        title_series_unstem^60
+
+        title1_t^60
+        title2_t^50
+        subject_t^10
+        title_series_t^40
+      </str>
+
+      <str name="series_qf">
+        title_series_unstem^10
+        title_series_t
+      </str>
+      <str name="series_pf">
+        title_series_unstem^100
+        title_series_t^20
+      </str>
+
+      <str name="author_qf">
+        author_unstem^80
+        author2_unstem^40
+        author_display
+      </str>
+      <str name="author_pf">
+        author_unstem^400
+        author2_unstem^240
+        author_display
+      </str>
+
+      <str name="subject_qf">
+        subject_unstem^40
+        subject_t^15
+      </str>
+      <str name="subject_pf">
+        subject_unstem^120
+        subject_t^30
+      </str>
+
+      <str name="numbers_qf">
+        isbn_t^10
+        issn^10
+        oclcnum_t^10
+        lccn^10
+        local_call_number_t^10
+
+        issn_related^5
+
+        other_number_unstem
+      </str>
+      <str name="numbers_pf">
+        local_call_number_t^50
+        other_number_unstem^10
+        lccn^10
+      </str>
+
+
+    </lst>
+    <arr name="last-components">
+    </arr>
+  </requestHandler>
+
+  <!-- replicationHandler, can be empty for slave, we will supply all
+       parameters in the replication command, as seems to be supported.
+       May need to be filled out for master, work in progress. -->
+  <requestHandler name="/replication" class="solr.ReplicationHandler">
+      <lst name="master">
+        <str name="enable">${enable.master:false}</str>
+        <str name="replicateAfter">startup</str>
+        <str name="replicateAfter">commit</str>
+        <str name="replicateAfter">optimize</str>
+        <str name="confFiles">solrconfig.xml,schema.xml,punctuation-whitelist.txt</str>
+      </lst>
+      <lst name="slave">
+        <str name="enable">${enable.searcher:false}</str>
+        <!-- we actually don't set up polling, and manually trigger
+             replication supplying our own masterUrl, so the masterUrl
+             here won't really be used - if things are working
+             as we think they do - but Solr insists on it being
+             filled out, with a valid URL too or Solr complains.  -->
+        <str name="masterUrl">${catalyst.replication.master:http://catsolrmaster.library.jhu.edu:8984/solr/master_prod}</str>
+      </lst>
+  </requestHandler>
+
+  <!-- for requests to get a single document; use id=666 instead of q=id:666 -->
+  <requestHandler name="document" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+      <str name="fl">*</str>
+      <str name="rows">1</str>
+      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
+    </lst>
+  </requestHandler>
+
+
+  <requestHandler name="/update" class="solr.UpdateRequestHandler" />
+  <requestHandler name="/update/javabin" class="solr.UpdateRequestHandler" />
+
+   <!--
+    An analysis handler that provides a breakdown of the analysis process of provided docuemnts. This handler expects a
+    (single) content stream with the following format:
+
+    <docs>
+      <doc>
+        <field name="id">1</field>
+        <field name="name">The Name</field>
+        <field name="text">The Text Value</field>
+      <doc>
+      <doc>...</doc>
+      <doc>...</doc>
+      ...
+    </docs>
+
+    Note: Each document must contain a field which serves as the unique key. This key is used in the returned
+    response to assoicate an analysis breakdown to the analyzed document.
+    Like the FieldAnalysisRequestHandler, this handler also supports query analysis by
+    sending either an "analysis.query" or "q" request paraemter that holds the query text to be analyized. It also
+    supports the "analysis.showmatch" parameter which when set to true, all field tokens that match the query
+    tokens will be marked as a "match".
+  -->
+  <requestHandler name="/analysis/document" class="solr.DocumentAnalysisRequestHandler" />
+  <!--
+    RequestHandler that provides much the same functionality as analysis.jsp. Provides the ability
+    to specify multiple field types and field names in the same request and outputs index-time and
+    query-time analysis for each of them.
+
+    Request parameters are:
+    analysis.fieldname - The field name whose analyzers are to be used
+    analysis.fieldtype - The field type whose analyzers are to be used
+    analysis.fieldvalue - The text for index-time analysis
+    q (or analysis.q) - The text for query time analysis
+    analysis.showmatch (true|false) - When set to true and when query analysis is performed, the produced
+                                      tokens of the field value analysis will be marked as "matched" for every
+                                      token that is produces by the query analysis
+   -->
+  <requestHandler name="/analysis/field" class="solr.FieldAnalysisRequestHandler" />
+
+
+  <requestHandler name="/admin/ping" class="PingRequestHandler">
+    <lst name="invariants">
+      <str name="q">solrpingquery</str>
+    </lst>
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+    </lst>
+  </requestHandler>
+  <admin>
+    <defaultQuery>book</defaultQuery>
+  </admin>
+
+  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
+    <lst name="defaults">
+     <str name="echoParams">explicit</str>
+     <str name="echoHandler">true</str>
+    </lst>
+  </requestHandler>
+
+</config>
