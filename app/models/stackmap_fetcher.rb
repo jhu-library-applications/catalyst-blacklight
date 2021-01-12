@@ -34,13 +34,12 @@ class StackmapFetcher
     item_call = CGI::escape(@holding.call_number)
     item_location = @holding.collection.internal_code
     # hard-coded, stackmap value for our account
-    item_library = CGI::escape("Milton S. Eisenhower Library")
+    item_library = CGI::escape("Milton S. Eisenhower Librar")
 
     request_url = "#{base_url}?callno=#{item_call}&location=#{item_location}&library=#{item_library}"
 
     # stackmap = begin
-    client = HTTPClient.new
-    response  =  client.get(request_url)
+    response  =  Faraday.get(request_url)
 
     if response.status != 200
       raise HTTPClient::BadResponseError.new("Non-succesful #{response.status} response for #{request_url}")

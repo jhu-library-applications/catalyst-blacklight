@@ -57,7 +57,9 @@ gem "debugger", :group => :development, :platforms => [:mri_19]
 
 gem 'openurl', '>= 0.1.0'
 
+# httpclient should be removed at some point because the cert is expired an dappears to no longer be supported
 gem 'httpclient'
+gem 'faraday'
 # Rails 4.2.4 doesn't allow mysql2 0.4 yet, change spec when
 # a Rails is out that does.
 # https://github.com/rails/rails/issues/21544

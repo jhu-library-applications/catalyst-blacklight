@@ -548,6 +548,7 @@ DEPENDENCIES
   debride
   debugger
   dotenv-rails
+  faraday
   flipper (~> 0.19)
   flipper-active_record
   flipper-ui

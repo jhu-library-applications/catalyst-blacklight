@@ -50,9 +50,17 @@
         <% end %>
 
         <% if (Rails.application.config.x.suppress_browse != true) && (browse_sort_key = shelf_browse_sort_key_for(document)) %>
-                  <span> | </span>
-                  <span class="glyphicon glyphicon-book"></span> <%= link_to "Virtual Shelf Browse", shelfbrowse_path(:origin_sort_key => browse_sort_key) %>
-                <% end %>
+          <span> | </span>
+          <span class="glyphicon glyphicon-book"></span>
+          <%= link_to "Virtual Shelf Browse", shelfbrowse_path(:origin_sort_key => browse_sort_key) %>
+        <% end %>
+
+        <% # Floor Map feature %>
+        <% if Flipper[:curbside_mode].enabled? %>
+          <% # Do not show Floor Map feature in curbside mode %>
+        <% else %>
+          <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document_id, holding: holding } %>
+        <% end %>
 
       </div>
 
