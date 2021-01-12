@@ -1,0 +1,13 @@
+<% unless holding.call_number.blank? or params[:action] == 'copy' %>
+  <% if StackmapFetcher.new(holding).map_available? %>
+    <span class="mx-2"> | </span>
+    <%= link_to( {:controller => "map", :action => "index",
+                  :collection_code => holding.collection.internal_code,
+                  :call_number     => holding.call_number  } ,
+                 :class => "get_map",
+                 :data => {:ajax_modal => "trigger",:toggle => "modal", :target => "#ajax-modal"}) do
+    %>
+      <span class="glyphicon glyphicon-map-marker px-1"></span>Floor map
+    <% end %>
+  <% end %>
+<% end %>
