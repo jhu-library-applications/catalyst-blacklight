@@ -42,24 +42,25 @@ class StackmapFetcher
     response  =  Faraday.get(request_url)
 
     if response.status != 200
-      raise HTTPClient::BadResponseError.new("Non-succesful #{response.status} response for #{request_url}")
-    end
+      map_info = MapInfo.new(:status => "A #{response.status} response we received",
+                             :error => "No map is available for this item at this time.")
+    else
+      response_body = response.body
+      stackmap = MultiJson.load(response_body)
 
-    response_body = response.body
-    stackmap = MultiJson.load(response_body)
-
-    if stackmap["stat"] != "OK"
-      map_info = MapInfo.new(:status => stackmap["stat"],
-                  :error => stackmap["message"])
-    elsif stackmap["stat"]== "OK"
-      if  stackmap["results"]["maps"].size > 0
+      if stackmap["stat"] != "OK"
         map_info = MapInfo.new(:status => stackmap["stat"],
-                :map_url => "#{stackmap["results"]["maps"].first["mapurl"]}&marker=1",
-                :floor_name => "#{stackmap["results"]["maps"].first["floorname"]}",
-                :range_name => "#{stackmap["results"]["maps"].first["ranges"].first["rangename"]}" )
-      elsif stackmap["results"]["maps"].size == 0
-        map_info = MapInfo.new(:status => "OK but no map",
-                  :error => "No map is available for this item.")
+                    :error => stackmap["message"])
+      elsif stackmap["stat"]== "OK"
+        if  stackmap["results"]["maps"].size > 0
+          map_info = MapInfo.new(:status => stackmap["stat"],
+                  :map_url => "#{stackmap["results"]["maps"].first["mapurl"]}&marker=1",
+                  :floor_name => "#{stackmap["results"]["maps"].first["floorname"]}",
+                  :range_name => "#{stackmap["results"]["maps"].first["ranges"].first["rangename"]}" )
+        elsif stackmap["results"]["maps"].size == 0
+          map_info = MapInfo.new(:status => "OK but no map",
+                    :error => "No map is available for this item.")
+        end
       end
     end
 
