@@ -55,13 +55,6 @@
           <%= link_to "Virtual Shelf Browse", shelfbrowse_path(:origin_sort_key => browse_sort_key) %>
         <% end %>
 
-        <% # Floor Map feature %>
-        <% if Flipper[:curbside_mode].enabled? %>
-          <% # Do not show Floor Map feature in curbside mode %>
-        <% else %>
-          <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document_id, holding: holding } %>
-        <% end %>
-
       </div>
 
       <div class="status col-4 <%= holding_status_classes(holding) %>">
@@ -89,12 +82,21 @@
 
     <div data-toggle="collapsible-holdings-content" class="collapse-holdings collapse">
 
-      <% # TXT feature %>
-      <% if Flipper[:curbside_mode].enabled? %>
-        <% # Do not show txt feature in curbside mode %>
-      <% else %>
-        <%= render partial: 'holding_expandable_default_txt_message', locals: { document: document, document_id: document_id, holding: holding } %>
-      <% end %>
+      <div class="call-num-actions holding-line row">
+        <% # TXT feature %>
+        <% if Flipper[:curbside_mode].enabled? %>
+          <% # Do not show txt feature in curbside mode %>
+        <% else %>
+          <%= render partial: 'holding_expandable_default_txt_message', locals: { document: document, document_id: document_id, holding: holding } %>
+        <% end %>
+
+        <% # Floor Map feature %>
+        <% if Flipper[:curbside_mode].enabled? %>
+          <% # Do not show Floor Map feature in curbside mode %>
+        <% else %>
+          <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document_id, holding: holding } %>
+        <% end %>
+      </div>
 
       <% if holding.due_date %>
           <%# see definitions of :due_date formats for Date and Time in

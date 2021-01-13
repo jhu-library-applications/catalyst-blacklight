@@ -109,3 +109,11 @@
 .dl-horizontal dd:after {
   clear: both;
 }
+
+.call-num-actions {
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

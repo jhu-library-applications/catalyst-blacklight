@@ -1,6 +1,10 @@
 // Glyphicon Replacement
 // Uses Bootstrap Icon
 
+.glyphicon:before {
+  vertical-align: sub;
+}
+
 // Map
 .glyphicon.glyphicon-map-marker::before {
   display: inline-block;

@@ -10,7 +10,7 @@
   <div class="modal-body">
     <% if @map_info && @map_info.status == "OK" %>
       <div class="row">
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-6">
         	<dl class="stackmap-location">
          	 <dt>Shelf/Service Location</dt>
            <dd>
@@ -22,7 +22,7 @@
         	</dl>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-6">
           <dl class="stackmap-call-number">
             <dt>Call number</dt>
             <dd><%= params[:call_number] %></dd>
