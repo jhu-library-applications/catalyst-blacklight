@@ -1,6 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 require 'simplecov'
+
 SimpleCov.start do
   add_filter '/bin/'
   add_filter '/db/'
