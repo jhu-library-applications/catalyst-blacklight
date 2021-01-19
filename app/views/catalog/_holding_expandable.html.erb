@@ -55,13 +55,6 @@
           <%= link_to "Virtual Shelf Browse", shelfbrowse_path(:origin_sort_key => browse_sort_key) %>
         <% end %>
 
-        <% # Floor Map feature %>
-        <% if Flipper[:curbside_mode].enabled? %>
-          <% # Do not show Floor Map feature in curbside mode %>
-        <% else %>
-          <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document_id, holding: holding } %>
-        <% end %>
-
       </div>
 
       <div class="status col-4 <%= holding_status_classes(holding) %>">
@@ -87,8 +80,9 @@
 
   </div>
 
-    <div data-toggle="collapsible-holdings-content" class="collapse-holdings collapse">
+  <div data-toggle="collapsible-holdings-content" class="collapse-holdings collapse">
 
+    <div class="call-num-actions holding-line row">
       <% # TXT feature %>
       <% if Flipper[:curbside_mode].enabled? %>
         <% # Do not show txt feature in curbside mode %>
@@ -96,60 +90,69 @@
         <%= render partial: 'holding_expandable_default_txt_message', locals: { document: document, document_id: document_id, holding: holding } %>
       <% end %>
 
-      <% if holding.due_date %>
-          <%# see definitions of :due_date formats for Date and Time in
-              config/initializers/formats.rb %>
-          <div class="due holding-line row">
-            <span class="due-label">Checked out, Due:</span> <%= holding.due_date.to_formatted_s(:due_date) %>
-          </div>
+      <% # Floor Map feature %>
+      <% if Flipper[:curbside_mode].enabled? %>
+        <% # Do not show Floor Map feature in curbside mode %>
+      <% else %>
+        <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document_id, holding: holding } %>
       <% end %>
+    </div>
 
-      <% if holding.notes.present? || holding.run_statements.present? || holding.has_children? %>
+    <% if holding.due_date %>
+        <%# see definitions of :due_date formats for Date and Time in
+            config/initializers/formats.rb %>
+        <div class="due holding-line row">
+          <span class="due-label">Checked out, Due:</span> <%= holding.due_date.to_formatted_s(:due_date) %>
+        </div>
+    <% end %>
 
-        <% unless holding.notes.empty? %>
-          <ul class="list-unstyled holding-line notes">
-            <% holding.notes.each do |note| %>
-              <li class="note"><%= note %></li>
-            <% end %>
-          </ul>
-        <% end %>
+    <% if holding.notes.present? || holding.run_statements.present? || holding.has_children? %>
 
-        <% unless holding.run_statements.empty? %>
-          <div class="holding-line">
-            <% holding.run_statements_by_type.keys.each do |run_type| %>
-              <% if (label = run_type_label_for(run_type)) %>
-                <h5 class="run_statements_<%= run_type.parameterize %> run_statements_heading"><%= label %></h5>
-              <% end %>
-              <ul class="list-unstyled run-statements run-statements-<%= run_type.parameterize %>">
-                <% holding.run_statements_by_type[run_type].each do |run_stmt| %>
-                  <li>
-                    <%= h(run_stmt.display_statement) %>
-                      <% if run_stmt.note %>
-                        <span class="note"><%= h(run_stmt.note) %></span>
-                      <% end %>
-                  </li>
-                <% end %>
-              </ul>
-            <% end %>
-          </div>
-        <% end %>
-
-          <% if  holding.has_children? %>
-            <div class="item-children holding-line">
-
-                <%= link_to({:controller => "catalog", :action => "copy", :id => document_id, :copy_id => holding.id}, :class=>"item-children-link") do %>
-                  Items <span class="collapse-icon"></span>
-                <% end %>
-
-            </div>
+      <% unless holding.notes.empty? %>
+        <ul class="list-unstyled holding-line notes">
+          <% holding.notes.each do |note| %>
+            <li class="note"><%= note %></li>
           <% end %>
+        </ul>
       <% end %>
 
-
-      <% if (description = IlsStatus.find_by_holding(holding, :default_fallback => false)) &&
-            (description.explanation) %>
-        <div class="holding-line status-description">
-          <%= raw description.explanation %>
+      <% unless holding.run_statements.empty? %>
+        <div class="holding-line">
+          <% holding.run_statements_by_type.keys.each do |run_type| %>
+            <% if (label = run_type_label_for(run_type)) %>
+              <h5 class="run_statements_<%= run_type.parameterize %> run_statements_heading"><%= label %></h5>
+            <% end %>
+            <ul class="list-unstyled run-statements run-statements-<%= run_type.parameterize %>">
+              <% holding.run_statements_by_type[run_type].each do |run_stmt| %>
+                <li>
+                  <%= h(run_stmt.display_statement) %>
+                    <% if run_stmt.note %>
+                      <span class="note"><%= h(run_stmt.note) %></span>
+                    <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
         </div>
       <% end %>
+
+        <% if  holding.has_children? %>
+          <div class="item-children holding-line">
+
+              <%= link_to({:controller => "catalog", :action => "copy", :id => document_id, :copy_id => holding.id}, :class=>"item-children-link") do %>
+                Items <span class="collapse-icon"></span>
+              <% end %>
+
+          </div>
+        <% end %>
+    <% end %>
+
+
+    <% if (description = IlsStatus.find_by_holding(holding, :default_fallback => false)) &&
+          (description.explanation) %>
+      <div class="holding-line status-description">
+        <%= raw description.explanation %>
+      </div>
+    <% end %>
+  </div>
 </li>

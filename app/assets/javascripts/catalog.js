@@ -22,4 +22,7 @@ Blacklight.onLoad(function() {
     $('body').on('click', '[data-toggle="modal"]', function(){
         $($(this).data('target')+' .modal-body').load($(this).attr('href'));
     });
+    $('#ajax-modal').on('hidden.bs.modal', function () {
+        $('#ajax-modal .modal-body').html('');
+    });
 });
