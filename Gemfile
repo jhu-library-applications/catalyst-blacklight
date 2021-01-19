@@ -142,8 +142,6 @@ group :test do
   gem 'capybara-screenshot'
   gem 'webdrivers'
 
-  gem 'mini_racer'
-
   # Minitest
   gem 'minitest'
   gem "minitest-rails", "~> 5.2.0"
