@@ -70,5 +70,14 @@ Catalyst::Application.configure do
   config.tracker = "UA-7867593-9"
   ENV["GOOGLE_ANALYTICS"] = config.tracker
 
-
+  # Exception email notification
+  Rails.application.config.middleware.use(
+    ExceptionNotification::Rack,
+    email: {
+      email_prefix: '[Catalyst Error] ',
+      # Google Groups won't accept messages unless the sender host resolves!
+      sender_address: %("Catalyst" <catalyst@#{`hostname`.strip}>),
+      exception_recipients: %w[a.morrison@jhu.edu jon.fackrell@jhu.edu j.little@jhu.edu jwang40@jhu.edu]
+    }
+  )
 end
