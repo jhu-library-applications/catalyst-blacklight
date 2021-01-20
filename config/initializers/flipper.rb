@@ -14,10 +14,10 @@ if ActiveRecord::Base.connection.table_exists? 'flipper_features'
   Flipper[:navbar_banner_alert].disable
 
   puts 'Enabling: Navbar Book Pickups & Returns Page'
-  Flipper[:navbar_pickup_page].disable
+  Flipper[:navbar_pickup_page].enable
 
   puts 'Enabling: Curbside Mode'
-  Flipper[:curbside_mode].disable
+  Flipper[:curbside_mode].enable
   puts '- Disabling Reserves'
   puts '- Holdings => Hide TXT feature'
   puts '- Holdings => Enable "Request Pickup" buttons'
