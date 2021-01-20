@@ -1,0 +1,98 @@
+# Working Catalyst BL7 GitHub Action
+#
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+
+env:
+  # these are all referenced in our app's database.yml for test
+  MYSQL_SERVER: localhost
+  MYSQL_DATABASE: jhu_bl_test
+  MYSQL_USER: root
+  MYSQL_PASSWORD: root
+  SOLR_URL: http://127.0.0.1:8985/solr/blacklight-core
+  CATALYST_UMLAUT_BASE_URL: https://findit.library.jhu.edu
+  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+jobs:
+  tests:
+    services:
+      db:
+        image: mysql:5.7
+        env:
+            MYSQL_DATABASE: jhu_bl_test
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+        ports:
+          - 3306
+
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout code repo
+          uses: actions/checkout@v2
+
+        - name: Ruby - Set up
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: '2.6'
+
+        - name: Node - Install node for Rails JS runtime
+          uses: actions/setup-node@v2
+          with:
+            node-version: '12'
+
+        - name: MySQL - Run
+          run: |
+            sudo /etc/init.d/mysql start
+
+        - name: MySQL - Create jhu_bl_test database
+          run: |
+            mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS jhu_bl_test;'
+        - name: Apt - Install dependencies
+          run: |
+            sudo apt-get update
+            sudo apt-get -y install libvips-tools ffmpeg mediainfo poppler-utils
+
+        - name: Rails - Yarn and Bundler install
+          env:
+            RAILS_ENV: test
+          run: |
+            yarn install
+            gem install bundler
+            bundle install --jobs 4 --retry 3
+
+        - name: Rails - Database setup
+          env:
+            RAILS_ENV: test
+          run: |
+            bundle exec rails db:create
+            bundle exec rails db:migrate
+        # This cache probably doesn't actually save us any time, but it hopes to save
+        # us being throttled by apache foundation servers unhappy that solr_wrapper
+        # is downloading solr over and over again.
+        - name: Solr - Cache install
+          uses: actions/cache@v2
+          with:
+            # these paths specified in .solr_wrapper.yml:
+            path: |
+              tmp/solr_dist
+              tmp/solr_test
+            key: ${{ runner.os }}-solr-${{ hashFiles('.solr_wrapper.yml') }}
+
+        - name: Tests - Run tests
+          env:
+            RAILS_ENV: test
+            RUBYOPT: W0
+          run: |
+            bundle exec rake ci
