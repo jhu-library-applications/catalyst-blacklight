@@ -9,18 +9,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "session - should render user page" do
+    skip "Horizon Unavailable" if horizon_unavailable?
     sign_in
     get '/user'
     assert_response :success
   end
 
   test "session - should render user requests" do
+    skip "Horizon Unavailable" if horizon_unavailable?
     sign_in
     get '/user/requests'
     assert_response :success
   end
 
   test "session - should render user profile" do
+    skip "Horizon Unavailable" if horizon_unavailable?
     sign_in
     get '/user/profile'
     assert_response :success

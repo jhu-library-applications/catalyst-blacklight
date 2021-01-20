@@ -32,4 +32,12 @@ class ActiveSupport::TestCase
       pin: Rails.application.credentials.testing[:pin]
     }
   end
+
+  def horizon_unavailable?
+    if ENV['HORIZON_UNAVAILABLE'] && ENV['HORIZON_UNAVAILABLE'] == 'true'
+      true
+    else
+      false
+    end
+  end
 end
