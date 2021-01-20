@@ -11,7 +11,7 @@ if ActiveRecord::Base.connection.table_exists? 'flipper_features'
   # Features/Gates
   puts 'Flipper... start'
   puts 'Enabling: Navbar Banner Alert'
-  Flipper[:navbar_banner_alert].disable
+  Flipper[:navbar_banner_alert].enable
 
   puts 'Enabling: Navbar Book Pickups & Returns Page'
   Flipper[:navbar_pickup_page].enable
