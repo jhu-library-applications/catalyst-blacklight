@@ -32,7 +32,10 @@ MYSQL_INTERNAL_PORT=3306
 
 # Flipper auth vars
 FLIPPER_USERNAME={{ flipper_username }}
-FLIPPER_PASSWORD={{ flipper_password }} 
+FLIPPER_PASSWORD={{ flipper_password }}
+
+# Horizon Availability
+HORIZON_UNAVAILABLE=false
 
 # JHU internal DNS settings
 DNS_1=10.200.1.1
