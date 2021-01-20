@@ -23,6 +23,7 @@ env:
   SOLR_URL: http://127.0.0.1:8985/solr/blacklight-core
   CATALYST_UMLAUT_BASE_URL: https://findit.library.jhu.edu
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+  HORIZON_UNAVAILABLE: true
 
 jobs:
   tests:
