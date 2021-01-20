@@ -88,6 +88,9 @@ gem 'flipper', '~> 0.19'
 gem 'flipper-active_record'
 gem 'flipper-ui'
 
+# Capture application errors
+gem 'exception_notification', '~> 4.4.0'
+
 # Turn off those copious useless asset served lines in log in
 # development.
 #gem 'quiet_assets', :group => :development
