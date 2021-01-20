@@ -58,10 +58,7 @@
       </div>
 
       <div class="status col-4 <%= holding_status_classes(holding) %>">
-        <% if Flipper[:curbside_mode].enabled? %>
-          <% # Do not present status in curbside mode %>
-        <% else %>
-          <span class="status_text">
+        <span class="status_text">
             <% if holding.status && holding.status.display_label %>
               <%- unless holding.special_collection? %>
                 <%= holding.status.display_label %>
@@ -70,7 +67,6 @@
               Multiple Items
             <% end %>
           </span>
-        <% end %>
       </div>
 
       <% if !@hide_collapse_div  %>
