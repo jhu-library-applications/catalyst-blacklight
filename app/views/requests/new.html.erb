@@ -6,7 +6,7 @@
           :request_path => item_request_path(:id => @document.id, :item_id => @ils_request.item_id),
           :borrow_direct_umlaut_wrapper => true
         } do %>
-    <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:ajax_modal => "preserve"} do %>
+    <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
 
     <div class="modal-header">
       <% if Flipper[:curbside_mode].enabled? %>
@@ -15,7 +15,7 @@
         <h3 class="modal-title">Place Request</h3>
       <% end %>
 
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     </div>
 
     <div class="modal-body">
