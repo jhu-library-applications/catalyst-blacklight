@@ -15,3 +15,6 @@ en:
           link: "http://musiclibrary.peabody.jhu.edu/home"
         - label: "APL Library"
           link: "https://aplweb.jhuapl.edu/services/Pages/ResearchLibrary.aspx"
+  record_mailer:
+    email:
+      url: "URL: "

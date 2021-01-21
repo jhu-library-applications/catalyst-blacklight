@@ -77,6 +77,8 @@ Catalyst::Application.configure do
   # Exception email notification
   Rails.application.config.middleware.use(
     ExceptionNotification::Rack,
+    # Blacklight uses its own 404 extension we need to ignore separately
+    ignore_exceptions: ['Blacklight::Exceptions::RecordNotFound'] + ExceptionNotifier.ignored_exceptions,
     email: {
       email_prefix: '[Catalyst Error] ',
       # Google Groups won't accept messages unless the sender host resolves!
