@@ -24,7 +24,7 @@ class RequestsController < CatalogController
 
   # Submit request and show confirmation page
   def create
-    @response, @document = search_service.fetch params[:id]
+    @response, @document = get_solr_response_for_doc_id
 
     horizon_bib_id = @document.ils_bib_id
     horizon_item_id = params[:item_id]
