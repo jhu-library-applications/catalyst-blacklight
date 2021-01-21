@@ -1,6 +1,10 @@
 Catalyst::Application.routes.draw do
 
   get 'articles' => 'articles#index'
+  
+  # Error Pages for exception handling - EWL
+  match '/404' => 'errors#not_found', via: :all
+  match '/500' => 'errors#internal_server_error', via: :all
 
   if ActiveRecord::Base.connection.table_exists? 'flipper_features'
     ## Feature Flipper
@@ -166,11 +170,4 @@ Catalyst::Application.routes.draw do
 
   # will change to multi_search#index when we make multi_search default.
   root :to => "catalog#index"
-
-
-  ##
-  # Custom 404:  catch all with our own 404 to avoid 404 errors
-  # in our logs.
-  ##
-  get '*path' => "application#show404"
 end

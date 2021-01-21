@@ -95,5 +95,8 @@ module Catalyst
 
     # temporarily suppress browse until our index is built
     #config.x.suppress_browse = true
+
+    # Exception Handling
+    config.exceptions_app = self.routes
   end
 end

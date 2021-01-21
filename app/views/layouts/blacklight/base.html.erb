@@ -64,11 +64,13 @@
         <%= render :partial=>'/user_util_links' %>
       </nav>
 
-      <div id="search-bar" class="search-container">
-        <div class="container">
-          <%= render :partial => "search_bar" %>
+      <% unless controller.controller_name == 'errors' %>
+        <div id="search-bar" class="search-container">
+          <div class="container">
+            <%= render :partial => "search_bar" %>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <main id="main-container" class="<%= container_classes %>" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
         <%= content_for(:container_header) %>
