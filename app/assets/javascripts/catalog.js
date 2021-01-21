@@ -19,10 +19,7 @@ Blacklight.onLoad(function() {
         $('input[name="search_field"]').val(search_field);
     });
 
-    $('body').on('click', '[data-toggle="modal"]', function(){
-        $($(this).data('target')+' .modal-body').load($(this).attr('href'));
-    });
-    $('#ajax-modal').on('hidden.bs.modal', function () {
-        $('#ajax-modal .modal-body').html('');
+    $('#blacklight-modal').on('hidden.bs.modal', function () {
+        $('#blacklight-modal .modal-content').html('');
     });
 });
