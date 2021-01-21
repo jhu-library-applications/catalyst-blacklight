@@ -110,7 +110,7 @@ class CatalogController < ApplicationController
     # nokogiri.
     MARC::XMLReader.best_available!
 
-    config.search_builder_class = SearchBuilder
+    config.search_builder_class = ::SearchBuilder
 
     config.default_solr_params = {
     :qt => "search",
