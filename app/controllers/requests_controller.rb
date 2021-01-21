@@ -8,7 +8,7 @@ class RequestsController < CatalogController
 
   # The request submission form
   def new
-    @response, @document = search_service.fetch params[:id]
+    @response, @document = search_service.fetch(params[:id])
 
     # The individual item object for use in the view. May wind up
     # with nil for copy/item multi-level holdings, bah.
@@ -24,7 +24,7 @@ class RequestsController < CatalogController
 
   # Submit request and show confirmation page
   def create
-    @response, @document = get_solr_response_for_doc_id
+    @response, @document = search_service.fetch(params[:id])
 
     horizon_bib_id = @document.ils_bib_id
     horizon_item_id = params[:item_id]
