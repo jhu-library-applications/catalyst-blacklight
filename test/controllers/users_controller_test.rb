@@ -30,8 +30,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "new" do
-    get '/user/new'
-    assert_response 404
+    assert_raises ActionController::RoutingError do
+      get '/user/new'
+    end
   end
 
   test "create" do

@@ -64,11 +64,13 @@
         <%= render :partial=>'/user_util_links' %>
       </nav>
 
-      <div id="search-bar" class="search-container">
-        <div class="container">
-          <%= render :partial => "search_bar" %>
+      <% unless controller.controller_name == 'errors' %>
+        <div id="search-bar" class="search-container">
+          <div class="container">
+            <%= render :partial => "search_bar" %>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <div id="ajax-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal menu" aria-hidden="true">
         <div class="modal-dialog">

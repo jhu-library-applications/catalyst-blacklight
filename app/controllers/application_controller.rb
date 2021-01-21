@@ -7,8 +7,6 @@ require 'hip_pilot'
 require 'rails_stackview'
 
 class ApplicationController < ActionController::Base
-  # Better logging for uncaught exceptions
-  rescue_from Exception, :with => :handle_general_error
   layout 'blacklight'
 
   # Adds a few additional behaviors into the application controller
@@ -27,14 +25,7 @@ class ApplicationController < ActionController::Base
   ActionController::Parameters.action_on_unpermitted_parameters = :raise
 
 
-  skip_before_action :verify_authenticity_token, :only => [:show404, :handle_general_error, :hip_disabled_message]
-
-  # just show the default 404, but in an action method we can call.
-  def show404
-    logger.info("show404: No route matches \"#{request.fullpath}\" with {:method=>#{request.request_method.to_sym}}")
-    render :file => "public/404.html", :layout => false, :status => 404
-  end
-
+  skip_before_action :verify_authenticity_token, :only => [:hip_disabled_message]
 
   def current_user
     if @current_user.nil? && session[:current_user_id]
@@ -151,41 +142,6 @@ class ApplicationController < ActionController::Base
     render "message"
   end
 
-  # Better logging context for uncaught exceptions
-  def handle_general_error(exception)
-    log_error_with_context(exception)
-    @page_title = "Error!"
-
-    # Get standard dev-mode error page please.
-    if (Rails.application.config.consider_all_requests_local || request.local?)
-      raise exception
-    end
-
-    # Only render this if we haven't done anything else
-    # e.g. if some other gem may be handling its own errors
-    unless performed?
-      if request.format.html?
-        render :file => 'public/500.html', :status => 500, :layout => false
-      else
-        render :text => "Unexpected fatal error, has been logged.", :status => 500, :layout => false
-      end
-    end
-  end
-  protected :handle_general_error
-
-  def log_error_with_context(exception, severity = :fatal)
-    message = "\n#{exception.class} (#{exception.message}):\n"
-    message << "  uri: #{request.method} #{request.fullpath}\n"
-    message << "  params: #{params.inspect}\n"
-    message << "  Referer: #{request.referer}\n" if request.referer
-    message << "  User-Agent: #{request.user_agent}\n"
-    message << "  Client IP: #{request.remote_addr}\n\n"
-    message << exception.annoted_source_code.to_s if exception.respond_to?(:annoted_source_code)
-    message << "  " << exception.backtrace.join("\n  ")
-    logger.send(severity, "#{message}\n\n")
-  end
-  protected :log_error_with_context
-
   ##
   # Returns a local URL path component to redirect to after an action.
   # Will be taken from referer query param or referer HTTP header, in that
@@ -226,4 +182,9 @@ class ApplicationController < ActionController::Base
   end
   protected :referer_blacklist
 
+  protected
+
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
 end
