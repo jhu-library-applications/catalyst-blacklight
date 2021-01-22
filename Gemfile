@@ -10,7 +10,7 @@ gem 'puma', '~> 4.1'
 
 # Blacklight fixed to 7.0.1, change manually when you want to update
 # blacklight.
-gem 'blacklight', "= 7.10.0" #, :path => "../blacklight"
+gem 'blacklight', "= 7.11.1" #, :path => "../blacklight"
 gem 'blacklight-marc', '= 7.0' # , :path => "../blacklight-marc"
 gem 'rsolr', '~> 2.0'
 
