@@ -7,6 +7,13 @@
 
   #facets {
 
+    .facet-values {
+      .facet-label {
+        overflow-wrap: normal;
+        hyphens: none;
+      }
+    }
+
     .facet-limit-active {
       border-color: $jhuDarkGreen !important;
 
@@ -18,6 +25,7 @@
           color: #FFFFFF !important;
         }
       }
+
       .facet-values li .selected {
         color: $jhuDarkGreen !important;
       }
