@@ -14,7 +14,7 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
     assert page.has_content?("Search tips")
     within("div.limit-criteria") do
       assert page.has_content?("Format")
-      assert page.has_content?("Library Location")
+      assert page.has_content?("Item Location")
       assert page.has_content?("Language")
       assert page.has_content?("Musical Instrumentation")
       assert page.has_content?("Publication Year")
