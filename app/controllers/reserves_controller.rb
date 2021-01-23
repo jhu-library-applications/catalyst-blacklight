@@ -53,7 +53,11 @@ class ReservesController < CatalogController
   end
 
   def show
-    @course = ReservesCourse.includes(:bib_ids).find(params[:id])
+    begin
+      @course = ReservesCourse.includes(:bib_ids).find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to :not_found
+    end
 
     @bib_ids                  =  @course.bib_ids
     solr_ids                  = @bib_ids.collect {|j| "bib_" + j.bib_id.to_s}
@@ -70,9 +74,6 @@ class ReservesController < CatalogController
     #    where(blacklight_config.document_model.unique_key => solr_ids).
     #    append(:jh_reserves_default_sorting_paging)
     # end
-
-  rescue ActiveRecord::RecordNotFound
-    render :text => "Sorry, reserves section not found. You may have bookmarked a section which is no longer on reserve.", :layout => true, :status => 404
   end
 
   private
