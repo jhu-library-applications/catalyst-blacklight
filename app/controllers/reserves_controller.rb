@@ -56,7 +56,7 @@ class ReservesController < CatalogController
     begin
       @course = ReservesCourse.includes(:bib_ids).find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      redirect_to :not_found
+      raise ActionController::RoutingError.new('Not Found')
     end
 
     @bib_ids                  =  @course.bib_ids
