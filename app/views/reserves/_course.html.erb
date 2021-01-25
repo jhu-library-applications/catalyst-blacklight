@@ -1,3 +1,8 @@
+<% # Reserves Feature %>
+<% if Flipper[:curbside_mode].enabled? %>
+  <%= render partial: 'reserves_curbside' %>
+<% end %>
+
 <div class="course">
 
     <h3 class="name" title="name"><%= link_to course.name, {:action => "show", :id => course.course_id} %></h3>
