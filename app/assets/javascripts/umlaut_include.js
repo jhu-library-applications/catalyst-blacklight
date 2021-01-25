@@ -44,18 +44,24 @@ Blacklight.onLoad(function(){
         $(this).text(text);
       });
     } else {
-      $(html).closest(".links").find(".marc856").find('.marc856*:not(:contains("Finding aid")):not(:contains("Finding Aid")):not(:contains("Complete inventory")):not(:contains("Collection guide available"))').closest('li.marc856').hide();
-      if ($(html).closest(".links").find(".marc856*:contains('Finding aid'),.marc856*:contains('Finding Aid'),.marc856*:contains('Complete inventory')").length > 0) {
+      if( $(html).closest(".links").find('.umlaut_section_content > p').hasClass('umlaut-unavailable') && $(html).closest(".links").find('.marc856url a').length > 0 ){
         $('p.umlaut-unavailable').hide();
-        // Update label before finding aid url
-        $(".marcLine.marc856*:contains('Finding aid'),.marcLine.marc856*:contains('Finding Aid'),.marcLine.marc856*:contains('Complete inventory')").each(function() {
-          $(this).find('span').first().text("Collection guide available:");
-        })
+        console.log('Yes');
+      } else{
+        console.log('No');
+        $(html).closest(".links").find(".marc856").find('.marc856*:not(:contains("Finding aid")):not(:contains("Finding Aid")):not(:contains("Complete inventory")):not(:contains("Collection guide available"))').closest('li.marc856').hide();
+        if ($(html).closest(".links").find(".marc856*:contains('Finding aid'),.marc856*:contains('Finding Aid'),.marc856*:contains('Complete inventory')").length > 0) {
+          $('p.umlaut-unavailable').hide();
+          // Update label before finding aid url
+          $(".marcLine.marc856*:contains('Finding aid'),.marcLine.marc856*:contains('Finding Aid'),.marcLine.marc856*:contains('Complete inventory')").each(function() {
+              $(this).find('span').first().text("Collection guide available:");
+          })
+        }
       }
     }
 
     if ($("#hathi-etas").attr("hathi-present").trim() == "true"){
-        $('p.umlaut-unavailable').hide();
+      $('p.umlaut-unavailable').hide();
     }
   }
 
