@@ -17,4 +17,4 @@ en:
           link: "https://aplweb.jhuapl.edu/services/Pages/ResearchLibrary.aspx"
   record_mailer:
     email:
-      url: "URL: "
+      url: "URL: %{url}"
