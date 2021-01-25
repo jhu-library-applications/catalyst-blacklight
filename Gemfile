@@ -39,7 +39,7 @@ gem 'lcsort'
 gem 'borrow_direct', ">= 1.2.0.pre1", "< 2.0"  # for generating queries to BD
 
 # gem "chosen_assets" #, :path => "../chosen-rails" # used to add fancy combo box UI to advanced search form facets
-gem 'chosen-rails' #  jquery multiselect plugin for advanced search
+#gem 'chosen-rails' #  jquery multiselect plugin for advanced search
 
 # gem "blacklight_cql", "~> 3.0"
 
@@ -113,6 +113,8 @@ gem 'exception_notification', '~> 4.4.0'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+gem 'webpacker', '~> 5.x'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
