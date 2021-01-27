@@ -13,7 +13,7 @@ class HomepageTest < ApplicationSystemTestCase
       assert page.has_link?("Sheridan Libraries")
       assert page.has_link?("Welch Medical Library")
       assert page.has_link?("SAIS Library")
-      assert page.has_link?("Friedheim Music Library")
+      assert page.has_link?("Arthur Friedheim Library")
       assert page.has_link?("APL Library")
     end
     within("div#jhu-app-nav") do
