@@ -14,7 +14,7 @@ en:
         - label: "Friedheim Music Library"
           link: "http://musiclibrary.peabody.jhu.edu/home"
         - label: "APL Library"
-          link: "https://aplweb.jhuapl.edu/services/Pages/ResearchLibrary.aspx"
+          link: "https://www.jhuapl.edu/Library/"
   record_mailer:
     email:
       url: "URL: %{url}"
