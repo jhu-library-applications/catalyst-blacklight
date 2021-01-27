@@ -73,6 +73,12 @@ jobs:
             gem install bundler
             bundle install --jobs 4 --retry 3
 
+        - name: Rails assets
+          env:
+            RAILS_ENV: test
+          run: |
+            bundle exec rails assets:precompile
+
         - name: Rails - Database setup
           env:
             RAILS_ENV: test

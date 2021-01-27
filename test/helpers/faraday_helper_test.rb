@@ -7,7 +7,7 @@ class FaradayHelperTest < ActionView::TestCase
   end
 
   test 'Faraday can get urls' do
-    response = Faraday.get('https://httpstat.us/200')
+    response = Faraday.get('https://catalyst.library.jhu.edu')
     assert_equal(response.status, 200)
   end
 
