@@ -1,5 +1,5 @@
 # Johns Hopkins Catalyst ( Blacklight Library Catalog )
-
+![CI Workflow](https://github.com/jhu-library-applications/catalyst-blacklight/workflows/CI/badge.svg?branch=main)
 
 Catalyst is Johns Hopkins Libraries Catalog. It is an extention of the Blacklight project
 which uses Solr as a central index. Catalyst.
