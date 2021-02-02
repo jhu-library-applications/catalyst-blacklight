@@ -22,6 +22,9 @@ class CatalogController < ApplicationController
   ActionController::Parameters.permit_all_parameters = true
 
   PERMIT_PARAMS = [
+      :bento_redirect,
+      :format,
+      :q,
       :unstemmed_search,
       :utf8,
       :all_fields,
@@ -36,11 +39,18 @@ class CatalogController < ApplicationController
       :sort,
       :per_page,
       :search_field,
+      :only_path,
       :range => {
         :pub_date_sort => [
           :begin,
           :end
         ]
+      },
+      :f => {
+        :format => [],
+        :location_facet => [],
+        :language_facet => [],
+        :instrumentation_facet => []
       },
       :f_inclusive => {
         :format => [],
@@ -604,12 +614,20 @@ class CatalogController < ApplicationController
           legacy_converted = true
           params[:f_inclusive][field] = value.keys
         end
+        # added after upgrade to BL v7 tp convert f_include[format][Book] = 1 to f_include[format][] = Book
+        if value.respond_to?(:keys)
+          if value.keys.kind_of? Array
+            # old style! convert!
+            legacy_converted = true
+            params[:f_inclusive][field] = [value.keys.first]
+          end
+        end
       end
 
       if legacy_converted
         # Safe way to redirect to modification of existing params
         # https://github.com/rails/rails/pull/16170
-        redirect_to url_for(params.merge(:only_path => true).permit(:only_path => true)), :status => :moved_permanently
+        redirect_to url_for(params.merge(:only_path => true).permit(PERMIT_PARAMS)), :status => :moved_permanently
 
       end
     end
@@ -629,7 +647,7 @@ begin
       # they requested one or more facet limits that aren't configured, redirect
       # without those.
       f = params[:f].except(*bad_facets)
-      redirect_to_params params.merge(:f => f).permit(:f => f)
+      redirect_to url_for(params.merge(:f => f).permit(PERMIT_PARAMS)), :status => :moved_permanently
     end
   end
 end
