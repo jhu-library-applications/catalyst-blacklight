@@ -459,6 +459,7 @@ class CatalogController < ApplicationController
     # show page. Because we use custom item/copy-specific SMS functions instead.
     # This seems to be the recommended way to do that:
     config.show.document_actions[:sms].if = false if config.show.document_actions[:sms]
+    config.show.document_actions[:refworks].partial = 'refworks'
 
     # We want to try and re-order the show.document_actions to our desired order.
     # This appears to be one way to do it, deleting and reinserting everything we want.
