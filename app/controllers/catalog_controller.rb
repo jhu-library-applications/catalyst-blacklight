@@ -22,6 +22,11 @@ class CatalogController < ApplicationController
   ActionController::Parameters.permit_all_parameters = true
 
   PERMIT_PARAMS = [
+      :op,
+      :suppress_spellcheck,
+      :page,
+      :results_view,
+      :subject_topic_facet,
       :bento_redirect,
       :format,
       :q,
