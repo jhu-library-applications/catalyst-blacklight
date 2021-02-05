@@ -1,114 +1,91 @@
 emsel:
   library: SPECCOLLJHU
-  collections:
-    - ehinkes
-    - ehinkbl
-    - esacq
-    - esarcrf
-    - esbirny
-    - escagbl
-    - escage
-    - escaggi
-    - esfor
-    - esforbl
-    - esgpfo
-    - esgpfom
-    - eshtlr
-    - esmchn
-    - esmchnr
-    - esmedbl
-    - esref
-    - estudbl
-    - estudor
 elscsp:
   library: SPECCOLLJHU
-  collections:
-    - egdiss
-    - egdissa
-    - egdissb
-    - egess
-    - egtrade
-    - eocirmr
-    - eoclabl
-    - eoclass
-    - eofarrf
-    - eofdia
-    - eofdib
-    - eofdidc
-    - eofdisa
-    - eofdiss
-    - eofdits
-    - eofgpl
-    - eofgplm
-    - eofhseb
-    - eofhtlr
-    - eofmdbl
-    - eofmed
-    - eofmeda
-    - eofmedg
-    - eofmedt
-    - eofmrta
-    - eofms
-    - eofpam
-    - eofpama
-    - eofprbl
-    - eofpro
-    - eofspbi
-    - eofspbl
-    - eofspec
-    - eofsptb
-    - eofsptu
-    - eofzioc
-    - eofzion
-    - eoschae
-    - eoschbl
-    - eostmr
+elsc:
+  library: SPECCOLLJHU
 epbdy:
   library: PEABODYJHU
-  collections:
-    - eacq
-    - esacq
-    - escage
-    - esgmap
-    - esgpam
-    - esgpbg
-    - esgpby
-    - esgpdi
-    - esgpfgp
-    - esgpfo
-    - esgpfom
-    - esgpgr
-    - esgpind
-    - esgpmen
-    - esgpmf
-    - esgpms
-    - esgprf
-    - esgptm
-    - esgpyr
-    - esgrt
 egar:
   library: GARRETTJHU
-  collections:
-    - esfwlbl
-    - esfwlr
-    - esg2f
-    - esg2fbl
-    - esgnl
-    - esgnlbl
-    - esgnlf
-    - esgrf
-    - esgrfbl
-    - esgri
-    - esgribl
-    - esgrr
-    - esgrrbl
-    - esgrt
-    - esgrtbl
-    - esgrtms
-    - espugib
-    - espugin
-    - estudor
-
+collections:
+ - ecageki
+ - ecircag
+ - egtrade
+ - ehinkbl
+ - ehinkes
+ - eocirmr
+ - eofarrf
+ - eofart
+ - eofdcg
+ - eofgpl
+ - eofgplm
+ - eofhseb
+ - eofhser
+ - eofhtlr
+ - eofmdbl
+ - eofmed
+ - eofmeda
+ - eofmedg
+ - eofmedt
+ - eofmrta
+ - eofms
+ - eofpam
+ - eofpama
+ - eofprbl
+ - eofpro
+ - eofspbi
+ - eofspbl
+ - eofspec
+ - eofsptb
+ - eofsptu
+ - eofzioc
+ - eofzion
+ - esacq
+ - esarc
+ - esarck
+ - esarcrf
+ - esbirny
+ - escagbl
+ - escage
+ - escaggi
+ - esfor
+ - esforbl
+ - esfwlbl
+ - esfwlr
+ - esg2f
+ - esg2fbl
+ - esgnl
+ - esgnlbl
+ - esgnlf
+ - esgpbg
+ - esgpby
+ - esgpdi
+ - esgpfo
+ - esgpfom
+ - esgpind
+ - esgpmen
+ - esgptm
+ - esgpyr
+ - esgrbl
+ - esgrf
+ - esgrfbl
+ - esgrr
+ - esgrrbl
+ - esgrt
+ - eshtlr
+ - esmac
+ - esmanu
+ - esmchn
+ - esmchnr
+ - esmed
+ - esmedbl
+ - espugib
+ - espugin
+ - esref
+ - esrosen
+ - estudbl
+ - estudor
 
 
 
