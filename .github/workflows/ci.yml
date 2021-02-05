@@ -28,6 +28,10 @@ env:
 jobs:
   tests:
     services:
+      solr:
+        image: ghcr.io/jhu-library-applications/catalyst-docker-solr:latest
+        ports:
+          - 8983:8985
       db:
         image: mysql:5.7
         env:
@@ -85,17 +89,6 @@ jobs:
           run: |
             bundle exec rails db:create
             bundle exec rails db:migrate
-        # This cache probably doesn't actually save us any time, but it hopes to save
-        # us being throttled by apache foundation servers unhappy that solr_wrapper
-        # is downloading solr over and over again.
-        - name: Solr - Cache install
-          uses: actions/cache@v2
-          with:
-            # these paths specified in .solr_wrapper.yml:
-            path: |
-              tmp/solr_dist
-              tmp/solr_test
-            key: ${{ runner.os }}-solr-${{ hashFiles('.solr_wrapper.yml') }}
 
         - name: Tests - Run tests
           env:
