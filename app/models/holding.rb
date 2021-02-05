@@ -40,7 +40,7 @@
       @requestable
     end
     def special_collection?
-      @@special_collections.fetch(@location.internal_code, {}).fetch('collections', []).include? @collection.internal_code
+      @@special_collections.fetch('collections', []).include? @collection.internal_code
     end
     def special_collection_site
       @@special_collections.fetch(@location.internal_code, {}).fetch('library', '')
