@@ -99,7 +99,7 @@ class CatalogController < ApplicationController
     config.advanced_search[:url_key] ||= 'advanced'
     config.advanced_search[:query_parser] ||= 'edismax'
     config.advanced_search[:form_solr_parameters] ||= {
-      "facet.field" => ["format", "location_facet", "language_facet", "instrumentation_facet"],
+      "facet.field" => ["access_facet", "format", "location_facet", "language_facet", "instrumentation_facet"],
       "facet.limit" => -1, # return all facet values
       "facet.sort" => "index" # sort by byte order of values
     }
