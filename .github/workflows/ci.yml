@@ -52,6 +52,13 @@ jobs:
           with:
             ruby-version: '2.6'
 
+        - uses: actions/cache@v2
+          with:
+            path: vendor/bundle
+            key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-gems-
+
         - name: Node - Install node for Rails JS runtime
           uses: actions/setup-node@v2
           with:
@@ -64,17 +71,24 @@ jobs:
         - name: MySQL - Create jhu_bl_test database
           run: |
             mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS jhu_bl_test;'
+
         - name: Apt - Install dependencies
           run: |
             sudo apt-get update
             sudo apt-get -y install libvips-tools ffmpeg mediainfo poppler-utils
 
-        - name: Rails - Yarn and Bundler install
+        - name: Rails - Yarn install
           env:
             RAILS_ENV: test
           run: |
             yarn install
+
+        - name: Rails - Bundle install
+          env:
+            RAILS_ENV: test
+          run: |
             gem install bundler
+            bundle config path vendor/bundle
             bundle install --jobs 4 --retry 3
 
         - name: Rails assets
