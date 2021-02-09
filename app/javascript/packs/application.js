@@ -6,6 +6,7 @@ global.$ = jQuery
 global.jQuery = jQuery
 global.Blacklight = Blacklight
 
+
 // Polyfills for older browers
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -27,3 +28,9 @@ import '../rmst'
 import '../search_type_tab_switch'
 import '../toc_shortener'
 import '../umlaut_include'
+
+// Our globals
+
+import { has_rmst_cookie, toggle_rmst_cookie } from '../rmst'
+global.has_rmst_cookie = has_rmst_cookie
+global.toggle_rmst_cookie = toggle_rmst_cookie

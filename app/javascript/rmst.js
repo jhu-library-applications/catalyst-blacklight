@@ -6,10 +6,11 @@
 
 
 // functions outside of closure, cause has_rmst_cookie() used in other places
-function has_rmst_cookie() {
+export function has_rmst_cookie() {
   return (document.cookie.indexOf("rmst=") != -1);
 }
-function toggle_rmst_cookie() {
+
+export function toggle_rmst_cookie() {
   if (has_rmst_cookie()) {
     document.cookie = "rmst=true; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/";
   } else {
