@@ -55,7 +55,8 @@ class CatalogController < ApplicationController
         :format => [],
         :location_facet => [],
         :language_facet => [],
-        :instrumentation_facet => []
+        :instrumentation_facet => [],
+        :subject_topic_facet => []
       },
       :f_inclusive => {
         :format => [],
