@@ -608,6 +608,7 @@ class CatalogController < ApplicationController
       should_redirect = true
     end
 
+    # Check for old format style of params[:f][:format] = [[Book], [Online]] and converts it to params[:f][:format] = [Book, Online]
     if (params[:bento_redirect] == 'true') && (params[:f][:format].kind_of? Array)
       if params[:f][:format][0].kind_of? Array
         params[:f][:format] = params[:f][:format].map{ |f| f[0] }
