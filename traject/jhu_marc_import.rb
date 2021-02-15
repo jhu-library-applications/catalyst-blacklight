@@ -250,16 +250,6 @@ to_field "issn_related",        extract_marc("490x:440x:800x:400x:410x:411x:810x
 
 to_field "oclcnum_t",           oclcnum
 
-to_field "hathi_access" do |record, accumulator|
-  value = "[allow,ic]"
-  accumulator = value
-end
-
-to_field "hathi_url" do |record, accumulator|
-  value = "['https://github.com/upenn-libraries']"
-  accumulator = value
-end
-
 
 to_field "other_number_unstem", extract_marc("024a:028a")
 
@@ -285,10 +275,6 @@ each_record do |record, context|
   if (context.output_hash["format"] || []).include? "Online"
     context.output_hash["access_facet"] ||= []
     context.output_hash["access_facet"]  << "Online" if context.output_hash["access_facet"].empty?
-  elsif((context.output_hash["hathi_url"] || []).any? && !((context.output_hash["hathi_url"] || []).include? "none"))
-    context.output_hash["access_facet"] ||= []
-    context.output_hash["access_facet"]  << "Online" if context.output_hash["access_facet"].empty?
-    context.output_hash["format"]  << "Online"
   else
     context.output_hash["access_facet"] ||= []
     context.output_hash["access_facet"] << "At the Library" if context.output_hash["access_facet"].empty?
