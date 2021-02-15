@@ -608,7 +608,14 @@ class CatalogController < ApplicationController
       should_redirect = true
     end
 
-    redirect_to_params params if should_redirect
+    if (params[:bento_redirect] == 'true') && (params[:f][:format].kind_of? Array)
+      if params[:f][:format][0].kind_of? Array
+        params[:f][:format] = params[:f][:format].map{ |f| f[0] }
+        should_redirect = true
+      end
+    end
+
+    redirect_to url_for(params.merge(:only_path => true).permit(PERMIT_PARAMS)), :status => :moved_permanently if should_redirect
   end
 
   def redirect_legacy_advanced_search
