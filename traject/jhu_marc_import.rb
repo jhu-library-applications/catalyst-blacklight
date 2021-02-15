@@ -282,7 +282,6 @@ to_field "location_facet" do |record, accumulator|
 end
 
 each_record do |record, context|
-  ray(context.output_hash["format"].to_s)
   if (context.output_hash["format"] || []).include? "Online"
     context.output_hash["access_facet"] ||= []
     context.output_hash["access_facet"]  << "Online" if context.output_hash["access_facet"].empty?
