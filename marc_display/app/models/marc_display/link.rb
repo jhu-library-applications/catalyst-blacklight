@@ -48,6 +48,7 @@ module MarcDisplay
         
         if @config_hash[:custom]
           hash = @config_hash[:custom].call(self, hash)
+          hash[:q] = hash[:q].sub(/""\s/, '')
         end
           
        return hash
