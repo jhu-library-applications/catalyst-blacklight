@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.6.6'
+
 # use a .env file for environment variables in all enviroments
 # we will no longer need this gem once we migrate to ansible
 gem 'dotenv-rails'
@@ -118,8 +120,17 @@ gem 'rollbar'
 gem 'webpacker', '~> 5.x'
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'capistrano', '~> 3.10', require: false
+  gem 'capistrano-chruby', require: false
+  gem 'capistrano-dotenv', require: false
+  gem 'capistrano-passenger', require: false
+  gem "capistrano-rails", "~> 1.3", require: false
+  gem 'capistrano-yarn', require: false
+  gem 'capistrano-locally', require: false
 
+  gem 'bcrypt_pbkdf'
+  gem 'ed25519'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
