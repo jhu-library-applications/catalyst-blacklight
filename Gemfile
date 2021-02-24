@@ -117,19 +117,21 @@ gem 'rollbar'
 #   gem 'webrat'
 # end
 
+gem 'capistrano', '~> 3.10', require: false
+gem 'capistrano-chruby', require: false
+gem 'capistrano-dotenv', require: false
+gem 'capistrano-passenger', require: false
+gem "capistrano-rails", "~> 1.3", require: false
+gem 'capistrano-yarn', require: false
+gem 'capistrano-locally', require: false
+
+gem 'bcrypt_pbkdf'
+gem 'ed25519'
+
+
 gem 'webpacker', '~> 5.x'
 
 group :development do
-  gem 'capistrano', '~> 3.10', require: false
-  gem 'capistrano-chruby', require: false
-  gem 'capistrano-dotenv', require: false
-  gem 'capistrano-passenger', require: false
-  gem "capistrano-rails", "~> 1.3", require: false
-  gem 'capistrano-yarn', require: false
-  gem 'capistrano-locally', require: false
-
-  gem 'bcrypt_pbkdf'
-  gem 'ed25519'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
