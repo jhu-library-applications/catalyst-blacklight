@@ -45,8 +45,8 @@ set :ssh_options, { :forward_agent => true }
 
 set :branch, ENV['BRANCH'] if ENV['BRANCH']
 
-before "deploy:assets:precompile", "deploy:yarn_install"
-
+before 'deploy:assets:precompile', 'deploy:yarn_install'
+before 'deploy:check:directories', 'deploy:permissions'
 
 ## Bundle options
 set :bundle_roles, :all
@@ -59,36 +59,19 @@ namespace :deploy do
   task :yarn_install do
     on roles(:web) do
       within release_path do
-        execute("cd #{release_path} && yarn install")
+        execute "cd #{release_path} && yarn install"
+      end
+    end
+  end
+
+   desc 'Set correct permissions on deploy directory'
+   task :permissions do
+    on roles(:all) do
+      within deploy_to do
+        execute 'sudo', 'chown', '-R', 'catalyst:catalyst', '.'
+        execute 'sudo', 'chmod', '-R', 'g+s', '.'
+        info '/opt/catalyst permissions set to catalyst'
       end
     end
   end
 end
-
-#namespace :deploy do
-#  before :starting, :get_deploy_tag
-#  before :starting, :git_push
-  # after :finishing, :restart @TODO
-
-#  after :updated, :compile_assets
-
- # desc 'Restart passenger'
- # task :restart do
- #   on roles(:app) do
- #     # These are for the systemd deployments
- #     # capistrano-passenger?
- #   end
- # end
-
-#  desc 'push tags and changes'
-#  task :git_push do
-#    puts `git push origin master`
-#    puts `git push --tags`
-#  end
-
-#  desc 'Prompt for git tag to deploy'
-#  task :get_deploy_tag do
-#    avail_tags = `git tag --sort=version:refname | tail -n15`
-#    set :branch, (ENV['CATALYST_RELEASE'] || ask("release tag or branch:\n#{avail_tags}", avail_tags.chomp.split("\n").last))
-#  end
-#end
