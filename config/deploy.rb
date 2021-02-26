@@ -16,6 +16,7 @@ set :deploy_to, "/opt/catalyst"
 set :chruby_ruby, 'ruby-2.6.6'
 
 set :passenger_restart_with_touch, true
+set :passenger_roles, :web
 
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
