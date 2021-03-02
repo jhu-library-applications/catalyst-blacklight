@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-md navbar-light bg-light" id="jhu-app-nav">
   <div class="container">
-    <%= image_tag("libraries.logo.small.horizontal.blue.png", :alt => "Johns Hopkins University Libraries", width: '250') -%>
+    <%= image_tag("libraries.logo.small.horizontal.blue.png", :alt => "Johns Hopkins University Libraries", width: '300') -%>
     <%= link_to "Catalyst", root_path, :class=> "navbar-brand site-title" %>
 
     <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#catalyst-navbar-collapse">
@@ -27,7 +27,7 @@
         <li class="nav-item">
           <%= link_to bookmarks_path, :class => "nav-link" do %>
             Bookmarks
-            (<span data-role='bookmark-counter'><%#= current_or_guest_user.bookmarks.count %></span>)
+            (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
           <% end %>
         </li>
 

@@ -213,11 +213,11 @@ body {
 // header brand in custom font which then wants custom size
 .navbar-brand {
   color: $jhuBlue !important;
-  font-family: $fontFamily2;
-  text-transform: uppercase;
+  font-family: $fontFamily1;
   letter-spacing: .03em;
-  font-weight: 500;
+  font-weight: normal;
   font-style: normal;
+  padding-left: 38px;
   // small one to begin with, at small sizes
   // at larger sizes where there's more room, it
   // can be bigger
@@ -232,6 +232,7 @@ body {
     margin-top: -11px;
   }
   @media (min-width: $screen-md-min) {
+    border-left: 1px solid $jhuBlue;
     font-size: 2rem;
   }
 }

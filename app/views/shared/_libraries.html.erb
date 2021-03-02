@@ -12,6 +12,36 @@
                   <%= link_to site[:label], site[:link], {class: 'nav-link'} %>
                 </li>
               <% end %>
+              <% if current_user %>
+                <li class="nav-item">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    >
+                      <%= current_user.jhed_lid || current_user.login %>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <%= link_to "Account", user_path, class: "dropdown-item  nav-link" %>
+                      <%= link_to "Items Checked Out", {:action => "itemsout"}, {class: 'dropdown-item nav-item'} %>
+                      <a class="dropdown-item" href="#">Another action</a>
+
+                      <%= link_to destroy_user_session_path, {class: 'dropdown-item nav-link'} do %>
+                        Log Out
+                      <% end %>
+                    </div>
+                  </div>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to new_user_session_path, {class: 'nav-link'} do %>
+                    Login
+                  <% end %>
+                </li>
+              <% end %>
             </ul>
           </div><!-- /.nav-collapse -->
     </div>
