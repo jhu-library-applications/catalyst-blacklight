@@ -4,6 +4,7 @@ lock "~> 3.15.0"
 set :application, "catalyst"
 set :repo_url, "git@github.com:jhu-library-applications/catalyst-blacklight.git"
 
+set :ssh_options, { forward_agent: true }
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
@@ -48,14 +49,20 @@ set :branch, ENV['BRANCH'] if ENV['BRANCH']
 
 before "deploy:assets:precompile", "deploy:yarn_install"
 
-
 ## Bundle options
 set :bundle_roles, :all
 set :bundle_path, -> { shared_path.join('bundle') }
 
-
-
 namespace :deploy do
+  task :group_permissions do
+    on roles(:app, :web) do
+      execute "chown -R :msel-libraryapplications #{release_path} -f"
+      execute "chmod -R g+w #{release_path} -f"
+    end
+  end
+
+  before "deploy:symlink:release", :group_permissions
+
   desc 'Run rake yarn:install'
   task :yarn_install do
     on roles(:web) do
