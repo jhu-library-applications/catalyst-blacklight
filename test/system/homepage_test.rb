@@ -16,13 +16,14 @@ class HomepageTest < ApplicationSystemTestCase
       assert page.has_link?("Arthur Friedheim Library")
       assert page.has_link?("APL Library")
     end
+    within("div.account-dropdown") do
+      assert page.has_link?("Bookmarks")
+      assert page.has_link?("Login")
+    end
     within("div#jhu-app-nav") do
       assert page.has_selector?("img")
       assert page.has_link?("Catalyst")
       assert page.has_link?("Other Resources")
-      assert page.has_link?("Bookmarks")
-      assert page.has_link?("Account")
-      assert page.has_link?("Login")
     end
     assert page.has_selector?("div.search-container")
     within("div.search-container") do
@@ -30,7 +31,6 @@ class HomepageTest < ApplicationSystemTestCase
       within("div.search-navbar") do
         assert page.has_text?("Catalog")
         assert page.has_link?("Articles")
-        assert page.has_link?("Reserves")
       end
       assert page.has_selector?("form.catalog-search")
       within("form.catalog-search") do

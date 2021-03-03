@@ -7,7 +7,6 @@ class ArticlesTest < ApplicationSystemTestCase
     within(".search-navbar") do
       assert page.has_link?("Catalog")
       assert page.has_text?("Articles")
-      assert page.has_link?("Reserves")
     end
 
     assert page.has_selector?("#articles-instructions")
