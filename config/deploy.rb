@@ -2,8 +2,11 @@
 lock "~> 3.15.0"
 
 set :application, "catalyst"
+set :group,       "catalyst"
+
 set :repo_url, "git@github.com:jhu-library-applications/catalyst-blacklight.git"
 
+set :ssh_options, { forward_agent: true }
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
@@ -29,7 +32,7 @@ set :passenger_roles, :web
 append :linked_files, "config/database.yml", "config/blacklight.yml", ".env"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", ".bundle"
+append :linked_dirs, "log", "tmp/pids", "tmp/sockets", "public/system", ".bundle"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -46,16 +49,21 @@ set :ssh_options, { :forward_agent => true }
 
 set :branch, ENV['BRANCH'] if ENV['BRANCH']
 
+before "deploy:assets:precompile", "deploy:group_permissions"
 before "deploy:assets:precompile", "deploy:yarn_install"
-
 
 ## Bundle options
 set :bundle_roles, :all
 set :bundle_path, -> { shared_path.join('bundle') }
 
-
-
 namespace :deploy do
+  task :group_permissions do
+    on roles(:app, :web) do
+      execute "chown -R #{ENV['CAP_USER']}:catalyst #{release_path}"
+      execute "chmod -R g+w #{release_path}"
+    end
+  end
+
   desc 'Run rake yarn:install'
   task :yarn_install do
     on roles(:web) do
