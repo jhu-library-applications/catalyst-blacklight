@@ -19,7 +19,6 @@ if defined?(Bundler)
 end
 
 
-
 module Catalyst
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

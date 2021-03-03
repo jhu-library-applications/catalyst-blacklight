@@ -6,6 +6,7 @@ global.$ = jQuery
 global.jQuery = jQuery
 global.Blacklight = Blacklight
 
+import '../sentry.js.erb'
 
 // Polyfills for older browers
 import 'core-js/stable';
