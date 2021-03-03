@@ -103,6 +103,17 @@ body {
   .icon-bar {
     background-color:#fff;
   }
+
+  .account-dropdown{
+    display: inline-flex;
+    list-style: none;
+    margin-bottom: 0px;
+    margin-right: 12px;
+
+    a.dropdown-item {
+      color: $jhuBlue;
+    }
+  }
 }
 
 #jhu-app-nav {
@@ -460,13 +471,6 @@ input.q {
   }
 }
 
-// Reserves link is in search bar above very small sizes, but
-// in top navbar links at very small sizes.
-.navbar-nav .reserves-btn {
-  @media (min-width: $screen-xs-min) {
-    display: none;
-  }
-}
 .search-navbar .reserves-btn {
   @media (max-width: $screen-xs-min - 1 ) {
     display: none;
