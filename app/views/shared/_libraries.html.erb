@@ -31,14 +31,14 @@
               <div class="dropdown">
                 <a class="dropdown-toggle"
                         type="button"
-                        id="dropdownMenuButton"
+                        id="accountMenuButton"
                         data-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="false"
                 >
                   <%= current_user.jhed_lid || current_user.login %>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-menu" aria-labelledby="accountMenuButton">
                   <%= link_to "Account", user_path, class: "dropdown-item  nav-link" %>
                   <%= link_to "Checked Out", {:action => "itemsout"}, {class: 'dropdown-item nav-item'} %>
                   <%= link_to "Requests", {:action => "requests"}, {class: 'dropdown-item nav-item'} %>
