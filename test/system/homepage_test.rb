@@ -16,7 +16,7 @@ class HomepageTest < ApplicationSystemTestCase
       assert page.has_link?("Arthur Friedheim Library")
       assert page.has_link?("APL Library")
     end
-    within("div.account-dropdown") do
+    within("ul.account-dropdown") do
       assert page.has_link?("Bookmarks")
       assert page.has_link?("Login")
     end

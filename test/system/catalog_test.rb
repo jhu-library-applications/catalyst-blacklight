@@ -122,7 +122,7 @@ class CatalogTest < ApplicationSystemTestCase
   # Scenario: Related titles should return consistent results: example 1
   def test_related_titles_results_1
     visit '/catalog/bib_3850534'
-    click_link("Bach, Johann Sebastian, 1685-1750. Concertos, harpsichords (2), BWV 1061a, C major")
+    click_link("Bach, Johann Sebastian, 1685-1750. Concertos, harpsichords (2), BWV 1061a, C major.")
     assert page.has_selector?("article.document", count: 1)
   end
 
