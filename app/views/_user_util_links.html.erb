@@ -10,15 +10,14 @@
 
     <div class="collapse navbar-collapse" id="catalyst-navbar-collapse">
       <ul class="navbar-nav ml-auto">
-        <%# at very small sizes, reserves button moves to navbar actions, which are hidden
-            unless you press the disclose button %>
-        <li class="nav-item reserves-btn">
-          <%= link_to("Course Reserves", {:controller => "reserves", :action => "index"}, {class: 'nav-link'}) %>
-        </li>
 
         <% if Flipper[:navbar_pickup_page].enabled? %>
           <li class="nav-item"><%= link_to("Book Pickups & Returns", {:controller => "info", :action => "pickup_locations"}, {class: 'nav-link'}) %></li>
         <% end %>
+
+        <li class="nav-item reserves-btn">
+          <%= link_to("Course Reserves", {:controller => "reserves", :action => "index"}, {class: 'nav-link'}) %>
+        </li>
 
         <li class="nav-item">
           <%= link_to("Other Resources", {:controller => "info", :action => "useful_links"}, {class: 'nav-link'}) %>
