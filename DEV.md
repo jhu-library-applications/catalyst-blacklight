@@ -104,15 +104,23 @@ bundle exec rake jhu:development
 ## Tests
 
 ### Run All Tests for Continuous Integration
-
+In Github Actions:
 ```
 RAILS_ENV=test bundle exec rake ci
 ```
+Locally
+```
+RAILS_ENV=test bundle exec rake jhu:ci
+```
 
 To silence deprecation warnings, because Blacklight can throw many upstream warnings, pass along this option:
-
+In Github Actions:
 ```
 RUBYOPT=W0 RAILS_ENV=test bundle exec rake ci
+```
+Locally
+```
+RUBYOPT=W0 RAILS_ENV=test bundle exec rake jhu:ci
 ```
 
 ### Test Development
