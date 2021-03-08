@@ -78,14 +78,14 @@ Begin by adding a section in your `~/.ssh/config` file for the server:
 # --- Catalyst ---
 Host catalyst catalyst.library.jhu.edu
         Hostname catalyst.library.jhu.edu
-        User jlittl43
+        User yourjhedhere
         ForwardAgent yes
 # ----------------------------
 
 # --- Catalyst Staging ---
 Host catalyst-stage catalyst-stage.library.jhu.edu
         Hostname catalyst-stage.library.jhu.edu
-        User jlittl43
+        User yourjhedhere
         ForwardAgent yes
 # ----------------------------
 
@@ -93,7 +93,7 @@ Host catalyst-stage catalyst-stage.library.jhu.edu
 Host catalyst-test catalyst-test.library.jhu.edu
         Hostname catalyst-test.library.jhu.edu
         ForwardAgent yes
-        User jlittl43
+        User yourjhedhere
 # ----------------------------
 ```
 
@@ -142,3 +142,19 @@ sudo chmod -R g+w /opt/catalyst
 
 [Additional information about deployment](https://jhulibraries.atlassian.net/wiki/spaces/CATALYST/pages/825655305/Deploying+Catalyst+with+Capistrano+and+Ansible)
 can be found on Confluence.
+
+#### Horizon upgrade
+
+During Horizon upgrades, we need to disable patron account features, while allowing patrons to use other catalyst features.
+
+In config/initializers/disable_hip.rb, set
+
+```
+JHConfig.params[:disable_hip] = true
+```
+
+In the same file, update the message displayed to users:
+
+```
+JHConfig.params[:disable_hip_message]
+```
