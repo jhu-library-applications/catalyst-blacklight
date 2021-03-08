@@ -1,0 +1,17 @@
+<ul class="<%= controller_name %>Tools nav nav-pills">
+  <%= render_show_doc_actions document_list, document: nil, document_list: @response.documents, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h) do |config, inner| %>
+    <li role="presentation" class="nav-item">
+      <%= inner %>
+    </li class="nav-item">
+  <% end %>
+  <% if @response.documents.any? {|d| d.exports_as? :refworks_marc_txt } %>
+    <li role="presentation" class="nav-item mr-3">
+      <%= link_to t('blacklight.tools.refworks'), refworks_export_url(url: bookmarks_export_url(:refworks_marc_txt, search_state.params_for_search)), :id => "refworksLink", role: 'menuitem', tabindex: '-1', target: 'RefWorksMain', class: 'btn btn-outline-secondary' %>
+    </li>
+  <% end %>
+  <% if @response.documents.any? {|d| d.exports_as? :endnote } %>
+    <li role="presentation" class="nav-item">
+      <%= link_to t('blacklight.tools.endnote'), bookmarks_path(:endnote, search_state.params_for_search), :id => "endnoteLink", role: 'menuitem', tabindex: '-1', class: 'btn btn-outline-secondary' %>
+    </li>
+  <% end %>
+</ul>
