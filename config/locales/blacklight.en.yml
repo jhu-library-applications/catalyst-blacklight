@@ -4,3 +4,6 @@ en:
     search:
       facets:
         title: Refine your search
+    tools:
+      refworks: Export to RefWorks
+      endnote: Export to EndNote
