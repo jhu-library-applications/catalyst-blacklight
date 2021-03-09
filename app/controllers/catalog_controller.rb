@@ -70,7 +70,6 @@ class CatalogController < ApplicationController
   include BlacklightAdvancedSearch::Controller
   include Blacklight::Catalog
   include BlacklightRangeLimit::ControllerOverride
-  include Blacklight::Searchable
 
   include Blacklight::Marc::Catalog
   include DlfExpandedPassthrough::BulkLoad
