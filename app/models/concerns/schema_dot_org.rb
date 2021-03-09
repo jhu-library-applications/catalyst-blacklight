@@ -7,29 +7,13 @@ module SchemaDotOrg
     Array(self[:schema_dot_org_struct]).first || solr_values_to_schema_dot_org
   end
 
-  # TODO: need to make sure this works for our schema
   def solr_values_to_schema_dot_org
     @solr_values_to_schema_dot_org ||= begin
       {
         "@context": "http://schema.org",
         "@type": jsonld_itemtype,
         name: self[:title_display],
-        author: (if self[:author_person_display]
-            {
-              "@type": 'Person',
-              name: self[:author_person_display]
-            }
-          elsif self[:author_corp_display]
-            {
-              "@type": 'Organization',
-              name: self[:author_corp_display]
-            }
-          elsif self[:author_meeting_display]
-            {
-              "@type": 'Organization',
-              name: self[:author_meeting_display]
-            }
-          end)
+        author: self[:author_display].map{ |author| { "@type": 'Person', name: author } }
       }
     end
   end
@@ -40,7 +24,7 @@ module SchemaDotOrg
 
   # Override Blacklight's default itemtype with a more specific value
   def itemtype
-    format = self[:format_main_ssim] || []
+    format = self[:format] || []
     genre = self[:genre_ssim] || []
     case
     when genre.include?('Thesis/Dissertation')
