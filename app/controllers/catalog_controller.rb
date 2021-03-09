@@ -100,6 +100,10 @@ class CatalogController < ApplicationController
   before_action :spellcheck, :only => :index
 
   configure_blacklight do |config|
+
+    # Do not store searches for bots
+    config.crawler_detector = ->(req) { req.env['HTTP_USER_AGENT'] =~ /bot/ }
+
     # default components
     config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
