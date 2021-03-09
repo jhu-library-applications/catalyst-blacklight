@@ -538,6 +538,7 @@ class CatalogController < ApplicationController
     if @error_message
       render "sms_form"
     else
+      ray({:to => phone_num, :carrier => params[:carrier], :email_from_host => email_from, :url_gen_params => url_gen_params})
       JhSmsSend.sms_record(@document, @holding, {:to => phone_num, :carrier => params[:carrier], :email_from_host => email_from, :url_gen_params => url_gen_params}).deliver_now
       @success_message = "Text message sent to #{params[:to]}"
       if request.xhr?
