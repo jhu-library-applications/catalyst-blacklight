@@ -6,7 +6,6 @@
 require 'unstem_solr_params'
 require 'home_page_solr_params_logic'
 require 'ils_status'
-require 'ray'
 
 # Not sure why we need to explicitly require our SearchBuilder
 # class, but BL isn't finding it if we don't. BL 5.14.
@@ -515,7 +514,6 @@ class CatalogController < ApplicationController
 
   #POST for sending
   def sms_send
-    ray('Start send')
     @response, @document = search_service.fetch(params[:id])
     if @document.blank?
       flash[:error] = "Sorry, record not found."
@@ -533,8 +531,6 @@ class CatalogController < ApplicationController
     @error_message = "Sorry, record not found." if @holding.nil?
     @error_message = "Please select a carrier."     if params[:carrier].blank?
     @error_message = "Please enter a 10-digit phone number" if phone_num.blank?
-
-    ray({:to => phone_num, :carrier => params[:carrier], :email_from_host => email_from, :url_gen_params => url_gen_params})
 
     if @error_message
       render "sms_form"

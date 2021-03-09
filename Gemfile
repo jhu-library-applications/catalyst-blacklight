@@ -93,7 +93,7 @@ gem 'flipper-ui'
 # Capture application errors
 gem 'exception_notification', '~> 4.4.0'
 gem 'rollbar'
-gem 'ruby-ray'
+
 # Turn off those copious useless asset served lines in log in
 # development.
 #gem 'quiet_assets', :group => :development
