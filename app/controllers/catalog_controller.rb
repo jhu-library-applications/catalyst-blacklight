@@ -22,6 +22,11 @@ class CatalogController < ApplicationController
   ActionController::Parameters.permit_all_parameters = true
 
   PERMIT_PARAMS = [
+      :range_end,
+      :range_field,
+      :range_start,
+      :id,
+      :amp,
       :op,
       :suppress_spellcheck,
       :page,
@@ -56,7 +61,8 @@ class CatalogController < ApplicationController
         :location_facet => [],
         :language_facet => [],
         :instrumentation_facet => [],
-        :subject_topic_facet => []
+        :subject_topic_facet => [],
+        :series_facet => []
       },
       :f_inclusive => {
         :format => [],
