@@ -5,6 +5,7 @@ require 'dlf_expanded_passthrough/to_holdings_extension'
 class SolrDocument 
 
   include Blacklight::Solr::Document
+  include SchemaDotOrg
       # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_ss
   extension_parameters[:marc_format_type] = :marcxml

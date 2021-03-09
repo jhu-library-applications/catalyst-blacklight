@@ -55,3 +55,7 @@
 
 
 </div>
+
+<script type="application/ld+json">
+  <%= document.as_schema_dot_org.merge(url: polymorphic_url(url_for_document(document))).to_json.html_safe %>
+</script>
