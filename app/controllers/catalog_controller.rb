@@ -517,7 +517,6 @@ class CatalogController < ApplicationController
   def sms_send
     ray('Start send')
     @response, @document = search_service.fetch(params[:id])
-    ray(@document)
     if @document.blank?
       flash[:error] = "Sorry, record not found."
       redirect_to_params params[:referer] || solr_document_path(params[:id])
@@ -535,10 +534,11 @@ class CatalogController < ApplicationController
     @error_message = "Please select a carrier."     if params[:carrier].blank?
     @error_message = "Please enter a 10-digit phone number" if phone_num.blank?
 
+    ray({:to => phone_num, :carrier => params[:carrier], :email_from_host => email_from, :url_gen_params => url_gen_params})
+
     if @error_message
       render "sms_form"
     else
-      ray({:to => phone_num, :carrier => params[:carrier], :email_from_host => email_from, :url_gen_params => url_gen_params})
       JhSmsSend.sms_record(@document, @holding, {:to => phone_num, :carrier => params[:carrier], :email_from_host => email_from, :url_gen_params => url_gen_params}).deliver_now
       @success_message = "Text message sent to #{params[:to]}"
       if request.xhr?
