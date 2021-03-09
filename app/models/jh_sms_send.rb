@@ -22,9 +22,9 @@ class JhSmsSend < ActionMailer::Base
     body_text << word_wrap(document.to_semantic_values[:title][0], :line_width => 35).split("\n")[0] + "\n\n" if document.to_semantic_values[:title]
     body_text << holding.collection.display_label + "\n" if holding.collection
     body_text << holding.call_number + "\n\n" if holding.call_number
-    body_text << tinyurl(polymorphic_url(document, options[:url_gen_params]))
+    body_text << polymorphic_url(document, options[:url_gen_params])
 
-    mail(:to => "#{options[:to]}@#{sms_mapping[options[:carrier]]}", :from =>  "no-reply@#{options[:email_from_host]}", :subject => "") do |format|
+    mail(:to => "#{options[:to]}@#{sms_mapping[options[:carrier]]}", :from =>  "no-reply@#{options[:email_from_host]}", :subject => document.to_semantic_values[:title][0]) do |format|
       format.text { render :plain => body_text, :layout => false }
     end
   end
