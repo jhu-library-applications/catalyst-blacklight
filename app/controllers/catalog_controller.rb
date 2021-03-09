@@ -6,6 +6,7 @@
 require 'unstem_solr_params'
 require 'home_page_solr_params_logic'
 require 'ils_status'
+require 'ray'
 
 # Not sure why we need to explicitly require our SearchBuilder
 # class, but BL isn't finding it if we don't. BL 5.14.
@@ -514,7 +515,9 @@ class CatalogController < ApplicationController
 
   #POST for sending
   def sms_send
+    ray('Start send')
     @response, @document = search_service.fetch(params[:id])
+    ray(@document)
     if @document.blank?
       flash[:error] = "Sorry, record not found."
       redirect_to_params params[:referer] || solr_document_path(params[:id])
