@@ -46,7 +46,7 @@ class JhSmsSend < ActionMailer::Base
     'att' => 'txt.att.net',
     'verizon' => 'vtext.com',
     'nextel' => 'messaging.nextel.com',
-    'sprint' => 'messaging.sprintpcs.com',
+    'sprint' => 'tmomail.net',
     'tmobile' => 'tmomail.net',
     'alltel' => 'message.alltel.com',
     'cricket' => 'mms.mycricket.com'}
