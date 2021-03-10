@@ -524,7 +524,7 @@ class CatalogController < ApplicationController
 
   #POST for sending
   def sms_send
-    @response, @document = fetch(params[:id])
+    @response, @document = search_service.fetch(params[:id])
     if @document.blank?
       flash[:error] = "Sorry, record not found."
       redirect_to_params params[:referer] || solr_document_path(params[:id])
