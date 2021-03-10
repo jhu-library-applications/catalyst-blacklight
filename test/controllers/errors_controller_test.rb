@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ErrorsControllerTest < ActionDispatch::IntegrationTest
   test "bad bib id should return not_found" do
-    assert_raises(Blacklight::Exceptions::RecordNotFound) do
+    assert_response :missing do
       get '/catalog/bib_3437683_fail'
     end
   end
