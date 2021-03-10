@@ -62,7 +62,7 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
 
   # Invalid bib id should return a 404
   test "404_for_invalid_bib" do
-    assert_response :missing do
+    assert_response 404 do
       get '/catalog/bib_4759863'
     end
   end

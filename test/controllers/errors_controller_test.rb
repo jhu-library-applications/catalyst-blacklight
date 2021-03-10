@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ErrorsControllerTest < ActionDispatch::IntegrationTest
   test "bad bib id should return not_found" do
-    assert_response :missing do
+    assert_response 404 do
       get '/catalog/bib_3437683_fail'
     end
   end
