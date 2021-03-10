@@ -4,7 +4,7 @@
 Blacklight.onLoad(function() {
     // Update selected field if target (search_field) is present in URL
     var selectedSearchField = $('.search-query-form.catalog-search input[name="search_field"]').val() || '';
-    if(selectedSearchField.length > 0 && (selectedSearchField !== 'all_fields' && selectedSearchField !== 'advanced')){
+    if(selectedSearchField.length > 0 && (selectedSearchField !== 'all_fields' && selectedSearchField !== 'advanced' && selectedSearchField !== 'oclcnum')){
         var search_field_label = $('.search-field-form-selector .dropdown-menu .dropdown-item[data-target="' +  $('.search-query-form.catalog-search input[name="search_field"]').val() + '"]')[0].innerHTML;
         $('#targetDropdownMenuButton').html(search_field_label);
     }
