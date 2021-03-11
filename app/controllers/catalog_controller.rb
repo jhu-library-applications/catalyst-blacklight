@@ -485,6 +485,9 @@ class CatalogController < ApplicationController
     end
   end
 
+  # Handles errors when bib#'s have been removed by returning a 404 page
+  rescue_from Blacklight::Exceptions::RecordNotFound, :with => -> { render status: 404, layout: 'blacklight', template: 'errors/not_found.html.erb' }
+
   # Solr search manipulation, method mentioned here, but actually
   # defined in SearchBuilder -- we are also adding them to
   # SearchBuilder.default_processor_chain for future-proofing,
