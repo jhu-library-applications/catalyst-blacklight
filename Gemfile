@@ -96,10 +96,9 @@ gem 'flipper-ui'
 
 # Capture application errors
 gem 'exception_notification', '~> 4.4.0'
-gem 'rollbar'
+
 gem 'sentry-rails'
 gem 'sentry-ruby'
-
 
 # Turn off those copious useless asset served lines in log in
 # development.

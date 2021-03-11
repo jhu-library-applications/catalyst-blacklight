@@ -409,7 +409,6 @@ GEM
     require_all (3.0.0)
     retriable (3.1.2)
     rexml (3.2.4)
-    rollbar (3.1.1)
     rsolr (2.3.0)
       builder (>= 2.1.2)
       faraday (>= 0.9.0)
@@ -624,7 +623,6 @@ DEPENDENCIES
   rails-perftest
   rails_stackview!
   rails_stats
-  rollbar
   rsolr (~> 2.0)
   rubocop-rails
   ruby-prof
@@ -648,4 +646,4 @@ RUBY VERSION
    ruby 2.6.6p146
 
 BUNDLED WITH
-   2.2.6
+   2.2.5
