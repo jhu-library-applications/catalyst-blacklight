@@ -6,6 +6,7 @@
 require 'unstem_solr_params'
 require 'home_page_solr_params_logic'
 require 'ils_status'
+require 'ray'
 
 # Not sure why we need to explicitly require our SearchBuilder
 # class, but BL isn't finding it if we don't. BL 5.14.
