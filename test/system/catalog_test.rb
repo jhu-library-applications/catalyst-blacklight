@@ -13,6 +13,9 @@ class CatalogTest < ApplicationSystemTestCase
 
     # Form
     within('form.catalog-search') do
+      search_field = page.find("#search_field").value
+      assert_equal("all_fields", search_field)
+
       fill_in('q', with: 'book')
 
       # Toggle online checkbox
