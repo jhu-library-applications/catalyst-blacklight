@@ -84,7 +84,7 @@
         <input id="search_field"
                type="hidden"
                name="search_field"
-               value="<%= h(params[:search_field]) %>"
+               value="<%= h(!params[:search_field].nil? ? params[:search_field] : 'all_fields') %>"
           />
       </div>
       <div class="col-12 col-md-9 pb-2">
