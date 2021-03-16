@@ -27,4 +27,11 @@ class AdvancedSearchLinkTest < ApplicationSystemTestCase
 
     assert page.has_xpath?("//input[@value='testing-the-search']")
   end
+
+  def test_advanced_title_search_link_from_search
+    visit '/catalog?utf8=✓&search_field=title&q=test'
+    click_on 'Advanced Search'
+
+    refute page.has_field? 'Any Field', with: 'testing-the-search'
+  end
 end
