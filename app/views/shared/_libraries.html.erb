@@ -39,9 +39,9 @@
                   <%= current_user.jhed_lid || current_user.login %>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="accountMenuButton">
-                  <%= link_to "Account", user_path, class: "dropdown-item  nav-link" %>
-                  <%= link_to "Checked Out", {:action => "itemsout"}, {class: 'dropdown-item nav-item'} %>
-                  <%= link_to "Requests", {:action => "requests"}, {class: 'dropdown-item nav-item'} %>
+                  <%= link_to "Account", {:controller => "users", :action => "update"}, class: "dropdown-item  nav-link" %>
+                  <%= link_to "Checked Out", {:controller => "users", :action => "itemsout"}, {class: 'dropdown-item nav-item'} %>
+                  <%= link_to "Requests", {:controller => "users", :action => "requests"}, {class: 'dropdown-item nav-item'} %>
                   <%= link_to destroy_user_session_path, {class: 'dropdown-item nav-link'} do %>
                     Log Out
                   <% end %>

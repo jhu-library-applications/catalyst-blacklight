@@ -112,6 +112,11 @@ body {
 
     a.dropdown-item {
       color: $jhuBlue;
+
+      &:active{
+        color: #FFFFFF;
+        background-color: $jhuBlue;
+      }
     }
   }
 }
