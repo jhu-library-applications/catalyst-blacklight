@@ -22,6 +22,11 @@ class CatalogController < ApplicationController
   ActionController::Parameters.permit_all_parameters = true
 
   PERMIT_PARAMS = [
+      :range_end,
+      :range_field,
+      :range_start,
+      :id,
+      :amp,
       :op,
       :suppress_spellcheck,
       :page,
@@ -56,7 +61,8 @@ class CatalogController < ApplicationController
         :location_facet => [],
         :language_facet => [],
         :instrumentation_facet => [],
-        :subject_topic_facet => []
+        :subject_topic_facet => [],
+        :series_facet => []
       },
       :f_inclusive => {
         :format => [],
@@ -94,6 +100,10 @@ class CatalogController < ApplicationController
   before_action :spellcheck, :only => :index
 
   configure_blacklight do |config|
+
+    # Do not store searches for bots
+    config.crawler_detector = ->(req) { req.env['HTTP_USER_AGENT'] =~ /bot/ }
+
     # default components
     config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
@@ -475,6 +485,9 @@ class CatalogController < ApplicationController
     end
   end
 
+  # Handles errors when bib#'s have been removed by returning a 404 page
+  rescue_from Blacklight::Exceptions::RecordNotFound, :with => -> { render status: 404, layout: 'blacklight', template: 'errors/not_found.html.erb' }
+
   # Solr search manipulation, method mentioned here, but actually
   # defined in SearchBuilder -- we are also adding them to
   # SearchBuilder.default_processor_chain for future-proofing,
@@ -514,7 +527,7 @@ class CatalogController < ApplicationController
 
   #POST for sending
   def sms_send
-    @response, @document = fetch(params[:id])
+    @response, @document = search_service.fetch(params[:id])
     if @document.blank?
       flash[:error] = "Sorry, record not found."
       redirect_to_params params[:referer] || solr_document_path(params[:id])

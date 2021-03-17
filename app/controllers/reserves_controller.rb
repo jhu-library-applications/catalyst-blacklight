@@ -7,6 +7,8 @@ class ReservesController < CatalogController
   # Avoid BL7 /track method on link_to_document
   self.blacklight_config.track_search_session = false
 
+  rescue_from ActiveRecord::RecordNotFound, :with => -> { render status: 404, layout: 'blacklight', template: 'errors/not_found.html.erb' }
+
   def initialize
     super
 
@@ -53,11 +55,8 @@ class ReservesController < CatalogController
   end
 
   def show
-    begin
-      @course = ReservesCourse.includes(:bib_ids).find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      raise ActionController::RoutingError.new('Not Found')
-    end
+
+    @course = ReservesCourse.includes(:bib_ids).find(params[:id])
 
     @bib_ids                  =  @course.bib_ids
     solr_ids                  = @bib_ids.collect {|j| "bib_" + j.bib_id.to_s}

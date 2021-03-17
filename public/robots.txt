@@ -5,3 +5,12 @@
 # (And actualy, this may or may not be keeping it out anyway)
 User-Agent: *
 Disallow: /catalog?
+
+User-agent: bingbot
+Crawl-delay: 1
+
+User-agent: msnbot
+Crawl-delay: 1
+
+User-agent: msnbot-media
+Crawl-delay: 1
