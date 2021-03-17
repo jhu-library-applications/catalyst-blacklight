@@ -1,3 +1,4 @@
+# coding: utf-8
 require "application_system_test_case"
 
 class CatalogTest < ApplicationSystemTestCase
