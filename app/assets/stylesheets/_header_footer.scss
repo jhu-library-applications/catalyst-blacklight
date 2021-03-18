@@ -110,6 +110,10 @@ body {
     margin-bottom: 0px;
     margin-right: 36px;
 
+    div.dropdown a{
+      display: inline-block;
+    }
+
     a.dropdown-item {
       color: $jhuBlue;
 
