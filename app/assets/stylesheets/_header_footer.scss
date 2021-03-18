@@ -196,11 +196,15 @@ body {
   }
 }
 // define styles for nav menu
+.navbar-nav {
+  //min-width: 300px;
+}
 
 .navbar-inverse .navbar-nav {
   font-size: ceil($font-size-large * 0.8);
   font-weight: 400;
   color: $jhuBlue;
+
   li {
     a {
       color: $jhuBlue;
