@@ -56,6 +56,12 @@ before "deploy:assets:precompile", "deploy:yarn_install"
 set :bundle_roles, :all
 set :bundle_path, -> { shared_path.join('bundle') }
 
+## Whenever options
+set :whenever_environment, 'production'
+set :whenever_roles, :web
+set :whenever_identifier, ->{ "#{fetch(:application)}" }
+
+
 namespace :deploy do
   task :group_permissions do
     on roles(:app, :web) do

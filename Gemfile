@@ -102,6 +102,9 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'appsignal'
 
+# For cron jobs
+gem 'whenever', require: false
+
 
 # Turn off those copious useless asset served lines in log in
 # development.
