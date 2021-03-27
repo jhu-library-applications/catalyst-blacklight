@@ -117,3 +117,17 @@
     }
   }
 }
+
+.citation-style{
+  margin-bottom: 12px;
+
+  .citation{
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    &.indent{
+      margin-left: 50px;
+      text-indent: -40px;
+    }
+  }
+}
