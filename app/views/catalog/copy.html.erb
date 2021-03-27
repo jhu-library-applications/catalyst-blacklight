@@ -1,6 +1,6 @@
 <%# shows all items for a given copy. @item_holdings should be set in controller, to array of Holding objects. %>
 <div class="holdings-drill-down">
-  <% if @item_holdings.empty? %>
+  <% if @item_holdings.blank? %>
     <p class="no-items">No items.</p>
   <% else %>
     <ul class="holdings expandable-disabled">
