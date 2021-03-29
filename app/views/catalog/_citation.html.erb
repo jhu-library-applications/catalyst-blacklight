@@ -10,6 +10,8 @@
     <% documents << update_marc_for_citation( document ) %>
   <% end %>
 
+  <% documents = documents.sort { |a,b| a.send(:export_as_mla_citation_txt).downcase <=> b.send(:export_as_mla_citation_txt).downcase } %>
+
   <div class="citation-style">
     <h4><%= t('blacklight.citation.mla') %></h4>
     <% documents.each do |document| %>
@@ -20,6 +22,9 @@
       <% end %>
     <% end %>
   </div>
+
+  <% documents = documents.sort { |a,b| a.send(:export_as_apa_citation_txt).downcase <=> b.send(:export_as_apa_citation_txt).downcase } %>
+
   <div class="citation-style">
     <h4><%= t('blacklight.citation.apa') %></h4>
     <% documents.each do |document| %>
@@ -30,6 +35,9 @@
       <% end %>
     <% end %>
   </div>
+
+  <% documents = documents.sort { |a,b| a.send(:export_as_chicago_citation_txt).downcase <=> b.send(:export_as_apa_citation_txt).downcase } %>
+
   <div class="citation-style">
     <h4><%= t('blacklight.citation.chicago') %></h4>
     <% documents.each do |document| %>
