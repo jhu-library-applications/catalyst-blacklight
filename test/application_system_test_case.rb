@@ -22,6 +22,9 @@ end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium_chrome_headless
+  def setup
+    WebMock.allow_net_connect!
+  end
 
   def login_as(user_key)
     page.set_rack_session(current_user_id: users(user_key).id)

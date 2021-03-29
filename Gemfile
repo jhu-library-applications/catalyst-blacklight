@@ -187,6 +187,9 @@ group :test do
 
   # Rack Session Access
   gem 'rack_session_access'
+
+  # Used for mocking HTTP requests in tests
+  gem 'webmock'
 end
 
 gem "rubycritic", require: false

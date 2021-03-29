@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8'?><dlf:record  xmlns:dlf="http://diglib.org/ilsdi/1.1"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://diglib.org/ilsdi/1.1 http://www.diglib.org/architectures/ilsdi/schemas/1.1/dlfexpanded.xsd" >
+  <dlf:bibliographic id="305929" /><dlf:holdings>
+  <dlf:holdingset>
+     <dlf:holdingsrec>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>unk</dc:identifier><dc:title>Unknown</dc:title></ilsitem:shelfMarkType>
+</ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>67139</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1=" " ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 1</marc:subfield>  </marc:datafield>
+<marc:datafield tag="866" ind1=" " ind2=" ">
+  <marc:subfield code="a">
+liv. 1-4,6-7
+
+  </marc:subfield>
+</marc:datafield>
+</marc:record>
+     </dlf:holdingsrec>
+     <dlf:items>
+       <dlf:item id="349606" />
+       <dlf:item id="3163499" />
+       <dlf:item id="349608" />
+       <dlf:item id="3175201" />
+       <dlf:item id="349607" />
+       <dlf:item id="4128725" />
+     </dlf:items>
+  </dlf:holdingset>
+  <dlf:holdingset>
+     <dlf:holdingsrec>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+</ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>1889027</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1=" " ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 2</marc:subfield>  </marc:datafield>
+<marc:datafield tag="866" ind1=" " ind2=" ">
+  <marc:subfield code="a">
+liv. 4-5
+
+  </marc:subfield>
+</marc:datafield>
+</marc:record>
+     </dlf:holdingsrec>
+     <dlf:items>
+       <dlf:item id="4128726" />
+       <dlf:item id="3333002" />
+     </dlf:items>
+  </dlf:holdingset>
+</dlf:holdings>
+<dlf:items>
+<dlf:item id="349606">
+<dlf:simpleavailability>
+  <dlf:identifier>349606</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 1 v. 1
+</dlf:location>
+  <dlf:availabilitystatus>available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Available</dlf:availabilitymsg>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>i</dc:identifier><dc:title>Available</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857000068888</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>67139</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 1 v. 1</marc:subfield><marc:subfield code='p'>349606</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/349606">
+<daia:label>M25.M585 C c. 1 v. 1</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=349606"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+<dlf:item id="3163499">
+<dlf:simpleavailability>
+  <dlf:identifier>3163499</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 1 v. 2
+</dlf:location>
+  <dlf:availabilitystatus>available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Available</dlf:availabilitymsg>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>i</dc:identifier><dc:title>Available</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857000069100</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>67139</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 1 v. 2</marc:subfield><marc:subfield code='p'>3163499</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/3163499">
+<daia:label>M25.M585 C c. 1 v. 2</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=3163499"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+<dlf:item id="349608">
+<dlf:simpleavailability>
+  <dlf:identifier>349608</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 1 v. 3
+</dlf:location>
+  <dlf:availabilitystatus>available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Available</dlf:availabilitymsg>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>i</dc:identifier><dc:title>Available</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857000068672</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>67139</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 1 v. 3</marc:subfield><marc:subfield code='p'>349608</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/349608">
+<daia:label>M25.M585 C c. 1 v. 3</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=349608"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+<dlf:item id="3175201">
+<dlf:simpleavailability>
+  <dlf:identifier>3175201</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 1 v. 4
+</dlf:location>
+  <dlf:availabilitystatus>available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Available</dlf:availabilitymsg>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>i</dc:identifier><dc:title>Available</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857000068730</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>67139</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 1 v. 4</marc:subfield><marc:subfield code='p'>3175201</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/3175201">
+<daia:label>M25.M585 C c. 1 v. 4</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=3175201"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+<dlf:item id="349607">
+<dlf:simpleavailability>
+  <dlf:identifier>349607</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 1 v. 6
+</dlf:location>
+  <dlf:availabilitystatus>available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Available</dlf:availabilitymsg>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>i</dc:identifier><dc:title>Available</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857000068854</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>67139</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 1 v. 6</marc:subfield><marc:subfield code='p'>349607</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/349607">
+<daia:label>M25.M585 C c. 1 v. 6</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=349607"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+<dlf:item id="4128725">
+<dlf:simpleavailability>
+  <dlf:identifier>4128725</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 1 v. 7
+</dlf:location>
+  <dlf:availabilitystatus>not available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Checked out</dlf:availabilitymsg>
+  <dlf:dateavailable>2021-06-30</dlf:dateavailable>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>o</dc:identifier><dc:title>Checked out</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857001216841</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>67139</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 1 v. 7</marc:subfield><marc:subfield code='p'>4128725</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/4128725">
+<daia:label>M25.M585 C c. 1 v. 7</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=4128725"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+<dlf:item id="4128726">
+<dlf:simpleavailability>
+  <dlf:identifier>4128726</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 2 v. 4
+</dlf:location>
+  <dlf:availabilitystatus>available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Available</dlf:availabilitymsg>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>i</dc:identifier><dc:title>Available</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857001216858</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>1889027</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 2 v. 4</marc:subfield><marc:subfield code='p'>4128726</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/4128726">
+<daia:label>M25.M585 C c. 2 v. 4</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=4128726"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+<dlf:item id="3333002">
+<dlf:simpleavailability>
+  <dlf:identifier>3333002</dlf:identifier>
+  <dlf:location>Stage - Arthur Friedheim Library -- Friedheim -- Main stacks
+: M25.M585 C c. 2 v. 5
+</dlf:location>
+  <dlf:availabilitystatus>available</dlf:availabilitystatus>
+  <dlf:availabilitymsg>Available</dlf:availabilitymsg>
+</dlf:simpleavailability>
+<ilsitem:description xmlns:ilsitem="http://purl.org/NET/ils-holdings-schema/1" xmlns:dc="http://purl.org/dc/elements/1.1/"  xsi:schemaLocation="http://purl.org/dc/elements/1.1 http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd http://purl.org/NET/ils-holdings-schema/1 http://purl.org/NET/ils-holdings-schema/1/schema">
+<ilsitem:location>
+<dc:identifier>afl</dc:identifier><dc:title>Stage - Arthur Friedheim Library</dc:title></ilsitem:location>
+<ilsitem:collection>
+<dc:identifier>afrie</dc:identifier><dc:title>Friedheim -- Main stacks</dc:title></ilsitem:collection>
+<ilsitem:shelfMarkType>
+<dc:identifier>alc</dc:identifier><dc:title>AFL-Library of Congress</dc:title></ilsitem:shelfMarkType>
+<ilsitem:itemType>
+<dc:identifier>abkit</dc:identifier><dc:title>Friedheim Book</dc:title></ilsitem:itemType>
+<ilsitem:itemStatus>
+<dc:identifier>i</dc:identifier><dc:title>Available</dc:title></ilsitem:itemStatus>
+<ilsitem:localInfo key='moravia_rmst'></ilsitem:localInfo><ilsitem:localInfo key='ibarcode'>31857000832424</ilsitem:localInfo></ilsitem:description>
+<marc:record xmlns:marc="http://www.loc.gov/MARC21/slim" type="Holdings" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:leader>00000nu  a2200000un 4500</marc:leader>
+<marc:controlfield tag='001'>1889027</marc:controlfield><marc:controlfield tag='004'>305929</marc:controlfield>  <marc:datafield tag="852" ind1="0" ind2=" ">
+<marc:subfield code='b'>Stage - Arthur Friedheim Library</marc:subfield><marc:subfield code='c'>Friedheim -- Main stacks</marc:subfield><marc:subfield code='h'>M25.M585 C</marc:subfield><marc:subfield code='i'>c. 2 v. 5</marc:subfield><marc:subfield code='p'>3333002</marc:subfield>  </marc:datafield>
+</marc:record>
+<daia:daia xmlns:daia="http://ws.gbv.de/daia/" version="0.51" xsi:schemaLocation="http://ws.gbv.de/daia/ http://ws.gbv.de/daia/daia.xsd"  timestamp="2021-03-30T10:29:49-05:00" >
+<daia:document id="http://localhost:8080/ws/holdings/bib/305929">
+<daia:item id="http://localhost:8080/ws/holdings/item/3333002">
+<daia:label>M25.M585 C c. 2 v. 5</daia:label><daia:department>Stage - Arthur Friedheim Library</daia:department><daia:storage>Friedheim -- Main stacks</daia:storage>  <daia:available delay="unknown" service="http://purl.org/NET/daia-ext/request" href="http://localhost:8080/ipac20/ipac.jsp?menu=request&amp;aspect=none&amp;bibkey=305929&amp;itemkey=3333002"/>
+</daia:item>
+</daia:document>
+</daia:daia>
+</dlf:item>
+
+</dlf:items>
+</dlf:record>

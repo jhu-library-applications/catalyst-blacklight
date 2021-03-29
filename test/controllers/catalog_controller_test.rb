@@ -36,7 +36,6 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
 
   # Email - Login
   test "session - should render email action" do
-    skip "Horizon Unavailable" if horizon_unavailable?
     sign_in
     get '/catalog/bib_324680/email'
     assert_response :success
