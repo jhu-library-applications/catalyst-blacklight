@@ -23,6 +23,9 @@ module SearchHelper
 
   def advanced_search_link(params:)
     case
+    when quick_search? && params.try(:[], :search_field) == 'all_fields'
+      params[:all_fields] = params[:q]
+      advanced_search_markup(url: params.merge(controller: 'advanced', action: 'index'))
     when advanced_search? || quick_search?
       advanced_search_markup(url: params.merge(controller: 'advanced', action: 'index'))
     else
