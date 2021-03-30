@@ -13,7 +13,7 @@ class AdvancedSearchLinkTest < ApplicationSystemTestCase
   def test_advanced_search_link_from_advanced_search
     visit '/advanced'
     fill_in 'Any Field', with: 'testing-the-search'
-    click_on 'Search'
+    first('input[type="submit"]').click
     click_on 'Advanced Search'
 
     assert page.has_xpath?("//input[@value='testing-the-search']")
