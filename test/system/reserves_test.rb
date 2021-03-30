@@ -3,6 +3,8 @@ require "application_system_test_case"
 class ReservesTest < ApplicationSystemTestCase
 
   def setup
+    WebMock.allow_net_connect!
+
     Flipper[:curbside_mode].disable
     visit "/reserves"
   end

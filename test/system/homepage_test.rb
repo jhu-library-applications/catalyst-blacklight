@@ -2,6 +2,8 @@ require "application_system_test_case"
 
 class HomepageTest < ApplicationSystemTestCase
   def setup
+    WebMock.allow_net_connect!
+
     visit("/")
   end
 

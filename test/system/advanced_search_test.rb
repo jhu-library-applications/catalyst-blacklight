@@ -3,6 +3,8 @@ require "application_system_test_case"
 class AdvancedSearchPageTest < ApplicationSystemTestCase
 
   def setup
+    WebMock.allow_net_connect!
+
     visit "/advanced"
   end
 

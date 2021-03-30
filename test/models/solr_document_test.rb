@@ -2,6 +2,8 @@ require 'test_helper'
 
 class SolrDocumentTest < ActiveSupport::TestCase
   def setup
+    WebMock.allow_net_connect!
+
     cat = Blacklight::SearchService.new(
       config: CatalogController.blacklight_config
     )

@@ -1,0 +1,19 @@
+<borrowers>
+  <borrower id="111111">
+    <pin>1111</pin>
+    <name>Dummy, Borrowdirect</name>
+    <second_id>111111</second_id>
+    <btype>elbstf</btype><location>emsel</location>
+    <last_cko_date>2019-08-01</last_cko_date>
+    <registration_date>2020-11-18</registration_date>
+    <expiration_date>2040-12-31</expiration_date>
+    <creation_date>2015-02-03</creation_date>
+    <last_update_date>2020-11-18</last_update_date>
+    <other_ids>
+      <other_id location="general">testing</other_id>
+    </other_ids>
+    <barcodes>
+      <barcode>11111111111111</barcode>
+    </barcodes>
+  </borrower>
+</borrowers>
