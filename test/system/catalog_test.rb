@@ -2,6 +2,10 @@
 require "application_system_test_case"
 
 class CatalogTest < ApplicationSystemTestCase
+  def setup
+    holdings_stub
+  end
+
   def test_search
     visit '/catalog?q=film'
     assert page.has_content?("Refine your search")
@@ -68,7 +72,6 @@ class CatalogTest < ApplicationSystemTestCase
 
   # Scenario: Copy holdings should not show "txt" button
   def test_copy_holdings
-    skip "Horizon Unavailable" if horizon_unavailable?
     visit '/catalog/bib_305929'
     page.find('li.holding', match: :first).click # Multiple Items
     click_link('Items')
@@ -145,7 +148,6 @@ class CatalogTest < ApplicationSystemTestCase
 
   # Test Request Button - Not signed in
   def test_request_button_auth_redirect
-    skip "Horizon Unavailable" if horizon_unavailable?
     visit '/catalog/bib_305929'
     first('div.holding-visible').click
     first('a.item-children-link').click

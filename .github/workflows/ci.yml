@@ -16,6 +16,8 @@ on:
 
 env:
   # these are all referenced in our app's database.yml for test
+  # FindIt needs to be the actual prod url because it is loaded
+  # on pages when the capybara tests are loaded.
   MYSQL_SERVER: localhost
   MYSQL_DATABASE: jhu_bl_test
   MYSQL_USER: root
@@ -23,8 +25,7 @@ env:
   SOLR_URL: http://127.0.0.1:8983/solr/blacklight-core
   CATALYST_UMLAUT_BASE_URL: https://findit.library.jhu.edu
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-  HORIZON_UNAVAILABLE: true
-
+  HORIZON_WS_URL: http://localhost:8080/ws
 jobs:
   tests:
     services:

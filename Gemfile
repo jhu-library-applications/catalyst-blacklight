@@ -102,6 +102,9 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'appsignal'
 
+# For cron jobs
+gem 'whenever', require: false
+
 
 # Turn off those copious useless asset served lines in log in
 # development.
@@ -184,6 +187,9 @@ group :test do
 
   # Rack Session Access
   gem 'rack_session_access'
+
+  # Used for mocking HTTP requests in tests
+  gem 'webmock'
 end
 
 gem "rubycritic", require: false
