@@ -34,7 +34,7 @@ class StackmapFetcher
     item_call = CGI::escape(@holding.call_number)
     item_location = @holding.collection.internal_code
     # hard-coded, stackmap value for our account
-    item_library = CGI::escape("Milton S. Eisenhower Librar")
+    item_library = CGI::escape("Milton S. Eisenhower Library")
 
     request_url = "#{base_url}?callno=#{item_call}&location=#{item_location}&library=#{item_library}"
 
