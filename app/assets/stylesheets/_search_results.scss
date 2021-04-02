@@ -106,7 +106,7 @@
 
 
 /* We want to put #sortAndPerPage in a well */
-.blacklight-catalog-index, .bento_search, .reserves {
+.blacklight-catalog-index, .blacklight-advanced-index, .bento_search, .reserves {
  #sortAndPerPage {
     @include responsive-nav-controls;
     @media (min-width: $grid-float-breakpoint) {
