@@ -3,5 +3,69 @@
 # Keep Google out of Catalog for now, it's putting too much load on server.
 # Dec 2012. Might be able to let it back in when we re-architect things.
 # (And actualy, this may or may not be keeping it out anyway)
-User-Agent: *
-Disallow: /catalog?
+# See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
+#
+# Keep Google out of Catalog for now, it's putting too much load on server.
+# Dec 2012. Might be able to let it back in when we re-architect things.
+# (And actualy, this may or may not be keeping it out anyway)
+User-agent: *
+Disallow: /catalog
+Disallow: /catalog/
+Disallow: /catalog.html
+Disallow: /catalog.atom
+Disallow: /shelfbrowse
+
+User-agent: bingbot
+Crawl-delay: 2
+Disallow: /catalog
+Disallow: /catalog/
+Disallow: /catalog.html
+Disallow: /catalog.atom
+Disallow: /shelfbrowse
+
+User-agent: msnbot
+Crawl-delay: 2
+Disallow: /catalog
+Disallow: /catalog/
+Disallow: /catalog.html
+Disallow: /catalog.atom
+Disallow: /shelfbrowse
+Disallow: /login
+Disallow: /shibboleth_login
+
+## SemRush
+# These bots index the site for a paid SEO service that
+# we aren't using.
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: SemrushBot-BA
+Disallow: /
+
+User-agent: Semrush
+Disallow: /
+
+User-agent: Semrushbot-SA
+Disallow: /
+
+User-agent: Semrushbot-SI
+Disallow: /
+
+## AhrefsBot
+# These bots index the site for a paid SEO service that
+# we aren't using.
+
+User-agent: AhrefsBot
+Disallow: /
+
+## DotBot
+# These bots index the site for a paid SEO service that
+# we aren't using.
+User-agent: DotBot
+Disallow: /
+
+## MauiBot
+# This is an unidentified bot that crawls the internet. 
+User-agent: MauiBot
+Disallow: /

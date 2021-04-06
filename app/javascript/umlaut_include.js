@@ -58,7 +58,7 @@ Blacklight.onLoad(function(){
       }
     }
 
-    if ($("#hathi-etas").attr("hathi-present").trim() == "true"){
+    if ($("#hathi-etas").length > 0 && $("#hathi-etas").attr("hathi-present").trim() == "true"){
       $('p.umlaut-unavailable').hide();
     }
   }

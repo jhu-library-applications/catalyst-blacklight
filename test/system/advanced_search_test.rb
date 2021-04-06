@@ -3,14 +3,16 @@ require "application_system_test_case"
 class AdvancedSearchPageTest < ApplicationSystemTestCase
 
   def setup
+    WebMock.allow_net_connect!
+
     visit "/advanced"
   end
 
   def test_basic_dom
     assert page.has_content?("Advanced Search")
     assert page.has_content?("Field search")
-    assert page.has_content?("Other attributes")
-    assert page.has_content?("Start over")
+    assert page.has_content?("Limit results by")
+    assert page.has_content?("Clear form")
     assert page.has_content?("Search tips")
     within("div.limit-criteria") do
       assert page.has_content?("Format")
@@ -20,8 +22,10 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
       assert page.has_content?("Publication Year")
       assert page.has_no_content?("Organization")
     end
-    within('div.sort-submit-buttons') do
+    within('.query-criteria') do
       assert page.has_selector?("input#unstemmed_search")
+    end
+    within('#query-criteria-buttons') do
       assert page.has_selector?("select#sort")
     end
   end
@@ -30,7 +34,7 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
     # Form
     within('form.advanced') do
       fill_in('title', with: 'atlas')
-      click_button 'Search'
+      first('input[type="submit"]').click
     end
 
     # Results
@@ -43,7 +47,7 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
     within('form.advanced') do
       fill_in 'all_fields', with: 'records'
       uncheck 'unstemmed_search'
-      click_button 'Search'
+      first('input[type="submit"]').click
     end
 
     # Results
@@ -57,7 +61,7 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
     within('form.advanced') do
       fill_in 'all_fields', with: 'records'
       check 'unstemmed_search'
-      click_button 'Search'
+      first('input[type="submit"]').click
     end
 
     # Results

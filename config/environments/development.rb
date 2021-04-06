@@ -6,13 +6,13 @@ Catalyst::Application.configure do
   # since you don't have to restart the webserver when you make code changes.
   config.cache_classes = false
 
-  # Do not compress assets  
-  config.assets.compress = false 
-  config.assets.css_compressor = :sass 
+  # Do not compress assets
+  config.assets.compress = false
+  config.assets.css_compressor = :sass
   config.assets.digest = !!ENV['DIGEST_ASSETS']
 
-  # Expands the lines which load the assets  
-  config.assets.debug = true  
+  # Expands the lines which load the assets
+  config.assets.debug = true
 
   config.eager_load = false
 
@@ -22,6 +22,17 @@ Catalyst::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { :host => 'catalyst.library.jhu.edu' }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => ENV['SMTP_USER_NAME'],
+    :password => ENV['SMTP_PASSWORD'],
+    :address => ENV['SMTP_ADDRESS'],
+    :domain => ENV['SMTP_DOMAIN'],
+    :port => ENV['SMTP_PORT'],
+    :authentication => :plain
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -30,24 +41,8 @@ Catalyst::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
 	# Google Analytis tracking code farooqsadiq.com
-	# TODO how do you us config in layouts? 
-	# As a workaround, I am using an ENV  
+	# TODO how do you us config in layouts?
+	# As a workaround, I am using an ENV
   config.tracker = "UA-1581694-2"
   ENV["GOOGLE_ANALYTICS"] = config.tracker
-
-
-
-  config.after_initialize do
-    Bullet.tap do |bullet|
-      bullet.enable = true
-      bullet.alert = false
-      bullet.bullet_logger = true
-      bullet.console = false
-      bullet.growl = false
-      bullet.rails_logger = true
-      bullet.add_footer = false
-      bullet.airbrake = false
-    end
-  end
 end
-

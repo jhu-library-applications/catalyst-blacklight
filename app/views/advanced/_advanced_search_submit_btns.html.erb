@@ -1,25 +1,21 @@
-<%# copy and pasted from blacklight_advanced_search 5.0, then customized
-    * to add our 'disable automatic stemming' button
-    * and remove start-over button
-%>
+<%# copy and pasted from blacklight_advanced_search 5.0, then customized %>
 
-    <div class="clearfix">
-      <div class="submit-buttons float-left">
-       <%= check_box_tag "unstemmed_search", "1", params[:unstemmed_search] %>
-        <%= label_tag "unstemmed_search", "Disable automatic stemming" %>
-        <%= link_to "What's this?", {:controller => "info", :action => "unstemmed_desc"}, :data => {:ajax_modal => "trigger"} %>
-      </div>
-
-       <div class="float-right">
-            <%# we do not include the start-over button that would ordinarily be there %>
-
-            <%= submit_tag t('blacklight_advanced_search.form.search_btn'), :class=>'btn btn-primary advanced-search-submit', :id => "advanced-search-submit" %>
-        </div>
+<div class="clearfix">
+  <div class="submit-buttons float-left">
+    <div class="sort-buttons">
+      <% sort_fields = active_sort_fields.values.map { |field_config| [sort_field_label(field_config.key), field_config.key] } %>
+      <%= label_tag(:sort, t('blacklight_advanced_search.form.sort_label'), :class => "control-label") %>
+      <%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort])), :class => "form-control sort-select") %>
+      <%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
     </div>
-
-<div class="sort-buttons">
-  <% sort_fields = active_sort_fields.values.map { |field_config| [sort_field_label(field_config.key), field_config.key] } %>
-  <%= label_tag(:sort, t('blacklight_advanced_search.form.sort_label'), :class => "control-label") %>
-  <%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort])), :class => "form-control sort-select") %>
-  <%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
   </div>
+
+  <div class="float-right">
+    <span class="mr-4">
+      <%= link_to 'Clear form', '/advanced' %>
+    </span>
+    <%= submit_tag t('blacklight_advanced_search.form.search_btn'), :class => 'btn btn-primary advanced-search-submit', :id => "advanced-search-submit" %>
+  </div>
+</div>
+
+

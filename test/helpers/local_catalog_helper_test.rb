@@ -2,6 +2,8 @@ require 'test_helper'
 
 class LocalCatalogHelperTest < ActionView::TestCase
   def setup
+    WebMock.allow_net_connect!
+
     @document = SolrDocument.new(load_bib_json('bib_4839582'))
   end
 

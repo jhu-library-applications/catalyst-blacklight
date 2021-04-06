@@ -45,9 +45,12 @@ module MarcDisplay
         hash[:suppress_spellcheck] =1 
 
         # post-process with custom proc?
-        
+
         if @config_hash[:custom]
           hash = @config_hash[:custom].call(self, hash)
+          if hash.is_a?(Array)
+            hash[:q] = hash[:q].sub(/""\s/, '')
+          end
         end
           
        return hash

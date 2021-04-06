@@ -6,3 +6,10 @@
       </div>
   </div>
 <%- end -%>
+<div class="form-group row advanced-search-field">
+  <div class="col-md-12">
+    <%= check_box_tag "unstemmed_search", "1", params[:unstemmed_search] %>
+    <%= label_tag "unstemmed_search", "Disable automatic stemming" %>
+    <%= link_to "What's this?", {:controller => "info", :action => "unstemmed_desc"}, :data => {:blacklight_modal => "trigger"} %>
+  </div>
+</div>

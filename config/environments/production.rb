@@ -84,6 +84,7 @@ Catalyst::Application.configure do
       # Google Groups won't accept messages unless the sender host resolves!
       sender_address: %("Catalyst" <catalyst@#{`hostname`.strip}>),
       exception_recipients: %w[LAG-Shared@jhu.edu]
-    }
+    },
+    error_grouping: true
   )
 end

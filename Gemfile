@@ -1,10 +1,16 @@
 source 'https://rubygems.org'
 
+ruby '2.6.6'
+
 # use a .env file for environment variables in all enviroments
 # we will no longer need this gem once we migrate to ansible
 gem 'dotenv-rails'
 
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.2'
+
+# See https://github.com/advisories/GHSA-8hc4-xxm3-5ppp
+gem "activerecord", ">= 5.2.4.5"
+
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 
@@ -91,6 +97,15 @@ gem 'flipper-ui'
 # Capture application errors
 gem 'exception_notification', '~> 4.4.0'
 
+
+gem 'sentry-rails'
+gem 'sentry-ruby'
+gem 'appsignal'
+
+# For cron jobs
+gem 'whenever', require: false
+
+
 # Turn off those copious useless asset served lines in log in
 # development.
 #gem 'quiet_assets', :group => :development
@@ -114,11 +129,22 @@ gem 'exception_notification', '~> 4.4.0'
 #   gem 'webrat'
 # end
 
+gem 'capistrano', '~> 3.10', require: false
+gem 'capistrano-chruby', require: false
+gem 'capistrano-dotenv', require: false
+gem 'capistrano-passenger', require: false
+gem "capistrano-rails", "~> 1.3", require: false
+gem 'capistrano-yarn', require: false
+gem 'capistrano-locally', require: false
+
+gem 'bcrypt_pbkdf'
+gem 'ed25519'
+
+
 gem 'webpacker', '~> 5.x'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
-
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -161,6 +187,9 @@ group :test do
 
   # Rack Session Access
   gem 'rack_session_access'
+
+  # Used for mocking HTTP requests in tests
+  gem 'webmock'
 end
 
 gem "rubycritic", require: false

@@ -84,7 +84,7 @@
         <input id="search_field"
                type="hidden"
                name="search_field"
-               value="<%= h(params[:search_field]) %>"
+               value="<%= h((!params[:search_field].nil? && !advanced_search?) ? params[:search_field] : 'all_fields') %>"
           />
       </div>
       <div class="col-12 col-md-9 pb-2">
@@ -116,7 +116,7 @@
             <%= label_tag(:online_only, "Show only items available online", :id => "online_only_label") %>
           </div>
           <div class="link-more-search-options col-12 col-md-6 text-right">
-            <%= link_to 'Advanced Search', params.merge(:controller=>"advanced", :action=>"index"), :class=>"advanced_search" %>
+            <%= advanced_search_link(params: params) %>
           </div>
         </div>
       </div>

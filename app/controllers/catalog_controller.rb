@@ -22,6 +22,19 @@ class CatalogController < ApplicationController
   ActionController::Parameters.permit_all_parameters = true
 
   PERMIT_PARAMS = [
+      :range_end,
+      :range_field,
+      :range_start,
+      :id,
+      :amp,
+      :op,
+      :suppress_spellcheck,
+      :page,
+      :results_view,
+      :subject_topic_facet,
+      :bento_redirect,
+      :format,
+      :q,
       :unstemmed_search,
       :utf8,
       :all_fields,
@@ -36,11 +49,20 @@ class CatalogController < ApplicationController
       :sort,
       :per_page,
       :search_field,
+      :only_path,
       :range => {
         :pub_date_sort => [
           :begin,
           :end
         ]
+      },
+      :f => {
+        :format => [],
+        :location_facet => [],
+        :language_facet => [],
+        :instrumentation_facet => [],
+        :subject_topic_facet => [],
+        :series_facet => []
       },
       :f_inclusive => {
         :format => [],
@@ -78,6 +100,10 @@ class CatalogController < ApplicationController
   before_action :spellcheck, :only => :index
 
   configure_blacklight do |config|
+
+    # Do not store searches for bots
+    config.crawler_detector = ->(req) { req.env['HTTP_USER_AGENT'] =~ /bot/ }
+
     # default components
     config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
@@ -445,6 +471,7 @@ class CatalogController < ApplicationController
     # show page. Because we use custom item/copy-specific SMS functions instead.
     # This seems to be the recommended way to do that:
     config.show.document_actions[:sms].if = false if config.show.document_actions[:sms]
+    config.show.document_actions[:refworks].partial = 'refworks'
 
     # We want to try and re-order the show.document_actions to our desired order.
     # This appears to be one way to do it, deleting and reinserting everything we want.
@@ -458,6 +485,9 @@ class CatalogController < ApplicationController
       config.show.document_actions[key] = value if value
     end
   end
+
+  # Handles errors when bib#'s have been removed by returning a 404 page
+  rescue_from Blacklight::Exceptions::RecordNotFound, :with => -> { render status: 404, layout: 'blacklight', template: 'errors/not_found.html.erb' }
 
   # Solr search manipulation, method mentioned here, but actually
   # defined in SearchBuilder -- we are also adding them to
@@ -498,7 +528,7 @@ class CatalogController < ApplicationController
 
   #POST for sending
   def sms_send
-    @response, @document = fetch(params[:id])
+    @response, @document = search_service.fetch(params[:id])
     if @document.blank?
       flash[:error] = "Sorry, record not found."
       redirect_to_params params[:referer] || solr_document_path(params[:id])
@@ -592,7 +622,15 @@ class CatalogController < ApplicationController
       should_redirect = true
     end
 
-    redirect_to_params params if should_redirect
+    # Check for old format style of params[:f][:format] = [[Book], [Online]] and converts it to params[:f][:format] = [Book, Online]
+    if (params[:bento_redirect] == 'true') && params[:f] && params[:f][:format] && (params[:f][:format].kind_of? Array)
+      if params[:f][:format][0].kind_of? Array
+        params[:f][:format] = params[:f][:format].map{ |f| f[0] }
+        should_redirect = true
+      end
+    end
+
+    redirect_to url_for(params.merge(:only_path => true).permit(PERMIT_PARAMS)), :status => :moved_permanently if should_redirect
   end
 
   def redirect_legacy_advanced_search
@@ -605,12 +643,20 @@ class CatalogController < ApplicationController
           legacy_converted = true
           params[:f_inclusive][field] = value.keys
         end
+        # added after upgrade to BL v7 tp convert f_include[format][Book] = 1 to f_include[format][] = Book
+        if value.respond_to?(:keys)
+          if value.keys.kind_of? Array
+            # old style! convert!
+            legacy_converted = true
+            params[:f_inclusive][field] = [value.keys.first]
+          end
+        end
       end
 
       if legacy_converted
         # Safe way to redirect to modification of existing params
         # https://github.com/rails/rails/pull/16170
-        redirect_to url_for(params.merge(:only_path => true).permit(:only_path => true)), :status => :moved_permanently
+        redirect_to url_for(params.merge(:only_path => true).permit(PERMIT_PARAMS)), :status => :moved_permanently
 
       end
     end
@@ -630,7 +676,7 @@ begin
       # they requested one or more facet limits that aren't configured, redirect
       # without those.
       f = params[:f].except(*bad_facets)
-      redirect_to_params params.merge(:f => f).permit(:f => f)
+      redirect_to url_for(params.merge(:f => f).permit(PERMIT_PARAMS)), :status => :moved_permanently
     end
   end
 end

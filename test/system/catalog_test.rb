@@ -1,6 +1,11 @@
+# coding: utf-8
 require "application_system_test_case"
 
 class CatalogTest < ApplicationSystemTestCase
+  def setup
+    holdings_stub
+  end
+
   def test_search
     visit '/catalog?q=film'
     assert page.has_content?("Refine your search")
@@ -13,6 +18,9 @@ class CatalogTest < ApplicationSystemTestCase
 
     # Form
     within('form.catalog-search') do
+      search_field = page.find("#search_field", visible: false).value
+      assert_equal("all_fields", search_field)
+
       fill_in('q', with: 'book')
 
       # Toggle online checkbox
@@ -64,7 +72,6 @@ class CatalogTest < ApplicationSystemTestCase
 
   # Scenario: Copy holdings should not show "txt" button
   def test_copy_holdings
-    skip "Horizon Unavailable" if horizon_unavailable?
     visit '/catalog/bib_305929'
     page.find('li.holding', match: :first).click # Multiple Items
     click_link('Items')
@@ -122,7 +129,7 @@ class CatalogTest < ApplicationSystemTestCase
   # Scenario: Related titles should return consistent results: example 1
   def test_related_titles_results_1
     visit '/catalog/bib_3850534'
-    click_link("Bach, Johann Sebastian, 1685-1750. Concertos, harpsichords (2), BWV 1061a, C major")
+    click_link("Bach, Johann Sebastian, 1685-1750. Concertos, harpsichords (2), BWV 1061a, C major.")
     assert page.has_selector?("article.document", count: 1)
   end
 
@@ -141,7 +148,6 @@ class CatalogTest < ApplicationSystemTestCase
 
   # Test Request Button - Not signed in
   def test_request_button_auth_redirect
-    skip "Horizon Unavailable" if horizon_unavailable?
     visit '/catalog/bib_305929'
     first('div.holding-visible').click
     first('a.item-children-link').click

@@ -19,7 +19,6 @@ if defined?(Bundler)
 end
 
 
-
 module Catalyst
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -91,7 +90,7 @@ module Catalyst
 
     # email from address used for emails and email-to-SMS of bibs sent out
     # of catalyst.
-    ActionMailer::Base.default :from => '"Johns Hopkins Libraries" <ask@jhu.libanswers.com>'
+    ActionMailer::Base.default :from => '"Johns Hopkins Libraries" <no-reply@jhu.edu>'
 
     # temporarily suppress browse until our index is built
     #config.x.suppress_browse = true

@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-md navbar-light bg-light" id="jhu-app-nav">
   <div class="container">
-    <%= image_tag("libraries.logo.small.horizontal.blue.png", :alt => "Johns Hopkins University Libraries", width: '250') -%>
+    <%= image_tag("libraries.logo.small.horizontal.blue.png", :alt => "Johns Hopkins University Libraries", width: '300') -%>
     <%= link_to "Catalyst", root_path, :class=> "navbar-brand site-title" %>
 
     <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#catalyst-navbar-collapse">
@@ -10,26 +10,25 @@
 
     <div class="collapse navbar-collapse" id="catalyst-navbar-collapse">
       <ul class="navbar-nav ml-auto">
-        <%# at very small sizes, reserves button moves to navbar actions, which are hidden
-            unless you press the disclose button %>
-        <li class="nav-item reserves-btn">
-          <%= link_to("Reserves", {:controller => "reserves", :action => "index"}, {class: 'nav-link'}) %>
-        </li>
 
         <% if Flipper[:navbar_pickup_page].enabled? %>
           <li class="nav-item"><%= link_to("Book Pickups & Returns", {:controller => "info", :action => "pickup_locations"}, {class: 'nav-link'}) %></li>
         <% end %>
 
+        <li class="nav-item reserves-btn">
+          <%= link_to("Course Reserves", {:controller => "reserves", :action => "index"}, {class: 'nav-link'}) %>
+        </li>
+
         <li class="nav-item">
           <%= link_to("Other Resources", {:controller => "info", :action => "useful_links"}, {class: 'nav-link'}) %>
         </li>
 
-        <li class="nav-item">
-          <%= link_to bookmarks_path, :class => "nav-link" do %>
-            Bookmarks
-            (<span data-role='bookmark-counter'><%#= current_or_guest_user.bookmarks.count %></span>)
-          <% end %>
-        </li>
+<!--        <li class="nav-item">-->
+          <%#= link_to bookmarks_path, :class => "nav-link" do %>
+<!--            Bookmarks-->
+<!--            (<span data-role='bookmark-counter'><%#= current_or_guest_user.bookmarks.count %></span>)-->
+          <%# end %>
+<!--        </li>-->
 
         <%# let's see if we can do without saved searches and search history %>
         <% if false %>
@@ -44,23 +43,23 @@
           </li>
         <% end %>
 
-        <li class="nav-item">
-          <%= link_to "Account", user_path, class: "nav-link" %>
-        </li>
+<!--        <li class="nav-item">-->
+          <%#= link_to "Account", user_path, class: "nav-link" %>
+<!--        </li>-->
 
-        <% if current_user %>
-          <li class="nav-item">
-            <%= link_to destroy_user_session_path, {class: 'nav-link'} do %>
-            Log Out <%= current_user.jhed_lid || current_user.login %>
-          <% end %>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to new_user_session_path, {class: 'nav-link'} do %>
-            Login
-          <% end %>
-          </li>
-        <% end %>
+        <%# if current_user %>
+<!--          <li class="nav-item">-->
+            <%#= link_to destroy_user_session_path, {class: 'nav-link'} do %>
+<!--            Log Out <%#= current_user.jhed_lid || current_user.login %>-->
+          <%# end %>
+<!--          </li>-->
+        <%# else %>
+<!--          <li class="nav-item">-->
+            <%#= link_to new_user_session_path, {class: 'nav-link'} do %>
+<!--            Login-->
+          <%# end %>
+<!--          </li>-->
+        <%# end %>
       </ul>
     </div>
   </div>

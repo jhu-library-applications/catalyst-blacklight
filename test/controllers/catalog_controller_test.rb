@@ -36,7 +36,6 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
 
   # Email - Login
   test "session - should render email action" do
-    skip "Horizon Unavailable" if horizon_unavailable?
     sign_in
     get '/catalog/bib_324680/email'
     assert_response :success
@@ -62,8 +61,7 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
 
   # Invalid bib id should return a 404
   test "404_for_invalid_bib" do
-    assert_raises RuntimeError do
-      get '/catalog/bib_4759863'
-    end
+     get '/catalog/bib_4759863'
+     assert_response 404
   end
 end
