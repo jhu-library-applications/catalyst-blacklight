@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '~> 2.6.6'
 
 # use a .env file for environment variables in all enviroments
 # we will no longer need this gem once we migrate to ansible
