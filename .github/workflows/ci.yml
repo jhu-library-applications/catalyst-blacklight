@@ -51,7 +51,7 @@ jobs:
         - name: Ruby - Set up
           uses: ruby/setup-ruby@v1
           with:
-            ruby-version: '2.6'
+            ruby-version: '2.6.6'
             bundler-cache: true
 
         - name: Node - Install node for Rails JS runtime
