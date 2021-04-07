@@ -23,6 +23,29 @@
           <%= link_to("Other Resources", {:controller => "info", :action => "useful_links"}, {class: 'nav-link'}) %>
         </li>
 
+        <li class="nav-item d-inline-block d-md-none">
+          <%= link_to bookmarks_path, :class => "nav-link" do %>
+            Bookmarks
+            (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+          <% end %>
+        </li>
+
+        <% if current_user %>
+          <li class="nav-item d-inline-block d-md-none">
+            <%= link_to "Account", {:controller => "users", :action => "update"}, class: "nav-link" %>
+          </li>
+          <li class="nav-item d-inline-block d-md-none">
+            <%= link_to destroy_user_session_path, {class: 'nav-link'} do %>
+              Log Out
+            <% end %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to new_user_session_path, {class: 'nav-link'} do %>
+              Login
+            <% end %>
+          </li>
+        <% end %>
 <!--        <li class="nav-item">-->
           <%#= link_to bookmarks_path, :class => "nav-link" do %>
 <!--            Bookmarks-->
