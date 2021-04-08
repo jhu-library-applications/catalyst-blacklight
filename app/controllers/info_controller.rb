@@ -30,7 +30,6 @@ class InfoController < ApplicationController
 
   def determine_layout
     return false if request.xhr?
-    action_name == super
   end
   
 end
