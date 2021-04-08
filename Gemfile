@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.6.6'
+ruby '2.6.6'
 
 # use a .env file for environment variables in all enviroments
 # we will no longer need this gem once we migrate to ansible
 gem 'dotenv-rails'
 
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 5.2.5'
 
 # See https://github.com/advisories/GHSA-8hc4-xxm3-5ppp
 gem "activerecord", ">= 5.2.4.5"
