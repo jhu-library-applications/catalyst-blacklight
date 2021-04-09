@@ -9,7 +9,7 @@
 
     <div class="show-marc-pre-head text-muted">
       <% if types.present? %>
-        <span class="show-marc-types"><%= types -%><% if document['access_facet'].present? && document['access_facet'] == 'Online' %>, <%= document['access_facet'] -%><% end %></span>
+        <span class="show-marc-types"><%= types -%><% if document['access_facet'].include?("Online") %>, Online -%><% end %></span>
       <% end %>
       <% if languages.present? %>
         <span class="show-marc-languages">in <%= languages %>
