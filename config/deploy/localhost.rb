@@ -4,6 +4,7 @@
 # You can define all roles on a single server, or split them:
 set :stage, :production
 set :rails_env, "production"
+set :run_locally_with_clean_env, false
 
 username = ENV['CAP_USER'] || ENV['USERNAME']
 
