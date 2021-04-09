@@ -273,10 +273,10 @@ end
 
 each_record do |record, context|
   if (context.output_hash["format"] || []).include? "Online"
-    context.output_hash["access_facet"] ||= []
-    context.output_hash["access_facet"]  << "Online" if context.output_hash["access_facet"].empty?
+    context.output_hash["access_format"] ||= []
+    context.output_hash["access_format"]  << "Online" if context.output_hash["access_format"].empty?
   else
-    context.output_hash["access_facet"] ||= []
-    context.output_hash["access_facet"] << "At the Library" if context.output_hash["access_facet"].empty?
+    context.output_hash["access_format"] ||= []
+    context.output_hash["access_format"] << "At the Library" if context.output_hash["access_format"].empty?
   end
 end

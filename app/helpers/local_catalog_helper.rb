@@ -73,8 +73,8 @@ module LocalCatalogHelper
     # let's add in formats and languages
     suffix = content_tag("span", :class => "index-title-subhead") do
       content_tag("span", heading_type_str(doc), :class => "types") +
-      if (doc['access_facet'].present? && doc['access_facet'] == 'Online')
-        ", ".html_safe + doc['access_facet']
+      if (doc['access_format'].present? && doc['access_format'] == 'Online')
+        ", ".html_safe + doc['access_format']
       else
         ""
       end +
