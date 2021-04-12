@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/jhu-library-applications/blacklight_cql.git
+  revision: 150804b99543f62496a188ed34d35eeac4a1126c
+  branch: bl-upgrade
+  specs:
+    blacklight_cql (3.0.1)
+      blacklight (>= 5.14.0)
+      cql-ruby (>= 0.8.1)
+      rails
+
+GIT
   remote: https://github.com/jhu-sheridan-libraries/rails_stackview
   revision: 62a113f4cfcb61b124297e5c2d8ec02d0e3de935
   branch: blacklight-7.0
@@ -275,7 +285,7 @@ GEM
       terminal-table (>= 1.5.1)
     ice_nine (0.11.2)
     ipaddr_range_set (1.0.0)
-    jbuilder (2.11.0)
+    jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
@@ -548,7 +558,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (1.7.0)
-    view_component (2.24.0)
+    view_component (2.30.0)
       activesupport (>= 5.0.0, < 7.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -593,6 +603,7 @@ DEPENDENCIES
   blacklight (= 7.11.1)
   blacklight-marc (= 7.0)
   blacklight_advanced_search (~> 7.0)
+  blacklight_cql!
   blacklight_range_limit (~> 7.0)
   bootstrap (~> 4.0)
   borrow_direct (>= 1.2.0.pre1, < 2.0)
@@ -662,4 +673,4 @@ RUBY VERSION
    ruby 2.6.6p146
 
 BUNDLED WITH
-   2.2.6
+   2.2.16
