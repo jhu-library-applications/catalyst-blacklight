@@ -18,6 +18,10 @@ class CatalogController < ApplicationController
   # Recreating locally to ensure layout choice is correct
   layout :determine_layout
 
+  # Required by Find It / Umlaut
+  include BlacklightCql::ControllerExtension
+
+
   # @TODO: Strong params everywhere
   ActionController::Parameters.permit_all_parameters = true
 
