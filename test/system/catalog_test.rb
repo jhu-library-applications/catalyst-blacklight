@@ -13,30 +13,6 @@ class CatalogTest < ApplicationSystemTestCase
     assert page.has_link?("Start Over")
   end
 
-  def test_search_online_only
-    visit '/catalog'
-
-    # Form
-    within('form.catalog-search') do
-      search_field = page.find("#search_field", visible: false).value
-      assert_equal("all_fields", search_field)
-
-      fill_in('q', with: 'book')
-
-      # Toggle online checkbox
-      check 'online_only'
-      click_button 'Search'
-    end
-
-    # Results present
-    assert page.has_selector?("article.document")
-
-    # Online faceted
-    assert page.has_selector?("span.facet-label > span.selected")
-    selected = page.find("span.facet-label > span.selected").text
-    assert_equal("Online", selected)
-  end
-
   # HELP-18811
   # Scenario: Citation should include imprint data from MARC 264 field in the absence of 260 field
   def test_marc_264_citation_copy
