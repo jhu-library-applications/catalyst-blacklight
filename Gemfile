@@ -101,7 +101,6 @@ gem 'exception_notification', '~> 4.4.0'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'appsignal'
-gem 'ruby-ray'
 
 # For cron jobs
 gem 'whenever', require: false
