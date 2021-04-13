@@ -528,6 +528,7 @@
     <field name="pub_date_sort" type="tint" indexed="true" stored="false" multiValued="false"/>
     <!-- format is used for facet, display, and choosing which partial to use for the show view, so it must be stored and indexed -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="access_facet" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="hathi_access" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="hathi_url" type="string" indexed="true" stored="true" multiValued="true"/>
 
