@@ -528,6 +528,9 @@
     <field name="pub_date_sort" type="tint" indexed="true" stored="false" multiValued="false"/>
     <!-- format is used for facet, display, and choosing which partial to use for the show view, so it must be stored and indexed -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="access_facet" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="hathi_access" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="hathi_url" type="string" indexed="true" stored="true" multiValued="true"/>
 
     <!-- JHU added field for issn lookups -->
     <field name="issn" type="issn" indexed="true" stored="false" multiValued="true"/>
@@ -573,6 +576,11 @@
   <copyField source="discipline_facet" dest="text_unstem"/>
   <copyField source="format" dest="text"/>
   <copyField source="format" dest="text_unstem"/>
+  <copyField source="hathi_access" dest="text"/>
+  <copyField source="hathi_access" dest="text_unstem"/>
+  <copyField source="hathi_url" dest="text"/>
+  <copyField source="hathi_url" dest="text_unstem"/>
+
   <copyField source="other_number_t" dest="text"/>
   <copyField source="other_number_t" dest="text_unstem"/>
 

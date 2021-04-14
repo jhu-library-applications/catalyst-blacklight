@@ -610,6 +610,8 @@
         author_display,
         author_vern_display,
         format,
+        hathi_access,
+        hathi_url,
         isbn_t,
         language_facet,
         lc_callnum_display,

@@ -72,7 +72,7 @@ module LocalCatalogHelper
 
     # let's add in formats and languages
     suffix = content_tag("span", :class => "index-title-subhead") do
-      content_tag("span", heading_type_str(doc), :class => "types")  +
+      content_tag("span", heading_type_str(doc), :class => "types") +
       if (languages = heading_language_str(doc))
         " in ".html_safe + content_tag("span", languages, :class => "languages")
       else

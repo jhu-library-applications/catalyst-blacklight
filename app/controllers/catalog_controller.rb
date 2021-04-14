@@ -18,6 +18,10 @@ class CatalogController < ApplicationController
   # Recreating locally to ensure layout choice is correct
   layout :determine_layout
 
+  # Required by Find It / Umlaut
+  include BlacklightCql::ControllerExtension
+
+
   # @TODO: Strong params everywhere
   ActionController::Parameters.permit_all_parameters = true
 
@@ -125,7 +129,7 @@ class CatalogController < ApplicationController
     config.advanced_search[:url_key] ||= 'advanced'
     config.advanced_search[:query_parser] ||= 'edismax'
     config.advanced_search[:form_solr_parameters] ||= {
-      "facet.field" => ["format", "location_facet", "language_facet", "instrumentation_facet"],
+      "facet.field" => ["access_facet", "format", "location_facet", "language_facet", "instrumentation_facet"],
       "facet.limit" => -1, # return all facet values
       "facet.sort" => "index" # sort by byte order of values
     }
@@ -146,6 +150,7 @@ class CatalogController < ApplicationController
     :"f.format.facet.limit" => -1,
     :"facet.field" => [
       "format",
+      "access_facet",
       "location_facet",
       "author_facet",
       "organization_facet",
@@ -205,6 +210,7 @@ class CatalogController < ApplicationController
     # on the solr side in the request handler itself. Request handler defaults
     # sniffing requires solr requests to be made with "echoParams=all", for
     # app code to actually have it echo'd back to see it.
+    config.add_facet_field  "access_facet",   :label => "Access", :limit => 2, :collapse => false
     config.add_facet_field  "format",         :label => "Format", :limit => false # no limit as we show all format values
     config.add_facet_field  "location_facet", :label => "Item Location", :limit => true
     config.add_facet_field  "pub_date_sort",  :label => "Publication Year", :range => true

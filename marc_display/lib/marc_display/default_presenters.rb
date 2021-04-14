@@ -391,7 +391,7 @@ module MarcDisplay
           { :label => "Other information",
             :id => :notes,
             :css_classes => ["wider_spaced"],
-            :source => ["500a35", "501a5", "502a","504ab", "506abcde", "513ab", "514abcdefghijkmuz", "515a", "518aodp3", "521ab3", "522a", "524a2", "525a", "526abcdixz", "535abcdg3", "546ab3", "547a", "550a", "552abcd", "555au", "507ab", "561a3","255abcdefg", "580a", "581az3", "585a35", "586a3", "530abcdu3", "540abcd5", "567a", "556az", "563a", "541ca3d","754acdz2", "510abcux","565abcde","545abu","584ab",
+            :source => ["500a35", "501a5", "502abcdgo","504ab", "506abcde", "513ab", "514abcdefghijkmuz", "515a", "518aodp3", "521ab3", "522a", "524a2", "525a", "526abcdixz", "535abcdg3", "546ab3", "547a", "550a", "552abcd", "555au", "507ab", "561a3","255abcdefg", "580a", "581az3", "585a35", "586a3", "530abcdu3", "540abcd5", "567a", "556az", "563a", "541ca3d","754acdz2", "510abcux","565abcde","545abu","584ab",
             #JH local notes
             "590a", "591a", "592a",
             #JH Archives data

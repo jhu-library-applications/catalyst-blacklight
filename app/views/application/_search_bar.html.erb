@@ -15,14 +15,6 @@
                 search_url_context(:controller => "articles", :action => "index"))
         %>
 
-        <%# reserves is it's own separate button, that does not keep search context
-            hidden at very small sizes, we list it in the navbar buttons instead
-            at small size.
-        %>
-
-        <span class="reserves-btn">
-            <%= render_search_button("Reserves", search_area == :reserves, {:controller => "reserves", :action => "index"}) %>
-        </span>
       </div>
     </div>
 

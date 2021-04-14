@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '~> 2.6.6'
 
 # use a .env file for environment variables in all enviroments
 # we will no longer need this gem once we migrate to ansible
 gem 'dotenv-rails'
 
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 5.2.5'
 
 # See https://github.com/advisories/GHSA-8hc4-xxm3-5ppp
 gem "activerecord", ">= 5.2.4.5"
@@ -47,7 +47,7 @@ gem 'borrow_direct', ">= 1.2.0.pre1", "< 2.0"  # for generating queries to BD
 # gem "chosen_assets" #, :path => "../chosen-rails" # used to add fancy combo box UI to advanced search form facets
 #gem 'chosen-rails' #  jquery multiselect plugin for advanced search
 
-# gem "blacklight_cql", "~> 3.0"
+gem "blacklight_cql", git: 'https://github.com/jhu-library-applications/blacklight_cql.git', branch: 'bl-upgrade'
 
 # Removing Bento / EWL
 # gem "bento_search", "~> 1.6" #, :github => "jrochkind/bento_search", :branch => "master"  # for multi-search support, article search, google site, etc.

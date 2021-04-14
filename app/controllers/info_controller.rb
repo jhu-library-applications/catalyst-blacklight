@@ -1,4 +1,6 @@
 class InfoController < ApplicationController
+  layout :determine_layout
+
   # not actually used at present
   def item_status
     @status_description = IlsStatus.find_by_id(params[:id])
@@ -24,6 +26,10 @@ class InfoController < ApplicationController
   end
   
   def credits
+  end
+
+  def determine_layout
+    return false if request.xhr?
   end
   
 end
