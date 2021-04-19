@@ -35,6 +35,7 @@ require "capistrano/dotenv"
 require "capistrano/bundler"
 require "capistrano/passenger"
 require "capistrano/locally"
+require_relative 'lib/gem_extensions/sshkit'
 require "capistrano/rails"
 require "whenever/capistrano"
 
