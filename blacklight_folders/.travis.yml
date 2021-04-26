@@ -1,0 +1,14 @@
+language: ruby
+sudo: false
+notifications:
+  email: false
+
+rvm:
+  - 2.2.3
+
+env:
+  global:
+    - JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+
+script: bundle exec rake ci

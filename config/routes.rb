@@ -34,6 +34,7 @@ Catalyst::Application.routes.draw do
   #
   mount Blacklight::Engine => '/'
   mount BlacklightAdvancedSearch::Engine => '/'
+  mount Blacklight::Folders::Engine => '/'
 
 
   concern :searchable, Blacklight::Routes::Searchable.new

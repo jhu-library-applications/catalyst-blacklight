@@ -5,12 +5,12 @@
 # BL distro user.rb -- we do not want to validate password or email,
 # as neither are required in our JHED and Horizon based auth implementation.
 class User < ApplicationRecord
-# Connects this user object to Blacklights Bookmarks and Folders. 
- include Blacklight::User
-  # Connects this user object to Blacklights Bookmarks and Folders. 
+  # Connects this user object to Blacklights Bookmarks and Folders.
   include Blacklight::User
+  # Connects this user object to Blacklights Bookmarks and Folders. 
+  include Blacklight::Folders::User
   #include Blacklight::User::UserGeneratedContent
-  
+
   #
   # Does this user actually exist in the db?
   #

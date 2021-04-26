@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_163742) do
+ActiveRecord::Schema.define(version: 2021_04_16_165928) do
+
+  create_table "blacklight_folders_folder_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.bigint "folder_id", null: false
+    t.bigint "bookmark_id", null: false
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bookmark_id"], name: "index_blacklight_folders_folder_items_on_bookmark_id"
+    t.index ["folder_id"], name: "index_blacklight_folders_folder_items_on_folder_id"
+  end
+
+  create_table "blacklight_folders_folders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "user_type", null: false
+    t.bigint "user_id", null: false
+    t.string "visibility"
+    t.integer "number_of_members", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_type", "user_id"], name: "index_blacklight_folders_folders_on_user_type_and_user_id"
+  end
 
   create_table "bookmarks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id", null: false

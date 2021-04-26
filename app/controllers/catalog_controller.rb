@@ -21,7 +21,6 @@ class CatalogController < ApplicationController
   # Required by Find It / Umlaut
   include BlacklightCql::ControllerExtension
 
-
   # @TODO: Strong params everywhere
   ActionController::Parameters.permit_all_parameters = true
 

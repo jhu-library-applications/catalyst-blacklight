@@ -32,6 +32,7 @@ gem 'marc_display', :path => "./marc_display"
 
 gem "blacklight_range_limit", "~> 7.0"
 gem "blacklight_advanced_search", "~> 7.0" #,  :path => "../blacklight_advanced_search"
+gem 'blacklight_folders', :path => "./blacklight_folders"
 
 #gem "stackview_acorn_tester"
 
