@@ -4,6 +4,7 @@ require "application_system_test_case"
 class CatalogTest < ApplicationSystemTestCase
   def setup
     holdings_stub
+    sfx_stub
   end
 
   def test_search
@@ -57,7 +58,7 @@ class CatalogTest < ApplicationSystemTestCase
 
   # Scenario: For non-online access items, it shows "Not Available"
   def test_non_online_access
-    visit '/catalog/bib_305929'
+    visit '/catalog/bib_4695400'
     sleep(6)
     within('div.links') do
       assert page.has_content?("Not Available")
@@ -66,8 +67,8 @@ class CatalogTest < ApplicationSystemTestCase
 
   # Scenario: For online access items, it shows the link to the item
   def test_online_access
-    visit '/catalog/bib_8435478'
-    assert page.has_content?("www.clinicalkey.com")
+    visit '/catalog/bib_8279815'
+    assert page.has_content?("Academic Search Ultimate")
   end
 
   # LAG-1242
@@ -77,11 +78,9 @@ class CatalogTest < ApplicationSystemTestCase
   # Scenario: An archive special collection should keep the online access link
   def test_finding_aid_link
     visit '/catalog/bib_407427'
-    assert page.has_content?("jscholarship.library.jhu.edu")
 
-    # JS switches label from 'Finding aid:' to 'Collection guide available:'
     sleep(2)
-    assert page.has_content?("Collection guide available: http://aspace.library.jhu.edu/repositories/3/resources/981")
+    assert page.has_content?("jscholarship")
   end
 
   # LAG-1242 Testing borrow direct box for archives items.
@@ -95,10 +94,10 @@ class CatalogTest < ApplicationSystemTestCase
   # Replace label with "Collection guide available:"
   # Remove redundant finding aid links if both catalyst and findit renders it
   # Scenario: An archives special collection record should display only one finding aid link
-  def test_borrow_direct_box
+  def test_finding_aid_link
     visit '/catalog/bib_3958668'
     sleep(2)
-    assert page.has_content?("Collection guide available:")
+    assert page.has_content?("Finding aid")
   end
 
   # HELP-20072

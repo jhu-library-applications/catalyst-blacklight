@@ -1,0 +1,13 @@
+<div id="hathi-etas" hathi-present="<%=related_hathi_links(document).length > 0 %> ">
+  <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
+    <% related_hathi_links_etas_only(document).each do |url| %>
+      <%= link_to "Full text available from HathiTrust", url %><br/>
+    <% end %>
+  <% end %>
+</div>
+<div class="external-resources-container" data-remote-url="/external_resources/show?<%= document.export_as_openurl_ctx_kev %>">
+  <%= SolrDocumentPresenter.new(solr_document: document).links.html_safe %>
+</div>
+<script>
+ loadExternalResources()
+</script>

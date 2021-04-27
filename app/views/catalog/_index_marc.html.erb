@@ -83,33 +83,15 @@
 
     -%>
 
-    <% # Look for Online Verions %>
-    <% if( JHConfig.params[:umlaut_base_url] &&
-        document.export_formats.keys.include?(:openurl_ctx_kev)) && related_links_type(document) != :online %>
-      <% if !hathi_eta(document) %>
-        <div id="findit-wrapper">
-          <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}", {:class => "request btn btn-primary btn-sm"}  ) do %>
-            Look for Online Versions
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-
     <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
       <div class="links results-item-section card">
         <div class="card-header">
-          <div class="col-sm-7">
-            Online Access
+          <div class="col-sm-7">Online Access
             <% if (Rails.application.config.x.suppress_browse != true) && (browse_sort_key = shelf_browse_sort_key_for(document)) %>
               <span> | </span>
               <span class="glyphicon glyphicon-book"></span> <%= link_to "Virtual Shelf Browse", shelfbrowse_path(:origin_sort_key => browse_sort_key) %>
             <% end %>
           </div>
-<!--          <div class="action-container col-sm-6">-->
-            <%#= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}", {:class => "request btn btn-primary btn-sm"}  ) do %>
-<!--              Look for Other Versions-->
-            <%# end %>
-<!--          </div>-->
         </div>
 
         <div class="card-body">
@@ -133,16 +115,8 @@
         </div>
 
         <div class="card-body">
-          <% if hathi_eta(document) %>
-            <% related_hathi_links(document).each do |url| %>
-              <%= link_to "HathiTrust", url %><br/>
-            <% end %>
-          <% end %>
-          <%=
-          render :partial => "marc_display/presenter_content", :locals => {:presenter => links_presenter } if links_presenter.should_display?
-          %>
+          <%= render 'external_resources_container', document: document %>
         </div>
-
       </div>
     <% end %>
 

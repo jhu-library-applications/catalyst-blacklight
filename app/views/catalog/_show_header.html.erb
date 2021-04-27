@@ -1,8 +1,7 @@
 
 <div class="show-marc-heading">
-  <%# filled in from Umlaut via JS sometimes %>
-  <div class="cover-image-container"></div>
-
+  <div class="cover-image-container" data-isbn="<%= document.isbn %>"></div>
+  <script>bookCover()</script>
   <%- types = heading_type_str(document)
       languages = heading_language_str(document)
       if types.present? || languages.present? -%>
@@ -43,7 +42,7 @@
      linked_stmt_resps = heading_linked_stmt_resp(document) %>
 
    <% if linked_titles.length > 0 || linked_stmt_resps.length > 0 %>
-   <div class="alternate-languages offset-2">  
+   <div class="alternate-languages offset-2">
     <%  if linked_titles.length > 0 %>
       <ul class="alternate-titles list-unstyled">
         <% heading_linked_titles(document).each do |linked_title| %>
