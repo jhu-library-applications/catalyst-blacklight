@@ -34,7 +34,7 @@ Catalyst::Application.routes.draw do
   #
   mount Blacklight::Engine => '/'
   mount BlacklightAdvancedSearch::Engine => '/'
-  mount Blacklight::Folders::Engine => '/'
+  mount Blacklight::Folders::Engine, at: "/"
 
 
   concern :searchable, Blacklight::Routes::Searchable.new
@@ -43,7 +43,6 @@ Catalyst::Application.routes.draw do
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
     concerns :searchable
     concerns :range_searchable
-
   end
 
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
@@ -74,6 +73,7 @@ Catalyst::Application.routes.draw do
   # method in user_sessions
   get 'shibboleth_login' => 'user_sessions#shibboleth_create', :as => :shibboleth_login
 
+  get 'blacklight/folders/catalog' => 'catalog#index'
 
   # For displaying copy information from horizon lookup for a designated copy
   get 'catalog/:id/copy/:copy_id(.:format)' => 'catalog#copy'

@@ -1,11 +1,12 @@
 module Blacklight::Folders
-  class SolrResponse < Blacklight::SolrResponse
+  class SolrResponse < Blacklight::Solr::Response
     attr_reader :doc_ids, :document_model
 
     def docs
       @docs ||= begin
         # Put them into the right order (same order as doc_ids),
         # and cast them to the right model.
+        ray(self.documents)
         doc_ids.map.with_index {|id, i|
           doc_hash = self.documents.find{|doc| doc[document_model.unique_key] == id }
           raise "Couldn't find Solr document for #{document_model.unique_key}: `#{id}'" unless doc_hash

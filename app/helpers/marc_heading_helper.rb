@@ -139,8 +139,11 @@ module MarcHeadingHelper
     txt = line.join
     #txt = txt.chomp(".") # trailing periods not helpful when we're surrounding with parens
 
-    #link_to "(#{txt})", line.link.hash_for_url 
-    link_to txt, line.link.hash_for_url 
+    #link_to "(#{txt})", line.link.hash_for_url
+
+    byebug
+    link_to txt, line.link.hash_for_url[]
+    #"<a href='/catalog?q={#line.link.hash_for_url[:q]}'>#{txt}</a>"
   end
 
   protected
