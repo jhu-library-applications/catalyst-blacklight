@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_163742) do
+ActiveRecord::Schema.define(version: 2021_04_29_180308) do
+
+  create_table "blacklight_folders_folder_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "folder_id", null: false
+    t.integer "bookmark_id", null: false
+    t.integer "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["bookmark_id"], name: "index_blacklight_folders_folder_items_on_bookmark_id"
+    t.index ["folder_id"], name: "index_blacklight_folders_folder_items_on_folder_id"
+  end
+
+  create_table "blacklight_folders_folders", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "user_type", null: false
+    t.integer "user_id", null: false
+    t.string "visibility"
+    t.integer "number_of_members", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["user_type", "user_id"], name: "index_blacklight_folders_folders_on_user_type_and_user_id"
+  end
 
   create_table "bookmarks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -23,20 +44,29 @@ ActiveRecord::Schema.define(version: 2020_11_17_163742) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
-  create_table "flipper_features", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "flipper_features", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_flipper_features_on_key", unique: true
   end
 
-  create_table "flipper_gates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "flipper_gates", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "feature_key", null: false
     t.string "key", null: false
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
+  end
+
+  create_table "jhu_hathi_exception", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.integer "oclc", null: false
+    t.integer "bib"
+    t.string "item_type"
+    t.string "access"
+    t.string "rights"
+    t.string "url"
   end
 
   create_table "reserves_course_bibs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|

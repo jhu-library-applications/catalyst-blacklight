@@ -104,6 +104,14 @@ class CatalogController < ApplicationController
   before_action :spellcheck, :only => :index
 
   configure_blacklight do |config|
+    config.add_results_document_tool(:folder, partial: 'blacklight/folders/folder_control')
+
+    config.add_results_collection_tool(:folder, partial: 'blacklight/folders/add_to_folder')
+
+    config.add_show_tools_partial(:folder, partial: 'blacklight/folders/show/add_to_folder')
+
+    config.add_nav_action(:folder, partial: 'blacklight/nav/folders', if: Proc.new { |ctx| ctx.current_ability.can?(:index, Blacklight::Folders::Folder)  } )
+
 
     # Do not store searches for bots
     config.crawler_detector = ->(req) { req.env['HTTP_USER_AGENT'] =~ /bot/ }
