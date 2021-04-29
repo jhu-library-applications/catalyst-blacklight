@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/fackrellj/blacklight_folders.git
-  revision: 01b0b4a2d73a729bb928da44c322cf7fc9131af1
+  revision: 680f802f14bb67c3e2f81984d054eadf4bbf5333
   branch: master
   specs:
     blacklight_folders (1.0.1)
