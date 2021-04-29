@@ -1,5 +1,6 @@
 Catalyst::Application.routes.draw do
 
+  mount Blacklight::Folders::Engine, at: "blacklight"
   get 'articles' => 'articles#index'
   
   # Error Pages for exception handling - EWL

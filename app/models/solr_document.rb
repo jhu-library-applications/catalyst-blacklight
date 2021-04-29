@@ -3,7 +3,7 @@ require 'dlf_expanded_passthrough/document_extension'
 require 'dlf_expanded_passthrough/to_holdings_extension'
 
 class SolrDocument 
-
+  include Blacklight::Folders::SolrDocument
   include Blacklight::Solr::Document
       # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_ss

@@ -3,7 +3,7 @@
 module ApplicationHelper
 
 
-
+  include BlacklightFoldersHelper
 
   # Over-ride Umlaut default
   def application_name
