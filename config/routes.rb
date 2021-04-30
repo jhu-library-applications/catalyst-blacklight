@@ -1,7 +1,7 @@
 Catalyst::Application.routes.draw do
 
   mount Blacklight::Folders::Engine, at: "blacklight"
-  get 'articles' => 'articles#index'
+  get 'articles' => 'articles#index', :as => 'search_articles'
   
   # Error Pages for exception handling - EWL
   match '/404' => 'errors#not_found', via: :all
@@ -90,14 +90,14 @@ Catalyst::Application.routes.draw do
   # for our home-built auth. itemsout is considered main user
   # home page at the moment.
   get "user" => "users#itemsout", :as => "user"
-  put "user/profile" => "users#update"
+  put "user/profile" => "users#update", :as => "user_profile"
   get "login" => "user_sessions#index", :as => "new_user_session"
   get "logout" => "user_sessions#destroy", :as => "destroy_user_session"
   post "login" => "user_sessions#create", :as => "user_sessions"
 
   # for our account actions
   get 'user/itemsout' => redirect("/user") # /user/itemout used to be link, don't break it
-  get 'user/requests' => "users#requests"
+  get 'user/requests' => "users#requests", :as => "user_requests"
   get 'user/profile'  => "users#show"
 
   # reserves, mostly just ordinary resourceful, but with special
@@ -133,6 +133,11 @@ Catalyst::Application.routes.draw do
   get 'stackview_data/:call_number_type', :to => "stackview_data#fetch", :as => "stackview_data"
   # Back-end returning html partial for clicks on items.
   get "shelfbrowse_item", :to => "catalog#shelfbrowse_item", :as => "stackview_browser_item"
+
+  get "/info/pickup_locations", :to => "info#pickup_locations", :as => "pickup_locations"
+  get "/info/libraries", :to => "info#libraries", :as => "libraries"
+  get "/info/useful_links", :to => "info#useful_links", :as => "useful_links"
+  get "/info/credits", :to => "info#credits", :as => "credits"
 
   match '/:controller(/:action(/:id))', :via => [:get, :post]
 

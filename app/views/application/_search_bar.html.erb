@@ -8,11 +8,11 @@
       <div role="group" aria-label="Search Options" data-preserve-search-context="true">
 
         <%= render_search_button("Catalog", search_area == :catalog,
-                search_url_context(:controller => "catalog", :action => "index"))
+                search_catalog_path(search_url_context()))
         %>
 
         <%= render_search_button("Articles", current_page?('/articles'),
-                search_url_context(:controller => "articles", :action => "index"))
+                search_articles_path(search_url_context()))
         %>
 
       </div>

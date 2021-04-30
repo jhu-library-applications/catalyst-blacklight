@@ -1,6 +1,6 @@
 <div class="footer navbar navbar-expand-md navbar-static-bottom">
   <div class="container">
-    <%= link_to :controller => "info", :action => "libraries" do -%>
+    <%= link_to libraries_path do -%>
       <%= image_tag("libraries.logo.small.horizontal.blue.png", :class => "footer-logo", :alt => "Johns Hopkins University Libraries") -%>
     <%- end -%>
 
@@ -14,7 +14,7 @@
       </li>
 
       <li class="nav-item">
-        <%= link_to "Credits", {:controller => "info", :action => "credits"}, {class: 'nav-link'} %>
+        <%= link_to "Credits", credits_path, {class: 'nav-link'} %>
       </li>
     </ul>
 
