@@ -50,6 +50,9 @@ Catalyst::Application.routes.draw do
     concerns [:exportable, :marc_viewable], :except => [:sms]
   end
 
+  get "catalog/citation" => "catalog#citation", :as => 'citation_catalog'
+  get "catalog/email" => "catalog#email", :as => 'email_catalog'
+
   resources :bookmarks do
     concerns :exportable
 

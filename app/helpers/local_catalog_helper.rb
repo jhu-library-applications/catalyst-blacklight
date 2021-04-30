@@ -324,4 +324,16 @@ module LocalCatalogHelper
     end
   end
 
+  def render_marc_tools
+    return unless defined? Blacklight::Marc
+
+    begin
+      # blacklight-marc 5.4+
+      render 'marc_tools'
+    rescue ActionView::MissingTemplate
+      # blacklight-marc 5.0+
+      render('endnote') + render('refworks')
+    end
+  end
+
 end

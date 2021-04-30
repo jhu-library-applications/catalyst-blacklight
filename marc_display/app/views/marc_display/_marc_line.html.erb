@@ -3,7 +3,7 @@
     <span class="marcPrefix"><%= prefix %>:</span>
   <%- end -%>
   <%- if (alink = line.link) && alink.as_whole_line? && alink.hash_for_url -%>
-    <a href="<%= url_for(alink.hash_for_url) %>">
+    <a href="<%= url_for(search_catalog_path(alink.hash_for_url)) %>">
   <%- end -%>
   <%- line.parts.each_with_index do |part, i| -%>
     <span class="marcLinePart <%= part.css_classes.join(" ") -%>">
