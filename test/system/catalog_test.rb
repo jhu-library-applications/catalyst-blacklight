@@ -139,6 +139,14 @@ class CatalogTest < ApplicationSystemTestCase
     assert page.has_content?('Login')
   end
 
+  # LAG-4185
+  # Make sure we are giving a 404 page for a failed cql request and not a 500
+  def test_cql_error_page
+    visit '/catalog?utf8=✓&search_field=cql&q=title+%3D+%22%5C%22People+and+Nature%5C%22%22+test&content_format=marc&f%5Bformat%5D%5B%5D=Journal%2FNewspaper&format=html'
+    assert page.has_no_content? 'Internal Server Error'
+    assert page.has_content? 'Page Not Found'
+  end
+
   # Test result set show page pagination
   def test_show_page_result_set_pagination
     visit '/catalog?q=piano'
