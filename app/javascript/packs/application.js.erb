@@ -18,7 +18,7 @@ import 'bootstrap/dist/js/bootstrap'
 import 'blacklight-frontend/app/assets/javascripts/blacklight/blacklight'
 
 import 'chosen-js'
-import '../blacklight_range_limit/'
+
 import '../articles'
 import '../catalog'
 import '../advanced_limits_enhanced_ui'
@@ -35,14 +35,3 @@ import '../umlaut_include'
 import { has_rmst_cookie, toggle_rmst_cookie } from '../rmst'
 global.has_rmst_cookie = has_rmst_cookie
 global.toggle_rmst_cookie = toggle_rmst_cookie
-
-
-// AppSignal
-import Appsignal from '@appsignal/javascript' // For ES Module
-import { plugin } from '@appsignal/plugin-window-events'
-
-const appsignal = new Appsignal({
-  key: "<%= ENV['APPSIGNAL_FRONTEND_KEY'] %>",
-})
-
-appsignal.use(plugin)
