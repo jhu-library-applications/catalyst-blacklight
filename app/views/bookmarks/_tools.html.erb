@@ -1,8 +1,10 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
-  <%= render_show_doc_actions document_list, document: nil, document_list: @response.documents, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h) do |config, inner| %>
-    <li role="presentation" class="nav-item">
-      <%= inner %>
-    </li class="nav-item">
+  <% if controller_name == 'catalog' %>
+    <%= render_show_doc_actions document_list, document: nil, document_list: @response.documents, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h) do |config, inner| %>
+      <li role="presentation" class="nav-item">
+        <%= inner %>
+      </li class="nav-item">
+    <% end %>
   <% end %>
   <% if @response.documents.any? {|d| d.exports_as? :refworks_marc_txt } %>
     <li role="presentation" class="nav-item mr-3">

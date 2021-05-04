@@ -114,6 +114,11 @@ class CatalogController < ApplicationController
     config.add_results_collection_tool(:sort_widget)
     config.add_results_collection_tool(:per_page_widget)
     config.add_results_collection_tool(:view_type_group)
+    # Folder controls
+    # config.add_results_document_tool(:folder, partial: 'blacklight/folders/folder_control')
+    # config.add_results_collection_tool(:folder, partial: 'blacklight/folders/add_to_folder')
+    config.add_show_tools_partial(:folder, partial: 'blacklight/folders/show/add_to_folder')
+    # config.add_nav_action(:folder, partial: 'blacklight/nav/folders', if: Proc.new { |ctx| ctx.current_ability.can?(:index, Blacklight::Folders::Folder)  } )
 
     config.add_show_tools_partial(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
     config.add_show_tools_partial(:email, callback: :email_action, validator: :validate_email_params)

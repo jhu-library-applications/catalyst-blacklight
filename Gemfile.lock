@@ -1,16 +1,4 @@
 GIT
-  remote: https://github.com/fackrellj/blacklight_folders.git
-  revision: 27aa529af8e0bfa69f654411232ba81904065549
-  branch: master
-  specs:
-    blacklight_folders (1.0.1)
-      acts_as_list (>= 0.4.0)
-      blacklight (>= 5.16.4, < 8)
-      cancancan (~> 3.2)
-      rails (>= 4.0.1, < 7)
-      select2-rails (~> 4.0)
-
-GIT
   remote: https://github.com/jhu-library-applications/blacklight_cql.git
   revision: 150804b99543f62496a188ed34d35eeac4a1126c
   branch: bl-upgrade
@@ -53,6 +41,16 @@ GIT
       rubocop-rspec (~> 1.35)
       rubycritic (~> 4.1)
       traceroute (~> 0.8)
+
+PATH
+  remote: blacklight_folders
+  specs:
+    blacklight_folders (1.0.1)
+      acts_as_list (>= 0.4.0)
+      blacklight (>= 5.16.4, < 8)
+      cancancan (~> 3.2)
+      rails (>= 4.0.1, < 7)
+      select2-rails (~> 4.0)
 
 PATH
   remote: marc_display
