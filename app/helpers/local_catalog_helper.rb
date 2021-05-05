@@ -324,4 +324,19 @@ module LocalCatalogHelper
     end
   end
 
+  def book_cover(isbns)
+    cover_image = nil
+    if isbns.respond_to?('each')
+      isbns.each do |isbn|
+        response = Faraday.get 'https://www.googleapis.com/books/v1/volumes?key='+ ENV['GOOGLE_BOOKS_API_KEY'] +'&fields=items(volumeInfo(imageLinks))&q=isbn:' + isbn
+        cover = MultiJson.load(response.body)
+        if cover['items']
+          cover_image = cover['items'][0]['volumeInfo']['imageLinks']['smallThumbnail']
+        end
+        break if cover_image
+      end
+      cover_image
+    end
+  end
+
 end
