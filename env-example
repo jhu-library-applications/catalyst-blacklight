@@ -42,3 +42,5 @@ DNS_1=10.200.1.1
 DNS_2=10.200.2.2
 
 SENTRY_DSN=http://sentry.io/
+
+GOOGLE_BOOKS_API_KEY=
