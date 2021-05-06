@@ -21,10 +21,10 @@
       <div class="col-md-8" style="text-align: right;">
         <ul class="account-dropdown">
           <li class="nav-item bookmarks-link">
-            <%#= link_to bookmarks_path, :class => "nav-link" do %>
-<!--              Bookmarks-->
-<!--              (<span data-role='bookmark-counter'><%#= current_or_guest_user.bookmarks.count %></span>)-->
-            <%# end %>
+            <%= link_to bookmarks_path, :class => "nav-link" do %>
+              Bookmarks
+              (<span data-role='bookmark-counter'><%= current_or_guest_user.bookmarks.count %></span>)
+            <% end %>
             <%= render :partial=>'blacklight/nav/folders' %>
           </li>
           <% if current_user %>
