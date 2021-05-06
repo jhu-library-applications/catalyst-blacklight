@@ -42,8 +42,9 @@ Catalyst::Application.routes.draw do
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
     concerns :searchable
     concerns :range_searchable
-
   end
+
+  get '/bookcovershowcase' => 'book_cover_showcase#list', as: 'bookcovershowcase'
 
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns [:exportable, :marc_viewable], :except => [:sms]
