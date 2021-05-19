@@ -12,7 +12,7 @@ gem 'rails', '~> 5.2.5'
 gem "activerecord", ">= 5.2.4.5"
 
 # Use Puma as the app server
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.3'
 
 # Blacklight fixed to 7.0.1, change manually when you want to update
 # blacklight.
