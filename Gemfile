@@ -171,7 +171,6 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'capybara-screenshot'
-  gem 'webdrivers'
 
   # Minitest
   gem 'minitest'

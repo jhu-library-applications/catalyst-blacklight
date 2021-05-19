@@ -4,7 +4,7 @@ require 'simplecov'
 require 'webmock/minitest'
 
 # These are URLs that do not need to be mocked
-WEBMOCK_ALLOW_LIST = %w[127.0.0.1 catalyst.library.jhu.edu bdtest.relaisd2d.com
+WEBMOCK_ALLOW_LIST = %w[127.0.0.1 localhost catalyst.library.jhu.edu bdtest.relaisd2d.com solr
                         jhu.stackmap.com chromedriver.storage.googleapis.com httpstat.us].freeze
 
 WebMock.disable_net_connect!(allow: WEBMOCK_ALLOW_LIST)
