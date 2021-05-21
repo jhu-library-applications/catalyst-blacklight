@@ -14,6 +14,8 @@ require 'search_builder'
 require 'dlf_expanded_passthrough/document_extension'
 
 class CatalogController < ApplicationController
+  include CqlHelper
+
   # @TODO: BL should do this, but it is not working here
   # Recreating locally to ensure layout choice is correct
   layout :determine_layout
@@ -21,6 +23,13 @@ class CatalogController < ApplicationController
   # Required by Find It / Umlaut
   include BlacklightCql::ControllerExtension
 
+  def index
+    super
+
+    if params[:content_format] == 'marc' && params[:search_field] == 'cql' && params[:format] == 'html'
+      redirect_to search_catalog_url reformatted_cql_search(params: params)
+    end
+  end
 
   # @TODO: Strong params everywhere
   ActionController::Parameters.permit_all_parameters = true
