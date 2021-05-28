@@ -16,7 +16,7 @@ class CqlHelperTest < ActionView::TestCase
   end
 
   test 'that we can remove CQL formatting from a title & author CQL query' do
-    actual_params = { content_format: 'marc', q: 'title = "\"Accounts of Chemical Research\"" author = "\"J Smith\""', search_field: 'cql', f: '[format][]=Journal/Newspaper' }
+    actual_params = { content_format: 'marc', q: 'title = "\"Accounts of Chemical Research\"" AND author = "J Smith"', search_field: 'cql', f: '[format][]=Journal/Newspaper' }
     ideal_params = {  q: 'Accounts of Chemical Research J Smith', search_field: 'all_fields', f: '[format][]=Journal/Newspaper' }
 
     assert_equal ideal_params, reformatted_cql_search(params: actual_params)
