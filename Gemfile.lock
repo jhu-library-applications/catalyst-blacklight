@@ -359,6 +359,8 @@ GEM
     nio4r (2.5.7)
     nokogiri (1.11.6-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.11.6-x86_64-linux)
+      racc (~> 1.4)
     openurl (1.0.0)
       marc
       scrub_rb (~> 1.0)
@@ -606,6 +608,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   activerecord (>= 5.2.4.5)
