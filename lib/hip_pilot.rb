@@ -624,7 +624,7 @@ class HipPilot
   class ItemOut < Transaction
     def overdue?
       tz = TZInfo::Timezone.get('US/Eastern')
-      offset_in_hours = tz.current_period.utc_total_offset_rational.numerator
+      offset_in_hours = tz.current_period.utc_total_offset.numerator
       offset = '%+.2d:00' % offset_in_hours
       if (date_complete.kind_of?(Time))
         time = Time.now + offset_in_hours * 60 * 60

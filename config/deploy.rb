@@ -16,7 +16,7 @@ set :deploy_to, "/opt/catalyst"
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
-set :chruby_ruby, 'ruby-2.6.6'
+set :chruby_ruby, 'ruby-3.0.2'
 
 set :passenger_restart_with_touch, true
 set :passenger_roles, :web

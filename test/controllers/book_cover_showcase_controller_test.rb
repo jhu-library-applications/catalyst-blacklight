@@ -10,12 +10,12 @@ class BookCoverShowcaseControllerTest < ActionDispatch::IntegrationTest
     json_response.has_key?('bookcovers')
   end
 
-  test "should render bookcover image from isbn" do
+  test "should render bookcover image for isbn" do
     get '/bookcover?isbn=020588699X,9780205886999,0205933491,9780205933495,0205949525,9780205949526&format=Book,Print'
     assert_response :redirect
   end
 
-  test "should render bookcover image from bib" do
+  test "should render bookcover image for bib number" do
     get '/bookcover?bib=bib_8334977'
     assert_response :redirect
   end
