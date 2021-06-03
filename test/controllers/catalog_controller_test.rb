@@ -10,7 +10,7 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
   test "should return json results" do
     get '/catalog', params: { format: 'json' }
     assert_response :success
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json; charset=utf-8', response.content_type
 
     json = JSON.parse(response.body)
     refute_empty json["data"]
