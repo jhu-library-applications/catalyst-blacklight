@@ -16,4 +16,18 @@ class CqlTest < ApplicationSystemTestCase
 
     assert page.has_content? '/catalog/bib_2653739</id>'
   end
+
+  def test_that_cql_queries_from_find_it_are_redirected
+    holdings_stub
+
+    visit '/catalog.html?content_format=marc&f%5Bformat%5D%5B%5D=Journal%2FNewspaper&q=title+%3D+"%5C"Accounts+of+Chemical+Research%5C""&search_field=cql'
+    page.have_css?(".filter-name", text: "Title")
+  end
+
+  def test_that_cql_queries_from_find_it_are_redirected
+    holdings_stub
+
+    visit '/catalog.html?content_format=marc&f%5Bformat%5D%5B%5D=Journal%2FNewspaper&q=author+%3D+"%5C"J+Smith%5C""&search_field=cql'
+    page.has_css?('.filter-name', text: 'Author')
+  end
 end
