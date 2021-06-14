@@ -21,7 +21,6 @@ env:
   MYSQL_PASSWORD: root
   SOLR_URL: http://127.0.0.1:8983/solr/blacklight-core
   CATALYST_UMLAUT_BASE_URL: https://findit.library.jhu.edu
-  AEON_URL: https://aeon.library.jhu.edu
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
   GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
   HORIZON_WS_URL: http://localhost:8080/ws
