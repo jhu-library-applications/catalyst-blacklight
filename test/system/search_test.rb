@@ -9,9 +9,9 @@ class SearchTest < ApplicationSystemTestCase
     assert page.has_content?('Any Field')
   end
 
-  def test_having_coins_element
+  def test_having_unapi_element
     visit '/catalog?utf8=✓&search_field=all_fields&q=*'
 
-    assert page.has_selector?('span.Z3988', visible: false)
+    assert page.has_selector?('.unapi-id', visible: false)
   end
 end
