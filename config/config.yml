@@ -1,17 +1,17 @@
 # A place we created for general config, instead of splitting it all
-# out in separate yaml's, which got hard to keep track of. We'll see 
-# how this goes. April 2015. 
+# out in separate yaml's, which got hard to keep track of. We'll see
+# how this goes. April 2015.
 
 # Loaded by config/initializers/load_config.rb, everything in 'default',
-# then env-specific merged on top. 
+# then env-specific merged on top.
 
 # Generally non-production stuff goes in defaults, with production
-# overriding with production stuff. 
+# overriding with production stuff.
+
 defaults: &default
   borrow_direct_host: <%= ENV['BORROW_DIRECT_HOST'] %>
   catalyst_umlaut_base_url: <%= ENV['CATALYST_UMLAUT_BASE_URL'] %>
   catalyst_base_url: <%= ENV['CATALYST_BASE_URL'] %>
-  aeon_host: 'request-special.library.jhu.edu' # <%= ENV['AEON_HOST'] %>
 
 development:
   <<: *default
