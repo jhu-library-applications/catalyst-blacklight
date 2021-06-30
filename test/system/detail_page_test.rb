@@ -19,7 +19,7 @@ class DetailPageTest < ApplicationSystemTestCase
     assert page.has_selector?("div.umlaut")
     # assert page.has_selector?("ul.holdings")
     assert page.has_selector?("dl.dl-marc-display")
-    # assert page.has_selector?("span.Z3988")
+    assert page.has_selector?('.unapi-id', visible: false)
     assert page.has_selector?("section.page-sidebar")
     assert page.has_selector?("div.show-tools")
     assert page.has_selector?("li.bookmark")
