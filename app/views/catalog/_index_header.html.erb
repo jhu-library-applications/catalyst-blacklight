@@ -1,7 +1,6 @@
 <%# copy and paste override of Blacklight template, as of BL 5.2, so we
     can wrap in a div to customize indent better %>
 
-
       <% # header bar for doc items in index view -%>
       <div class="documentHeader row">
 
@@ -12,6 +11,7 @@
          <div class="col-sm-9 col-lg-10 item-heading-column">
             <h3 class="index_title">
                  <% counter = document_counter_with_offset(document_counter) %>
+                <%= render_resource_icon formats(document) %>
                  <span class="document-counter">
                  <%= t('blacklight.search.documents.counter', :counter => counter) if counter %>
                  </span>

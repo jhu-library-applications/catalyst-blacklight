@@ -200,6 +200,7 @@ class CatalogController < ApplicationController
     config.index.display_type_field = 'format'
 
     # solr field configuration for document/show views
+    config.show.document_presenter_class = Blacklight::ShowPresenter
     config.show.title_field = 'title_display'
     config.show.display_type_field = 'format'
 

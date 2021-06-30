@@ -339,4 +339,49 @@ module LocalCatalogHelper
     end
   end
 
+  def formats(document)
+    #field_key = configuration.index.display_type_field
+    document['formats']
+  end
+
+  def render_resource_icon(values)
+    values = Array(values).flatten.compact
+    values.delete("Database") if values.length > 1
+    values.delete("Book") if values.length > 1
+    value = values.first
+    if LocalCatalogHelper::JHU_ICONS.has_key?(value)
+      content_tag(:span, "", class: "sul-icon sul-icon-#{LocalCatalogHelper::JHU_ICONS[value]}")
+    end
+  end
+
+  JHU_ICONS = {
+    'Object' => 'cube',
+    'Academic Journal' => 'book-2',
+    'Archive/Manuscript' => 'document-box-1',
+    'Archived website' => 'network-web',
+    'Article' => 'text-wrapping-1',
+    'Book' => 'book-1',
+    'Dataset' => 'business-chart-1',
+    'Database' => 'window-search',
+    'Equipment' => 'plug-2',
+    'Image' => 'photos-1',
+    'Journal/Periodical' => 'book-2',
+    'Map' => 'map-location',
+    'Music recording' => 'gramophone',
+    'Music score' => 'file-music',
+    'Newspaper' => 'newspaper-2',
+    'Software/Multimedia' => 'mouse-2',
+    'Sound recording' => 'microphone-2',
+    'Video' => 'film-2',
+    'Credits' => 'contacts-1',
+    'Subjects' => 'tags-1',
+    'Contents' => 'list-4',
+    'Browse' => 'books-3',
+    'Chat' => 'bubble-2',
+    'Feedback' => 'mail-1',
+    'Cite' => 'quote',
+    'Send To' => 'link',
+    'Selections' => 'check-3'
+  }
+
 end
