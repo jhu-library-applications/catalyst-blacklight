@@ -1,14 +1,17 @@
 # This class allows you to retrieve a URL string
 # from a SolrDocument's 856 MARC field
 class MarcUrlPresenter
-  attr_reader :solr_document, :marc_electronic_location
+  attr_reader :solr_document, :marc_electronic_location, :marc_url
 
   def initialize(solr_document)
     @solr_document = solr_document
     @marc_electronic_location = solr_document.to_marc['856']
+    @marc_url = marc_electronic_location.try(:[], 'u')
   end
 
   def link
+    return '' unless @marc_url.present?
+
     "<a href='#{url}'>#{hostname}</a>"
   end
 
@@ -19,10 +22,10 @@ class MarcUrlPresenter
   end
 
   def url
-    "#{ENV['EZPROXY_PREFIX']}#{marc_url}"
+    "#{ezproxy_prefix}#{marc_url}"
   end
 
-  def marc_url
-    marc_electronic_location['u']
+  def ezproxy_prefix
+    ENV['EZPROXY_PREFIX'] 
   end
 end

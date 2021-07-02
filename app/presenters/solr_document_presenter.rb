@@ -6,17 +6,16 @@ class SolrDocumentPresenter
   end
 
   def finding_aid_link
-    return '' unless solr_document.finding_aid_url.present?
+    return unless solr_document.finding_aid_url.present?
 
     "Collection guide available: <a href='#{solr_document.finding_aid_url}'>#{solr_document.finding_aid_url}</a>"
   end
 
   def external_links
-    url_presenter = MarcUrlPresenter.new(solr_document)
-    url_presenter.link
+    MarcUrlPresenter.new(solr_document).link
   end
 
   def links
-    external_links || finding_aid_link
+    finding_aid_link || external_links 
   end
 end

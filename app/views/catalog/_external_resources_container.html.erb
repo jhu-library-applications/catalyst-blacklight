@@ -6,7 +6,12 @@
   <% end %>
 </div>
 <div class="external-resources-container" data-remote-url="/external_resources/show?<%= document.export_as_openurl_ctx_kev %>">
-  <%= SolrDocumentPresenter.new(solr_document: document).links.html_safe %>
+  <% links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first) %>
+    <%  if links_presenter.lines.present? %>
+      <%= render :partial => "marc_display/presenter_content", :locals => {:presenter => links_presenter } if links_presenter.should_display? %>
+    <% else %>
+      <%= 'Not Available' %>
+    <% end %>
 </div>
 <script>
  loadExternalResources()

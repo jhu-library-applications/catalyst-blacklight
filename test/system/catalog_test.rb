@@ -97,7 +97,7 @@ class CatalogTest < ApplicationSystemTestCase
   def test_finding_aid_link
     visit '/catalog/bib_3958668'
     sleep(2)
-    assert page.has_content?("Finding aid")
+    assert page.has_content?("aspace.library.jhu.edu")
   end
 
   # HELP-20072
