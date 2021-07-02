@@ -23,7 +23,8 @@ end
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium_chrome_headless
   def setup
-    WebMock.allow_net_connect!
+    sfx_stub
+    holdings_stub
   end
 
   def login_as(user_key)

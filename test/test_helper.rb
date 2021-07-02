@@ -4,8 +4,8 @@ require 'simplecov'
 require 'webmock/minitest'
 
 # These are URLs that do not need to be mocked
-WEBMOCK_ALLOW_LIST = %w[127.0.0.1 catalyst.library.jhu.edu bdtest.relaisd2d.com
-                        jhu.stackmap.com chromedriver.storage.googleapis.com httpstat.us].freeze
+WEBMOCK_ALLOW_LIST = %w[127.0.0.1 localhost googleapis.com catalyst.library.jhu.edu bdtest.relaisd2d.com solr sfx-stage.library.jhu.edu
+                        sfx.library.jhu.edu jhu.stackmap.com chromedriver.storage.googleapis.com httpstat.us].freeze
 
 WebMock.disable_net_connect!(allow: WEBMOCK_ALLOW_LIST)
 
@@ -53,13 +53,25 @@ class ActiveSupport::TestCase
     )
   end
 
+  def sfx_stub
+    stub_request(:get, /.*sfxlcl41.*/).
+      with(
+        headers: {
+	        'Accept'=>'*/*',
+	        'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+	        'Host'=>'sfx.library.jhu.edu:8000',
+	        'User-Agent'=>'Ruby'
+        }).
+      to_return(status: 200, body: File.read(Rails.root.join('test/fixtures/files/sfxlcl41.xml')), headers: {})
+  end
+
   # init session
   def sign_in
     borrowers_stub
 
     post '/login', params: {
-      barcode: Rails.application.credentials.testing[:barcode],
-      pin: Rails.application.credentials.testing[:pin]
-    }
+           barcode: Rails.application.credentials.testing[:barcode],
+           pin: Rails.application.credentials.testing[:pin]
+         }
   end
 end

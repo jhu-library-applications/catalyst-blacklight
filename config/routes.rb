@@ -1,7 +1,7 @@
 Catalyst::Application.routes.draw do
 
   get 'articles' => 'articles#index'
-  
+
   # Error Pages for exception handling - EWL
   match '/404' => 'errors#not_found', via: :all
   match '/500' => 'errors#internal_server_error', via: :all
@@ -99,6 +99,8 @@ Catalyst::Application.routes.draw do
   get 'user/itemsout' => redirect("/user") # /user/itemout used to be link, don't break it
   get 'user/requests' => "users#requests"
   get 'user/profile'  => "users#show"
+
+  get 'external_resources/show' => "external_resources#show"
 
   # reserves, mostly just ordinary resourceful, but with special
   # one for specifying location limit in path.

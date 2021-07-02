@@ -1,11 +1,13 @@
 // Vendor
 require('@rails/ujs').start()
 
+// Globals needed by frameworks
 global.Rails = Rails
 global.$ = jQuery
 global.jQuery = jQuery
 global.Blacklight = Blacklight
 
+// Sentry's front-end error monitoring
 import '../sentry.js.erb'
 
 // Polyfills for older browers
@@ -14,11 +16,12 @@ import 'regenerator-runtime/runtime';
 import 'whatwg-fetch';
 import 'dom4';
 
+// Bootstrap and Blacklight JS
 import 'bootstrap/dist/js/bootstrap'
 import 'blacklight-frontend/app/assets/javascripts/blacklight/blacklight'
-
 import 'chosen-js'
 
+// Legacy JS
 import '../articles'
 import '../catalog'
 import '../advanced_limits_enhanced_ui'
@@ -28,10 +31,15 @@ import '../request_modal'
 import '../rmst'
 import '../search_type_tab_switch'
 import '../toc_shortener'
-import '../umlaut_include'
 
-// Our globals
-
+// Our globals for legacy js
 import { has_rmst_cookie, toggle_rmst_cookie } from '../rmst'
 global.has_rmst_cookie = has_rmst_cookie
 global.toggle_rmst_cookie = toggle_rmst_cookie
+
+// Online Access
+import { loadExternalResources } from '../load_external_resources'
+import { bookCover } from '../book_cover'
+
+global.bookCover = bookCover
+global.loadExternalResources = loadExternalResources

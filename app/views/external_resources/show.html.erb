@@ -1,0 +1,11 @@
+<% @urls[:show_urls].each do |url| %>
+  <%= "<a href='#{url[0].text}'>#{url[1].text}</a><p>#{url[2]}</p>".html_safe %>
+<% end %>
+<% unless @urls[:overflow_urls].nil? %>
+  <a class="view-overflow-urls btn-sm btn-primary btn"><span class="overflow-label">View</span> <%= @urls[:overflow_urls].size %> More</a>
+  <div class="overflow-urls">
+    <% @urls[:overflow_urls].each do |url| %>
+      <%= "<a href='#{url[0].text}'>#{url[1].text}</a><p>#{url[2]}</p>".html_safe %>
+    <% end %>
+  </div>
+<% end %>

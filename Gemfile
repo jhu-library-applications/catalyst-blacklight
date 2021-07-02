@@ -61,7 +61,7 @@ gem "cql-ruby" #, :path => './cql-ruby'
 
 gem "debugger", :group => :development, :platforms => [:mri_19]
 
-gem 'openurl', '>= 0.1.0'
+gem 'openurl', git: 'https://github.com/jhu-library-applications/openurl.git'
 
 # httpclient should be removed at some point because the cert is expired an dappears to no longer be supported
 gem 'httpclient'
@@ -129,7 +129,7 @@ gem 'whenever', require: false
 #   gem 'webrat'
 # end
 
-gem 'capistrano', '~> 3.10', require: false
+gem 'capistrano', '3.15.0', require: false
 gem 'capistrano-chruby', require: false
 gem 'capistrano-dotenv', require: false
 gem 'capistrano-passenger', require: false

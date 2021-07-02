@@ -1,0 +1,18 @@
+<div id="hathi-etas" hathi-present="<%=related_hathi_links(document).length > 0 %> ">
+  <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
+    <% related_hathi_links_etas_only(document).each do |url| %>
+      <%= link_to "Full text available from HathiTrust", url %><br/>
+    <% end %>
+  <% end %>
+</div>
+<div class="external-resources-container" data-remote-url="/external_resources/show?<%= document.export_as_openurl_ctx_kev %>">
+  <% links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first) %>
+    <%  if links_presenter.lines.present? %>
+      <%= render :partial => "marc_display/presenter_content", :locals => {:presenter => links_presenter } if links_presenter.should_display? %>
+    <% else %>
+      <%= 'Not Available' %>
+    <% end %>
+</div>
+<script>
+ loadExternalResources()
+</script>
