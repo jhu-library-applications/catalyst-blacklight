@@ -87,6 +87,8 @@ class CatalogController < ApplicationController
 
   include BlacklightAdvancedSearch::Controller
   include Blacklight::Catalog
+  include BlacklightUnapi::ControllerExtension
+
   include BlacklightRangeLimit::ControllerOverride
 
   include Blacklight::Marc::Catalog
@@ -440,6 +442,17 @@ class CatalogController < ApplicationController
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
     config.spell_max = 5
+
+    # Add documents to the list of object formats that are supported for all objects.
+    # This parameter is a hash, identical to the Blacklight::Solr::Document#export_formats 
+    # output; keys are format short-names that can be exported. Hash includes:
+    #    :content-type => mime-content-type
+      
+    config.unapi = {
+      'oai_dc_xml' => { :content_type => 'text/xml' } 
+    }
+    config.index.partials << 'microformat'
+    config.show.partials << 'microformat'
 
 
 

@@ -32,6 +32,7 @@ gem 'marc_display', :path => "./marc_display"
 
 gem "blacklight_range_limit", "~> 7.0"
 gem "blacklight_advanced_search", "~> 7.0" #,  :path => "../blacklight_advanced_search"
+gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 
 #gem "stackview_acorn_tester"
 
