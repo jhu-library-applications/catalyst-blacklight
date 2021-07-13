@@ -25,15 +25,20 @@ class BookCoverShowcaseController < CatalogController
   end
 
   def image
-    isbns = params['isbn'].split(',')
-    if(isbns.respond_to?('each') == false )
-      isbns = [isbns]
+    isbns = []
+    formats = []
+    if params.has_key?('isbn')
+      isbns = params['isbn'].split(',')
     end
     image = book_cover(isbns)
     if image.nil?
-
+      if params.has_key?('format')
+        formats = params['format'].split(',')
+      end
+      redirect_to icon_cover(formats)
+    else
+      redirect_to image
     end
-    redirect_to image
   end
 
 end
