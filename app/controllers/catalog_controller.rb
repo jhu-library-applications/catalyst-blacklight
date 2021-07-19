@@ -251,6 +251,7 @@ class CatalogController < ApplicationController
     config.add_index_field 'published_display', :label => 'Published:'
     config.add_index_field 'published_vern_display', :label => 'Published:'
     config.add_index_field 'lc_callnum_display', :label => 'Call number:'
+    config.add_index_field 'isbn', :label => 'ISBN:'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display

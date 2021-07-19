@@ -1,0 +1,194 @@
+<div x-data="showcase">
+  <div class="row">
+    <div class="col-md-3">
+      <section id="sidebar" class="page-sidebar order-first" aria-label="limit your search">
+        <div id="facets" class="facets sidenav facets-toggleable-md">
+          <div class="facets-header">
+<!--            <h2 class="facets-heading">Refine your search</h2>-->
+
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#facet-panel-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
+              <span class="navbar-toggler-icon"></span>
+            </button>  </div>
+
+          <div id="facet-panel-collapse" class="facets-collapse collapse">
+            <div class="card facet-limit blacklight-access_facet ">
+              <h3 class="card-header p-0 facet-field-heading" id="facet-access_facet-header">
+                <button class="btn btn-block p-2 text-left collapse-toggle " data-toggle="collapse" data-target="#facet-access_facet" aria-expanded="true">
+                  Access
+                </button>
+              </h3>
+              <div id="facet-access_facet" aria-labelledby="facet-access_facet-header" class="panel-collapse facet-content collapse show">
+                <div class="card-body">
+                  <ul class="facet-values list-unstyled">
+                    <template x-for="facet in (facets.find(facet => facet.id == 'access_facet').attributes.items)">
+                      <li>
+                        <span class="facet-label">
+                          <a x-on:click.prevent="addFacet('access_facet', $event.target.getAttribute('message'))"
+                             x-text="facet.attributes.label"
+                             :message="facet.attributes.value"
+                             class="facet-select"
+                             href="#"></a>
+                        </span>
+                        <span class="facet-count"
+                              style="width: 4ch;"
+                              x-text="facet.attributes.hits"
+                        ></span>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="card facet-limit blacklight-subject_topic_facet ">
+              <h3 class="card-header p-0 facet-field-heading" id="facet-subject_topic_facet-header">
+                <button class="btn btn-block p-2 text-left collapse-toggle collapsed" data-toggle="collapse" data-target="#facet-subject_topic_facet" aria-expanded="false">
+                  Subject
+
+                </button>
+              </h3>
+              <div id="facet-subject_topic_facet" aria-labelledby="facet-subject_topic_facet-header" class="panel-collapse facet-content collapse ">
+                <div class="card-body">
+                  <ul class="facet-values list-unstyled">
+                    <template x-for="facet in (facets.find(facet => facet.id == 'subject_topic_facet').attributes.items)">
+                      <li>
+                        <span class="facet-label">
+                          <a x-on:click.prevent="addFacet('subject_topic_facet', $event.target.getAttribute('message'))"
+                             x-text="facet.attributes.label"
+                             :message="facet.attributes.value"
+                             class="facet-select"
+                             href="#"></a>
+                        </span>
+                        <span class="facet-count"
+                              style="width: 4ch;"
+                              x-text="facet.attributes.hits"
+                        ></span>
+                      </li>
+                    </template>
+                  </ul>
+<!--                  <div class="more_facets">-->
+<!--                    <a data-blacklight-modal="trigger" href="/catalog/facet/subject_topic_facet?per_page=20&amp;q=harry+potter&amp;search_field=all_fields">more <span class="sr-only">Subject</span> »</a>-->
+<!--                  </div>-->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+      </section>
+    </div>
+    <div class="col-md-9">
+      <div x-show="items.length > 0"
+           class="row record-padding">
+        <div class="col-md-12">
+          <nav class="pagination" role="region" aria-label="pagination links">
+            <ul class="pagination">
+              <li class="page-item">
+                <a x-on:click.prevent="previousPage"
+                   rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
+              </li>
+              <li class="page-item">
+                <a x-on:click.prevent="nextPage"
+                   x-bind:disabled="pagination.pages.current_page < pagination.pages.total_pages"
+                   rel="next" class="page-link" aria-label="Go to next page" href="#">Next »</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div x-show="items"
+           class="row row-cols-4">
+        <template x-for="item in items">
+          <div class="col py-3 px-2">
+            <img src="https://templates.hibootstrap.com/zebu/default/assets/img/featured-book/book6.jpg"
+                 :alt="item.attributes.title_display.attributes.value"
+                 :title="$('<div />').html(item.attributes.title_display.attributes.value).text()"
+                 class="w-100"
+              />
+<!--            <div x-text="summary(item.attributes.title_display.attributes.value)"></div>-->
+          </div>
+        </template>
+      </div>
+      <div x-show="items.length > 0"
+           class="row record-padding">
+        <div class="col-md-12">
+          <nav class="pagination" role="region" aria-label="pagination links">
+            <ul class="pagination">
+              <li class="page-item">
+                <a x-on:click.prevent="previousPage"
+                   rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
+              </li>
+              <li class="page-item">
+                <a x-on:click.prevent="nextPage"
+                   rel="next" class="page-link" aria-label="Go to next page" href="#">Next »</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('showcase', () => ({
+            url: '/catalog.json?',
+            items: [],
+            facets: [],
+            pagination: {},
+            params: {
+                q: '*',
+                search_field: 'all_fields',
+                sort: 'pub_date_sort+desc%2C+title_sort+asc',
+                per_page: 16,
+                page: 1,
+                f: {
+                    'format': ['Book'],
+                    'access_facet': [],
+                    'subject_topic_facet': []
+                }
+            },
+            init() {
+                this.fetchItems();
+                this.$watch('params.page', () => {
+                    this.fetchItems();
+                });
+            },
+            nextPage() {
+                if(this.pagination.pages.current_page < this.pagination.pages.total_pages){
+                  this.params.page = this.params.page + 1;
+                }
+            },
+            previousPage() {
+                if(this.pagination.pages.current_page > 1){
+                    this.params.page = this.params.page - 1;
+                }
+            },
+            addFacet(facet, value) {
+                this.params.f[facet].push(value);
+                this.fetchItems();
+            },
+            fetchItems() {
+                fetch(this.url + $.param(this.params))
+                    .then(res => res.json())
+                    .then(res => {
+                        this.items = res.data;
+                        this.facets = res.included;
+                        this.pagination = res.meta;
+                    });
+            },
+            summary(string) {
+                if(string.length < 45){
+                    return string;
+                }
+                else{
+                    return string.substring(0, 44) + '...';
+                }
+            }
+        }))
+    })
+</script>
