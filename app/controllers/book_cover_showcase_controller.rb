@@ -27,7 +27,10 @@ class BookCoverShowcaseController < CatalogController
   def image
     isbns = []
     formats = []
-    if params.has_key?('isbn')
+    if params.has_key?('bib')
+      @response, @document = search_service.fetch(params['bib'])
+      isbns = @document['isbn_t']
+    elsif params.has_key?('isbn')
       isbns = params['isbn'].split(',')
     end
     image = book_cover(isbns)

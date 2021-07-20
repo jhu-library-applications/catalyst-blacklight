@@ -22,6 +22,3 @@
         <% # bookmark functions for items/docs -%>
         <%= render_index_doc_actions document, :wrapping_class => "index-document-functions col-sm-3 col-lg-2" %>
       </div>
-      <% if (document['isbn_t'].respond_to?('each')) %>
-      <img src="/bookcover?isbn=<%= document['isbn_t'].join(",") %>&format=<%= document['format'].join(",") %>">
-      <% end %>
