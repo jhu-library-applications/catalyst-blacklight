@@ -218,7 +218,7 @@ class CatalogController < ApplicationController
     config.add_facet_field  "author_facet",   :label => "Author", :limit => true
     config.add_facet_field  "organization_facet",   :label => "Organization", :limit => true
     config.add_facet_field  "language_facet", :label => "Language", :limit => true
-    config.add_facet_field  "subject_topic_facet", :label => "Subject", :limit => true
+    config.add_facet_field  "subject_topic_facet", :label => "Subject", :limit => false
     config.add_facet_field  "subject_geo_facet",   :label => "Region", :limit => true
     config.add_facet_field  "subject_era_facet",   :label => "Era", :limit => true
     config.add_facet_field  "series_facet",        :label => "Series", :limit => true
@@ -241,7 +241,6 @@ class CatalogController < ApplicationController
     config.add_index_field 'published_display', :label => 'Published:'
     config.add_index_field 'published_vern_display', :label => 'Published:'
     config.add_index_field 'lc_callnum_display', :label => 'Call number:'
-    config.add_index_field 'isbn', :label => 'ISBN:'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
