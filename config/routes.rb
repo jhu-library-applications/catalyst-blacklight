@@ -45,6 +45,7 @@ Catalyst::Application.routes.draw do
   end
 
   get '/bookcovershowcase' => 'book_cover_showcase#list', as: 'bookcovershowcase'
+  get '/bookcover' => 'book_cover_showcase#image', as: 'bookcover'
 
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns [:exportable, :marc_viewable], :except => [:sms]

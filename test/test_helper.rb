@@ -1,7 +1,11 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 require 'simplecov'
+require 'simplecov-cobertura'
 require 'webmock/minitest'
+
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+
 
 # These are URLs that do not need to be mocked
 WEBMOCK_ALLOW_LIST = %w[127.0.0.1 catalyst.library.jhu.edu bdtest.relaisd2d.com
