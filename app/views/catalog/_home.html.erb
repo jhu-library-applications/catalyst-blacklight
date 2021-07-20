@@ -220,6 +220,7 @@
                                               return {value: item.attributes.value, hits: item.attributes.hits};
                                           });
                         this.pagination = res.meta;
+                        this.subject_page = 1;
                     });
             },
             fetchSubjects() {
