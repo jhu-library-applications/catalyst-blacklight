@@ -185,6 +185,7 @@ group :test do
 
   # Code Coverage
   gem 'simplecov', require: false
+  gem 'simplecov-cobertura'
 
   # Rack Session Access
   gem 'rack_session_access'
