@@ -181,6 +181,7 @@
                 this.fetchItems();
             },
             fetchItems() {
+                this.items = [];
                 fetch(this.url + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
