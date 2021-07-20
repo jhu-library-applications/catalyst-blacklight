@@ -94,14 +94,6 @@ class CatalogController < ApplicationController
   include Blacklight::Marc::Catalog
   include DlfExpandedPassthrough::BulkLoad
 
-  # @TODO: Removing EWL
-  # blacklight_cql is no longer maintained
-  # include BlacklightCql::ControllerExtension
-  # include BlacklightCql::ExplainBehavior
-
-  # @TODO: Remove EWL
-  include SpellcheckBehavior
-
   before_action :require_login, :only => [:sms_form, :sms_send, :email]
 
   before_action :redirect_legacy_values, :only => :index
@@ -111,8 +103,6 @@ class CatalogController < ApplicationController
   # before_action :remove_bad_range_param, :only => [:index, :facet]
   before_action :json_cors_headers
   before_action :x_frame_headers
-
-  before_action :spellcheck, :only => :index
 
   configure_blacklight do |config|
 
