@@ -218,7 +218,7 @@ class CatalogController < ApplicationController
     config.add_facet_field  "author_facet",   :label => "Author", :limit => true
     config.add_facet_field  "organization_facet",   :label => "Organization", :limit => true
     config.add_facet_field  "language_facet", :label => "Language", :limit => true
-    config.add_facet_field  "subject_topic_facet", :label => "Subject", :limit => false
+    config.add_facet_field  "subject_topic_facet", :label => "Subject", :limit => true
     config.add_facet_field  "subject_geo_facet",   :label => "Region", :limit => true
     config.add_facet_field  "subject_era_facet",   :label => "Era", :limit => true
     config.add_facet_field  "series_facet",        :label => "Series", :limit => true

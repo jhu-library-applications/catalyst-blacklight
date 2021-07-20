@@ -44,28 +44,44 @@
               <h3 class="card-header p-0 facet-field-heading" id="facet-subject_topic_facet-header">
                 <button class="btn btn-block p-2 text-left collapse-toggle collapsed" data-toggle="collapse" data-target="#facet-subject_topic_facet" aria-expanded="false">
                   Subject
-
                 </button>
               </h3>
               <div id="facet-subject_topic_facet" aria-labelledby="facet-subject_topic_facet-header" class="panel-collapse facet-content collapse ">
                 <div class="card-body">
                   <ul class="facet-values list-unstyled">
-                    <template x-for="facet in (facets.find(facet => facet.id == 'subject_topic_facet').attributes.items)">
+                    <template x-for="facet in subjects">
                       <li>
                         <span class="facet-label">
                           <a x-on:click.prevent="addFacet('subject_topic_facet', $event.target.getAttribute('message'))"
-                             x-text="facet.attributes.label"
-                             :message="facet.attributes.value"
+                             x-text="facet.value"
+                             :message="facet.value"
                              class="facet-select"
                              href="#"></a>
                         </span>
                         <span class="facet-count"
                               style="width: 4ch;"
-                              x-text="facet.attributes.hits"
+                              x-text="facet.hits"
                         ></span>
                       </li>
                     </template>
                   </ul>
+                  <div x-show="subjects.length > 0"
+                       class="row record-padding">
+                    <div class="col-md-12">
+                      <nav class="pagination" role="region" aria-label="pagination links">
+                        <ul class="pagination">
+                          <li class="page-item">
+                            <a x-on:click.prevent="previousSubjectFacetPage"
+                               rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
+                          </li>
+                          <li class="page-item">
+                            <a x-on:click.prevent="nextSubjectFacetPage"
+                               rel="next" class="page-link" aria-label="Go to next page" href="#">Next »</a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
 <!--                  <div class="more_facets">-->
 <!--                    <a data-blacklight-modal="trigger" href="/catalog/facet/subject_topic_facet?per_page=20&amp;q=harry+potter&amp;search_field=all_fields">more <span class="sr-only">Subject</span> »</a>-->
 <!--                  </div>-->
@@ -92,7 +108,6 @@
               </li>
               <li class="page-item">
                 <a x-on:click.prevent="nextPage"
-                   x-bind:disabled="pagination.pages.current_page < pagination.pages.total_pages"
                    rel="next" class="page-link" aria-label="Go to next page" href="#">Next »</a>
               </li>
             </ul>
@@ -138,9 +153,11 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('showcase', () => ({
-            url: '/catalog.json?',
+            url: '/catalog',
             items: [],
             facets: [],
+            subjects: [],
+            subject_page: 1,
             pagination: {},
             params: {
                 q: '*',
@@ -165,6 +182,9 @@
                 this.$watch('params.page', () => {
                     this.fetchItems();
                 });
+                this.$watch('subject_page', () => {
+                    this.fetchSubjects();
+                });
             },
             nextPage() {
                 if(this.pagination.pages.current_page < this.pagination.pages.total_pages){
@@ -176,18 +196,42 @@
                     this.params.page = this.params.page - 1;
                 }
             },
+            nextSubjectFacetPage() {
+                this.subject_page = this.subject_page + 1;
+            },
+            previousSubjectFacetPage() {
+                if(this.subject_page > 1){
+                    this.subject_page = this.subject_page - 1;
+                }
+            },
             addFacet(facet, value) {
                 this.params.f[facet].push(value);
                 this.fetchItems();
             },
             fetchItems() {
                 this.items = [];
-                fetch(this.url + $.param(this.params))
+                fetch(this.url + '.json?' + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
                         this.items = res.data;
                         this.facets = res.included;
+                        this.subjects = (this.facets.find(facet => facet.id == 'subject_topic_facet').attributes.items)
+                                          .map(function(item){
+                                              return {value: item.attributes.value, hits: item.attributes.hits};
+                                          });
                         this.pagination = res.meta;
+                    });
+            },
+            fetchSubjects() {
+                this.subjects = [];
+                fetch(this.url + '/facet/subject_topic_facet.json?facet.page=' + this.subject_page + '&' + $.param(this.params))
+                    .then(res => res.json())
+                    .then(res => {
+                        if(res.response.facets.items.length < 1){
+                            this.subject_page = this.subject_page - 1;
+                        }else {
+                            this.subjects = res.response.facets.items;
+                        }
                     });
             },
             summary(string) {
