@@ -14,4 +14,9 @@ class BookCoverShowcaseControllerTest < ActionDispatch::IntegrationTest
     get '/bookcover?isbn=020588699X,9780205886999,0205933491,9780205933495,0205949525,9780205949526&format=Book,Print'
     assert_response :redirect
   end
+
+  test "should render bookcover image" do
+    get '/bookcover?bib=bib_8334977'
+    assert_response :redirect
+  end
 end
