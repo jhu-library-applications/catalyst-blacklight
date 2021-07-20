@@ -102,14 +102,16 @@
       <div x-show="items"
            class="row row-cols-4">
         <template x-for="item in items">
-          <div class="col py-3 px-2">
-            <img :src="'/bookcover?bib=' + item.id"
-                 :alt="item.attributes.title_display.attributes.value"
-                 :title="$('<div />').html(item.attributes.title_display.attributes.value).text()"
-                 class="w-100"
-              />
-<!--            <div x-text="summary(item.attributes.title_display.attributes.value)"></div>-->
-          </div>
+          <a :href="/catalog/' + item.id">
+            <div class="col py-3 px-2">
+              <img :src="'/bookcover?bib=' + item.id"
+                   :alt="item.attributes.title_display.attributes.value"
+                   :title="$('<div />').html(item.attributes.title_display.attributes.value).text()"
+                   class="w-100"
+                />
+              <!--            <div x-text="summary(item.attributes.title_display.attributes.value)"></div>-->
+            </div>
+          </a>
         </template>
       </div>
       <div x-show="items.length > 0"
