@@ -109,4 +109,4 @@ jobs:
         - name: Codecov
           uses: codecov/codecov-action@v2.0.1
           with:
-            files: ./coverage/.resultset.json
+            files: ./coverage/coverage.xml
