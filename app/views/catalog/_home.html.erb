@@ -146,6 +146,12 @@
                 sort: 'pub_date_sort+desc%2C+title_sort+asc',
                 per_page: 16,
                 page: 1,
+                range: {
+                  pub_date_sort: {
+                    begin: (new Date().getFullYear()) - 1,
+                    end: (new Date().getFullYear())
+                  },
+                },
                 f: {
                     'format': ['Book'],
                     'access_facet': [],
