@@ -51,6 +51,22 @@
               </h3>
               <div id="facet-subject_topic_facet" aria-labelledby="facet-subject_topic_facet-header" class="panel-collapse facet-content collapse ">
                 <div class="card-body">
+                  <div class="row row-cols-2">
+                    <a x-on:click.prevent="subject_sort = 'index'"
+                          :class="{'disabled': subject_sort == 'index'}"
+                          class="text-center"
+                          role="button"
+                    >
+                      <small>A-Z Sort</small>
+                    </a>
+                    <a x-on:click.prevent="subject_sort = 'count'"
+                          :class="{'disabled': subject_sort == 'count'}"
+                          class="text-center"
+                          role="button"
+                    >
+                      <small>Numerical Sort</small>
+                    </a>
+                  </div>
                   <ul class="facet-values list-unstyled">
                     <template x-for="facet in subjects">
                       <li>
@@ -76,6 +92,13 @@
                           <li class="page-item">
                             <a x-on:click.prevent="previousSubjectFacetPage"
                                rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
+                          </li>
+                          <li class="page-item">
+                            <input x-model="params.page"
+                                   class="form-control rounded-0 text-center"
+                                   type="text"
+                                   style="height: calc(1.428571429em + 0.75rem + 4px);"
+                              />
                           </li>
                           <li class="page-item">
                             <a x-on:click.prevent="nextSubjectFacetPage"
@@ -161,6 +184,7 @@
             facets: [],
             subjects: [],
             subject_page: 1,
+            subject_sort: 'count',
             pagination: {},
             params: {
                 q: '*',
@@ -186,6 +210,9 @@
                     this.fetchItems();
                 });
                 this.$watch('subject_page', () => {
+                    this.fetchSubjects();
+                });
+                this.$watch('subject_sort', () => {
                     this.fetchSubjects();
                 });
             },
@@ -228,7 +255,7 @@
             },
             fetchSubjects() {
                 this.subjects = [];
-                fetch(this.url + '/facet/subject_topic_facet.json?facet.page=' + this.subject_page + '&' + $.param(this.params))
+                fetch(this.url + '/facet/subject_topic_facet.json?facet.page=' + this.subject_page + '&facet.sort=' + this.subject_sort + '&' + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
                         if(res.response.facets.items.length < 1){
