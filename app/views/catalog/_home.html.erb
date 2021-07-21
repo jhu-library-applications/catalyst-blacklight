@@ -213,6 +213,7 @@
                     this.fetchSubjects();
                 });
                 this.$watch('subject_sort', () => {
+                    this.subject_page = 1;
                     this.fetchSubjects();
                 });
             },
