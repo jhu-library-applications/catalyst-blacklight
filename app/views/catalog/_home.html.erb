@@ -205,7 +205,6 @@
             params: {
                 q: '*',
                 search_field: 'all_fields',
-                sort: 'pub_date_sort+desc%2C+title_sort+asc',
                 per_page: 16,
                 page: 1,
                 range: {
@@ -261,7 +260,7 @@
             },
             fetchItems() {
                 this.items = [];
-                fetch(this.url + '.json?' + $.param(this.params))
+                fetch(this.url + '.json?sort=pub_date_sort+desc%2C+title_sort+asc&' + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
                         this.items = res.data;
