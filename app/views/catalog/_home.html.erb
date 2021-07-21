@@ -33,7 +33,7 @@
                              href="#"></a>
                         </span>
                         <span class="facet-count"
-                              style="width: 4ch;"
+                              :style="'width: ' + facet.hits.length + 'ch;'"
                               x-text="facet.attributes.hits"
                         ></span>
                       </li>
@@ -62,7 +62,7 @@
                              href="#"></a>
                         </span>
                         <span class="facet-count"
-                              style="width: 4ch;"
+                              :style="'width: ' + facet.hits.length + 'ch;'"
                               x-text="facet.hits"
                         ></span>
                       </li>
