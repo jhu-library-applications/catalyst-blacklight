@@ -31,6 +31,14 @@
                              :message="facet.attributes.value"
                              class="facet-select"
                              href="#"></a>
+                          <a x-show="params.f.access_facet.includes(facet.attributes.value)"
+                             x-on:click.prevent="removeFacet('access_facet', $event.target.getAttribute('message'))"
+                             :message="facet.attributes.value"
+                             class="remove"
+                             href="#">
+                            <span class="remove-icon">✖</span>
+                            <span class="sr-only">[remove]</span>
+                          </a>
                         </span>
                         <span class="facet-count"
                               :style="'width: ' + facet.hits.length + 'ch;'"
@@ -76,6 +84,14 @@
                              :message="facet.value"
                              class="facet-select"
                              href="#"></a>
+                          <a x-show="params.f.subject_topic_facet.includes(facet.value)"
+                             x-on:click.prevent="removeFacet('subject_topic_facet', $event.target.getAttribute('message'))"
+                             :message="facet.attributes.value"
+                             class="remove"
+                             href="#">
+                            <span class="remove-icon">✖</span>
+                            <span class="sr-only">[remove]</span>
+                          </a>
                         </span>
                         <span class="facet-count"
                               :style="'width: ' + facet.hits.length + 'ch;'"
@@ -237,6 +253,10 @@
             },
             addFacet(facet, value) {
                 this.params.f[facet].push(value);
+                this.fetchItems();
+            },
+            removeFacet(facet, value) {
+                this.params.f[facet].splice(this.params.f[facet].indexOf(value), 1);
                 this.fetchItems();
             },
             fetchItems() {
