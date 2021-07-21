@@ -110,7 +110,7 @@
                                rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
                           </li>
                           <li class="page-item">
-                            <input x-model="subject_page"
+                            <input x-model.debounce.750ms="subject_page"
                                    class="form-control rounded-0 text-center"
                                    type="text"
                                    style="height: calc(1.428571429em + 0.75rem + 4px);"
