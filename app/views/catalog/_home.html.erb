@@ -1,7 +1,41 @@
 <div x-data="showcase">
   <div class="row">
-    <div id="content" class="col-md-12">
+    <div id="content" class="col-md-3">
       <h1 class="page-heading">New Books</h1>
+    </div>
+    <div id="content" class="col-md-9">
+      <template x-for="access in params.f.access_facet">
+        <span class="btn-group applied-filter constraint query">
+          <span class="constraint-value btn btn-outline-secondary">
+              <span class="filter-name">Access</span>
+              <span x-text="access"
+                    :title="access"
+                    class="filter-value"></span>
+          </span>
+          <a x-on:click.prevent="removeFacet('access_facet', $event.target.getAttribute('title'))"
+             class="btn btn-outline-secondary remove"
+             href="#">
+            <span class="remove-icon">✖</span>
+            <span class="sr-only" x-text="'Remove constraint Access: ' + access"></span>
+          </a>
+        </span>
+      </template>
+      <template x-for="subject in params.f.subject_topic_facet">
+        <span class="btn-group applied-filter constraint query">
+          <span class="constraint-value btn btn-outline-secondary">
+              <span class="filter-name">Subject</span>
+              <span x-text="subject"
+                    :title="subject"
+                    class="filter-value"></span>
+          </span>
+          <a x-on:click.prevent="removeFacet('subject_topic_facet', $event.target.getAttribute('title'))"
+             class="btn btn-outline-secondary remove"
+             href="#">
+            <span class="remove-icon">✖</span>
+            <span class="sr-only" x-text="'Remove constraint Subject: ' + subject"></span>
+          </a>
+        </span>
+      </template>
     </div>
     <div class="col-md-3">
       <section id="sidebar" class="page-sidebar order-first" aria-label="limit your search">
@@ -53,11 +87,11 @@
 
             <div class="card facet-limit blacklight-subject_topic_facet ">
               <h3 class="card-header p-0 facet-field-heading" id="facet-subject_topic_facet-header">
-                <button class="btn btn-block p-2 text-left collapse-toggle collapsed" data-toggle="collapse" data-target="#facet-subject_topic_facet" aria-expanded="false">
+                <button class="btn btn-block p-2 text-left collapse-toggle" data-toggle="collapse" data-target="#facet-subject_topic_facet" aria-expanded="false">
                   Subject
                 </button>
               </h3>
-              <div id="facet-subject_topic_facet" aria-labelledby="facet-subject_topic_facet-header" class="panel-collapse facet-content collapse ">
+              <div id="facet-subject_topic_facet" aria-labelledby="facet-subject_topic_facet-header" class="panel-collapse facet-content">
                 <div class="card-body">
                   <div class="row row-cols-2 pb-2">
                     <a x-on:click.prevent="subject_sort = 'index'"
