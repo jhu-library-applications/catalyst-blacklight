@@ -219,7 +219,6 @@ class CatalogController < ApplicationController
     config.add_facet_field  "format",         :label => "Format", :limit => false # no limit as we show all format values
     config.add_facet_field  "location_facet", :label => "Item Location", :limit => true
     config.add_facet_field  "pub_date_sort",  :label => "Publication Year", :range => true
-    config.add_facet_field  "acquired_date",  :label => "Acquired Date", :range => true
     config.add_facet_field  "author_facet",   :label => "Author", :limit => true
     config.add_facet_field  "organization_facet",   :label => "Organization", :limit => true
     config.add_facet_field  "language_facet", :label => "Language", :limit => true
@@ -358,6 +357,17 @@ class CatalogController < ApplicationController
       field.solr_parameters = {
         :qf => "publisher_t",
         :pf => "publisher_t^10"
+      }
+    end
+
+    config.add_search_field("acquired_date") do |field|
+      field.label = "Acquired Date"
+      field.qt = "search"
+      field.include_in_simple_select = false
+      field.include_in_advanced_search = false
+      field.solr_parameters = {
+        :qf => "$title_qf",
+        :pf => "$title_pf",
       }
     end
 
