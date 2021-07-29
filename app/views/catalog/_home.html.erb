@@ -198,8 +198,8 @@
           <a :href="'/catalog/' + item.id">
             <div class="col py-3 px-2">
               <div class="position-absolute d-flex align-items-center px-2"
-                   style="z-index: 1; width: 90%; height: 200px; background-color: #002D72;">
-                <span x-text="$('<div />').html(item.attributes.title_display.attributes.value).text()"
+                   style="z-index: 1; width: 90%; height: 250px; background-color: #002D72;">
+                <span x-text="summary($('<div />').html(item.attributes.title_display.attributes.value).text())"
                       class="text-white text-center"
                 ></span>
               </div>
