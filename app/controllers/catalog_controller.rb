@@ -67,6 +67,10 @@ class CatalogController < ApplicationController
         :pub_date_sort => [
           :begin,
           :end
+        ],
+        :acquired_date => [
+          :begin,
+          :end
         ]
       },
       :f => {
