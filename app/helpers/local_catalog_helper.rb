@@ -341,7 +341,11 @@ module LocalCatalogHelper
 
   def icon_cover(formats)
     # TODO: Add additional format icons
-    "https://www.freeiconspng.com/uploads/book-icon-25.png"
+    if formats.include?('skip')
+      '/1x1.gif'
+    else
+      "https://www.freeiconspng.com/uploads/book-icon-25.png"
+    end
   end
 
 end

@@ -27,21 +27,26 @@ class BookCoverShowcaseController < CatalogController
   def image
     isbns = []
     formats = []
+
+    # First check for a bib# and retrieve the isbns
     if params.has_key?('bib')
       @response, @document = search_service.fetch(params['bib'])
       isbns = @document['isbn_t']
     elsif params.has_key?('isbn')
       isbns = params['isbn'].split(',')
     end
+
     image = book_cover(isbns)
+
+    # If no image is available, the return the format icon
     if image.nil?
       if params.has_key?('format')
         formats = params['format'].split(',')
       end
-      redirect_to icon_cover(formats)
-    else
-      redirect_to image
+      image = icon_cover(formats)
     end
+
+    redirect_to image
   end
 
 end

@@ -197,10 +197,13 @@
         <template x-for="item in items">
           <a :href="'/catalog/' + item.id">
             <div class="col py-3 px-2">
+              <div style="z-index: 1; width: 100%; height: 150px;">
+                <span x-text="$('<div />').html(item.attributes.title_display.attributes.value).text()"></span>
+              </div>
               <img :src="'/bookcover?bib=' + item.id"
                    :alt="item.attributes.title_display.attributes.value"
                    :title="$('<div />').html(item.attributes.title_display.attributes.value).text()"
-                   class="w-100"
+                   class="w-100" style="z-index: 10;"
                 />
               <!--            <div x-text="summary(item.attributes.title_display.attributes.value)"></div>-->
             </div>
