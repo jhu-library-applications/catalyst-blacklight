@@ -197,7 +197,8 @@
         <template x-for="item in items">
           <a :href="'/catalog/' + item.id">
             <div class="col py-3 px-2">
-              <div style="z-index: 1; width: 100%; height: 150px;">
+              <div class="position-absolute"
+                   style="z-index: 1; width: 100%; height: 150px;">
                 <span x-text="$('<div />').html(item.attributes.title_display.attributes.value).text()"></span>
               </div>
               <img :src="'/bookcover?bib=' + item.id"
