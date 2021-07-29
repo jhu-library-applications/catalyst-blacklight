@@ -203,7 +203,7 @@
                       class="text-white"
                 ></span>
               </div>
-              <img :src="'/bookcover?bib=' + item.id"
+              <img :src="'/bookcover?format=skip&bib=' + item.id"
                    :alt="item.attributes.title_display.attributes.value"
                    :title="$('<div />').html(item.attributes.title_display.attributes.value).text()"
                    class="w-100 position-relative" style="z-index: 10;"
