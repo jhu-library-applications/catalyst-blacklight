@@ -302,7 +302,7 @@
             },
             fetchItems() {
                 this.items = [];
-                fetch(this.url + '.json?utf8=✓sort=acquired_sort+desc%2C+title_sort+asc&range[acquired_date][begin]=18800&range[acquired_date][end]=18836&' + $.param(this.params))
+                fetch(this.url + '.json?utf8=✓&sort=acquired_sort+desc%2C+title_sort+asc&range[acquired_date][begin]=18800&range[acquired_date][end]=18836&' + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
                         this.items = res.data;
@@ -317,7 +317,7 @@
             },
             fetchSubjects() {
                 this.subjects = [];
-                fetch(this.url + '/facet/subject_topic_facet.json?facet.page=' + this.subject_page + '&facet.sort=' + this.subject_sort + '&' + $.param(this.params))
+                fetch(this.url + '/facet/subject_topic_facet.json?utf8=✓&facet.page=' + this.subject_page + '&facet.sort=' + this.subject_sort + '&range[acquired_date][begin]=18800&range[acquired_date][end]=18836&' + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
                         if(res.response.facets.items.length < 1){
