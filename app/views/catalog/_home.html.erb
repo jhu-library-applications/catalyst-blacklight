@@ -185,6 +185,9 @@
                    rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
               </li>
               <li class="page-item">
+                {{ pagination.pages.offset_value + 1 }} - {{ pagination.pages.offset_value + 1 + items.length }} of {{ pagination.pages.total_count }}
+              </li>
+              <li class="page-item">
                 <a x-on:click.prevent="nextPage"
                    rel="next" class="page-link" aria-label="Go to next page" href="#">Next »</a>
               </li>
@@ -221,6 +224,9 @@
               <li class="page-item">
                 <a x-on:click.prevent="previousPage"
                    rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
+              </li>
+              <li class="page-item">
+                {{ pagination.pages.offset_value + 1 }} - {{ pagination.pages.offset_value + 1 + items.length }} of {{ pagination.pages.total_count }}
               </li>
               <li class="page-item">
                 <a x-on:click.prevent="nextPage"
