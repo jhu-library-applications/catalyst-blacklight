@@ -140,13 +140,14 @@
                   <div x-show="subjects.length > 0"
                        class="row record-padding">
                     <div class="col-md-12">
-                      <nav class="pagination" role="region" aria-label="pagination links">
+                      <nav class="pagination" role="region" aria-label="subject pagination links">
                         <ul class="pagination">
                           <li class="page-item">
                             <a x-on:click.prevent="previousSubjectFacetPage"
                                rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
                           </li>
                           <li class="page-item">
+                            <label class="sr-only">Subject List Page Number</label>
                             <input x-model.debounce.750ms="subject_page"
                                    class="form-control rounded-0 text-center"
                                    type="text"
