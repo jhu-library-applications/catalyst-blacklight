@@ -184,8 +184,16 @@
                 <a x-on:click.prevent="previousPage"
                    rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
               </li>
-              <li class="page-item flex-row align-items-center px-2">
-                <span x-text="pagination.pages.offset_value + 1"></span> - <span x-text="pagination.pages.offset_value + 1 + items.length"></span> of <span x-text="pagination.pages.total_count"></span>
+              <li class="page-item d-flex align-items-center px-2">
+                <span x-text="pagination.pages.offset_value + 1"
+                      class="px-2"></span>
+                -
+                <span x-text="pagination.pages.offset_value + items.length"
+                      class="px-2"></span>
+                of
+                <span x-text="pagination.pages.total_count"
+                      class="px-2"
+                ></span>
               </li>
               <li class="page-item">
                 <a x-on:click.prevent="nextPage"
@@ -225,8 +233,16 @@
                 <a x-on:click.prevent="previousPage"
                    rel="prev" class="page-link" aria-label="Go to previous page" href="#">« Previous</a>
               </li>
-              <li class="page-item flex-row align-items-center px-2">
-                <span x-text="pagination.pages.offset_value + 1"></span> - <span x-text="pagination.pages.offset_value + 1 + items.length"></span> of <span x-text="pagination.pages.total_count"></span>
+              <li class="page-item d-flex align-items-center px-2">
+                <span x-text="pagination.pages.offset_value + 1"
+                      class="px-2"></span>
+                -
+                <span x-text="pagination.pages.offset_value + items.length"
+                      class="px-2"></span>
+                of
+                <span x-text="pagination.pages.total_count"
+                      class="px-2"
+                ></span>
               </li>
               <li class="page-item">
                 <a x-on:click.prevent="nextPage"
