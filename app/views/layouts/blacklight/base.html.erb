@@ -71,7 +71,6 @@
       <!-- End Google Tag Manager (noscript) -->
       <%- end %>
 
-
       <!--Top Navigation for Home Links-->
       <nav role="navigation">
         <% if Flipper[:navbar_banner_alert].enabled? %>
@@ -79,7 +78,7 @@
             <span>Notice: </span> Due to building closures, requests will take approximately 2 weeks to fill. Please be assured that we are working hard to fill your request.
           </div>
         <% end %>
-
+        <%= render :partial=>'shared/alerts' %>
         <%= render :partial=>'shared/libraries' %>
         <%= render :partial=>'/user_util_links' %>
       </nav>
