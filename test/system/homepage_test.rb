@@ -4,6 +4,26 @@ class HomepageTest < ApplicationSystemTestCase
   def setup
     WebMock.allow_net_connect!
 
+    Alert.create(
+      alert_type: 'banner',
+      level: 'info',
+      title: 'Active Alert',
+      description: 'Alert description',
+      url: '',
+      start_at: Time.now - 15,
+      end_at: Time.now + 15,
+    )
+
+    Alert.create(
+      alert_type: 'banner',
+      level: 'info',
+      title: 'Expired Alert',
+      description: 'Alert description',
+      url: '',
+      start_at: Time.now - 30,
+      end_at: Time.now - 15,
+    )
+
     visit("/")
   end
 
@@ -51,5 +71,13 @@ class HomepageTest < ApplicationSystemTestCase
 
     # Results
     assert page.has_selector?("article.document")
+  end
+
+  def test_visible_alert
+    assert page.has_text?("Active Alert")
+  end
+
+  def test_expired_alert
+    assert ! page.has_text?("Expired Alert")
   end
 end
