@@ -1,0 +1,28 @@
+<% if @alerts.respond_to?('each') %>
+  <% @alerts.each do |alert| %>
+    <% if alert.alert_type == 'banner' %>
+      <div class="alert banner-alert alert-level-<%= alert.level %>"
+           role="alert">
+        <div class="container <%= alert.url? ? 'd-flex align-items-center' : 'text-center' %>">
+          <div>
+            <% if alert.title? %>
+              <h4 class="alert-heading"><%= alert.title %></h4>
+            <% end %>
+            <% if alert.description? %>
+              <div class="">
+                <%= alert.description.html_safe %>
+              </div>
+            <% end %>
+          </div>
+          <% if alert.url? %>
+            <div class="flex-shrink-0 pl-4">
+              <a href="<%= alert.url %>">
+                more &gt;&gt;
+              </a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

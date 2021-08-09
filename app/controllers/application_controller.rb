@@ -24,8 +24,12 @@ class ApplicationController < ActionController::Base
   ActionController::Parameters.permit_all_parameters = true
   ActionController::Parameters.action_on_unpermitted_parameters = :raise
 
-
+  before_action :check_alerts
   skip_before_action :verify_authenticity_token, :only => [:hip_disabled_message]
+
+  def check_alerts
+    @alerts = Alert.active.all
+  end
 
   def current_user
     if @current_user.nil? && session[:current_user_id]
