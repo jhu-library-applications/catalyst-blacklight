@@ -1,12 +1,12 @@
 <div x-data="showcase"
      x-cloak
 >
-  <div x-show="items.length > 0"
-       class="row">
+  <div class="row">
     <div id="content" class="col-md-3">
-      <h1 class="page-heading">New Books</h1>
+
     </div>
     <div id="content" class="col-md-9">
+      <h1 class="page-heading">Just added to the Library</h1>
       <template x-for="access in params.f.access_facet">
         <span class="btn-group applied-filter constraint query">
           <span class="constraint-value btn btn-outline-secondary">
@@ -209,7 +209,7 @@
            class="row row-cols-3 row-cols-md-4">
         <template x-for="item in items">
           <a :href="'/catalog/' + item.id">
-            <div class="col py-3 px-2">
+            <div class="col py-3 px-2" style="min-height: 275px;">
               <div class="position-absolute d-flex align-items-center px-2"
                    style="z-index: 1; width: 90%; height: 250px; background-color: #002D72;">
                 <span x-text="summary($('<div />').html(item.attributes.title_display.attributes.value).text())"
@@ -352,11 +352,11 @@
                     });
             },
             summary(string) {
-                if(string.length < 45){
+                if(string.length < 80){
                     return string;
                 }
                 else{
-                    return string.substring(0, 44) + '...';
+                    return string.substring(0, 79) + '...';
                 }
             }
         }))

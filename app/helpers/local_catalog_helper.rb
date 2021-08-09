@@ -331,7 +331,7 @@ module LocalCatalogHelper
         response = Faraday.get 'https://www.googleapis.com/books/v1/volumes?key='+ ENV['GOOGLE_BOOKS_API_KEY'] +'&fields=items(volumeInfo(imageLinks))&q=isbn:' + isbn
         cover = MultiJson.load(response.body)
         if cover['items']
-          cover_image = cover['items'][0]['volumeInfo']['imageLinks']['smallThumbnail']
+          cover_image = cover['items'][0]['volumeInfo']['imageLinks']['medium']
         end
         break if cover_image
       end
