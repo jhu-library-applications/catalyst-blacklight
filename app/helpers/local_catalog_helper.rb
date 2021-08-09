@@ -339,4 +339,9 @@ module LocalCatalogHelper
     end
   end
 
+  def icon_cover(formats)
+    # TODO: Add additional format icons
+    "https://www.freeiconspng.com/uploads/book-icon-25.png"
+  end
+
 end

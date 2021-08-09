@@ -99,3 +99,14 @@ jobs:
             RUBYOPT: W0
           run: |
             bundle exec rake ci
+
+        - name: Upload SimpleCov coverage files
+          uses: actions/upload-artifact@v2
+          with: 
+            name: coverage
+            path: coverage
+            
+        - name: Codecov
+          uses: codecov/codecov-action@v2.0.1
+          with:
+            files: ./coverage/coverage.xml
