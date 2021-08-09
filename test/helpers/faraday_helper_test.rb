@@ -12,7 +12,7 @@ class FaradayHelperTest < ActionView::TestCase
   end
 
   test 'Faraday continues on error' do
-    response = Faraday.get('https://catalyst.library.jhu.edu/500')
+    response = Faraday.get('https://catalyst.library.jhu.edu/catalog?title=%22&search_field=advanced&commit=Search')
     assert_equal(response.status, 500)
   end
 
