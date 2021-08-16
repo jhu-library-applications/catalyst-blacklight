@@ -1,41 +1,6 @@
 <div class="show-marc">
-  <%# Online Access, starts with stuff from MARC record, updated by Umlaut %>
-
-  <%-
-      links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first)
-  -%>
-
-
-    <div class="links card mb-4">
-      <div class="card-header"><h3 class="card-title mb-0 h6" data-umlaut-update="heading"><%= related_links_title(document) %></h3></div>
-
-      <div class="card-body" >
-        <div id="hathi-etas" hathi-present="<%=related_hathi_links(document).length > 0 %> ">
-          <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
-            <% related_hathi_links_etas_only(document).each do |url| %>
-              <%= link_to "Full text available from HathiTrust", url %><br/>
-            <% end %>
-          <% end %>
-        </div>
-        <div data-umlaut-update="body">
-          <%=
-          render :partial => "marc_display/presenter_content", :locals => {:presenter => links_presenter } if links_presenter.should_display?
-          %>
-          <% if should_include_findit_url?(document: document) %>
-          <!-- the Find It link -->
-            <% if( JHConfig.params[:umlaut_base_url] &&
-              document.export_formats.keys.include?(:openurl_ctx_kev)) %>
-              
-                <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" , :rel=>"nofollow", :class=>"findit_link") do %>
-                <%= image_tag("jhu_findit.gif",  :alt=>"Find It @ JH") %>
-                <% end %>
-              <% end %>
-            <% end %>
-        </div>
-
-      </div>
-
-    </div>
+  <%# Online Access, starts with stuff from MARC record, updated by SFX %>
+    <%= render 'links_card', document: document %>
 
     <%# borrow direct section, only where appropriate. This duplicates some of
         what's in FindIt/Umlaut, sorry.  %>
@@ -54,8 +19,12 @@
 
   <%= render :partial => "marc_display/marc_display", :locals => {:document => document, :marc_presenter_list => JHConfig.params[:main_presenter_list]} %>
 
-
-
-
-
+    <!-- the Find It link / this triggers the addition of section_targets from umlaut_include.js -->
+  <% if( JHConfig.params[:umlaut_base_url] &&
+    document.export_formats.keys.include?(:openurl_ctx_kev)) %>
+   
+    <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" , :rel=>"nofollow", :class=>"findit_link") do %>
+      <%= image_tag("jhu_findit.gif",  :alt=>"Find It @ JH") %>
+    <% end %>
+  <% end %>
 </div>

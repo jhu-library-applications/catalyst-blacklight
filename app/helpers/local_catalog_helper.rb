@@ -90,10 +90,13 @@ module LocalCatalogHelper
   # guess of whether the 856 links are for online access or not -- just
   # based on whether it's marked "Online" in format facet, at present.
   def related_links_type(document)
-    if document["format"] && document["format"].include?("Online")
-      :online
-    else
-      :related
+    case document["format"]
+      when "Online"
+        :online
+      when ["Manuscript/Archive", "Print"]
+        :related
+      else
+        :online
     end
   end
 
