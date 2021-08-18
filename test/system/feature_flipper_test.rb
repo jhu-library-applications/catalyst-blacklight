@@ -33,12 +33,12 @@ class FeatureFlipperTest < ApplicationSystemTestCase
 
   def test_curbside_reserves
     # Default - Reserves Form is Gone
-    Flipper[:curbside_mode].enable
+    Flipper[:reserves].disable
     visit '/reserves'
     assert page.has_no_selector?("form.reserves-search")
 
     # Disabled - Reserves Form is Present
-    Flipper[:curbside_mode].disable
+    Flipper[:reserves].enable
     visit '/reserves'
     assert page.has_selector?("form.reserves-search")
   end
