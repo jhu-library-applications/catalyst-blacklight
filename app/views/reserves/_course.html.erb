@@ -1,5 +1,5 @@
 <% # Reserves Feature %>
-<% if Flipper[:reserves].disabled? %>
+<% if !Flipper[:reserves].enabled? %>
   <%= render partial: 'reserves_curbside' %>
 <% end %>
 
