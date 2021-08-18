@@ -16,7 +16,7 @@ if ActiveRecord::Base.connection.table_exists? 'flipper_features'
   puts 'Enabling: Navbar Book Pickups & Returns Page'
   Flipper[:navbar_pickup_page].enable
 
-  puts 'Disbling: Reserves'
+  puts 'Disabling: Reserves'
   Flipper[:reserves].disable
 
   puts 'Enabling: Curbside Mode'
