@@ -10,10 +10,10 @@
       </h1>
 
       <% # Reserves Feature %>
-      <% if Flipper[:curbside_mode].enabled? %>
-        <%= render partial: 'reserves_curbside' %>
-      <% else %>
+      <% if Flipper[:reserves].enabled? %>
         <%= render partial: 'reserves_default' %>
+      <% else %>
+        <%= render partial: 'reserves_curbside' %>
       <% end %>
     </div>
   </div>
