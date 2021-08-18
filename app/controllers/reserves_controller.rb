@@ -24,6 +24,25 @@ class ReservesController < CatalogController
 
     query = params[:q] || params[:term] # term is used by jquery-ui autocomplete
 
+    @activeLocations = []
+    if Flipper[:reserves_wirc].enabled?
+      @activeLocations.push('wirc')
+    end
+    if Flipper[:reserves_sssres].enabled?
+      @activeLocations.push('sssres')
+    end
+    if Flipper[:reserves_ecolrsv].enabled?
+      @activeLocations.push('ecolrsv')
+    end
+    if Flipper[:reserves_ewcrsv].enabled?
+      @activeLocations.push('ewcrsv')
+    end
+    if Flipper[:reserves_emcrsv].enabled?
+      @activeLocations.push('emcrsv')
+    end
+    if Flipper[:reserves_eres].enabled?
+      @activeLocations.push('eres')
+    end
 
     @courses =
       ReservesCourse.includes(:instructors).
@@ -35,7 +54,9 @@ class ReservesController < CatalogController
       @courses = @courses.where(:location_code => params[:location])
     end
 
-    @locations = ReservesCourse.select("distinct location_code, location").order("location")
+    @courses = @courses.where("reserves_courses.location_code IN (?)", @activeLocations)
+
+    @locations = ReservesCourse.select("distinct location_code, location").where("reserves_courses.location_code IN (?)", @activeLocations.join(",")).order("location")
 
     respond_to do |format|
       format.html
