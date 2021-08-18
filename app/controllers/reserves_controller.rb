@@ -56,7 +56,7 @@ class ReservesController < CatalogController
 
     @courses = @courses.where("reserves_courses.location_code IN (?)", @activeLocations)
 
-    @locations = ReservesCourse.select("distinct location_code, location").where("reserves_courses.location_code IN (?)", @activeLocations.join(",")).order("location")
+    @locations = ReservesCourse.select("distinct location_code, location").where("reserves_courses.location_code IN (?)", @activeLocations).order("location")
 
     respond_to do |format|
       format.html
