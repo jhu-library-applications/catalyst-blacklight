@@ -23,12 +23,12 @@ class FeatureFlipperTest < ApplicationSystemTestCase
     # Default - Curbside Book Pickups Page is Present
     Flipper[:navbar_pickup_page].enable
     visit '/catalog'
-    assert page.has_link?("Book Pickups & Returns")
+    assert page.has_link?("Book Pickup Service")
 
     # Disabled - Curbside Book Pickups Page is Gone
     Flipper[:navbar_pickup_page].disable
     visit '/catalog'
-    assert page.has_no_link?("Book Pickups & Returns")
+    assert page.has_no_link?("Book Pickup Service")
   end
 
   def test_curbside_reserves
