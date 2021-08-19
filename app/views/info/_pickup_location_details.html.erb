@@ -1,9 +1,9 @@
 <h2>Book Pickup Service</h2>
 <div class="sr-only">
-  <%= @page_title = "Book Pickup & Returns - JH Libraries" %>
+  <%= @page_title = "Book Pickup Service - JH Libraries" %>
 </div>
 <p>
-  Books and materials from the Johns Hopkins Libraries may be requested for pickup on the Homewood, East Baltimore, Washington D.C., and Applied Physics Laboratory campuses. At this time, pick up service is available for current Johns Hopkins ID cardholders: students, faculty, and staff. Turnaround time for requested books may be longer than usual. Only books owned by the Johns Hopkins Libraries and available through BorrowDirect are eligible.
+  Books and materials from the Johns Hopkins Libraries may be requested for pickup. At this time, pick up service is available for current Johns Hopkins  students, faculty, and staff.
 </p>
 <h3>Safety Guidelines: </h3>
 <ul>
@@ -19,7 +19,7 @@
 </ol>
 <h3>Pick Up Hours & Locations: </h3>
 <p>
-  You may pick up materials at any location listed below.
+  You may request to pick up materials at any location listed below.
 </p>
 <br />
 <br />
@@ -31,7 +31,7 @@
         <%= link_to "Milton S. Eisenhower Library", "https://www.library.jhu.edu/"  %>
       </h4>
       <p>
-        Homewood Campus<br />
+        Homewood Campus | <%= link_to "Hours", "https://www.library.jhu.edu/library-hours/milton-s-eisenhower-library/"  %><br />
         3400 N. Charles Street, Baltimore
       </p>
       <p>
@@ -41,7 +41,7 @@
     <div class="col-md-7">
       <a href="https://www.library.jhu.edu/about/news/covid-19-updates/"
          class="btn btn-primary">
-        Service Changes
+        COVID-19 Updates
       </a>
     </div>
   </dt>
@@ -51,7 +51,7 @@
         <%= link_to "Welch Medical Library Building", "http://welch.jhmi.edu/welchone/"  %>
       </h4>
       <p>
-        East Baltimore campus<br />
+        East Baltimore campus | <%= link_to "Hours", "https://welch.jhmi.edu/about/service-locations"  %><br />
         1900 E. Monument Street, Baltimore
       </p>
       <p>
@@ -61,7 +61,7 @@
     <div class="col-md-7">
       <a href="https://welch.jhmi.edu/featured/welch-medical-library-covid-19-updates"
          class="btn btn-primary">
-        Service Changes
+        COVID-19 Updates
       </a>
     </div>
   </dt>
@@ -71,17 +71,20 @@
         <%= link_to "Mason Library at SAIS", "http://www.sais-jhu.edu/library/"  %>
       </h4>
       <p>
-        DC campus<br />
+        DC campus | <%= link_to "Hours", "http://www.sais-jhu.edu/library/"  %><br />
         1740 Massachusetts Ave NW, Washington D.C.
       </p>
       <p>
         <%= link_to "saislibrary@jhu.edu", "mailto:saislibrary@jhu.edu?Subject=Johns%20Hopkins%20Libraries%20Curbside%20Question"  %>
       </p>
+      <p style="font-weight: 400;">
+        Mason Library supports the Book Pickup Service for all DC-based Hopkins affiliates. Self-serve pickup shelves are located on the sixth floor in the Library.
+      </p>
     </div>
     <div class="col-md-7">
       <a href="https://sais.jhu.edu/faculty-research/our-libraries/mason-library/book-pickup-service"
          class="btn btn-primary">
-        Service Changes
+        Book Pickup Service Details
       </a>
     </div>
   </dt>
@@ -102,10 +105,10 @@
   <dt class="row" style="padding-bottom:24px;">
     <div class="col-md-5">
       <h4>
-        <%= link_to "Arthur Friedheim Library", "http://www.peabody.jhu.edu/library"  %>
+        <%= link_to "Arthur Friedheim Library", "https://musiclibrary.peabody.jhu.edu/home"  %>
       </h4>
       <p>
-        21 E. Mt Vernon Pl<br />
+        21 E. Mt Vernon Pl | <%= link_to "Hours", "http://www.peabody.jhu.edu/library"  %><br />
         21202 Baltimore, MD
       </p>
       <p>
@@ -113,16 +116,10 @@
       </p>
     </div>
     <div class="col-md-7">
-
+      <a href="https://musiclibrary.peabody.jhu.edu/blog/updates"
+         class="btn btn-primary">
+        Book Pickup Service Details
+      </a>
     </div>
   </dt>
 </dl>
-
-
-<br />
-<br />
-<h3>Book Returns: </h3>
-<p>
-  If you are relocating or have special circumstances, please email your library for assistance.
-</p>
-
