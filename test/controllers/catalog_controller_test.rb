@@ -64,4 +64,11 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
      get '/catalog/bib_4759863'
      assert_response 404
   end
+
+   # Invalid advanced search should return a 404
+   test "404_for_invalid_advanced_search" do
+    get '/catalog?commit=Search&search_field=advanced&title=%22'
+    assert_response 404
+ end
+
 end

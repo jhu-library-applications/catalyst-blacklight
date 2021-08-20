@@ -506,6 +506,10 @@ class CatalogController < ApplicationController
   # Handles errors when bib#'s have been removed by returning a 404 page
   rescue_from Blacklight::Exceptions::RecordNotFound, :with => -> { render status: 404, layout: 'blacklight', template: 'errors/not_found.html.erb' }
 
+
+  # Handles errors caused by advanced search parsing empty queries from bots
+  rescue_from Parslet::ParseFailed, :with => -> { render status: 404, layout: 'blacklight', template: 'errors/not_found.html.erb' }
+
   # Handles errors that are caused by Find It using blacklight-cql. If the user or system makes a CQL
   # syntax error we don't want to raise an exception.
   rescue_from CqlRuby::CqlException, :with => -> { render status: 404, layout: 'blacklight', template: 'errors/not_found.html.erb' }
