@@ -23,11 +23,12 @@
 
 <div class="card modal-panel-expand umlaut borrow_direct mb-4 <%= panel_classes %>">
   <%# hidden findit link used by Javascript to load Umlaut borrow_direct info %>
-  <%= link_to("FindIt@JH", JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" ,
-        :rel=>"nofollow",
-        :class=>"findit_link",
-        :style => "display:none;")  %>
-
+  <% if should_include_findit_url?(document: document) %>
+    <%= link_to("FindIt@JH", JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" ,
+          :rel=>"nofollow",
+          :class=>"findit_link",
+          :style => "display:none;")  %>
+  <% end %>
   <div class="card-header">
     BorrowDirect <br/>
     <small>Get a copy from a partner library in 2-3 weeks. Checkout period is 16 weeks, with no renewals.</small>
