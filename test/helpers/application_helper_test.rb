@@ -28,4 +28,13 @@ class ApplicationHelperTest < ActionView::TestCase
 
     assert_match /search-option btn active btn-primary/, search_button
   end
+
+
+  test 'should_include_findit_url helper' do
+    should_not_include = should_include_findit_url?(document: { 'format' => ['Map/Globe', 'Print'] })
+    should_include = should_include_findit_url?(document: { 'format' => ['Book', 'Print'] })
+    
+    assert_equal should_not_include, false
+    assert_equal should_include, true
+  end
 end

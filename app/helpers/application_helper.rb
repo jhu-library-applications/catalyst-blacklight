@@ -166,5 +166,10 @@ module ApplicationHelper
   end
 
 
-
+  def should_include_findit_url?(document:)
+    return false if document.nil?
+    return false if document['format'].include?('Map/Globe')
+    
+    true
+  end
 end

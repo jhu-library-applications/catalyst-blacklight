@@ -5,6 +5,7 @@
       links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first)
   -%>
 
+  <% if should_include_findit_url?(document: document) %>
     <div class="links card mb-4">
       <div class="card-header"><h3 class="card-title mb-0 h6" data-umlaut-update="heading"><%= related_links_title(document) %></h3></div>
 
@@ -22,17 +23,18 @@
           %>
           <!-- the Find It link -->
           <% if( JHConfig.params[:umlaut_base_url] &&
-                 document.export_formats.keys.include?(:openurl_ctx_kev)) %>
-                <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" , :rel=>"nofollow", :class=>"findit_link") do %>
-                  <%= image_tag("jhu_findit.gif",  :alt=>"Find It @ JH") %>
-                <% end %>
-          <% end %>
+            document.export_formats.keys.include?(:openurl_ctx_kev)) %>
+            
+              <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" , :rel=>"nofollow", :class=>"findit_link") do %>
+              <%= image_tag("jhu_findit.gif",  :alt=>"Find It @ JH") %>
+              <% end %>
+            <% end %>
         </div>
 
       </div>
 
     </div>
-
+  <% end %>
     <%# borrow direct section, only where appropriate. This duplicates some of
         what's in FindIt/Umlaut, sorry.  %>
     <% if related_hathi_links_etas_only(document).length == 0 %>
