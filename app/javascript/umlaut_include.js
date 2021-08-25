@@ -12,7 +12,9 @@
  */
 
 Blacklight.onLoad(function(){
-
+  // Hide the Related Links/Online Access div if there are no MARC 856 entries
+  // This should only be occuring on Map/Globe show pages now
+  if (!$('.marc856').text().trim()) { $('.showmarc.links').hide() }
 
   //Pass in a 'dd' element, will "show" both it and it's
   //corresponding 'dt' element. We use it to show hidden dd/dt combos
