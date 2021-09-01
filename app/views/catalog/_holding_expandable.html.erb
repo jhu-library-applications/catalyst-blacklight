@@ -80,11 +80,9 @@
 
     <div class="call-num-actions holding-line row">
       <% # TXT feature %>
-      <% if Flipper[:curbside_mode].enabled? %>
-        <% # Do not show txt feature in curbside mode %>
-      <% else %>
+      <% if Flipper[:txt].enabled? %>
         <%= render partial: 'holding_expandable_default_txt_message', locals: { document: document, document_id: document_id, holding: holding } %>
-      <% end %>
+       <% end %>
 
       <% # Floor Map feature %>
       <% if Flipper[:curbside_mode].enabled? %>
