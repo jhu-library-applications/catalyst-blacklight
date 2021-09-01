@@ -41,11 +41,9 @@
       <%= hidden_field :ils_request, :item_id %>
       <%= hidden_field :ils_request, :notification_method %>
 
-      <% if Flipper[:curbside_mode].enabled? %>
-        <p class="text-muted">Process and pickup times vary by location.
-           <%= link_to "More information", "https://catalyst.library.jhu.edu/info/pickup_locations", target: :_blank %>
-         </p>
-      <% end %>
+      <p class="text-muted">Process and pickup times vary by location.
+        <%= link_to "More information", "https://catalyst.library.jhu.edu/info/pickup_locations", target: :_blank %>
+      </p>
 
       <% if @ils_request.available_locations.length > 1 %>
         <div class="form-group">

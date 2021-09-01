@@ -26,9 +26,11 @@ if ActiveRecord::Base.connection.table_exists? 'flipper_features'
   Flipper[:reserves_emcrsv].enable
   Flipper[:reserves_eres].enable
 
-  puts 'Enabling: Curbside Mode'
-  Flipper[:curbside_mode].enable
-  puts '- Holdings => Hide TXT feature'
+  puts 'Disabling: TXT Feature'
+  Flipper[:txt].disable
+
+  puts 'Disabling: Curbside Mode'
+  Flipper[:curbside_mode].disable
   puts '- Holdings => Enable "Request Pickup" buttons'
   puts '- Request  => Choose "Pickup Location"'
   puts '- Request  => Display pickup instructions'
