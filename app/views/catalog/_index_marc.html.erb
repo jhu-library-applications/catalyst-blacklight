@@ -83,13 +83,13 @@
 
     -%>
 
-    <% # Look for Online Verions %>
+    <% # Look for Other Verions %>
     <% if( JHConfig.params[:umlaut_base_url] &&
         document.export_formats.keys.include?(:openurl_ctx_kev)) && related_links_type(document) != :online %>
       <% if !hathi_eta(document) %>
         <div id="findit-wrapper">
           <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}", {:class => "request btn btn-primary btn-sm"}  ) do %>
-            Look for Online Versions
+            Look for Other Versions
           <% end %>
         </div>
       <% end %>
