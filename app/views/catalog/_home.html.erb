@@ -57,8 +57,7 @@
                   Access
                 </button>
               </h3>
-              <div x-show="items.length > 0"
-                   id="facet-access_facet" aria-labelledby="facet-access_facet-header" class="panel-collapse facet-content collapse show">
+              <div id="facet-access_facet" aria-labelledby="facet-access_facet-header" class="panel-collapse facet-content collapse show">
                 <div class="card-body">
                   <ul class="facet-values list-unstyled">
                     <template x-for="facet in (facets.find(facet => facet.id == 'access_facet').attributes.items)">
@@ -89,8 +88,7 @@
               </div>
             </div>
 
-            <div x-show="items.length > 0"
-                 class="card facet-limit blacklight-subject_first_topic_facet ">
+            <div class="card facet-limit blacklight-subject_first_topic_facet ">
               <h3 class="card-header p-0 facet-field-heading" id="facet-subject_first_topic_facet-header">
                 <button class="btn btn-block p-2 text-left collapse-toggle" data-toggle="collapse" data-target="#facet-subject_first_topic_facet" aria-expanded="false">
                   Subject
@@ -333,7 +331,6 @@
                 fetch(this.url + '.json?utf8=✓&sort=acquired_sort+desc%2C+title_sort+asc&' + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
-                        this.items = res.data;
                         this.facets = res.included;
                         this.subjects = (this.facets.find(facet => facet.id == 'subject_first_topic_facet').attributes.items)
                                           .map(function(item){
@@ -341,6 +338,7 @@
                                           });
                         this.pagination = res.meta;
                         this.subject_page = 1;
+                        this.items = res.data;
                     });
             },
             fetchSubjects() {
