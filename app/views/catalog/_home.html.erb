@@ -123,7 +123,7 @@
                              href="#"></a>
                           <a x-show="params.f.subject_first_topic_facet.includes(facet.value)"
                              x-on:click.prevent="removeFacet('subject_first_topic_facet', $event.target.getAttribute('message'))"
-                             :message="facet.attributes.value"
+                             :message="facet.value"
                              class="remove"
                              href="#">
                             <span class="remove-icon">✖</span>
