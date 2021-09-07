@@ -216,7 +216,7 @@
                       class="text-white text-center"
                 ></span>
               </div>
-              <img :src="'https://secure.syndetics.com/index.aspx?isbn='+item.isbn_t.split(',')+'/mc.gif&client=jhuniv'"
+              <img :src="'/bookcover?format=skip&bib=' + item.id"
                    :alt="item.attributes.title_display.attributes.value"
                    :title="$('<div />').html(item.attributes.title_display.attributes.value).text()"
                    class="w-100 position-relative" style="z-index: 10;"

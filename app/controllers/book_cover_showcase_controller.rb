@@ -32,12 +32,15 @@ class BookCoverShowcaseController < CatalogController
     if params.has_key?('bib')
       @response, @document = search_service.fetch(params['bib'])
       isbns = @document['isbn_t']
+      image = 'https://secure.syndetics.com/index.aspx?isbn='+isbns.join(',')+'/mc.gif&client=jhuniv'
     elsif params.has_key?('isbn')
       isbns = params['isbn'].split(',')
     end
 
-    image = book_cover(isbns)
-
+    if image.nil?
+      image = book_cover(isbns)
+    end
+    
     # If no image is available, the return the format icon
     if image.nil?
       if params.has_key?('format')
