@@ -265,7 +265,12 @@
         Alpine.data('showcase', () => ({
             url: '/catalog',
             items: [],
-            facets: [],
+            facets: [{
+                id: "access_facet",
+                'attributes': {
+                    'items': []
+                }
+            }],
             subjects: [],
             subject_page: 1,
             subject_sort: 'count',
