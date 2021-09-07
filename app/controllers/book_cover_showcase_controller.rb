@@ -32,7 +32,9 @@ class BookCoverShowcaseController < CatalogController
     if params.has_key?('bib')
       @response, @document = search_service.fetch(params['bib'])
       isbns = @document['isbn_t']
-      image = 'https://secure.syndetics.com/index.aspx?isbn='+isbns.join(',')+'/mc.gif&client=jhuniv'
+      if isbns.respond_to?('each')
+        image = 'https://secure.syndetics.com/index.aspx?isbn='+isbns.join(',')+'/mc.gif&client=jhuniv'
+      end
     elsif params.has_key?('isbn')
       isbns = params['isbn'].split(',')
     end
