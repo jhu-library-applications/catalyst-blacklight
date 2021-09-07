@@ -219,7 +219,9 @@
               <img :src="'/bookcover?format=skip&bib=' + item.id"
                    :alt="item.attributes.title_display.attributes.value"
                    :title="$('<div />').html(item.attributes.title_display.attributes.value).text()"
-                   class="w-100 position-relative" style="z-index: 10;"
+                   class="w-100 position-relative"
+                   style="z-index: 10;"
+                   loading="lazy"
                 />
               <!--            <div x-text="summary(item.attributes.title_display.attributes.value)"></div>-->
             </div>

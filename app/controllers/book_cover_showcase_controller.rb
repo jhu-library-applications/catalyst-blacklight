@@ -40,7 +40,7 @@ class BookCoverShowcaseController < CatalogController
     if image.nil?
       image = book_cover(isbns)
     end
-    
+
     # If no image is available, the return the format icon
     if image.nil?
       if params.has_key?('format')
