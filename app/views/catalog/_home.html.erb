@@ -57,7 +57,8 @@
                   Access
                 </button>
               </h3>
-              <div id="facet-access_facet" aria-labelledby="facet-access_facet-header" class="panel-collapse facet-content collapse show">
+              <div x-show="items.length > 0"
+                   id="facet-access_facet" aria-labelledby="facet-access_facet-header" class="panel-collapse facet-content collapse show">
                 <div class="card-body">
                   <ul class="facet-values list-unstyled">
                     <template x-for="facet in (facets.find(facet => facet.id == 'access_facet').attributes.items)">
@@ -88,7 +89,8 @@
               </div>
             </div>
 
-            <div class="card facet-limit blacklight-subject_first_topic_facet ">
+            <div x-show="items.length > 0"
+                 class="card facet-limit blacklight-subject_first_topic_facet ">
               <h3 class="card-header p-0 facet-field-heading" id="facet-subject_first_topic_facet-header">
                 <button class="btn btn-block p-2 text-left collapse-toggle" data-toggle="collapse" data-target="#facet-subject_first_topic_facet" aria-expanded="false">
                   Subject
