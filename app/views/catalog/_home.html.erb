@@ -78,7 +78,7 @@
                           </a>
                         </span>
                         <span class="facet-count"
-                              :style="'width: ' + facet.hits.toString().length + 'ch;'"
+                              :style="'width: ' + facet.attributes.hits.toString().length + 'ch;'"
                               x-text="facet.attributes.hits"
                         ></span>
                       </li>
@@ -265,26 +265,7 @@
         Alpine.data('showcase', () => ({
             url: '/catalog',
             items: [],
-            facets: [{
-              id: "access_facet",
-              type: "facet",
-              attributes: {
-                label: 'Access',
-                items: [{
-                  attributes: {
-                    label: "Online",
-                    value: "Online",
-                    hits: 0
-                  }
-                  }, {
-                    attributes: {
-                      label: "At the Libraries",
-                      value: "At the Libraries",
-                      hits: 0
-                    }
-                }]
-              }
-            }],
+            facets: [],
             subjects: [],
             subject_page: 1,
             subject_sort: 'count',
