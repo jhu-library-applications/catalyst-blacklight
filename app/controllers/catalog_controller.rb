@@ -45,6 +45,7 @@ class CatalogController < ApplicationController
       :page,
       :results_view,
       :subject_topic_facet,
+      :subject_first_topic_facet,
       :bento_redirect,
       :format,
       :q,
@@ -79,6 +80,7 @@ class CatalogController < ApplicationController
         :language_facet => [],
         :instrumentation_facet => [],
         :subject_topic_facet => [],
+        :subject_first_topic_facet => [],
         :series_facet => []
       },
       :f_inclusive => {
@@ -163,6 +165,7 @@ class CatalogController < ApplicationController
       "series_facet",
       #"discipline_facet",
       "subject_topic_facet",
+      "subject_first_topic_facet",
       "subject_geo_facet",
       "subject_era_facet",
       "instrumentation_facet"
@@ -224,6 +227,7 @@ class CatalogController < ApplicationController
     config.add_facet_field  "organization_facet",   :label => "Organization", :limit => true
     config.add_facet_field  "language_facet", :label => "Language", :limit => true
     config.add_facet_field  "subject_topic_facet", :label => "Subject", :limit => true
+    config.add_facet_field  "subject_first_topic_facet", :label => "First Subject", :limit => true
     config.add_facet_field  "subject_geo_facet",   :label => "Region", :limit => true
     config.add_facet_field  "subject_era_facet",   :label => "Era", :limit => true
     config.add_facet_field  "series_facet",        :label => "Series", :limit => true

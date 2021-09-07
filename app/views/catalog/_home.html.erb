@@ -23,7 +23,7 @@
           </a>
         </span>
       </template>
-      <template x-for="subject in params.f.subject_topic_facet">
+      <template x-for="subject in params.f.subject_first_topic_facet">
         <span class="btn-group applied-filter constraint query">
           <span class="constraint-value btn btn-outline-secondary">
               <span class="filter-name">Subject</span>
@@ -31,7 +31,7 @@
                     :title="subject"
                     class="filter-value"></span>
           </span>
-          <a x-on:click.prevent="removeFacet('subject_topic_facet', $event.target.getAttribute('title'))"
+          <a x-on:click.prevent="removeFacet('subject_first_topic_facet', $event.target.getAttribute('title'))"
              class="btn btn-outline-secondary remove"
              href="#">
             <span class="remove-icon">✖</span>
@@ -88,13 +88,13 @@
               </div>
             </div>
 
-            <div class="card facet-limit blacklight-subject_topic_facet ">
-              <h3 class="card-header p-0 facet-field-heading" id="facet-subject_topic_facet-header">
-                <button class="btn btn-block p-2 text-left collapse-toggle" data-toggle="collapse" data-target="#facet-subject_topic_facet" aria-expanded="false">
+            <div class="card facet-limit blacklight-subject_first_topic_facet ">
+              <h3 class="card-header p-0 facet-field-heading" id="facet-subject_first_topic_facet-header">
+                <button class="btn btn-block p-2 text-left collapse-toggle" data-toggle="collapse" data-target="#facet-subject_first_topic_facet" aria-expanded="false">
                   Subject
                 </button>
               </h3>
-              <div id="facet-subject_topic_facet" aria-labelledby="facet-subject_topic_facet-header" class="panel-collapse facet-content">
+              <div id="facet-subject_first_topic_facet" aria-labelledby="facet-subject_first_topic_facet-header" class="panel-collapse facet-content">
                 <div class="card-body">
                   <div class="row row-cols-2 pb-2">
                     <a x-on:click.prevent="subject_sort = 'index'"
@@ -116,13 +116,13 @@
                     <template x-for="facet in subjects">
                       <li>
                         <span class="facet-label">
-                          <a x-on:click.prevent="addFacet('subject_topic_facet', $event.target.getAttribute('message'))"
+                          <a x-on:click.prevent="addFacet('subject_first_topic_facet', $event.target.getAttribute('message'))"
                              x-text="facet.value"
                              :message="facet.value"
                              class="facet-select"
                              href="#"></a>
-                          <a x-show="params.f.subject_topic_facet.includes(facet.value)"
-                             x-on:click.prevent="removeFacet('subject_topic_facet', $event.target.getAttribute('message'))"
+                          <a x-show="params.f.subject_first_topic_facet.includes(facet.value)"
+                             x-on:click.prevent="removeFacet('subject_first_topic_facet', $event.target.getAttribute('message'))"
                              :message="facet.attributes.value"
                              class="remove"
                              href="#">
@@ -163,7 +163,7 @@
                     </div>
                   </div>
 <!--                  <div class="more_facets">-->
-<!--                    <a data-blacklight-modal="trigger" href="/catalog/facet/subject_topic_facet?per_page=20&amp;q=harry+potter&amp;search_field=all_fields">more <span class="sr-only">Subject</span> »</a>-->
+<!--                    <a data-blacklight-modal="trigger" href="/catalog/facet/subject_first_topic_facet?per_page=20&amp;q=harry+potter&amp;search_field=all_fields">more <span class="sr-only">Subject</span> »</a>-->
 <!--                  </div>-->
                 </div>
               </div>
@@ -282,7 +282,7 @@
                 f: {
                     'format': ['Book'],
                     'access_facet': [],
-                    'subject_topic_facet': []
+                    'subject_first_topic_facet': []
                 }
             },
             init() {
@@ -331,7 +331,7 @@
                     .then(res => {
                         this.items = res.data;
                         this.facets = res.included;
-                        this.subjects = (this.facets.find(facet => facet.id == 'subject_topic_facet').attributes.items)
+                        this.subjects = (this.facets.find(facet => facet.id == 'subject_first_topic_facet').attributes.items)
                                           .map(function(item){
                                               return {value: item.attributes.value, hits: item.attributes.hits};
                                           });
@@ -341,7 +341,7 @@
             },
             fetchSubjects() {
                 this.subjects = [];
-                fetch(this.url + '/facet/subject_topic_facet.json?utf8=✓&facet.page=' + this.subject_page + '&facet.sort=' + this.subject_sort + '&' + $.param(this.params))
+                fetch(this.url + '/facet/subject_first_topic_facet.json?utf8=✓&facet.page=' + this.subject_page + '&facet.sort=' + this.subject_sort + '&' + $.param(this.params))
                     .then(res => res.json())
                     .then(res => {
                         if(res.response.facets.items.length < 1){
