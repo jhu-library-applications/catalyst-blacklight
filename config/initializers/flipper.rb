@@ -21,9 +21,9 @@ if ActiveRecord::Base.connection.table_exists? 'flipper_features'
 
   Flipper[:reserves_wirc].enable
   Flipper[:reserves_sssres].disable
-  Flipper[:reserves_ewcrsv].enable
-  Flipper[:reserves_ecolrsv].enable
-  Flipper[:reserves_emcrsv].enable
+  Flipper[:reserves_ewcrsv].disable
+  Flipper[:reserves_ecolrsv].disable
+  Flipper[:reserves_emcrsv].disable
   Flipper[:reserves_eres].enable
 
   puts 'Disabling: TXT Feature'
