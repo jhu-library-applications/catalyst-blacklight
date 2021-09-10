@@ -69,7 +69,7 @@ class CatalogController < ApplicationController
           :begin,
           :end
         ],
-        :acquired_date => [
+        :acquired_date_sort => [
           :begin,
           :end
         ]
@@ -222,7 +222,7 @@ class CatalogController < ApplicationController
     config.add_facet_field  "format",         :label => "Format", :limit => false # no limit as we show all format values
     config.add_facet_field  "location_facet", :label => "Item Location", :limit => true
     config.add_facet_field  "pub_date_sort",  :label => "Publication Year", :range => true
-    config.add_facet_field  "acquired_date",  :label => "Acquisition Date", :range => true
+    config.add_facet_field  "acquired_date_sort",  :label => "Acquisition Date", :range => true
     config.add_facet_field  "author_facet",   :label => "Author", :limit => true
     config.add_facet_field  "organization_facet",   :label => "Organization", :limit => true
     config.add_facet_field  "language_facet", :label => "Language", :limit => true
@@ -448,19 +448,19 @@ class CatalogController < ApplicationController
     config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'year'
     config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author'
     config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title'
-    config.add_sort_field 'acquired_date desc, title_sort asc', label: 'new to the Libraries'
+    config.add_sort_field 'acquired_date_sort desc, title_sort asc', label: 'new to the Libraries'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
     config.spell_max = 5
 
     # Add documents to the list of object formats that are supported for all objects.
-    # This parameter is a hash, identical to the Blacklight::Solr::Document#export_formats 
+    # This parameter is a hash, identical to the Blacklight::Solr::Document#export_formats
     # output; keys are format short-names that can be exported. Hash includes:
     #    :content-type => mime-content-type
-      
+
     config.unapi = {
-      'oai_dc_xml' => { :content_type => 'text/xml' } 
+      'oai_dc_xml' => { :content_type => 'text/xml' }
     }
     config.index.partials << 'microformat'
     config.show.partials << 'microformat'
