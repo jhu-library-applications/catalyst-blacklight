@@ -20,8 +20,9 @@
     panel_classes = local_assigns[:panel_classes] || "panel-default"
 %>
 
+
 <div class="card modal-panel-expand umlaut borrow_direct mb-4 <%= panel_classes %>">
-  <% hidden findit link used by Javascript to load Umlaut borrow_direct info %>
+  <%# hidden findit link used by Javascript to load Umlaut borrow_direct info %>
   <% if should_include_findit_url?(document: document) %>
     <%= link_to("FindIt@JH", JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" ,
           :rel=>"nofollow",
@@ -47,4 +48,3 @@
     </script>
   </div>
 </div>
-
