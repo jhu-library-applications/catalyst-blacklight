@@ -3,7 +3,6 @@
 class BorrowDirectRequestController < BorrowDirectController
 
   include Blacklight::Searchable
-  include LocalCatalogHelper
 
   before_action :verify_user, only: [:request_item]
 
@@ -32,7 +31,7 @@ class BorrowDirectRequestController < BorrowDirectController
 
     respond_to do |format|
       format.html
-      render :partial => "application/request_options"
+      render :partial => "borrow_direct_request/request_item"
     end
 
   end
