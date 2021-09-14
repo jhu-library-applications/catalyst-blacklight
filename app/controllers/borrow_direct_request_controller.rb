@@ -1,4 +1,4 @@
-# A controller creatign request in BD.
+# A controller creating request in BD.
 
 class BorrowDirectRequestController < BorrowDirectController
 
@@ -17,7 +17,7 @@ class BorrowDirectRequestController < BorrowDirectController
         "ExactSearch": isbns.map{|isbn| { 'Type': 'ISBN', 'Value': isbn }}
       }
 
-      response = Faraday.post("https://#{APP_CONFIG["borrow_direct_host"]}/dws/item/available?aid=#{authenticate}",
+      response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/dws/item/available?aid=#{authenticate}",
                               query.to_json,
                               "Content-Type" => "application/json")
       body = JSON.parse(response.body)
@@ -51,7 +51,7 @@ class BorrowDirectRequestController < BorrowDirectController
     }
 
     # TODO: Must now authenticate with real user rather than dummy user
-    Faraday.post("https://#{APP_CONFIG["borrow_direct_host"]}/dws/item/add?aid=" + authenticate,
+    Faraday.post("https://#{ENV['RELAIS_API_URL']}/dws/item/add?aid=" + authenticate,
                  query.to_json,
                  "Content-Type" => "application/json")
 
@@ -79,7 +79,7 @@ class BorrowDirectRequestController < BorrowDirectController
     #     barcode = ENV["RELAIS_PATRON_ID"]
     #   end
 
-      response = Faraday.post("https://#{APP_CONFIG["borrow_direct_host"]}/portal-service/user/authentication", {
+      response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/portal-service/user/authentication", {
         "ApiKey": ENV["RELAIS_API_KEY"],
         "UserGroup": "patron",
         "LibrarySymbol": ENV["RELAIS_LIBRARY_SYMBOL"],
