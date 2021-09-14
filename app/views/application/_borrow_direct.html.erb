@@ -20,18 +20,28 @@
     panel_classes = local_assigns[:panel_classes] || "panel-default"
 %>
 
-<div class="card mb-4 panel-default">
+<div class="card modal-panel-expand umlaut borrow_direct mb-4 <%= panel_classes %>">
+  <% hidden findit link used by Javascript to load Umlaut borrow_direct info %>
+  <% if should_include_findit_url?(document: document) %>
+    <%= link_to("FindIt@JH", JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" ,
+                :rel=>"nofollow",
+                :class=>"findit_link",
+                :style => "display:none;")  %>
+  <% end %>
   <div class="card-header">
-    <h3 class="card-title mb-0 h6">
-      Request from another library
-    </h3>
+    BorrowDirect <br/>
     <small>Get a copy from a partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</small>
   </div>
-  <div class="card-body borrow-direct-container"
-       data-format='<%= document['format'].to_json %>'
-       data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
-       data-umlaut-update="body">
-    Loading...
+  <div class="card-body umlaut-borrow-direct-content">
+    <div data-umlaut-bd-preload-content="true">
+      <%= link_to_borrow_direct_search(document) %>
+    </div>
+    <div data-umlaut-bd-content="true"></div>
+  </div>
+  <div class="card-body">
+    <div class="borrow-direct-container">
+      Placeholder
+    </div>
     <script>
         loadBorrowDirect()
     </script>
