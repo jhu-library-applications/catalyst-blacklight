@@ -45,7 +45,7 @@
       <% end %>
     <% end %>
 
-
+  <% if related_hathi_links_etas_only(document).length == 0 %>
     <% if show_borrow_direct? document %>
       <div class="card mb-4 panel-default">
         <div class="card-header">
@@ -65,7 +65,8 @@
         </div>
       </div>
     <% end %>
-
+  <% end %>
+  
   <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0  %>
     <ul class="holdings list-group">
       <%= render :partial => "catalog/holding_expandable", :collection => document.to_holdings, :locals => { document_id: document["id"], document: document } %>
