@@ -18,7 +18,7 @@
         <%= link_to_borrow_direct_search(@document) %>
       </div>
       <div class="col-sm-8">
-        <%= link_to_ill_form(@document) %>
+        <%= link_to "Request via Interlibrary Loan", ENV['ILLIAD_URL'] + '?Action=10&Form=30&' + document.export_as_openurl_ctx_kev, :class => "btn btn-primary btn-sm", :target => "_blank" %>
       </div>
     </div>
 <% end %>
