@@ -74,10 +74,10 @@ class BorrowDirectRequestController < BorrowDirectController
   def authenticate(barcode = nil)
     # We are going to set a cookie once authenticated
     # If the cookie is not set yet or we have an authenticated user then we'll fetch a new user token
-    if cookies[:borrow_direct].nil? || !barcode.nil?
-      if barcode.nil?
-        barcode = ENV["RELAIS_PATRON_ID"]
-      end
+    # if cookies[:borrow_direct].nil? || !barcode.nil?
+    #   if barcode.nil?
+    #     barcode = ENV["RELAIS_PATRON_ID"]
+    #   end
 
       response = Faraday.post("https://#{APP_CONFIG["borrow_direct_host"]}/portal-service/user/authentication", {
         "ApiKey": ENV["RELAIS_API_KEY"],
@@ -92,7 +92,7 @@ class BorrowDirectRequestController < BorrowDirectController
         secure: true,
         httponly: true,
       }
-    end
+    # end
 
     cookies[:borrow_direct]
 
