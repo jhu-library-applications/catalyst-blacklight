@@ -1,0 +1,24 @@
+<% # Request Form %>
+
+<% if @available %>
+  <form action="/borrow_direct_request/request_item/<%= @document[:id] %>"
+        method="POST"
+  >
+    <%= select_tag "pickup_location", options_for_select(@locations),
+                   :prompt => "Please choose a delivery location",
+                   :class => "form-control" %>
+    <button class="btn btn-primary btn-sm">
+      Submit
+    </button>
+  </form>
+
+<% else %>
+    <div class="row">
+      <div class="col-sm-4">
+        <%= link_to_borrow_direct_search(@document) %>
+      </div>
+      <div class="col-sm-8">
+        <%= link_to_ill_form(@document) %>
+      </div>
+    </div>
+<% end %>

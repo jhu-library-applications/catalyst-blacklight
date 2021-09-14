@@ -141,6 +141,9 @@ Catalyst::Application.routes.draw do
   # Borrow Direct redirector
   get 'borrow_direct' => 'borrow_direct#index', :as => "borrow_direct"
 
+  get 'borrow_direct_request/request_options/:id' => 'borrow_direct_request#request_options', :as => "borrow_direct_request_options"
+  post 'borrow_direct_request/request_item/:id' => 'borrow_direct_request#request_item', :as => "borrow_direct_request_item"
+
   ###
   # Legacy Redirects
   ####
