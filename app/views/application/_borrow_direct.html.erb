@@ -40,3 +40,21 @@
       <div data-umlaut-bd-content="true"></div>
   </div>
 </div>
+
+<div class="card mb-4 panel-default">
+  <div class="card-header">
+    <h3 class="card-title mb-0 h6">
+      Request from another library
+    </h3>
+    <small>Get a copy from a partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</small>
+  </div>
+  <div class="card-body borrow-direct-container"
+       data-format='<%= document['format'].to_json %>'
+       data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
+       data-umlaut-update="body">
+    Loading...
+    <script>
+        loadBorrowDirect()
+    </script>
+  </div>
+</div>
