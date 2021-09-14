@@ -31,7 +31,7 @@ class BorrowDirectRequestController < BorrowDirectController
 
     respond_to do |format|
       format.html
-      render :partial => "borrow_direct_request/request_item"
+      render :partial => "borrow_direct_request/request_options"
     end
 
   end
