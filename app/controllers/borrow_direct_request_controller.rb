@@ -16,7 +16,7 @@ class BorrowDirectRequestController < BorrowDirectController
         "PartnershipId": "BD",
         "ExactSearch": isbns.map{|isbn| { 'Type': 'ISBN', 'Value': isbn }}
       }
-
+      abort(authenticate)
       response = Faraday.post("https://#{APP_CONFIG["borrow_direct_host"]}/dws/item/available?aid=" + authenticate,
                               query.to_json,
                               "Content-Type" => "application/json")
