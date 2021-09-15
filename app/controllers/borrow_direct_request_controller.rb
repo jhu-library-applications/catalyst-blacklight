@@ -53,15 +53,15 @@ class BorrowDirectRequestController < BorrowDirectController
 
     body = JSON.parse(response.body)
     @message = body
-    if body.key?('RequestNumber')
-      @message = { "status": true, "RequestNumber": body['RequestNumber']}
-    else
-      @message = {
-        "status": false ,
-        "code": body['Problem']['Code'],
-        "message": body['Problem']['Message']
-      }
-    end
+    # if body.key?('RequestNumber')
+    #   @message = { "status": true, "RequestNumber": body['RequestNumber']}
+    # else
+    #   @message = {
+    #     "status": false ,
+    #     "code": body['Problem']['Code'],
+    #     "message": body['Problem']['Message']
+    #   }
+    # end
 
     respond_to do |format|
       format.html
