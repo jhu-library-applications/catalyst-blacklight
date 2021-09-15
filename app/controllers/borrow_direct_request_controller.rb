@@ -40,10 +40,10 @@ class BorrowDirectRequestController < BorrowDirectController
     barcode  = borrower[:barcode]
 
     @response, @document = search_service.fetch(params[:id])
-    isbns = @document['isbn_t'].split('|')
+    isbns = @document['isbn_t']
     query = {
       "PartnershipId": "BD",
-      "ExactSearch": isbns.map{|isbn| { 'Type': 'ISBN', 'Value': isbn }},
+      "ExactSearch": isbns.map{|isbn| { "Type": "ISBN", "Value": isbn }},
       "PickupLocation": params[:pickup_location]
     }
 
