@@ -15,7 +15,7 @@
        data-umlaut-update="body">
     <% if !flash.empty? %>
       <% flash.each do |type, msg| %>
-        <div class="alert alert-<%= type %>">
+        <div class="alert alert-<%= type %> pb-0">
           <%== msg %>
         </div>
       <% end %>
