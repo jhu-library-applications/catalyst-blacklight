@@ -3,6 +3,7 @@
 class BorrowDirectRequestController < BorrowDirectController
 
   include Blacklight::Searchable
+  include LocalCatalogHelper
 
   add_flash_types :bd_success, :bd_error
 
@@ -58,7 +59,7 @@ class BorrowDirectRequestController < BorrowDirectController
       url = "https://#{APP_CONFIG["borrow_direct_host"]}/?LS=#{CGI.escape ENV["RELAIS_LIBRARY_SYMBOL"]}&PI=#{CGI.escape barcode}"
       flash[:bd_success] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' class='bd-direct-link' target='_blank'>BorrowDirect</a>".html_safe
     else
-      flash[:bd_error] = "There was an error creating your request. Try visiting <a href='#{link_to_borrow_direct_search(@document)}' class='bd-direct-link' target='_blank'>BorrowDirect</a> to request this item.".html_safe
+      flash[:bd_error] = "There was an error creating your request. Try visiting <a href='#{borrow_direct_search_url(@document)}' class='bd-direct-link' target='_blank'>BorrowDirect</a> to request this item.".html_safe
     end
 
     redirect_to :controller => 'catalog', :action => 'show', :id => @document[:id]
