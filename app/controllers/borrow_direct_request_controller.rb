@@ -61,7 +61,7 @@ class BorrowDirectRequestController < BorrowDirectController
       flash[:bd_error] = 'There was an error creating your request'
     end
 
-    redirect_back(fallback_location: '/')
+    redirect_to :controller => 'catalog', :action => 'show', :id => @document[:id]
 
   end
 
