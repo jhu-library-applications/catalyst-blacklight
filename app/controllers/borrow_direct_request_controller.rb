@@ -56,7 +56,11 @@ class BorrowDirectRequestController < BorrowDirectController
     if body.key?('RequestNumber')
       @message = { "status": true, "RequestNumber": body['RequestNumber']}
     else
-      @message = { "status": false}
+      @message = {
+        "status": false ,
+        "code": body['Problem']['Code'],
+        "message": body['Problem']['Message']
+      }
     end
 
     respond_to do |format|
