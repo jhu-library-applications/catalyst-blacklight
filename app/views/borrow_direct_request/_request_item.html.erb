@@ -1,9 +1,9 @@
 <% # Request Result %>
-<%= @message["status"] %>
-<% if @message["status"] %>
-  <%= @message["RequestNumber"] %>
+<%= message["status"] %>
+<% if message["status"] %>
+  <%= message["RequestNumber"] %>
 <% else %>
   <p>There was an error creating your request</p>
-  <p><%= @message["code"] %></p>
-  <p><%= @message["message"] %></p>
+  <p><%= message["code"] %></p>
+  <p><%= message["message"] %></p>
 <% end %>
