@@ -10,7 +10,7 @@
     <small>Get a copy from a partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</small>
   </div>
   <div class="card-body borrow-direct-container"
-       data-format='<%= document['format'].to_json %>'
+       data-format='<%= (!document['format'].empty? ? document['format'].to_json : '') %>'
        data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
        data-umlaut-update="body">
     <% if !flash.empty? %>
