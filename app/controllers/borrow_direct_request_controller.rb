@@ -12,7 +12,7 @@ class BorrowDirectRequestController < BorrowDirectController
   def request_options
     @response, @document = search_service.fetch(params[:id])
 
-    if @document['isbn_t'].respond_to?('each')
+    if @document['isbn_t'].respond_to?('each') and !@document['isbn_t'].empty?
       isbns = @document['isbn_t']
       query = {
         "PartnershipId": "BD",
