@@ -4,7 +4,7 @@
   <form action="/borrow_direct_request/request_item/<%= @document[:id] %>"
         method="POST"
   >
-    <%= select_tag "pickup_location", options_for_select(@locations),
+    <%= select_tag "pickup_location", options_for_select(@locations.map{|location| {location['PickupLocationDescription'] => location['PickupLocationCode']} }),
                    :prompt => "Please choose a delivery location",
                    :class => "form-control" %>
     <button class="btn btn-primary btn-sm">
