@@ -7,7 +7,7 @@
     <select name="" class="form-control" required>
       <option>Please choose a delivery location</option>
       <% @locations.each do |location| %>
-        <option value="<% location['PickupLocationCode'] %>"><% location['PickupLocationDescription'] %></option>
+        <option value="<%= location['PickupLocationCode'] %>"><%= location['PickupLocationDescription'] %></option>
       <% end %>
     </select>
     <button class="btn btn-primary btn-sm">

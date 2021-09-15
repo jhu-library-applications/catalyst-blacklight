@@ -1,5 +1,5 @@
 # A controller creating request in BD.
-require 'ray'
+
 class BorrowDirectRequestController < BorrowDirectController
 
   include Blacklight::Searchable
@@ -15,12 +15,10 @@ class BorrowDirectRequestController < BorrowDirectController
         "PartnershipId": "BD",
         "ExactSearch": isbns.map{|isbn| { "Type": "ISBN", "Value": isbn }}
       }
-      ray('QUERY: ', query)
       response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/dws/item/available?aid=#{authenticate}",
                               query.to_json,
                               "Content-Type" => "application/json")
       body = JSON.parse(response.body)
-      ray('RESPONSE: ', body)
       @available = body['Available']
       if @available
         @locations = body['PickupLocation']
