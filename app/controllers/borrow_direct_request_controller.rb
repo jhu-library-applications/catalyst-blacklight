@@ -4,6 +4,8 @@ class BorrowDirectRequestController < BorrowDirectController
 
   include Blacklight::Searchable
 
+  add_flash_types :bd_success, :bd_error
+
   before_action :verify_user, only: [:request_item]
 
   def request_options
@@ -54,9 +56,9 @@ class BorrowDirectRequestController < BorrowDirectController
     body = JSON.parse(response.body)
     if body.key?('RequestNumber')
       url = "https://#{APP_CONFIG["borrow_direct_host"]}/?LS=#{CGI.escape ENV["RELAIS_LIBRARY_SYMBOL"]}&PI=#{CGI.escape barcode}"
-      flash[:notice] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' target='_blank'/>BorrowDirect</a>"
+      flash[:bd_success] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' target='_blank'/>BorrowDirect</a>"
     else
-      flash[:error] = 'There was an error creating your request'
+      flash[:bd_error] = 'There was an error creating your request'
     end
 
     redirect_back(fallback_location: '/')

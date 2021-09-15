@@ -59,7 +59,7 @@
       <% if !flash.empty? %>
         <% flash.each do |type, msg| %>
           <div>
-            <%= msg %>
+            <%= msg.h %>
           </div>
         <% end %>
       <% else %>
