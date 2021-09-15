@@ -1,5 +1,5 @@
 # A controller creating request in BD.
-
+require 'ray'
 class BorrowDirectRequestController < BorrowDirectController
 
   include Blacklight::Searchable
@@ -10,17 +10,17 @@ class BorrowDirectRequestController < BorrowDirectController
     @response, @document = search_service.fetch(params[:id])
 
     if @document['isbn_t'].respond_to?('each')
-      isbns = @document['isbn_t'].split('|')
+      isbns = @document['isbn_t']
       query = {
         "PartnershipId": "BD",
-        "ExactSearch": isbns.map{|isbn| { 'Type': 'ISBN', 'Value': isbn }}
+        "ExactSearch": isbns.map{|isbn| { "Type": "ISBN", "Value": isbn }}
       }
-
+      ray('QUERY: ', query)
       response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/dws/item/available?aid=#{authenticate}",
                               query.to_json,
                               "Content-Type" => "application/json")
       body = JSON.parse(response.body)
-
+      ray('RESPONSE: ', body)
       @available = body['Available']
       if @available
         @locations = body['PickupLocation']
@@ -73,10 +73,10 @@ class BorrowDirectRequestController < BorrowDirectController
   def authenticate(barcode = nil)
     # We are going to set a cookie once authenticated
     # If the cookie is not set yet or we have an authenticated user then we'll fetch a new user token
-    # if cookies[:borrow_direct].nil? || !barcode.nil?
-    #   if barcode.nil?
-    #     barcode = ENV["RELAIS_PATRON_ID"]
-    #   end
+    if cookies[:borrow_direct].nil? || !barcode.nil?
+      if barcode.nil?
+        barcode = ENV["RELAIS_PATRON_ID"]
+      end
 
       response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/portal-service/user/authentication", {
         "ApiKey": ENV["RELAIS_API_KEY"],
@@ -91,7 +91,7 @@ class BorrowDirectRequestController < BorrowDirectController
         secure: true,
         httponly: true,
       }
-    # end
+    end
 
     cookies[:borrow_direct]
 

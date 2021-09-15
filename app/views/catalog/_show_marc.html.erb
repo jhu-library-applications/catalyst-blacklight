@@ -45,6 +45,24 @@
       <% end %>
     <% end %>
 
+  <div class="card mb-4 panel-default">
+    <div class="card-header">
+      <h3 class="card-title mb-0 h6">
+        Request from another library
+      </h3>
+      <small>Get a copy from a partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</small>
+    </div>
+    <div class="card-body borrow-direct-container"
+         data-format='<%= document['format'].to_json %>'
+         data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
+         data-umlaut-update="body">
+      Loading...
+      <script>
+          loadBorrowDirect()
+      </script>
+    </div>
+  </div>
+
   <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0  %>
     <ul class="holdings list-group">
       <%= render :partial => "catalog/holding_expandable", :collection => document.to_holdings, :locals => { document_id: document["id"], document: document } %>
