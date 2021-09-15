@@ -56,9 +56,9 @@ class BorrowDirectRequestController < BorrowDirectController
     body = JSON.parse(response.body)
     if body.key?('RequestNumber')
       url = "https://#{APP_CONFIG["borrow_direct_host"]}/?LS=#{CGI.escape ENV["RELAIS_LIBRARY_SYMBOL"]}&PI=#{CGI.escape barcode}"
-      flash[:bd_success] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' target='_blank'/>BorrowDirect</a>".html_safe
+      flash[:bd_success] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' class='bd-direct-link' target='_blank'>BorrowDirect</a>".html_safe
     else
-      flash[:bd_error] = 'There was an error creating your request'
+      flash[:bd_error] = "There was an error creating your request. Try visiting <a href='#{link_to_borrow_direct_search(@document)}' class='bd-direct-link' target='_blank'>BorrowDirect</a> to request this item.".html_safe
     end
 
     redirect_to :controller => 'catalog', :action => 'show', :id => @document[:id]
