@@ -52,7 +52,7 @@ class BorrowDirectRequestController < BorrowDirectController
                  "Content-Type" => "application/json")
 
     body = JSON.parse(response.body)
-
+    @message = body
     if body.key?('RequestNumber')
       @message = { "status": true, "RequestNumber": body['RequestNumber']}
     else
