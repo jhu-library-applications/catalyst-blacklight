@@ -56,7 +56,7 @@ class BorrowDirectRequestController < BorrowDirectController
     body = JSON.parse(response.body)
     if body.key?('RequestNumber')
       url = "https://#{APP_CONFIG["borrow_direct_host"]}/?LS=#{CGI.escape ENV["RELAIS_LIBRARY_SYMBOL"]}&PI=#{CGI.escape barcode}"
-      flash[:bd_success] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' target='_blank'/>BorrowDirect</a>"
+      flash[:bd_success] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' target='_blank'/>BorrowDirect</a>".html_safe
     else
       flash[:bd_error] = 'There was an error creating your request'
     end
