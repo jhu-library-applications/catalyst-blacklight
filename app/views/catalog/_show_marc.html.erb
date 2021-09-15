@@ -56,10 +56,18 @@
          data-format='<%= document['format'].to_json %>'
          data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
          data-umlaut-update="body">
-      Loading...
-      <script>
-          loadBorrowDirect()
-      </script>
+      <% if !flash.empty? %>
+        <% flash.each do |type, msg| %>
+          <div>
+            <%= msg %>
+          </div>
+        <% end %>
+      <% else %>
+        Loading...
+        <script>
+            loadBorrowDirect()
+        </script>
+      <% end %>
     </div>
   </div>
 

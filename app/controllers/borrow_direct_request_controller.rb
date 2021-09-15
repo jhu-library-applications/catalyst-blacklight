@@ -52,21 +52,15 @@ class BorrowDirectRequestController < BorrowDirectController
                  "Content-Type" => "application/json")
 
     body = JSON.parse(response.body)
-    @message = body
-    # if body.key?('RequestNumber')
-    #   @message = { "status": true, "RequestNumber": body['RequestNumber']}
-    # else
-    #   @message = {
-    #     "status": false ,
-    #     "code": body['Problem']['Code'],
-    #     "message": body['Problem']['Message']
-    #   }
-    # end
-
-    respond_to do |format|
-      format.html
-      render :partial => "borrow_direct_request/request_item", locals: {message: @message}
+    if body.key?('RequestNumber')
+      url = "https://#{APP_CONFIG["borrow_direct_host"]}/?LS=#{CGI.escape ENV["RELAIS_LIBRARY_SYMBOL"]}&PI=#{CGI.escape barcode}"
+      flash[:notice] = "Your request ##{body['RequestNumber']} has been submitted. To manage this request, please visit <a href='#{url}' target='_blank'/>BorrowDirect</a>"
+    else
+      flash[:error] = 'There was an error creating your request'
     end
+
+    redirect_back(fallback_location: '/')
+
   end
 
   protected

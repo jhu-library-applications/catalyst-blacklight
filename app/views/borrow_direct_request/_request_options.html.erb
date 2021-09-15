@@ -4,15 +4,21 @@
   <form action="/borrow_direct_request/request_item/<%= @document[:id] %>"
         method="POST"
   >
-    <select name="pickup_location" class="form-control" required>
-      <option>Please choose a delivery location</option>
-      <% @locations.each do |location| %>
-        <option value="<%= location['PickupLocationCode'] %>"><%= location['PickupLocationDescription'] %></option>
-      <% end %>
-    </select>
-    <button class="btn btn-primary btn-sm">
-      Submit
-    </button>
+    <div class="row">
+      <div class="col-sm-2">
+        <select name="pickup_location" class="form-control" required>
+          <option>Please choose a delivery location</option>
+          <% @locations.each do |location| %>
+            <option value="<%= location['PickupLocationCode'] %>"><%= location['PickupLocationDescription'] %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="col-sm-1">
+        <button class="btn btn-primary btn-sm">
+          Submit
+        </button>
+      </div>
+    </div>
   </form>
 
 <% else %>
