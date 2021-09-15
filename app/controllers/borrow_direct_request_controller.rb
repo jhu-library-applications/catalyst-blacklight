@@ -47,7 +47,7 @@ class BorrowDirectRequestController < BorrowDirectController
       "PickupLocation": params[:pickup_location]
     }
 
-    response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/dws/item/add?aid=" + authenticate,
+    response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/dws/item/add?aid=" + authenticate(barcode),
                  query.to_json,
                  "Content-Type" => "application/json")
 
