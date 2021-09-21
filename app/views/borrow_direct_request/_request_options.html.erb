@@ -1,6 +1,14 @@
 <% # Request Form %>
 
 <% if @available %>
+  <div class="row">
+    <div class="col-12">
+      <h4 class="font-weight-bold mb-2"><small>BorrowDirect</small></h4>
+      <p>
+        Items requested from our BorrowDirect partner libraries are usually delivered in 6-9 days. Checkout period is 16 weeks, with no renewals.
+      </p>
+    </div>
+  </div>
   <form action="/borrow_direct_request/request_item/<%= @document[:id] %>"
         method="POST"
         class="form-inline"
