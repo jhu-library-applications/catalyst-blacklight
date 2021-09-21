@@ -80,6 +80,7 @@ class DetailPageTest < ApplicationSystemTestCase
 
     # Check modal for email form
     click_link "Email"
+    sleep(2)
     assert page.has_selector?("#blacklight-modal.modal.show")
     within("#blacklight-modal.modal.show") do
       assert page.has_text?("Email")

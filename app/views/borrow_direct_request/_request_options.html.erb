@@ -19,10 +19,27 @@
 
 <% else %>
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-12">
+        <h4 class="font-weight-bold mb-2"><small>BorrowDirect</small></h4>
+        <p class="mb-0">
+          Items requested from our BorrowDirect partner libraries are usually delivered in 6-9 days. Checkout period is 16 weeks, with no renewals.
+        </p>
+        <p>
+          BorrowDirect is the best option for borrowing an item that is not available at Hopkins.
+        </p>
         <%= link_to_borrow_direct_search(@document) %>
       </div>
-      <div class="col-sm-8">
+      <div class="col-12">
+        <hr class="mt-3 mb-2" />
+      </div>
+      <div class="col-12">
+        <h4 class="font-weight-bold mb-2"><small>Interlibrary Loan</small></h4>
+        <p class="mb-0">
+          Items requested via standard interlibrary loan can take several weeks to deliver. Checkout periods and renewals vary depending on the lending library.
+        </p>
+        <p>
+          Interlibrary loan is a good option for items that are not available from Hopkins or BorrowDirect.
+        </p>
         <%= link_to "Request via Interlibrary Loan", ENV['ILLIAD_URL'] + '?Action=10&Form=30&' + @document.export_as_openurl_ctx_kev, :class => "btn btn-primary btn-sm", :target => "_blank" %>
       </div>
     </div>
