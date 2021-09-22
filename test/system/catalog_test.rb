@@ -88,7 +88,7 @@ class CatalogTest < ApplicationSystemTestCase
   # Scenario: An archives special collection record should not display the borrow direct box
   def test_borrow_direct_box
     visit '/catalog/bib_1929587'
-    assert page.has_no_content?("Request a copy from BorrowDirect")
+    assert page.has_no_content?("Request from another library")
   end
 
   # LAG-1242

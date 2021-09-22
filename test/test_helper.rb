@@ -49,6 +49,12 @@ class ActiveSupport::TestCase
     )
   end
 
+  def relais_request_unavailable_stub
+    stub_request(:post, /.*available.*/).to_return(
+      status: 200, body: File.read(Rails.root.join('test/fixtures/files/relais/bib_8435478.json')), headers: {}
+    )
+  end
+
   def load_bib_json(bib_id)
     JSON.parse(
       File.read(
@@ -66,4 +72,5 @@ class ActiveSupport::TestCase
       pin: Rails.application.credentials.testing[:pin]
     }
   end
+
 end
