@@ -1,10 +1,11 @@
 <div class="reserves-index container">
   <div class="row">
-    <div class="col-md-3">
-      <%= render(:partial => "electronic_note") %>
-    </div>
 
-    <div class="col-md-9 reserves">
+    <% content_for :sidebar do %>
+      <%= render(:partial => "electronic_note") %>
+    <% end %>
+
+    <div class="col-md-12 reserves">
       <h1 class="reserves-title">
         <%= link_to "Reserves", :action => :index %>
       </h1>

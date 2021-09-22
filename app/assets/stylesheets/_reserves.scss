@@ -37,3 +37,7 @@
   display: inline-block;
   vertical-align: top;
 }
+
+.reserves .course:not(:last-child) {
+  border-bottom: 1px dotted #dee2e6;
+}
