@@ -1,5 +1,5 @@
 <div id="documents" class="noresults">
-  <div class="row">
+  <div class="row pt-4">
     <div class="col-12">
       <h3>Search refinement tips:</h3>
       <ul>
@@ -14,11 +14,12 @@
       </ul>
     </div>
   </div>
-  <div class="row">
+  <hr />
+  <div class="row pt-4">
     <div class="col-12 col-md-6">
       <h3>Looking for a book or other physical item?</h3>
       <p>
-
+        <%= link_to_borrow_direct_from_search(params) %>
       </p>
       <p>
         Request books and other items from partner libraries. JHED ID required.
@@ -30,14 +31,15 @@
     <div class="col-12 col-md-6">
       <h3>Looking for an article?</h3>
       <p>
-
+        <%= link_to "Search Articles", search_url_context(:controller => "articles", :action => "index"), :class => "btn btn-primary btn-sm" %>
       </p>
       <p>
         Select a database from the drop-down and click "Search" to go to results.
       </p>
     </div>
   </div>
-  <div class="row">
+  <hr />
+  <div class="row pt-4">
     <div class="col-12">
       <h3>Ask a Librarian</h3>
       <p>
