@@ -1,0 +1,48 @@
+<div id="documents" class="noresults">
+  <div class="row">
+    <div class="col-12">
+      <h3>Search refinement tips:</h3>
+      <ul>
+        <li><%= t 'blacklight.search.zero_results.use_fewer_keywords' %></li>
+
+        <%- if params[:q] and params[:search_field] and params[:search_field] != blacklight_config.default_search_field.try(:key) -%>
+          <li><%= t 'blacklight.search.zero_results.search_fields', :search_fields => search_field_label(params) %> -
+            <%= link_to t('blacklight.search.zero_results.search_everything', field: blacklight_config.default_search_field.label), url_for(search_state.params_for_search(search_field: blacklight_config.default_search_field.key)) %>
+          </li>
+        <%- end %>
+
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <h3>Looking for a book or other physical item?</h3>
+      <p>
+
+      </p>
+      <p>
+        Request books and other items from partner libraries. JHED ID required.
+      </p>
+      <p>
+        If you are looking for a specific item and it's not in Catalyst, BorrowDirect is the best place to look next.
+      </p>
+    </div>
+    <div class="col-12 col-md-6">
+      <h3>Looking for an article?</h3>
+      <p>
+
+      </p>
+      <p>
+        Select a database from the drop-down and click "Search" to go to results.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h3>Ask a Librarian</h3>
+      <p>
+        Sometimes JH Libraries won't have an item you need in the catalog, but we can get just about anything for you. Contact a librarian at <a href="mailto:asklib@jhu.edu">asklib@jhu.edu</a>
+      </p>
+    </div>
+  </div>
+</div>
