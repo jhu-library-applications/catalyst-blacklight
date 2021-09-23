@@ -4,6 +4,8 @@ en:
     search:
       facets:
         title: Refine your search
+      pagination_info:
+        no_items_found: No results found
     tools:
       refworks: Export to RefWorks
       endnote: Export to EndNote
