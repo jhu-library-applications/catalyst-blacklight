@@ -25,11 +25,13 @@
   </div>
 </div>
 
-<div class="pagination well">
+<div id="sortAndPerPage" class="pagination well">
   <%= render :partial => 'paginate_compact', :object => @courses %>
 </div>
 
-<p><%= render :partial => "course", :collection=>@courses  %></p>
+<div>
+  <%= render :partial => "course", :collection=>@courses  %>
+</div>
 
 <div class="pagination">
   <% # will_paginate is called oddly because we want next/prev together

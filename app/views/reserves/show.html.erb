@@ -1,11 +1,11 @@
 <div class="reserves-show container">
   <div class="row">
 
-    <div class="col-md-3">
+    <% content_for :sidebar do %>
       <%= render(:partial => "electronic_note") %>
-    </div>
+    <% end %>
 
-    <div class="reserves col-md-9">
+    <div class="reserves col-md-12">
       <h1 class="reserves-title"><%= link_to "Reserves", :action => :index %></h1>
 
       <div class="reserves-show-course-header well">        

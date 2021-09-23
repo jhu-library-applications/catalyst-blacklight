@@ -250,6 +250,30 @@ module LocalCatalogHelper
     link_to "Check BorrowDirect", borrow_direct_search_url(document), :class => "btn btn-primary btn-sm", :target => "_blank"
   end
 
+  def link_to_borrow_direct_from_search(params)
+    query = Hash.new
+    if params.has_key?(:search_field) and params[:search_field] == 'title'
+      query[:title] = params[:q]
+    end
+    if params.has_key?(:search_field) and params[:search_field] == 'author'
+      query[:author] = params[:q]
+    end
+    if params.has_key?(:search_field) and params[:search_field] == 'all_fields'
+      query[:keyword] = params[:q]
+    end
+    if params.has_key?(:search_field) and params[:search_field] == 'subject'
+      query[:keyword] = params[:q]
+    end
+    if params.has_key?(:search_field) and params[:search_field] == 'advanced'
+      query[:keyword] = params[:all_fields]
+      query[:author] = params[:author]
+      query[:title] = params[:title]
+    end
+    url = BorrowDirect::GenerateQuery.new( borrow_direct_url ).query_url_with(query)
+
+    link_to "Check BorrowDirect", url, :class => "btn btn-primary btn-sm", :target => "_blank"
+  end
+
   # HELP-18811 Citation missing imprint from marc 264 field
   # Patch the marc so that if 260 is empty and 264 is present, the field in 264 would be copied to 260
   # Must return a SolrDocument for citation method calls
@@ -322,6 +346,14 @@ module LocalCatalogHelper
                                                      total_num: number_with_delimiter(collection.total_count),
                                                      count: collection.total_pages).html_safe
     end
+  end
+
+  def show_borrow_direct_suggestion(params)
+    ['all_fields', 'author', 'title', 'subject'].include?(params[:search_field])
+  end
+
+  def show_article_search_suggestion(params)
+    ['all_fields', 'author', 'title', 'journal', 'subject'].include?(params[:search_field])
   end
 
   def book_cover(isbns)
