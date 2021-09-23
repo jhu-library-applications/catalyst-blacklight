@@ -23,9 +23,9 @@
       <div class="action-container col-sm-4">
         <% # Holdings %>
         <% if Flipper[:curbside_mode].enabled? %>
-          <%= render partial: 'holding_expandable_curbside_request', locals: { document: document, document_id: document[:id], holding: holding } %>
+          <%= render partial: 'holding_expandable_curbside_request', locals: { document: document, document_id: document_id, holding: holding } %>
         <% else %>
-          <%= render partial: 'holding_expandable_default_request', locals: { document: document, document_id: document[:id], holding: holding } %>
+          <%= render partial: 'holding_expandable_default_request', locals: { document: document, document_id: document_id, holding: holding } %>
         <% end %>
       </div>
     </div>
