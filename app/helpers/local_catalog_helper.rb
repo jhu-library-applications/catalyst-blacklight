@@ -261,6 +261,9 @@ module LocalCatalogHelper
     if params.has_key?(:search_field) and params[:search_field] == 'all_fields'
       query[:keyword] = params[:q]
     end
+    if params.has_key?(:search_field) and params[:search_field] == 'subject'
+      query[:keyword] = params[:q]
+    end
     if params.has_key?(:search_field) and params[:search_field] == 'advanced'
       query[:keyword] = params[:all_fields]
       query[:author] = params[:author]
@@ -343,6 +346,14 @@ module LocalCatalogHelper
                                                      total_num: number_with_delimiter(collection.total_count),
                                                      count: collection.total_pages).html_safe
     end
+  end
+
+  def show_borrow_direct_suggestion(params)
+    ['all_fields', 'author', 'title', 'subject'].include?(params[:search_field])
+  end
+
+  def show_article_search_suggestion(params)
+    ['all_fields', 'author', 'title', 'journal', 'subject'].include?(params[:search_field])
   end
 
   def book_cover(isbns)
