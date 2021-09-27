@@ -29,6 +29,10 @@
         <p>
           If you are looking for a specific item and it's not in Catalyst, BorrowDirect is the best place to look next.
         </p>
+        <p>
+          If the specific item you are looking for is not available via Borrow Direct, you can place an interlibrary loan request for it.
+        </p>
+        <%= link_to "Place Interlibrary Loan Request", ENV['ILLIAD_URL'], :class => "btn btn-primary btn-sm", :target => "_blank" %>
       </div>
     <% end %>
     <% if show_article_search_suggestion(params) %>
