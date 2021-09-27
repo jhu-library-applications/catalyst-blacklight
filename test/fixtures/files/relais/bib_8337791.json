@@ -1,0 +1,55 @@
+{
+  "Available": true,
+  "RequestLink": {
+    "ButtonLink": "AddRequest",
+    "ButtonLabel": "Request",
+    "RequestMessage": "Request this item"
+  },
+  "OrigNumberOfRecords": 3,
+  "PickupLocation": [
+    {
+      "PickupLocationCode": "E",
+      "PickupLocationDescription": "*Milton S. Eisenhower Library"
+    },
+    {
+      "PickupLocationCode": "H",
+      "PickupLocationDescription": "APL - EP STUDENTS - Ed Center"
+    },
+    {
+      "PickupLocationCode": "I",
+      "PickupLocationDescription": "APL STAFF - Room 5-17"
+    },
+    {
+      "PickupLocationCode": "A",
+      "PickupLocationDescription": "Arthur Friedheim Library"
+    },
+    {
+      "PickupLocationCode": "P",
+      "PickupLocationDescription": "JH Medical Campus Office (faculty and staff)"
+    },
+    {
+      "PickupLocationCode": "N",
+      "PickupLocationDescription": "JHMI Pickup - BSPH E4643"
+    },
+    {
+      "PickupLocationCode": "M",
+      "PickupLocationDescription": "JHMI Pickup - Hampton House 9th floor"
+    },
+    {
+      "PickupLocationCode": "O",
+      "PickupLocationDescription": "JHMI Pickup - School of Nursing 313"
+    },
+    {
+      "PickupLocationCode": "J",
+      "PickupLocationDescription": "SAIS Library"
+    },
+    {
+      "PickupLocationCode": "S",
+      "PickupLocationDescription": "Welch Medical Library"
+    },
+    {
+      "PickupLocationCode": "T",
+      "PickupLocationDescription": "Wilmer Friedenwald Library"
+    }
+  ]
+}

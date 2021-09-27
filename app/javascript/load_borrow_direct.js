@@ -56,6 +56,10 @@ const fetchExternalLinks = (entry) => {
                     entry.target.innerHTML = originalText
                 }
             }
+        ).catch(
+            error => {
+                entry.target.parentNode.classList.add('hidden')
+            }
         )
 }
 
