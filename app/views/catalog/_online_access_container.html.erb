@@ -6,7 +6,7 @@
       <% end %>
   </div>
 <% else %>
-  <div class="online-access-container" data-format=<%= document['format'].to_json %> data-remote-url="/online-access/show?<%= document.export_as_openurl_ctx_kev %>" data-umlaut-update="body">
+  <div class="online-access-container" data-publisher="<%= document.to_marc.try(:[], '264').try(:[], 'b') %>" data-format=<%= document['format'].to_json %> data-remote-url="/online-access/show?<%= document.export_as_openurl_ctx_kev %>" data-umlaut-update="body">
     <% links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first) %>
       <%  if links_presenter.lines.present? %>
         <%= render :partial => "marc_display/presenter_content", :locals => {:presenter => links_presenter } if links_presenter.should_display? %>

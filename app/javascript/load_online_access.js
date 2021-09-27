@@ -30,10 +30,18 @@ export const loadOnlineAccess = () => {
 }
 
 const shouldFetch = (entry) => {
+  console.log(entry.target);
   return entry.target.textContent.length > 0 && 
     isFormat(entry, 'Journal/Newspaper') || 
-    (isFormat(entry, 'Online') && isFormat(entry, 'Book')) ||
+    // Only look for Online Books in SFX if the publisher is Springer
+    (isFormat(entry, 'Online') && isFormat(entry, 'Book') && isSpringerBook(entry)) ||
     (isFormat(entry, 'Print') && isFormat(entry, 'Book'))
+}
+
+const isSpringerBook = (entry) => { 
+  var entryPublisher = entry.target.getAttribute('data-publisher')
+  console.log(entryPublisher.includes('Springer'))
+  return entryPublisher.includes('Springer')
 }
 
 const isFormat = (entry, format) => { 
@@ -47,6 +55,7 @@ const fetchExternalLinks = (entry) => {
 
   showLoadingIndicator(entry)
   fetch(entry.target.getAttribute('data-remote-url'))
+    .then(errorHandler)
     .then(response => response.text())
     .then(
       data => {
@@ -59,7 +68,14 @@ const fetchExternalLinks = (entry) => {
             entry.target.innerHTML = originalText
         }
       }
-    )
+    ).catch((error) => {
+      hideLoadingIndicator(entry)
+      if (originalText) {
+        entry.target.innerHTML = originalText
+      } else {
+        entry.target.innerHTML = response
+      }
+    })
 }
 
 const hideLoadingIndicator = (entry) => {
@@ -71,4 +87,12 @@ const showLoadingIndicator = (entry) => {
     <span class="sr-only">Loading Online Access links</span>
   </div>
   `
+}
+
+const errorHandler = (response) => {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+
+  return response;
 }

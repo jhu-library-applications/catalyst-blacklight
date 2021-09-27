@@ -112,7 +112,9 @@ class CatalogTest < ApplicationSystemTestCase
     visit '/catalog/bib_305929'
     first('div.holding-visible').click
     first('a.item-children-link').click
-    first('a.request').click
+    within('div.holdings-drill-down') do
+      first('a.request').click
+    end 
     assert page.has_no_content?('Network Error')
     assert page.has_content?('Login')
   end
