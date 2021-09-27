@@ -17,20 +17,12 @@ export const loadBorrowDirect = () => {
                 return true
 
             if (entry.isIntersecting) {
-                if (shouldFetch(entry)) {
-                    fetchExternalLinks(entry)
-                }
+                fetchExternalLinks(entry)
             }
 
             entry.target.setAttribute('data-processed', true)
         })
     }
-}
-
-const shouldFetch = (entry) => {
-    return entry.target.textContent.length > 0
-        && ! isFormat(entry, 'Journal/Newspaper')
-        && ! isFormat(entry, 'Dissertation/Thesis')
 }
 
 const isFormat = (entry, format) => {
