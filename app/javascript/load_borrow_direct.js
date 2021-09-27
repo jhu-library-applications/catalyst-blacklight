@@ -28,9 +28,9 @@ export const loadBorrowDirect = () => {
 }
 
 const shouldFetch = (entry) => {
-    return entry.target.textContent.length > 0 &&
-        (isFormat(entry, 'Online') && isFormat(entry, 'Book')) ||
-        (isFormat(entry, 'Print') && isFormat(entry, 'Book'))
+    return entry.target.textContent.length > 0
+        && ! isFormat(entry, 'Journal/Newspaper')
+        && ! isFormat(entry, 'Dissertation/Thesis')
 }
 
 const isFormat = (entry, format) => {
