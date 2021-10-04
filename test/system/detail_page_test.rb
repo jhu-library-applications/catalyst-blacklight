@@ -8,15 +8,16 @@ class DetailPageTest < ApplicationSystemTestCase
     assert page.has_selector?("main#main-container")
     assert page.has_selector?("section.show-document")
     assert page.has_selector?("div#doc_bib_8435478")
-    assert page.has_selector?("div.cover-container")
+    # This needs to be replaced with a service that 
+    # does not rely on Find It
+    assert page.has_no_selector?("div.cover-image-container")
+    assert page.has_no_selector?("div.umlaut")
     assert page.has_selector?("span.show-marc-types")
     assert page.has_selector?("span.show-marc-languages")
     assert page.has_selector?("h1.show-marc-heading-title")
     assert page.has_selector?("span.show-marc-subtitle")
     assert page.has_selector?("span.stmt-resp")
-    assert page.has_selector?("span.stmt-resp")
     assert page.has_selector?("div.links")
-    assert page.has_selector?("div.umlaut")
     # assert page.has_selector?("ul.holdings")
     assert page.has_selector?("dl.dl-marc-display")
     assert page.has_selector?('.unapi-id', visible: false)
@@ -50,15 +51,17 @@ class DetailPageTest < ApplicationSystemTestCase
     assert page.has_content?("Cite")
   end
 
-  def test_umlaut_includes
+  def test_removal_of_umlaut_includes
     visit '/catalog/bib_8039975'
-    sleep(4) # Let Umlaut run
+
+    # Cover image
+    assert page.has_no_selector?(".umlaut_section_content > img.cover_image")
 
     # Excerpts
-    assert page.has_selector?(".umlaut.excerpts")
+    assert page.has_no_selector?(".umlaut.excerpts")
 
     # Search inside
-    assert page.has_selector?(".umlaut.search_inside")
+    assert page.has_no_selector?(".umlaut.search_inside")
   end
 
   def test_tools_email
