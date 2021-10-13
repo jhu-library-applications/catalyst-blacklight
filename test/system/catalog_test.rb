@@ -9,8 +9,6 @@ class CatalogTest < ApplicationSystemTestCase
   def test_search
     visit '/catalog?q=film'
     assert page.has_content?("Refine your search")
-    assert page.has_content?("You searched for")
-    assert page.has_link?("Start Over")
   end
 
   # HELP-18811
