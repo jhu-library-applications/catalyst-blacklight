@@ -1,5 +1,5 @@
 <% content_for(:content) do %>
-  <section class="<%= show_content_classes %> order-last">
+  <section class="<%= show_content_classes %> <% if request.path == '/reserves' %> order-last <% end %>">
     <%= yield %>
   </section>
 
