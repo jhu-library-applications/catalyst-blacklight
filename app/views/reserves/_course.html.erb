@@ -3,7 +3,7 @@
   <%= render partial: 'reserves_curbside' %>
 <% end %>
 
-<div class="course">
+<div class="course py-3">
 
     <h3 class="name" title="name"><%= link_to course.name, {:action => "show", :id => course.course_id} %></h3>
     <div class="instructors" title="instructor"><%= course.instructors.collect {|i| i.instructor_str}.join(", ") %></div>        
@@ -11,5 +11,5 @@
     <% unless course.comment.blank? %>
       <div class="comment" title="notes"><%= link_urls(course.comment) %></div>
     <% end %>
-  </ul>
+
 </div>

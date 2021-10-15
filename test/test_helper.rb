@@ -49,6 +49,11 @@ class ActiveSupport::TestCase
     )
   end
 
+  def hathi_stub
+    stub_request(:get, "https://catalog.hathitrust.org/api/volumes/brief//oclc/1.json").to_return(
+      status: 200, body: File.read(Rails.root.join('test/fixtures/files/hathi_response.json')), headers: {})
+  end
+
   def load_bib_json(bib_id)
     JSON.parse(
       File.read(
