@@ -12,4 +12,8 @@ every :day, at: '2:00am' do
    rake 'nightly_cleanup'
 end
 
+every :hour do
+   rake 'purge_guest_users'
+end
+
 # Learn more: http://github.com/javan/whenever
