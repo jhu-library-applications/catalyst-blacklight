@@ -16,7 +16,7 @@ gem 'puma', '~> 4.3'
 
 # Blacklight fixed to 7.0.1, change manually when you want to update
 # blacklight.
-gem 'blacklight', "= 7.11.1" #, :path => "../blacklight"
+gem 'blacklight', "= 7.19.0" #, :path => "../blacklight"
 gem 'blacklight-marc', '= 7.0' # , :path => "../blacklight-marc"
 gem 'rsolr', '~> 2.0'
 
@@ -31,7 +31,7 @@ gem 'marc', ">= 0.5.0"
 gem 'marc_display', :path => "./marc_display"
 
 gem "blacklight_range_limit", "~> 7.0"
-gem "blacklight_advanced_search", "~> 7.0" #,  :path => "../blacklight_advanced_search"
+gem "blacklight_advanced_search", git: 'https://github.com/projectblacklight/blacklight_advanced_search', branch: 'master' #,  :path => "../blacklight_advanced_search"
 gem 'blacklight_unapi', :git => 'https://github.com/cul-it/blacklight-unapi', :branch => 'BL7-upgrade'
 
 #gem "stackview_acorn_tester"
