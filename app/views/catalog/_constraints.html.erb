@@ -2,8 +2,14 @@
   <div id="appliedParams" class="clearfix constraints-container">
     <h2 class="sr-only"><%= t('blacklight.search.search_constraints_header') %></h2>
 
-    <%= link_to_search_query(params) %>
     <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
-    <%= render_filters(controller.params != params ? params : search_state) %>
+
+    <% if advanced_search? %>
+      <%= render 'start_over' %>
+      <%= render_constraints(controller.params != params ? params : search_state) %>
+    <% else %>
+      <%= link_to_search_query(params) %>
+      <%= render_filters(controller.params != params ? params : search_state) %>
+    <% end %>
   </div>
 <% end %>
