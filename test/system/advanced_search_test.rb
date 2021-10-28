@@ -74,4 +74,21 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
       assert page.has_text?("Stemming disabled")
     end
   end
+
+  def test_has_remove_selections_button
+    visit "/advanced"
+
+    # Form
+    within('form.advanced') do
+      fill_in 'all_fields', with: 'records'
+      first('input[type="submit"]').click
+    end
+
+    click_on('At the Library')
+
+    # Results
+    assert page.has_selector?('span[title="records"]')
+    assert page.has_selector?('span[title="At the Library"]')
+    assert page.has_link?("Start Over")
+  end
 end
