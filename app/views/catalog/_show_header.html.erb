@@ -1,75 +1,78 @@
 
 <div class="show-marc-heading">
-  <%# filled in from Umlaut via JS sometimes %>
-  <div class="cover-image-container"></div>
-
-  <%- types = heading_type_str(document)
-      languages = heading_language_str(document)
-      if types.present? || languages.present? -%>
-
-    <div class="show-marc-pre-head text-muted">
-      <% if types.present? %>
-
-        <span class="show-marc-types"><%= types -%></span>
-      <% end %>
-      <% if languages.present? %>
-        <span class="show-marc-languages">in <%= languages %>
-      <% end %>
+  <div class="row">
+    <div class="col-md-2 cover-container">
+      <img src="/bookcover?bib=<%= document['id'] %>" />
     </div>
-  <%- end -%>
+    <div class="col-md-10">
+      <%- types = heading_type_str(document)
+          languages = heading_language_str(document)
+          if types.present? || languages.present? -%>
+
+        <div class="show-marc-pre-head text-muted">
+          <% if types.present? %>
+
+            <span class="show-marc-types"><%= types -%></span>
+          <% end %>
+          <% if languages.present? %>
+        <span class="show-marc-languages">in <%= languages %>
+          <% end %>
+        </div>
+      <%- end -%>
 
 
-  <h1 class="show-marc-heading-title"><%= heading_title(document) -%><%- if subtitle_line = heading_subtitle(document) -%>: <span class="show-marc-subtitle"><%= subtitle_line %></span>
-    <% end %>
-  </h1>
+      <h1 class="show-marc-heading-title"><%= heading_title(document) -%><%- if subtitle_line = heading_subtitle(document) -%>: <span class="show-marc-subtitle"><%= subtitle_line %></span>
+        <% end %>
+      </h1>
 
 
-  <%  stmt_resp = heading_stmt_resp(document)
-        main_entry = heading_main_entry(document)
-        #pub_date = heading_pub_date_str(document)
+      <%  stmt_resp = heading_stmt_resp(document)
+          main_entry = heading_main_entry(document)
+          #pub_date = heading_pub_date_str(document)
 
-      if (stmt_resp.present? || main_entry.present?) %>
-      <div class="show-marc-key-details">
-        <% if stmt_resp.present? %>
-          <span class="stmt-resp"><%= stmt_resp %></span>
-        <% elsif main_entry  %>
-         <span class="main-entry"><%= main_entry %></span>
+          if (stmt_resp.present? || main_entry.present?) %>
+        <div class="show-marc-key-details">
+          <% if stmt_resp.present? %>
+            <span class="stmt-resp"><%= stmt_resp %></span>
+          <% elsif main_entry  %>
+            <span class="main-entry"><%= main_entry %></span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- linked 880 non-roman versions of titles and authors-->
+      <% linked_titles = heading_linked_titles(document)
+         linked_stmt_resps = heading_linked_stmt_resp(document) %>
+
+      <% if linked_titles.length > 0 || linked_stmt_resps.length > 0 %>
+        <div class="alternate-languages offset-2">
+          <%  if linked_titles.length > 0 %>
+            <ul class="alternate-titles list-unstyled">
+              <% heading_linked_titles(document).each do |linked_title| %>
+                <li><%= linked_title %></li>
+              <% end %>
+            </ul>
+          <% end %>
+
+          <% if linked_stmt_resps.length > 0  %>
+            <ul class="alternate-authors list-unstyled">
+              <% linked_stmt_resps.each do |stmt| %>
+                <li><%= stmt %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      <%end%>
+
+
+      <%# format, published, edition %>
+      <div class="marc-show-extra-head">
+        <% MarcDisplay.suggested_header_presenter_config_list.each do |config|
+          presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, config)
+        %>
+          <%= render :partial => "marc_display/presenter_content", :locals => {:presenter => presenter } %>
         <% end %>
       </div>
-   <% end %>
-
-  <!-- linked 880 non-roman versions of titles and authors-->
-  <% linked_titles = heading_linked_titles(document)
-     linked_stmt_resps = heading_linked_stmt_resp(document) %>
-
-   <% if linked_titles.length > 0 || linked_stmt_resps.length > 0 %>
-   <div class="alternate-languages offset-2">  
-    <%  if linked_titles.length > 0 %>
-      <ul class="alternate-titles list-unstyled">
-        <% heading_linked_titles(document).each do |linked_title| %>
-          <li><%= linked_title %></li>
-        <% end %>
-      </ul>
-    <% end %>
-
-    <% if linked_stmt_resps.length > 0  %>
-      <ul class="alternate-authors list-unstyled">
-        <% linked_stmt_resps.each do |stmt| %>
-          <li><%= stmt %></li>
-        <% end %>
-      </ul>
-    <% end %>
+    </div>
   </div>
-  <%end%>
-
-
-  <%# format, published, edition %>
-  <div class="marc-show-extra-head">
-    <% MarcDisplay.suggested_header_presenter_config_list.each do |config|
-         presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, config)
-    %>
-      <%= render :partial => "marc_display/presenter_content", :locals => {:presenter => presenter } %>
-    <% end %>
-  </div>
-
 </div>

@@ -1,11 +1,34 @@
 
 <div class="search-results-item">
-    <% (stmt_resp = heading_stmt_resp(document, :truncate => true))
-       (main_entry = heading_main_entry(document))
-       (pub_date = heading_pub_date_str(document))
+  <div class="row">
+    <div class="col-md-2 cover-container">
+      <img src="/bookcover?bib=<%= document['id'] %>" alt=""/>
+    </div>
+    <div class="col-md-10">
+      <% # header bar for doc items in index view -%>
+      <div class="documentHeader row">
 
-    if stmt_resp || main_entry || pub_date %>
-      <div class="results-item-key-details">
+        <%# main title container for doc partial view
+            How many bootstrap columns need to be reserved
+            for bookmarks control depends on size.
+        -%>
+        <div class="col-sm-9 col-lg-10 item-heading-column">
+          <h3 class="index_title">
+            <% counter = document_counter_with_offset(@response.start) %>
+            <%= jhu_link_to_document document, document['title_display'], :counter => counter %>
+          </h3>
+        </div>
+
+        <% # bookmark functions for items/docs -%>
+        <%= render_index_doc_actions document, :wrapping_class => "index-document-functions col-sm-3 col-lg-2" %>
+      </div>
+
+      <% (stmt_resp = heading_stmt_resp(document, :truncate => true))
+         (main_entry = heading_main_entry(document))
+         (pub_date = heading_pub_date_str(document))
+
+         if stmt_resp || main_entry || pub_date %>
+        <div class="results-item-key-details">
           <% if first_author = (stmt_resp || main_entry) %>
             <span class="first-author"><%= first_author %></span>
           <% end %>
@@ -17,50 +40,50 @@
           <% end %>
 
           <% if stmt_resp && main_entry  %>
-             <p class="second-author"><%= main_entry %></p>
+            <p class="second-author"><%= main_entry %></p>
           <% end %>
 
-      </div>
-    <% end %>
-
-
-   <!-- linked 880 non-roman versions of titles and authors-->
-    <% linked_titles = heading_linked_titles(document)
-       linked_stmt_resps = heading_linked_stmt_resp(document) %>
-
-    <% if linked_titles.present? || linked_stmt_resps.present? %>
-      <div class="alternate_language results-item-section offset-2">
-        <%  if linked_titles.present? %>
-          <ul class="alternate-titles list-unstyled results-item-line">
-            <% heading_linked_titles(document).each do |linked_title| %>
-              <li><%= linked_title %></li>
-            <% end %>
-          </ul>
-        <% end %>
-
-        <% if linked_stmt_resps.present?  %>
-          <ul class="alternate-authors list-unstyled results-item-line">
-            <% linked_stmt_resps.each do |stmt| %>
-              <li><%= stmt %></li>
-            <% end %>
-          </ul>
-        <% end %>
-      </div>
-    <% end %>
-
-
-
-    <div class="about results-item-section">
-      <% # only first 3 subject lines are shown!
-         if subject_lines = all_subject_lines(document) %>
-        <ul class="subjects list-inline results-item-line">
-          <% subject_lines[0..2].each do |line| %>
-            <li class="list-inline-item"><%= render_marc_line(line) %></li>
-          <% end %>
-          <% if subject_lines.length > 4 %><li>&#8230;</li><% end %>
-        </ul>
+        </div>
       <% end %>
-    </div>
+
+
+      <!-- linked 880 non-roman versions of titles and authors-->
+      <% linked_titles = heading_linked_titles(document)
+         linked_stmt_resps = heading_linked_stmt_resp(document) %>
+
+      <% if linked_titles.present? || linked_stmt_resps.present? %>
+        <div class="alternate_language results-item-section offset-2">
+          <%  if linked_titles.present? %>
+            <ul class="alternate-titles list-unstyled results-item-line">
+              <% heading_linked_titles(document).each do |linked_title| %>
+                <li><%= linked_title %></li>
+              <% end %>
+            </ul>
+          <% end %>
+
+          <% if linked_stmt_resps.present?  %>
+            <ul class="alternate-authors list-unstyled results-item-line">
+              <% linked_stmt_resps.each do |stmt| %>
+                <li><%= stmt %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      <% end %>
+
+
+
+      <div class="about results-item-section">
+        <% # only first 3 subject lines are shown!
+           if subject_lines = all_subject_lines(document) %>
+          <ul class="subjects list-inline results-item-line">
+            <% subject_lines[0..2].each do |line| %>
+              <li class="list-inline-item"><%= render_marc_line(line) %></li>
+            <% end %>
+            <% if subject_lines.length > 4 %><li>&#8230;</li><% end %>
+          </ul>
+        <% end %>
+      </div>
 
       <% if summary = shortened_summary(document)
       %>
@@ -78,22 +101,25 @@
       <% end %>
 
 
-    <%- # links, with find it link that will be enhanced by JS
-    links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first)
+      <%- # links, with find it link that will be enhanced by JS
+          links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first)
 
-    -%>
+      -%>
 
-    <% # Look for Other Verions %>
-    <% if( JHConfig.params[:umlaut_base_url] &&
+      <% # Look for Other Verions %>
+      <% if( JHConfig.params[:umlaut_base_url] &&
         document.export_formats.keys.include?(:openurl_ctx_kev)) && related_links_type(document) != :online %>
-      <% if !hathi_eta(document) %>
-        <div id="findit-wrapper">
-          <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}", {:class => "request btn btn-primary btn-sm"}  ) do %>
-            Look for Other Versions
-          <% end %>
-        </div>
+        <% if !hathi_eta(document) %>
+          <div id="findit-wrapper">
+            <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}", {:class => "request btn btn-primary btn-sm"}  ) do %>
+              Look for Other Versions
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
+  </div>
+
 
     <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
       <div class="links results-item-section card">

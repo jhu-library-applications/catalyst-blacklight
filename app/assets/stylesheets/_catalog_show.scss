@@ -17,6 +17,27 @@
     margin-top: ($line-height-computed / 2);
     margin-bottom: ($line-height-computed / 2);
   }
+
+  .cover-container {
+    text-align: center;
+    padding-bottom: 8px;
+
+    img {
+      height: auto;
+      width: 150px;
+    }
+  }
+
+  @media (min-width: $screen-md) {
+    .cover-container {
+      padding: 34px 0px 0px 20px;
+
+      img {
+        height: auto;
+        width: 100%;
+      }
+    }
+  }
 }
 
 .show-marc-pre-head {
