@@ -4,6 +4,10 @@
     </p>
 <% end %>
 
+<div class="cover-container">
+  <img src="/bookcover?bib=<%= document['id'] %>" alt=""/>
+</div>
+
 <%# I _think_ these are standard blacklight methods, not positive.  %>
 <h5 class="index_title">
     <%= link_to_document document, document_heading(document), :counter => 0 %>
