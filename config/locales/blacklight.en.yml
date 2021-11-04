@@ -5,7 +5,7 @@ en:
       facets:
         title: Refine your search
       pagination_info:
-        no_items_found: No results found
+        no_items_found: There are no results matching your search
     tools:
       refworks: Export to RefWorks
       endnote: Export to EndNote
