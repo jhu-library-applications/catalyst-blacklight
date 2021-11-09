@@ -5,7 +5,7 @@ en:
       facets:
         title: Refine your search
       pagination_info:
-        no_items_found: There are no results matching your search
+        no_items_found: Your search did not find any results
       remove_selections: Remove Selections
     tools:
       refworks: Export to RefWorks
