@@ -349,7 +349,7 @@ module LocalCatalogHelper
   end
 
   def show_borrow_direct_suggestion(params)
-    ['all_fields', 'author', 'title', 'subject'].include?(params[:search_field])
+    ['all_fields', 'author', 'title', 'subject', 'number', 'isbn'].include?(params[:search_field])
   end
 
   def show_article_search_suggestion(params)
