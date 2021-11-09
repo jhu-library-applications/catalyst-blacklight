@@ -372,8 +372,47 @@ module LocalCatalogHelper
   end
 
   def icon_cover(formats)
-    # TODO: Add additional format icons
-    '/1x1.gif'
+    if 'Blue-ray'.in?(formats)
+      '/formats/blue-ray.svg'
+    elsif 'Book'.in?(formats)
+      '/formats/book.svg'
+    elsif 'CD'.in?(formats)
+      '/formats/cd.svg'
+    elsif 'Conference'.in?(formats)
+      '/formats/conference.svg'
+    elsif 'DVD'.in?(formats)
+      '/formats/dvd.svg'
+    elsif 'Dissertation/Thesis	'.in?(formats)
+      '/formats/dissertation-thesis.svg'
+    elsif 'Image'.in?(formats)
+      '/formats/image.svg'
+    elsif 'Journal/Newspaper'.in?(formats)
+      '/formats/journal-newspaper.svg'
+    elsif 'LP'.in?(formats)
+      '/formats/lp.svg'
+    elsif 'manuscript-archive'.in?(formats)
+      '/formats/manuscript-archive.svg'
+    elsif 'Map/Globe'.in?(formats)
+      '/formats/map-globe.svg'
+    elsif 'Microform'.in?(formats)
+      '/formats/microform.svg'
+    elsif 'Musical Recording'.in?(formats)
+      '/formats/musical-recording.svg'
+    elsif 'Musical Score'.in?(formats)
+      '/formats/musical-score.svg'
+    elsif 'Non-musical Recording'.in?(formats)
+      '/formats/non-musical-recording.svg'
+    elsif 'Print'.in?(formats)
+      '/formats/print.svg'
+    elsif 'Software/Data'.in?(formats)
+      '/formats/software-data.svg'
+    elsif 'VHS'.in?(formats)
+      '/formats/vhs.svg'
+    elsif 'Video/Film'.in?(formats)
+      '/formats/video-film.svg'
+    else
+      '1x1.png'
+    end
   end
 
 end

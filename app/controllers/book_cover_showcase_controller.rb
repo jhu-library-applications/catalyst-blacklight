@@ -39,9 +39,7 @@ class BookCoverShowcaseController < CatalogController
     image = book_cover(isbns)
 
     if image.nil?
-      if params.has_key?('format')
-        formats = params['format'].split(',')
-      end
+      formats = params.has_key?('format') ? params['format'].split(',') : @document['format']
       image = icon_cover(formats)
     end
 
