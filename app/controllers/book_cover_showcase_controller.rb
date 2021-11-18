@@ -40,7 +40,8 @@ class BookCoverShowcaseController < CatalogController
 
     if image.nil?
       formats = params.has_key?('format') ? params['format'].split(',') : @document['format']
-      image = icon_cover(formats)
+      # image = icon_cover(formats)
+      image = '/1x1.gif'
     end
 
     redirect_to image

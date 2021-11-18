@@ -371,6 +371,14 @@ module LocalCatalogHelper
     end
   end
 
+  def cover_formats(document)
+    formats = ''
+    if document.has_key?('format') and document['format'].respond_to?('each')
+      formats = document['format'].map{|f| f.parameterize}.join(" ").downcase
+    end
+    formats
+  end
+
   def icon_cover(formats)
     if 'Blue-ray'.in?(formats)
       '/formats/blue-ray.svg'

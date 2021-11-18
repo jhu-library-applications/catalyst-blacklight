@@ -29,3 +29,72 @@ a {
   background-color: $jhuBlue !important;
   color: #FFFFFF !important;
 }
+
+.cover-container {
+  img {
+    background-repeat: no-repeat;
+    background-size: 75px 75px;
+    background-position: center;
+  }
+  img.blue-ray {
+    background-image: url('/formats/blue-ray.svg');
+  }
+  img.book {
+    background-image: url('/formats/book.svg');
+  }
+  img.book.print {
+    background-image: url('/formats/book.svg');
+  }
+  img.book.online {
+    background-image: url('/formats/book.svg');
+  }
+  img.cd {
+    background-image: url('/formats/cd.svg');
+  }
+  img.dvd {
+    background-image: url('/formats/dvd.svg');
+  }
+  img.dissertation-thesis {
+    background-image: url('/formats/dissertation-thesis.svg');
+  }
+  img.image {
+    background-image: url('/formats/image.svg');
+  }
+  img.journal-newspaper {
+    background-image: url('/formats/journal-newspaper.svg');
+  }
+  img.lp {
+    background-image: url('/formats/lp.svg');
+  }
+  img.manuscript-archive {
+    background-image: url('/formats/manuscript-archive.svg');
+  }
+  img.map-globe {
+    background-image: url('/formats/map-globe.svg');
+  }
+  img.microform {
+    background-image: url('/formats/microform.svg');
+  }
+  img.musical-recording {
+    background-image: url('/formats/musical-recording.svg');
+  }
+  img.musical-score {
+    background-image: url('/formats/musical-score.svg');
+  }
+  img.non-musical-recording {
+    background-image: url('/formats/non-musical-recording.svg');
+  }/*
+  I'm not sure this is necessary, leaving it here overrides other styles, but this icon might be useful in the future
+  img.print {
+    background-image: url('/formats/print.svg');
+  }*/
+  img.software-data {
+    background-image: url('/formats/software-data.svg');
+  }
+  img.vhs {
+    background-image: url('/formats/vhs.svg');
+  }
+  img.video-film {
+    background-image: url('/formats/video-film.svg');
+  }
+}

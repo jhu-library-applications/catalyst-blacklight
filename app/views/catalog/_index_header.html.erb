@@ -10,7 +10,8 @@
 <div class="search-results-item">
   <div class="row">
     <div class="col-md-2 cover-container">
-      <img src="/bookcover?bib=<%= document['id'] %>" alt=""/>
+      <img class="cover-image <%= cover_formats(document) %>"
+           src="/bookcover?bib=<%= document['id'] %>" alt=""/>
     </div>
     <div class="col-md-10">
       <% # header bar for doc items in index view -%>
