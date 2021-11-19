@@ -8,7 +8,9 @@
       <%= render 'start_over' %>
       <%= render_constraints(controller.params != params ? params : search_state) %>
     <% else %>
-      <%= link_to_search_query(params) %>
+      <% if query_has_filters? %>
+        <%= link_to_search_query(params) %>
+      <% end %>
       <%= render_filters(controller.params != params ? params : search_state) %>
     <% end %>
   </div>
