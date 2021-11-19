@@ -98,3 +98,18 @@ a {
     background-image: url('/formats/video-film.svg');
   }
 }
+
+#facet-format {
+  .facet-values {
+    li {
+      background-size: 16px auto;
+      background-repeat: no-repeat;
+      background-position: center left;
+      line-height: 1.7em;
+    }
+    .facet-label {
+      padding-bottom: 0px;
+      padding-left: 35px;
+    }
+  }
+}

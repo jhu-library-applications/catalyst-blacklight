@@ -212,7 +212,7 @@ class CatalogController < ApplicationController
     # sniffing requires solr requests to be made with "echoParams=all", for
     # app code to actually have it echo'd back to see it.
     config.add_facet_field  "access_facet",   :label => "Access", :limit => 2, :collapse => false
-    config.add_facet_field  "format",         :label => "Format", :limit => false # no limit as we show all format values
+    config.add_facet_field  "format",         :label => "Format", partial: "format_type_facet", :limit => false # no limit as we show all format values
     config.add_facet_field  "location_facet", :label => "Item Location", :limit => true
     config.add_facet_field  "pub_date_sort",  :label => "Publication Year", :range => true
     config.add_facet_field  "author_facet",   :label => "Author", :limit => true

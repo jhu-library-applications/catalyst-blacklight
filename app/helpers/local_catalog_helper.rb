@@ -380,7 +380,7 @@ module LocalCatalogHelper
   end
 
   def icon_cover(formats)
-    if 'Blue-ray'.in?(formats)
+    if 'Blu-ray'.in?(formats)
       '/formats/blue-ray.svg'
     elsif 'Book'.in?(formats)
       '/formats/book.svg'
@@ -398,7 +398,7 @@ module LocalCatalogHelper
       '/formats/journal-newspaper.svg'
     elsif 'LP'.in?(formats)
       '/formats/lp.svg'
-    elsif 'manuscript-archive'.in?(formats)
+    elsif 'Manuscript/Archive'.in?(formats)
       '/formats/manuscript-archive.svg'
     elsif 'Map/Globe'.in?(formats)
       '/formats/map-globe.svg'
