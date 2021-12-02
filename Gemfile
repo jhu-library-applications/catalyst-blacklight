@@ -142,7 +142,7 @@ gem 'bcrypt_pbkdf'
 gem 'ed25519'
 
 
-gem 'webpacker', '~> 5.x'
+gem 'webpacker', '5.4.3'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'

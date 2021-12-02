@@ -9,8 +9,6 @@ class CatalogTest < ApplicationSystemTestCase
   def test_search
     visit '/catalog?q=film'
     assert page.has_content?("Refine your search")
-    assert page.has_content?("You searched for")
-    assert page.has_link?("Start Over")
   end
 
   # HELP-18811
@@ -155,5 +153,17 @@ class CatalogTest < ApplicationSystemTestCase
     sleep(2)
     assert page.has_content?("Previous")
     assert page.has_link?("Next")
+  end
+
+  # Test result set show page pagination
+  def test_show_page_result_set_pagination
+    visit '/catalog?q=piano'
+    sleep(2)
+    click_on('At the Library')
+
+    # Results
+    assert page.has_no_selector?('span[title="piano"]')
+    assert page.has_selector?('span[title="At the Library"]')
+    assert page.has_link?("Remove Selections")
   end
 end

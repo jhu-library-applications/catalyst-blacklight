@@ -376,4 +376,27 @@ module LocalCatalogHelper
     "https://www.freeiconspng.com/uploads/book-icon-25.png"
   end
 
+  def render_filters(localized_params = params, local_search_state = search_state)
+    params_or_search_state = if localized_params != params
+                               localized_params
+                             else
+                               local_search_state
+                             end
+
+    Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
+      render_constraints_filters(params_or_search_state)
+    end
+  end
+
+  def link_to_search_query(query)
+    p = search_state.to_h.slice(:q)
+    p[:q] = query[:q]
+    link_to(t('blacklight.search.remove_selections'), search_action_path(p), class: "catalog_startOverLink btn btn-secondary")
+  end
+
+  def query_has_filters?(params_or_search_state = search_state)
+    search_state = convert_to_search_state(params_or_search_state)
+    ! search_state.filter_params.blank? || params_or_search_state[:unstemmed_search] == '1'
+  end
+
 end

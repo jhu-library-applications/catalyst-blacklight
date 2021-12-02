@@ -365,10 +365,10 @@ GEM
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.1.0)
-    nio4r (2.5.7)
-    nokogiri (1.11.6-x86_64-darwin)
+    nio4r (2.5.8)
+    nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.11.6-x86_64-linux)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     openurl (1.0.0)
       marc
@@ -381,7 +381,7 @@ GEM
     popper_js (1.16.0)
     psych (3.3.2)
     public_suffix (4.0.6)
-    puma (4.3.8)
+    puma (4.3.9)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -603,7 +603,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webpacker (5.4.0)
+    webpacker (5.4.3)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
@@ -693,7 +693,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   webmock
-  webpacker (~> 5.x)
+  webpacker (= 5.4.3)
   whenever
 
 RUBY VERSION

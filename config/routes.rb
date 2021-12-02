@@ -150,6 +150,9 @@ Catalyst::Application.routes.draw do
 
   get '/journals' => redirect("/search/articles")
 
+  
+# HathiTrust
+  get 'hathi', to: 'hathi#index'
 
   ###
   # Root
