@@ -83,18 +83,6 @@
 
     -%>
 
-    <% # Look for Other Verions %>
-    <% if( JHConfig.params[:umlaut_base_url] &&
-        document.export_formats.keys.include?(:openurl_ctx_kev)) && related_links_type(document) != :online %>
-      <% if !hathi_eta(document) %>
-        <div id="findit-wrapper">
-          <%= link_to(JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}", {:class => "request btn btn-primary btn-sm"}  ) do %>
-            Look for Other Versions
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-
     <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
       <div class="links results-item-section card">
         <div class="card-header">
@@ -145,11 +133,35 @@
 
       </div>
     <% end %>
-
-    <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0 %>
-      <ul class="holdings list-group">
-        <%= render :partial => "catalog/holding_expandable", :collection => document.to_holdings, :locals => {:document_id => document["id"], document: document  } %>
-      </ul>
-    <% end %>
+  <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0 %>
+    <div class="holdings">
+      <div class="title bm-3">
+        <h2>Where to get it</h2>
+        <hr />
+      </div>
+      <% locations = document.to_holdings.group_by {|h| h.collection.display_label} %>
+        <% locations.each do |holdings| %>
+          <div class="holdings-container">
+            <div>
+              <div style="display: flex;  align-items: center;">
+                <div class="location">
+                  <%= holdings.first %>
+                </div>
+                <div>
+                  <% # Floor Map feature %>
+                  <% if Flipper[:curbside_mode].enabled? %>
+                  <% # Do not show Floor Map feature in curbside mode %>
+                  <% else %>
+                  <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document["id"], holding: holdings.last.first } %>
+                  <% end %>
+                </div>
+              </div>
+              <hr />
+              <%= render :partial => "catalog/holding_expandable", :collection => holdings.last, :locals => {:document_id => document["id"], document: document  } %>
+            </div>
+          </div>
+      <% end -%>
+    </div>
+  <% end %>
 
 </div>

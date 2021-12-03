@@ -12,7 +12,7 @@
     holding = local_assigns[:holding_expandable]
 %>
 
-<% if holding.has_children? %>
+<% if ! holding.nil? and holding.has_children? %>
   <div x-data="{
           retrieveCopies() {
               $.ajax({
@@ -28,70 +28,9 @@
 
     </div>
   </div>
-<% else %>
-
-      <div class="holding">
-        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 0.375rem; align-items: center;">
-          <div>
-            <% if holding.status && holding.status.display_label %>
-              <%- unless holding.special_collection? %>
-                <span class="status <%= holding.status.display_label.parameterize %>">
-                  <%= holding.status.display_label %>
-                </span>
-                <% if holding.due_date %>
-                  <%# see definitions of :due_date formats for Date and Time in
-                          config/initializers/formats.rb %>
-                  <div class="due holding-line row">
-                    <span class="due-label">Due:</span> <%= holding.due_date.to_formatted_s(:due_date) %>
-                  </div>
-                <% end %>
-              <% else %>
-                <span class="status non-circulating">
-                  Non-circulating
-                </span>
-              <%- end %>
-            <%- end %>
-          </div>
-          <div>
-            <div>
-              <%= holding.call_number %>
-              <% unless holding.copy_string.blank? %>
-                <span class="copy"><%= h(holding.copy_string) %></span>
-              <% end %>
-            </div>
-            <div>
-              <% if (Rails.application.config.x.suppress_browse != true) && (browse_sort_key = shelf_browse_sort_key_for(document)) %>
-                <span class="glyphicon glyphicon-book"></span>
-                <%= link_to "Browse Shelf", shelfbrowse_path(:origin_sort_key => browse_sort_key) %>
-              <% end %>
-            </div>
-          </div>
-          <div>
-            <% # Holdings %>
-            <% if Flipper[:curbside_mode].enabled? %>
-              <%= render partial: 'holding_expandable_curbside_request', locals: { document: document, document_id: document_id, holding: holding } %>
-            <% else %>
-              <%= render partial: 'holding_expandable_default_request', locals: { document: document, document_id: document_id, holding: holding } %>
-            <% end %>
-          </div>
-        </div>
-        <div>
-          <!-- if there's an RMST, display it in a hidden DIV, that'll
-               be turned on by some javascript for 'staff info'. -->
-          <% if holding.localInfo["moravia_rmst"].present? %>
-            <div style="display:none" class="rmst pt-4">
-              <em>For Library use, rmst and barcode last 4:</em>
-              <%= h(holding.localInfo["moravia_rmst"]) %>
-              <%= h((holding.localInfo["ibarcode"] || "")[-4, 4]) %>
-            </div>
-          <% end %>
-        </div>
-      </div>
 <% end %>
 
-
-
-<li class="holding list-group-item" style="display: none;">
+<li class="holding list-group-item">
   <%# it's an <a> so it can be tabbed to with keyboard to expand/contract %>
   <div class="holding-visible" data-toggle="collapsible-holdings-trigger" href="#">
     <div class="row holding-line-one">

@@ -131,3 +131,80 @@
     }
   }
 }
+
+.holdings {
+  .title {
+
+    h2 {
+      font-size: 1.3em;
+    }
+
+    hr {
+      margin-top: 0px;
+    }
+  }
+
+  .holdings-container {
+    background-color: $panel-default-heading-bg;
+    margin: 12px 0px 0px;
+    padding: 6px 0px 6px 6px;
+
+    .btn-xs {
+      font-size: .8em;
+      padding: .1em .4em;
+    }
+
+    hr {
+      margin: 0em;
+      margin-bottom: 0em;
+    }
+
+    .location {
+      font-size: 1.2em;
+      padding: .4em .5em;
+    }
+
+    .holdings-drill-down {
+      max-height: 400px;
+      overflow-y: scroll;
+    }
+
+    .holding {
+      padding: 1em 2em;
+
+      .due {
+        padding: 4px 2em 0px;
+
+        .due-label {
+          margin-right: 4px;
+        }
+      }
+
+      .status {
+        padding: .5em 2em;
+
+        &.available {
+          background-color: $jhuDarkGreen;
+          color: white;
+        }
+
+        &.checked-out {
+          background-color: $jhuRed;
+          color: white;
+        }
+
+        &.transit {
+          background-color: $jhuBrightBlue;
+          color: white;
+        }
+
+        &.non-circulating {
+          background-color: $jhuBlue-hover;
+          color: white;
+        }
+      }
+    }
+
+
+  }
+}

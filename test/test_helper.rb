@@ -48,7 +48,7 @@ class ActiveSupport::TestCase
       status: 200, body: File.read(Rails.root.join('test/fixtures/files/bib_305929_hip_request_confirm.xml')), headers: {}
     )
   end
-  
+
   def relais_request_unavailable_stub
     stub_request(:post, /.*available.*/).to_return(
       status: 200, body: File.read(Rails.root.join('test/fixtures/files/relais/bib_8435478.json')), headers: {}
