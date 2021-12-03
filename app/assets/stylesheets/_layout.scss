@@ -46,7 +46,7 @@ a {
     background-image: url('/formats/book.svg');
   }
   img.book.online {
-    background-image: url('/formats/book.svg');
+    background-image: url('/formats/ebook.svg');
   }
   img.cd {
     background-image: url('/formats/cd.svg');
@@ -102,7 +102,7 @@ a {
 #facet-format {
   .facet-values {
     li {
-      background-size: 16px auto;
+      background-size: auto 16px;
       background-repeat: no-repeat;
       background-position: center left;
       line-height: 1.7em;

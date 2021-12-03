@@ -390,7 +390,7 @@ module LocalCatalogHelper
       '/formats/conference.svg'
     elsif 'DVD'.in?(formats)
       '/formats/dvd.svg'
-    elsif 'Dissertation/Thesis	'.in?(formats)
+    elsif 'Dissertation/Thesis'.in?(formats)
       '/formats/dissertation-thesis.svg'
     elsif 'Image'.in?(formats)
       '/formats/image.svg'
