@@ -254,7 +254,7 @@ module LocalCatalogHelper
     document.to_holdings.each do |doc_holding|
       if doc_holding.has_children?
         ray('Getting children holdings')
-        doc_holding = self.to_holdings_for_holdingset(doc_holding.id).find {|h| h.id == holding.id}
+        doc_holding = document.to_holdings_for_holdingset(doc_holding.id).find {|h| h.id == holding.id}
         if doc_holding.find { |h| h.status.try(:display_label) == "Available" }
           status = true
           ray('Status: ', status)
