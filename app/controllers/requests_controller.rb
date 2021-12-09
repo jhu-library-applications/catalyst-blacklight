@@ -28,7 +28,7 @@ class RequestsController < CatalogController
     @response, @document = search_service.fetch(params[:id])
 
     horizon_bib_id = @document.ils_bib_id
-    horizon_item_id = params[:exact_copy] == true ? params[:item_id] : nil
+    horizon_item_id = (params[:exact_copy] == true || params[:exact_copy] == 'true' ) ? params[:item_id] : nil
 
     @ils_request = HipPilot::Request.new( params[:ils_request].merge(
       :bib_id => horizon_bib_id, :item_id => horizon_item_id )
