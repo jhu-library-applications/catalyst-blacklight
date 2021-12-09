@@ -8,6 +8,7 @@ require 'tzinfo'
 require 'hip_config'
 require 'horizon_borrower_lookup'
 
+require 'ray'
 
 # TODO: Make sure checkout and due dates with times work
 
@@ -699,7 +700,7 @@ class HipPilot
       options.each_pair do |key, value|
         self.send(key.to_s + "=", value)
       end
-      raise "Need to supply bib_id and item_id" unless self.bib_id && self.item_id
+      raise "Need to supply bib_id" unless self.bib_id
     end
 
     # ensure default, HIP really doesn't like it when this is empty.

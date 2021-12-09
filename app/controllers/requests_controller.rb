@@ -1,4 +1,5 @@
 require 'hip_pilot'
+require 'ray'
 
 class RequestsController < CatalogController
 
@@ -12,8 +13,8 @@ class RequestsController < CatalogController
 
     # The individual item object for use in the view. May wind up
     # with nil for copy/item multi-level holdings, bah.
-    @holding = @document.to_holdings.find {|h| h.id == params[:item_id]}
-
+    @holding = @document.fetch_holding(params[:item_id])
+    ray(@holding)
 
     horizon_bib_id = @document.ils_bib_id
 

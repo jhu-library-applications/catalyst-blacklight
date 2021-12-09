@@ -39,11 +39,11 @@
 
     <%# borrow direct section, only where appropriate. This duplicates some of
         what's in FindIt/Umlaut, sorry.  %>
-    <% if related_hathi_links_etas_only(document).length == 0 %>
-      <% if show_borrow_direct? document %>
-        <%= render 'borrow_direct', :document => document %>
-      <% end %>
-    <% end %>
+    <%# if related_hathi_links_etas_only(document).length == 0 %>
+      <%# if show_borrow_direct? document %>
+        <%#= render 'borrow_direct', :document => document %>
+      <%# end %>
+    <%# end %>
   <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0  %>
     <div class="holdings">
       <div class="title bm-3">

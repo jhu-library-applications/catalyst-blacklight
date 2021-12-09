@@ -2,26 +2,19 @@
   Displays BorrowDirect area.
 %>
 
-<div class="card mb-4 panel-default">
-  <div class="card-header">
-    <h3 class="card-title mb-0 h6">
-      Request from another library
-    </h3>
-  </div>
-  <div class="card-body borrow-direct-container"
-       data-format='<%= (!document['format'].empty? ? document['format'].to_json : '') %>'
-       data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
-       data-umlaut-update="body">
-    <% if !flash.empty? %>
-      <% flash.each do |type, msg| %>
-        <div class="alert alert-<%= type %> mb-0">
-          <%== msg %>
-        </div>
-      <% end %>
-    <% else %>
-      <script>
-          loadBorrowDirect()
-      </script>
+<div class="card-body borrow-direct-container"
+     data-format='<%= (!document['format'].empty? ? document['format'].to_json : '') %>'
+     data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
+     data-umlaut-update="body">
+  <% if !flash.empty? %>
+    <% flash.each do |type, msg| %>
+      <div class="alert alert-<%= type %> mb-0">
+        <%== msg %>
+      </div>
     <% end %>
-  </div>
+  <% else %>
+    <script>
+        loadBorrowDirect()
+    </script>
+  <% end %>
 </div>

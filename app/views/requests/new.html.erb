@@ -1,4 +1,7 @@
-<div data-ajax-modal="container">
+<div x-data="{
+  show: '<%= show_borrow_direct?(@document, {:is_volume => @holding.copy_string.include?('v.'), :status => @holding.status.try(:display_label)}) ? 'borrow-direct' : 'request' %>'
+}"
+     data-ajax-modal="container">
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
       embedded BorrowDirect content %>
   <%= content_tag 'div', :class => "request",
@@ -6,6 +9,7 @@
           :request_path => item_request_path(:id => @document.id, :item_id => @ils_request.item_id),
           :borrow_direct_umlaut_wrapper => true
         } do %>
+
     <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
 
     <div class="modal-header">
@@ -21,71 +25,78 @@
     <div class="modal-body">
       <%= render :partial => "head_notes" %>
 
+      <%# If available show request form %>
+      <div x-show="show == 'request'">
+        <% if show_borrow_direct?(@document, {:is_volume => @holding.copy_string.include?('v.'), :status => @holding.status.try(:display_label)}) %>
 
+          <%# and a heading for the normal local request %>
+          <h4>Place local request for this copy</h4>
+          <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
 
-      <% if show_borrow_direct?(@document) %>
-        <p><strong>This local copy is not immediately available for delivery.</strong></p>
+        <% end %>
+          <%= hidden_field :ils_request, :bib_id %>
+          <%= hidden_field :ils_request, :item_id %>
+          <%= hidden_field :ils_request, :notification_method %>
+          <% if @ils_request.available_locations.length > 1 %>
+            <div class="form-group">
 
-        <%= render 'borrow_direct', :document => @document,
-          :panel_title => "Get a copy faster from BorrowDirect",
-          :panel_classes => "panel-info" %>
+              <% if Flipper[:curbside_mode].enabled? %>
+                <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
+              <% else %>
+                <%= label :ils_request, :pickup_location, "Deliver to", :class => "col-sm-3" %>
+              <% end %>
 
-        <%# and a heading for the normal local request %>
-        <h4>Place local request for this copy</h4>
-        <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
-
-      <% end %>
-
-
-      <%= hidden_field :ils_request, :bib_id %>
-      <%= hidden_field :ils_request, :item_id %>
-      <%= hidden_field :ils_request, :notification_method %>
-
-      <p class="text-muted">Process and pickup times vary by location.
-        <%= link_to "More information", "https://catalyst.library.jhu.edu/info/pickup_locations", target: :_blank %>
-      </p>
-
-      <% if @ils_request.available_locations.length > 1 %>
-        <div class="form-group">
-
-          <% if Flipper[:curbside_mode].enabled? %>
-            <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
-          <% else %>
-            <%= label :ils_request, :pickup_location, "Deliver to", :class => "col-sm-3" %>
+              <div class="col-sm-9">
+                <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control" %>
+              </div>
+            </div>
+          <% elsif @ils_request.available_locations.length == 1 %>
+            <div class="form-group bg-warning text-warning">
+              <%= hidden_field :ils_request, :pickup_location %>
+              <span class="col-sm-3 restricted-pickup-label">Can only be accessed at</span>
+              <div class="col-sm-9 restricted-pickup-location">
+                <%= h(@ils_request.available_locations.first.description) %>
+              </div>
+            </div>
           <% end %>
 
-          <div class="col-sm-9">
-            <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control" %>
-          </div>
-        </div>
-      <% elsif @ils_request.available_locations.length == 1 %>
-        <div class="form-group bg-warning text-warning">
-            <%= hidden_field :ils_request, :pickup_location %>
-            <span class="col-sm-3 restricted-pickup-label">Can only be accessed at</span>
-            <div class="col-sm-9 restricted-pickup-location">
-              <%= h(@ils_request.available_locations.first.description) %>
+          <div class="form-group">
+            <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
+            <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
+               # on moving it to 255.
+            %>
+            <div class="col-sm-9">
+              <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control" %>
             </div>
-        </div>
-      <% end %>
-
-        <div class="form-group">
-          <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
-          <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
-             # on moving it to 255.
-          %>
-          <div class="col-sm-9">
-            <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control" %>
           </div>
-        </div>
 
-        <% if Flipper[:curbside_mode].enabled? %>
-          <div id="curbside-banner">
-            <p>You will receive an email notification when your item is ready for pickup. Please wait for the notification before coming to pick up your item.</p>
-          </div>
-        <% else %>
-          <%= render :partial => "foot_notes" %>
+          <% if Flipper[:curbside_mode].enabled? %>
+            <div id="curbside-banner">
+              <p>You will receive an email notification when your item is ready for pickup. Please wait for the notification before coming to pick up your item.</p>
+            </div>
+          <% else %>
+
+          <% end %>
+
+
+        <%= render :partial => "foot_notes" %>
+      </div>
+
+      <%# If not available show BD form %>
+      <div x-show="show == 'borrow-direct'">
+        <% if show_borrow_direct?(@document, {:is_volume => @holding.copy_string.include?('v.'), :status => @holding.status.try(:display_label)}) %>
+          <p>
+            <strong>A local copy is not available, but you can request it from another library.</strong>
+            <br />
+            <span class="text-muted">Get a copy from a partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</span>
+          </p>
+          <%= render 'borrow_direct', :document => @document,
+                     :panel_title => "Get a copy faster from BorrowDirect",
+                     :panel_classes => "panel-info" %>
         <% end %>
       </div>
+
+    </div>
 
       <div class="modal-footer">
         <%= link_to "Cancel", request_done_path, :class=>"btn btn-default cancel", :data => {:dismiss => "modal"} %>
