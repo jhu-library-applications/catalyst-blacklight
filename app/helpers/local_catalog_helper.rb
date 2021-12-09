@@ -270,7 +270,7 @@ module LocalCatalogHelper
       end
     end
     ray('Status: ', status)
-    return [status, false]
+    return [status, true]
 
     # if holding.has_children?
     #   ray('Getting children holdings')

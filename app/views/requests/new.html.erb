@@ -1,5 +1,6 @@
 <% available, exact_copy = check_availability?(@document, @holding) %>
 <% show_borrow_direct = show_borrow_direct?(@document) %>
+<% ray('Available: ', available, 'BD: ', show_borrow_direct) %>
 <div x-data="{
   show: '<%= available ? 'request' : 'borrow-direct' %>'
 }"
@@ -37,7 +38,9 @@
 
         <% end %>
           <%= hidden_field :ils_request, :bib_id %>
+          <% if exact_copy %>
           <%= hidden_field :ils_request, :item_id %>
+          <% end %>
           <%= hidden_field :ils_request, :notification_method %>
           <% if @ils_request.available_locations.length > 1 %>
             <div class="form-group">
