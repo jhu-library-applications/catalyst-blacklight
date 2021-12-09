@@ -1,4 +1,4 @@
-<% available = check_availability?(@document, @holding) %>
+<% available, exact_copy = check_availability?(@document, @holding) %>
 <% show_borrow_direct = show_borrow_direct?(@document) %>
 <div x-data="{
   show: '<%= available ? 'request' : 'borrow-direct' %>'

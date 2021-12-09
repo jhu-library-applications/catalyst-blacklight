@@ -202,6 +202,16 @@
           background-color: $jhuBlue-hover;
           color: white;
         }
+
+        &.in-process {
+          background-color: $jhuBrightBlue;
+          color: white;
+        }
+
+        &.newly-acquired {
+          background-color: $jhuBlue-hover$jhuGreen;
+          color: white;
+        }
       }
     }
 
