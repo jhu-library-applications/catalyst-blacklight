@@ -41,7 +41,7 @@
           <% if exact_copy %>
             <%= hidden_field :ils_request, :item_id %>
           <% end %>
-          <%= hidden_field :exact_copy, exact_copy %>
+          <input type="hidden" name="exact_copy" value="<%= exact_copy %>" />
           <%= hidden_field :ils_request, :notification_method %>
           <% if @ils_request.available_locations.length > 1 %>
             <div class="form-group">
