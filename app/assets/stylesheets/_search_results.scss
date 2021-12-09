@@ -86,6 +86,26 @@
       }
     }
   }
+
+  .cover-container {
+    text-align: center;
+    padding-bottom: 8px;
+    img {
+      height: auto;
+      width: 150px;
+    }
+  }
+  @media (min-width: $screen-sm) {
+    .cover-container {
+      padding: 0px 15px 15px 20px;
+      text-align: center;
+
+      img {
+        height: auto;
+        width: 100%;
+      }
+    }
+  }
 }
 
 
