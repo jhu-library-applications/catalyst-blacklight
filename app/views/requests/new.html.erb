@@ -39,8 +39,9 @@
         <% end %>
           <%= hidden_field :ils_request, :bib_id %>
           <% if exact_copy %>
-          <%= hidden_field :ils_request, :item_id %>
+            <%= hidden_field :ils_request, :item_id %>
           <% end %>
+          <%= hidden_field :exact_copy, exact_copy %>
           <%= hidden_field :ils_request, :notification_method %>
           <% if @ils_request.available_locations.length > 1 %>
             <div class="form-group">
