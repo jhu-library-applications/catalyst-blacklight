@@ -1,5 +1,7 @@
+<% available = check_availability?(@document, @holding) %>
+<% show_borrow_direct = show_borrow_direct?(@document) %>
 <div x-data="{
-  show: '<%= show_borrow_direct?(@document, {:is_volume => @holding.copy_string.include?('v.'), :status => @holding.status.try(:display_label)}) ? 'borrow-direct' : 'request' %>'
+  show: '<%= available ? 'request' : 'borrow-direct' %>'
 }"
      data-ajax-modal="container">
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
@@ -27,7 +29,7 @@
 
       <%# If available show request form %>
       <div x-show="show == 'request'">
-        <% if show_borrow_direct?(@document, {:is_volume => @holding.copy_string.include?('v.'), :status => @holding.status.try(:display_label)}) %>
+        <% if ! available %>
 
           <%# and a heading for the normal local request %>
           <h4>Place local request for this copy</h4>
@@ -84,7 +86,7 @@
 
       <%# If not available show BD form %>
       <div x-show="show == 'borrow-direct'">
-        <% if show_borrow_direct?(@document, {:is_volume => @holding.copy_string.include?('v.'), :status => @holding.status.try(:display_label)}) %>
+        <% if ! available && show_borrow_direct %>
           <p>
             <strong>A local copy is not available, but you can request it from another library.</strong>
             <br />

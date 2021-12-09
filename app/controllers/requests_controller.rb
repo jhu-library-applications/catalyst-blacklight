@@ -73,6 +73,7 @@ class RequestsController < CatalogController
       render "request_login_failure"
     rescue HipPilot::RequestFailure => e
       @exception = e
+      ray(@exception)
       render "request_failure"
     end
 
