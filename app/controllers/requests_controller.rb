@@ -106,7 +106,7 @@ class RequestsController < CatalogController
       end
 
       # The item is not available, but it's also a volume so just return false
-      if holding.status.try(:display_label) != "Available" && holding.copy_string.include?('v.')
+      if holding.status.try(:display_label) != "Available" && (! holding.copy_string.nil? && holding.copy_string.include?('v.'))
         ray('Not available or volume')
         return [false, true]
       end
