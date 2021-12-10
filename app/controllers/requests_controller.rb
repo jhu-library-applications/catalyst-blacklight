@@ -18,7 +18,14 @@ class RequestsController < CatalogController
 
     horizon_bib_id = @document.ils_bib_id
 
-    @ils_request = HipPilot::Request.new(:bib_id => horizon_bib_id, :item_id => params[:item_id])
+    @available, @exact_copy = check_availability?(@document, @holding)
+    @show_borrow_direct = show_borrow_direct?(@document)
+
+    if @exact_copy
+      @ils_request = HipPilot::Request.new(:bib_id => horizon_bib_id, :item_id => params[:item_id])
+    else
+      @ils_request = HipPilot::Request.new(:bib_id => horizon_bib_id, :item_id => '')
+    end
 
     @hip_pilot.init_request(@ils_request)
   end
@@ -77,6 +84,79 @@ class RequestsController < CatalogController
       @exception = e
       ray(@exception)
       render "request_failure"
+    end
+
+    def show_borrow_direct?(document)
+      return document.respond_to?(:to_openurl) &&
+        document.to_openurl.referent.format != "journal" &&
+        document.respond_to?(:to_holdings) &&
+        ! document.to_holdings.find { |h|
+          %w(ecageki eofart eofms esmanu esgpms esarck esarc).include?(h.collection.try(:internal_code)) &&
+            h.collection.try(:display_label) !~ /(reserves?)|(non-circulating)/i
+        }
+    end
+
+    def check_availability?(document, holding)
+      ray('Holding: ', holding)
+
+      # The item is available so just return true
+      if holding.status.try(:display_label) == "Available"
+        ray('Available')
+        return [true, true]
+      end
+
+      # The item is not available, but it's also a volume so just return false
+      if holding.status.try(:display_label) != "Available" && holding.copy_string.include?('v.')
+        ray('Not available or volume')
+        return [false, true]
+      end
+
+      # Check to make sure the document can respons to to_holdings
+      if ! document.respond_to?(:to_holdings)
+        ray('Respond to holding false')
+        return [false, true]
+      end
+
+      # Let's check to see if any other copies are available if so then we will show the request form and send back a flag
+      # to request any available copy rather than a specific one
+      status = false
+      # TODO: This needs to check for all children of document and not just holding
+
+      document.to_holdings.each do |doc_holding|
+        if doc_holding.has_children?
+          ray('Getting children holdings')
+          doc_holding = document.to_holdings_for_holdingset(doc_holding.id)
+          if doc_holding.find { |h| h.status.try(:display_label) == "Available" }
+            status = true
+            ray('Status: ', status)
+            return [status, false]
+          end
+        else
+          ray('No children')
+          if ! doc_holding.copy_string.nil? && doc_holding.status.try(:display_label) == "Available"
+            status = true
+            ray('Status: ', status)
+            return [status, false]
+          end
+        end
+      end
+      ray('Status: ', status)
+      return [status, true]
+
+      # if holding.has_children?
+      #   ray('Getting children holdings')
+      #   if document.to_holdings_for_holdingset(holding.id).find { |h| h.status.try(:display_label) == "Available" }
+      #     status = true
+      #   end
+      # else
+      #   if holding.status.try(:display_label) == "Available"
+      #     ray('No children')
+      #     status = true
+      #   end
+      # end
+      # ray('Status: ', status)
+      # return [status, false]
+
     end
 
 

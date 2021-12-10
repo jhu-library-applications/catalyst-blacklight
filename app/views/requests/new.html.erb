@@ -1,8 +1,8 @@
-<% available, exact_copy = check_availability?(@document, @holding) %>
-<% show_borrow_direct = show_borrow_direct?(@document) %>
-<% ray('Available: ', available, 'BD: ', show_borrow_direct) %>
+<%# available, exact_copy = check_availability?(@document, @holding) %>
+<%# show_borrow_direct = show_borrow_direct?(@document) %>
+<% ray('Available: ', @available, 'BD: ', @show_borrow_direct) %>
 <div x-data="{
-  show: '<%= available ? 'request' : 'borrow-direct' %>'
+  show: '<%= @available ? 'request' : 'borrow-direct' %>'
 }"
      data-ajax-modal="container">
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
@@ -30,7 +30,7 @@
 
       <%# If available show request form %>
       <div x-show="show == 'request'">
-        <% if ! available %>
+        <% if ! @available %>
 
           <%# and a heading for the normal local request %>
           <h4>Place local request for this copy</h4>
@@ -38,10 +38,10 @@
 
         <% end %>
           <%= hidden_field :ils_request, :bib_id %>
-          <% if exact_copy %>
+          <% if @exact_copy %>
             <%= hidden_field :ils_request, :item_id %>
           <% end %>
-          <input type="hidden" name="exact_copy" value="<%= exact_copy %>" />
+          <input type="hidden" name="exact_copy" value="<%= @exact_copy %>" />
           <%= hidden_field :ils_request, :notification_method %>
           <% if @ils_request.available_locations.length > 1 %>
             <div class="form-group">
@@ -90,7 +90,7 @@
 
       <%# If not available show BD form %>
       <div x-show="show == 'borrow-direct'">
-        <% if ! available && show_borrow_direct %>
+        <% if ! @available && @show_borrow_direct %>
           <p>
             <strong>A local copy is not available, but you can request it from another library.</strong>
             <br />

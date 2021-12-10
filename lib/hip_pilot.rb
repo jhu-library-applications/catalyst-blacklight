@@ -188,11 +188,16 @@ class HipPilot
   def init_request( request )
     url = URI.parse(@hip_base_url)
 
-    uri_query_merge(url, "menu" => "request",
+    if ! request.item_id.nil?
+      uri_query_merge(url, "menu" => "request",
                     "bibkey"  => request.bib_id,
                     "itemkey" => request.item_id,
                     "time"    => Time.now.to_i) # HIP wants unix epoch time of 'now' in 'time' param
-
+    else
+      uri_query_merge(url, "menu" => "request",
+                      "bibkey"  => request.bib_id,
+                      "time"    => Time.now.to_i) # HIP wants unix epoch time of 'now' in 'time' param
+    end
     xml = get_xml_with_login(url)
 
     # Okay, sometimes horizon gives us a multiple-choice page here
