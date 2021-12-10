@@ -8,7 +8,7 @@ class DetailPageTest < ApplicationSystemTestCase
     assert page.has_selector?("main#main-container")
     assert page.has_selector?("section.show-document")
     assert page.has_selector?("div#doc_bib_8435478")
-    assert page.has_selector?("div.cover-image-container")
+    assert page.has_selector?("div.cover-container")
     assert page.has_selector?("span.show-marc-types")
     assert page.has_selector?("span.show-marc-languages")
     assert page.has_selector?("h1.show-marc-heading-title")
@@ -53,9 +53,6 @@ class DetailPageTest < ApplicationSystemTestCase
   def test_umlaut_includes
     visit '/catalog/bib_8039975'
     sleep(4) # Let Umlaut run
-
-    # Cover image
-    assert page.has_selector?(".umlaut_section_content > img.cover_image")
 
     # Excerpts
     assert page.has_selector?(".umlaut.excerpts")
