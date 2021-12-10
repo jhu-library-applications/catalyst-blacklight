@@ -1,0 +1,12 @@
+<ul class="facet-values list-unstyled">
+  <% paginator = facet_paginator(facet_field, display_facet) %>
+  <% paginator.items.each do |item| -%>
+    <li style="background-image: url('<%= icon_cover (item.value) %>');">
+      <% if facet_in_params?( 'format', item.value ) %>
+        <%= render_selected_facet_value('format', item) %>
+      <% else %>
+        <%= render_facet_value('format', item) %>
+      <% end -%>
+    </li>
+  <% end %>
+</ul>

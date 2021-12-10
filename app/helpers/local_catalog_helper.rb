@@ -439,7 +439,7 @@ module LocalCatalogHelper
         response = Faraday.get 'https://www.googleapis.com/books/v1/volumes?key='+ ENV['GOOGLE_BOOKS_API_KEY'] +'&fields=items(volumeInfo(imageLinks))&q=isbn:' + isbn
         cover = MultiJson.load(response.body)
         if cover['items']
-          cover_image = cover['items'][0]['volumeInfo']['imageLinks']['smallThumbnail']
+          cover_image = cover['items'][0]['volumeInfo']['imageLinks']['thumbnail']
         end
         break if cover_image
       end
@@ -447,9 +447,56 @@ module LocalCatalogHelper
     end
   end
 
+  def cover_formats(document)
+    formats = ''
+    if document.has_key?('format') and document['format'].respond_to?('each')
+      formats = document['format'].map{|f| f.parameterize}.join(" ").downcase
+    end
+    formats
+  end
+
   def icon_cover(formats)
-    # TODO: Add additional format icons
-    "https://www.freeiconspng.com/uploads/book-icon-25.png"
+    if 'Blu-ray'.in?(formats)
+      '/formats/blue-ray.svg'
+    elsif 'Book'.in?(formats)
+      '/formats/book.svg'
+    elsif 'CD'.in?(formats)
+      '/formats/cd.svg'
+    elsif 'Conference'.in?(formats)
+      '/formats/conference.svg'
+    elsif 'DVD'.in?(formats)
+      '/formats/dvd.svg'
+    elsif 'Dissertation/Thesis'.in?(formats)
+      '/formats/dissertation-thesis.svg'
+    elsif 'Image'.in?(formats)
+      '/formats/image.svg'
+    elsif 'Journal/Newspaper'.in?(formats)
+      '/formats/journal-newspaper.svg'
+    elsif 'LP'.in?(formats)
+      '/formats/lp.svg'
+    elsif 'Manuscript/Archive'.in?(formats)
+      '/formats/manuscript-archive.svg'
+    elsif 'Map/Globe'.in?(formats)
+      '/formats/map-globe.svg'
+    elsif 'Microform'.in?(formats)
+      '/formats/microform.svg'
+    elsif 'Musical Recording'.in?(formats)
+      '/formats/musical-recording.svg'
+    elsif 'Musical Score'.in?(formats)
+      '/formats/musical-score.svg'
+    elsif 'Non-musical Recording'.in?(formats)
+      '/formats/non-musical-recording.svg'
+    elsif 'Print'.in?(formats)
+      '/formats/print.svg'
+    elsif 'Software/Data'.in?(formats)
+      '/formats/software-data.svg'
+    elsif 'VHS'.in?(formats)
+      '/formats/vhs.svg'
+    elsif 'Video/Film'.in?(formats)
+      '/formats/video-film.svg'
+    else
+      '1x1.png'
+    end
   end
 
   def render_filters(localized_params = params, local_search_state = search_state)
