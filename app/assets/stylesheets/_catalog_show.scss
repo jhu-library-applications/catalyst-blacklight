@@ -182,6 +182,8 @@
 
       .status {
         padding: .5em 2em;
+        background-color: $jhuBlue-hover;
+        color: white;
 
         &.available {
           background-color: $jhuDarkGreen;
@@ -210,6 +212,11 @@
 
         &.newly-acquired {
           background-color: $jhuBlue-hover;
+          color: white;
+        }
+
+        &.newly-acquired {
+          background-color: $jhuRed;
           color: white;
         }
       }

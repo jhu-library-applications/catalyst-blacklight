@@ -49,12 +49,16 @@
               <% if Flipper[:curbside_mode].enabled? %>
                 <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
               <% else %>
-                <%= label :ils_request, :pickup_location, "Deliver to", :class => "col-sm-3" %>
+                <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
               <% end %>
 
               <div class="col-sm-9">
                 <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control" %>
+                <div class="help-block">
+                  <%= render :partial => "foot_notes" %>
+                </div>
               </div>
+
             </div>
           <% elsif @ils_request.available_locations.length == 1 %>
             <div class="form-group bg-warning text-warning">
@@ -85,7 +89,7 @@
           <% end %>
 
 
-        <%= render :partial => "foot_notes" %>
+
       </div>
 
       <%# If not available show BD form %>
