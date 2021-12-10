@@ -30,10 +30,11 @@ class RequestsController < CatalogController
     horizon_bib_id = @document.ils_bib_id
     horizon_item_id = (params[:exact_copy] == true || params[:exact_copy] == 'true' ) ? params[:item_id] : nil
 
-    @ils_request = HipPilot::Request.new( params[:ils_request].merge(
-      :bib_id => horizon_bib_id, :item_id => horizon_item_id )
-    )
+    params[:ils_request][:bib_id] = horizon_bib_id
+    params[:ils_request][:item_id] = horizon_item_id
 
+    @ils_request = HipPilot::Request.new( params[:ils_request] )
+    ray('ils_request: ', @ils_request)
     success_xml = @hip_pilot.submit_request(@ils_request)
     @pickup_location = success_xml.at_xpath("./pickup_location/text()").to_s
   end

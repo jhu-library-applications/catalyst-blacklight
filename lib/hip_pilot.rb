@@ -187,10 +187,11 @@ class HipPilot
   # pickup location, and call #submit_request( request_obj ).
   def init_request( request )
     url = URI.parse(@hip_base_url)
+
     uri_query_merge(url, "menu" => "request",
-        "bibkey"  => request.bib_id,
-        "itemkey" => request.item_id,
-        "time"    =>Time.now.to_i) # HIP wants unix epoch time of 'now' in 'time' param
+                    "bibkey"  => request.bib_id,
+                    "itemkey" => request.item_id,
+                    "time"    => Time.now.to_i) # HIP wants unix epoch time of 'now' in 'time' param
 
     xml = get_xml_with_login(url)
 
@@ -297,7 +298,7 @@ class HipPilot
     init_request(request)
 
     url = URI.parse(@hip_base_url)
-
+    ray(url)
     uri_query_merge(url,
       "pickuplocation"  => request.pickup_location,
       "notifyby"        => request.notification_method,
@@ -313,7 +314,7 @@ class HipPilot
       Rails.logger.warn("HipPilot: Weird connection error in making request: #{xml.to_s}")
       raise ConnectionError
     end
-
+    ray('Success', success)
     return success
   end
 
