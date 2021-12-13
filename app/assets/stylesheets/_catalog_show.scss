@@ -179,15 +179,18 @@
       margin: 0em;
       margin-bottom: 0em;
     }
+    .location-container {
+      max-height: 400px;
+      overflow-y: scroll;
 
-    .location {
-      font-size: 1.2em;
-      padding: .4em .5em;
+      .location {
+        font-size: 1.2em;
+        padding: .4em .5em;
+      }
     }
 
     .holdings-drill-down {
-      max-height: 400px;
-      overflow-y: scroll;
+
     }
 
     .holding {

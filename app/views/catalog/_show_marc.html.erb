@@ -54,7 +54,7 @@
       <% locations = document.to_holdings.group_by {|h| h.collection.display_label} %>
       <% locations.each do |holdings| %>
         <div class="holdings-container">
-          <div>
+          <div class="location-container">
             <div style="display: flex;  align-items: center;">
               <div class="location">
                 <%= holdings.first %>
