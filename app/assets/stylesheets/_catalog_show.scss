@@ -158,16 +158,18 @@
 
     h2 {
       font-size: 1.3em;
+      margin-bottom: 0.25px;
     }
 
     hr {
       margin-top: 0px;
+      margin-bottom: 0.5px;
     }
   }
 
   .holdings-container {
     background-color: $panel-default-heading-bg;
-    margin: 12px 0px 0px;
+    margin: 0.5em 0px 0px;
     padding: 6px 0px 6px 6px;
 
     .btn-xs {
