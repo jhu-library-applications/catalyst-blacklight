@@ -102,10 +102,17 @@ module MarcHeadingHelper
   end
 
   def heading_pub_date_str(document)
-    first_line = marc_presenter(document, :pub_date).lines[0]
+    marc = document_to_marc(document)
+    stmt = marc['260'].try {|f| f['c']}
 
-    render_marc_line(first_line)
+    if stmt.present?
+      return stmt.tr('c', '')
+    else
+      first_line = marc_presenter(document, :pub_date).lines[0]
+      return render_marc_line(first_line)
+    end
   end
+
 
   def heading_title(document)
     render_marc_line( marc_presenter(document, :title).lines[0]  )
