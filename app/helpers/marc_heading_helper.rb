@@ -106,7 +106,7 @@ module MarcHeadingHelper
     stmt = marc['260'].try {|f| f['c']}
 
     if stmt.present?
-      return stmt
+      return render_marc_line(stmt)
     else
       first_line = marc_presenter(document, :pub_date).lines[0]
       return render_marc_line(first_line)
