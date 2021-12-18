@@ -36,6 +36,7 @@
             <% if holding.status && holding.status.display_label %>
               <%- unless holding.special_collection? %>
                 <span class="status <%= holding.status.display_label.parameterize %>">
+                  <div class="indicator d-inline-block"></div>
                   <%= holding.status.display_label %>
                 </span>
                 <% if holding.due_date %>
@@ -46,8 +47,9 @@
                   </div>
                 <% end %>
               <% else %>
-                <span class="status non-circulating">
-                  Non-circulating
+                <span class="status in-library-use-only text-nowrap">
+                  <div class="indicator d-inline-block"></div>
+                  In-library Use Only
                 </span>
               <%- end %>
             <%- end %>

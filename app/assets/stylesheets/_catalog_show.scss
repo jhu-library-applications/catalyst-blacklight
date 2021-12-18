@@ -187,9 +187,13 @@
       max-height: 400px;
       overflow-y: scroll;
 
+      & > div {
+        background-color: $panel-default-heading-bg;
+      }
+
       .location {
-        font-size: 1.2em;
-        padding: .4em .5em;
+        font-size: 1em;
+        padding: .3em .5em;
       }
     }
 
@@ -210,42 +214,62 @@
 
       .status {
         padding: .5em 2em;
-        background-color: $jhuBlue-hover;
-        color: white;
+        color: $jhuBlue-hover;
+
+        .indicator {
+          height: 12px;
+          width: 12px;
+          border-radius: 9999px;
+          margin: 0px 6px 0px 0px;
+        }
 
         &.available {
-          background-color: $jhuDarkGreen;
-          color: white;
+          color: $jhuDarkGreen;
+          .indicator {
+            background-color: $jhuDarkGreen;
+          }
         }
 
         &.checked-out {
-          background-color: $jhuRed;
-          color: white;
+          color: $jhuRed;
+          .indicator {
+            background-color: $jhuRed;
+          }
         }
 
         &.transit {
-          background-color: $jhuBrightBlue;
-          color: white;
+          color: $jhuBrightBlue;
+          .indicator {
+            background-color: $jhuBrightBlue;
+          }
         }
 
-        &.non-circulating {
-          background-color: $jhuBlue-hover;
-          color: white;
+        &.in-library-use-only {
+          color: $jhuBlue-hover;
+          .indicator {
+            background-color: $jhuBlue-hover;
+          }
         }
 
         &.in-process {
-          background-color: $jhuBrightBlue;
-          color: white;
+          color: $jhuBrightBlue;
+          .indicator {
+            background-color: $jhuBrightBlue;
+          }
         }
 
         &.newly-acquired {
-          background-color: $jhuBlue-hover;
-          color: white;
+          color: $jhuBlue-hover;
+          .indicator {
+            background-color: $jhuBlue-hover;
+          }
         }
 
         &.newly-acquired {
-          background-color: $jhuRed;
-          color: white;
+          color: $jhuRed;
+          .indicator {
+            background-color: $jhuRed;
+          }
         }
       }
     }

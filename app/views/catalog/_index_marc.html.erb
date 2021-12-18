@@ -139,20 +139,23 @@
         <% locations.each do |holdings| %>
           <div class="holdings-container">
             <div class="location-container">
-              <div style="display: flex;  align-items: center;">
-                <div class="location">
-                  <%= holdings.first %>
+              <div class="sticky-top">
+                <div style="display: flex;  align-items: center;">
+                  <div class="location">
+                    <%= holdings.first %>
+                  </div>
+                  <div>
+                    <% # Floor Map feature %>
+                    <% if Flipper[:curbside_mode].enabled? %>
+                      <% # Do not show Floor Map feature in curbside mode %>
+                    <% else %>
+                      <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document["id"], holding: holdings.last.first } %>
+                    <% end %>
+                  </div>
                 </div>
-                <div>
-                  <% # Floor Map feature %>
-                  <% if Flipper[:curbside_mode].enabled? %>
-                  <% # Do not show Floor Map feature in curbside mode %>
-                  <% else %>
-                  <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document["id"], holding: holdings.last.first } %>
-                  <% end %>
-                </div>
+                <hr />
               </div>
-              <hr />
+
               <%= render :partial => "catalog/holding_expandable", :collection => holdings.last, :locals => {:document_id => document["id"], document: document  } %>
             </div>
           </div>
