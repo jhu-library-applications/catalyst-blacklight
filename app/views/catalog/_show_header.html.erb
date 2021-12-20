@@ -1,4 +1,10 @@
-
+<% if !flash.empty? %>
+  <% flash.each do |type, msg| %>
+    <div class="alert alert-<%= type %> mb-0">
+      <%== msg %>
+    </div>
+  <% end %>
+<% end %>
 <div class="show-marc-heading">
   <div class="row pb-3">
     <div class="col-md-2 cover-container">
