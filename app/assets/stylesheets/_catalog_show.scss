@@ -153,6 +153,12 @@
   }
 }
 
+#optionsContainer {
+  & button[aria-expanded="true"] svg{
+    transform: rotate(90deg);
+  }
+}
+
 .holdings {
   margin-bottom: 0.5em;
 
