@@ -1,6 +1,6 @@
 <% if holding.requestable? %>
   <%- if holding.special_collection? %>
-    <%= link_to "Request to Use at the Library", special_collection_request_url(document, holding), {:class => "request btn btn-primary btn-sm #{! holding.call_number.nil? && holding.call_number.include?('v.') ? 'volume' : ''}"} %>
+    <%= link_to "Request In-library Use", special_collection_request_url(document, holding), {:class => "request btn btn-primary btn-sm #{! holding.call_number.nil? && holding.call_number.include?('v.') ? 'volume' : ''}"} %>
   <%- else %>
     <%= link_to "Request", item_request_path(:id => document_id, :item_id => holding.id, :referer => request.fullpath), {:class => "request btn btn-primary btn-sm", :data => {:blacklight_modal => "trigger"}} %>
   <%- end %>

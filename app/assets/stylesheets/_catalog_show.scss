@@ -202,10 +202,14 @@
     }
 
     .holding {
-      padding: 1em 2em;
+      padding: 1em 1em;
+
+      .request-button-container {
+        text-align: right;
+      }
 
       .due {
-        padding: 4px 2em 0px;
+        padding: 4px 2.6em 0px;
 
         .due-label {
           margin-right: 4px;
@@ -213,7 +217,6 @@
       }
 
       .status {
-        padding: .5em 2em;
         color: $jhuBlue-hover;
 
         .indicator {
