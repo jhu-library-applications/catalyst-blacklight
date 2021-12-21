@@ -1,7 +1,8 @@
-<div id="documents" class="noresults">
+<h2>Options:</h2>
+<div id="documents" class="noresults pl-4">
   <div class="row pt-4">
     <div class="col-12">
-      <h3>Search refinement tips:</h3>
+      <h3 class="d-flex flex-row align-items-center"><span class="pr-2" style="zoom: 1.4;">&bull;</span> Modify your search</h3>
       <ul>
         <li>Try using fewer search terms or removing limiters such as quotation marks.</li>
         <li>Check your spelling. Typos can cause a search to fail.</li>
@@ -15,18 +16,18 @@
       </ul>
     </div>
   </div>
-  <hr />
+    <hr />
   <div class="row pt-4">
     <% if show_borrow_direct_suggestion(params) %>
       <div class="col-12 col-md-6">
-        <h3>Looking for a book or other physical item?</h3>
-        <p>
+        <h3 class="d-flex flex-row align-items-center"><span class="pr-2" style="zoom: 1.4;">&bull;</span> Get a book from a partner library</h3>
+        <p class="pl-4">
           <%= link_to_borrow_direct_from_search(params) %>
         </p>
-        <p>
+        <p class="pl-4">
           Request books and other items from partner libraries. JHED ID required.
         </p>
-        <p>
+        <p class="pl-4">
           If you are looking for a specific item and it's not in Catalyst, BorrowDirect is the best place to look next.
         </p>
       </div>
@@ -34,10 +35,10 @@
     <% if show_article_search_suggestion(params) %>
       <div class="col-12 col-md-6">
         <h3>Looking for an article?</h3>
-        <p>
+        <p class="">
           <%= link_to "Search Articles", search_url_context(:controller => "articles", :action => "index"), :class => "btn btn-primary btn-sm" %>
         </p>
-        <p>
+        <p class="">
           Select a database from the drop-down and click "Search" to go to results.
         </p>
       </div>
@@ -48,8 +49,8 @@
   <% end %>
   <div class="row pt-4">
     <div class="col-12">
-      <h3>Ask a Librarian</h3>
-      <p>
+      <h3 class="d-flex flex-row align-items-center"><span class="pr-2" style="zoom: 1.4;">&bull;</span> Ask a Librarian</h3>
+      <p class="pl-4">
         Sometimes JH Libraries won't have an item you need in the catalog, but we can get just about anything for you. Contact a librarian at <a href="mailto:asklib@jhu.edu">asklib@jhu.edu</a>
       </p>
     </div>
