@@ -15,14 +15,13 @@
       </ul>
     </div>
   </div>
-  <!--
   <hr />
   <div class="row pt-4">
-    <%# if show_borrow_direct_suggestion(params) %>
+    <% if show_borrow_direct_suggestion(params) %>
       <div class="col-12 col-md-6">
         <h3>Looking for a book or other physical item?</h3>
         <p>
-          <%#= link_to_borrow_direct_from_search(params) %>
+          <%= link_to_borrow_direct_from_search(params) %>
         </p>
         <p>
           Request books and other items from partner libraries. JHED ID required.
@@ -31,22 +30,22 @@
           If you are looking for a specific item and it's not in Catalyst, BorrowDirect is the best place to look next.
         </p>
       </div>
-    <%# end %>
-    <%# if show_article_search_suggestion(params) %>
+    <% end %>
+    <% if show_article_search_suggestion(params) %>
       <div class="col-12 col-md-6">
         <h3>Looking for an article?</h3>
         <p>
-          <%#= link_to "Search Articles", search_url_context(:controller => "articles", :action => "index"), :class => "btn btn-primary btn-sm" %>
+          <%= link_to "Search Articles", search_url_context(:controller => "articles", :action => "index"), :class => "btn btn-primary btn-sm" %>
         </p>
         <p>
           Select a database from the drop-down and click "Search" to go to results.
         </p>
       </div>
-    <%# end %>
+    <% end %>
   </div>
-  <%# if show_borrow_direct_suggestion(params) or show_article_search_suggestion(params) %>
+  <% if show_borrow_direct_suggestion(params) or show_article_search_suggestion(params) %>
     <hr />
-  <%# end %>
+  <% end %>
   <div class="row pt-4">
     <div class="col-12">
       <h3>Ask a Librarian</h3>
@@ -55,5 +54,5 @@
       </p>
     </div>
   </div>
-  -->
+
 </div>
