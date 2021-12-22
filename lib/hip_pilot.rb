@@ -223,10 +223,11 @@ class HipPilot
         )
       xml = get_xml_with_current_session(url)
     end
-
+    ray(xml.to_s)
 
 
     if ( error_msg = xml.at_xpath("//alert/message"))
+      ray(error_msg.text, current_user)
       raise RequestFailure.new( error_msg.text, current_user )
     end
 
