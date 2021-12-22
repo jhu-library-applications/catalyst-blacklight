@@ -76,7 +76,7 @@
                       </p>
                     </div>
                     <div class="col-4">
-                      <%= link_to "Go to Interlibrary Loan Form", ENV['ILLIAD_URL'] + '?Action=10&Form=30&' + @document.export_as_openurl_ctx_kev, :class => "btn btn-primary btn-sm", :target => "_blank" %>
+                      <%= link_to "Go to Interlibrary Loan Form", ENV['ILLIAD_URL'] + '?Action=10&Form=30&genre=book&' + @document.export_as_openurl_ctx_kev, :class => "btn btn-primary btn-sm", :target => "_blank" %>
                     </div>
                   </div>
                   <div class="row mt-4">
