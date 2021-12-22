@@ -22,11 +22,7 @@ class RequestsController < CatalogController
     @available, @exact_copy = check_availability?(@document, @holding)
     @show_borrow_direct = show_borrow_direct?(@document)
 
-    if @exact_copy
-      @ils_request = HipPilot::Request.new(:bib_id => horizon_bib_id, :item_id => params[:item_id])
-    else
-      @ils_request = HipPilot::Request.new(:bib_id => horizon_bib_id, :item_id => '')
-    end
+    @ils_request = HipPilot::Request.new(:bib_id => horizon_bib_id, :item_id => @exact_copy)
 
     @hip_pilot.init_request(@ils_request)
   end
@@ -79,11 +75,11 @@ class RequestsController < CatalogController
       yield
     rescue HipPilot::LoginFailure => e
       @exception = e
-      ray(@exception)
+      ray('Login Failure: ', @exception)
       render "request_login_failure"
     rescue HipPilot::RequestFailure => e
       @exception = e
-      ray(@exception)
+      ray('Request Failure: ', @exception)
       render "request_failure"
     end
 
@@ -103,19 +99,19 @@ class RequestsController < CatalogController
       # The item is available so just return true
       if holding.status.try(:display_label) == "Available"
         ray('Available')
-        return [true, true]
+        return [true, holding.id]
       end
 
       # The item is not available, but it's also a volume so just return false
       if holding.status.try(:display_label) != "Available" && (! holding.copy_string.nil? && holding.copy_string.include?('v.'))
         ray('Not available or volume')
-        return [false, true]
+        return [false, holding.id]
       end
 
-      # Check to make sure the document can respons to to_holdings
+      # Check to make sure the document can respond to to_holdings
       if ! document.respond_to?(:to_holdings)
         ray('Respond to holding false')
-        return [false, true]
+        return [false, holding.id]
       end
 
       # Let's check to see if any other copies are available if so then we will show the request form and send back a flag
@@ -127,36 +123,23 @@ class RequestsController < CatalogController
         if doc_holding.has_children?
           ray('Getting children holdings')
           doc_holding = document.to_holdings_for_holdingset(doc_holding.id)
-          if doc_holding.find { |h| h.status.try(:display_label) == "Available" }
+          if h = doc_holding.find { |h| h.status.try(:display_label) == "Available" }
             status = true
+            ray('Child ID: ', h.id)
             ray('Status: ', status)
-            return [status, false]
+            return [status, h.id]
           end
         else
           ray('No children')
           if ! doc_holding.copy_string.nil? && doc_holding.status.try(:display_label) == "Available"
             status = true
             ray('Status: ', status)
-            return [status, false]
+            return [status, doc_holding.id]
           end
         end
       end
       ray('Status: ', status)
-      return [status, true]
-
-      # if holding.has_children?
-      #   ray('Getting children holdings')
-      #   if document.to_holdings_for_holdingset(holding.id).find { |h| h.status.try(:display_label) == "Available" }
-      #     status = true
-      #   end
-      # else
-      #   if holding.status.try(:display_label) == "Available"
-      #     ray('No children')
-      #     status = true
-      #   end
-      # end
-      # ray('Status: ', status)
-      # return [status, false]
+      return [status, holding.id]
 
     end
 

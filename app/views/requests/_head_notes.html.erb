@@ -1,10 +1,10 @@
 <div class="request-head-notes">
   <div class="row citation">
-    <div class="col-md-1 cover-container">
+    <div class="col-2 col-lg-1 cover-container">
       <img class="cover-image <%= cover_formats(@document) %>"
            src="/bookcover?bib=<%= @document['id'] %>" />
     </div>
-    <div class="col-md-11">
+    <div class="col-10 col-lg-11">
       <div class="bib">
       <span><%= heading_title(@document) -%>
         <% if subtitle_line = heading_subtitle(@document) %>

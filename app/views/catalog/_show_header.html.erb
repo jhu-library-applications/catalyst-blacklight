@@ -7,11 +7,11 @@
 <% end %>
 <div class="show-marc-heading">
   <div class="row pb-3">
-    <div class="col-md-2 cover-container">
+    <div class="col-lg-2 cover-container">
       <img class="cover-image <%= cover_formats(document) %>"
            src="/bookcover?bib=<%= document['id'] %>" />
     </div>
-    <div class="col-md-10">
+    <div class="col-lg-10">
       <%- types = heading_type_str(document)
           languages = heading_language_str(document)
           if types.present? || languages.present? -%>
