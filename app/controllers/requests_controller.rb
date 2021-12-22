@@ -7,6 +7,7 @@ class RequestsController < CatalogController
   around_action :catch_request_failure
 
 
+
   # The request submission form
   def new
     @response, @document = search_service.fetch(params[:id])

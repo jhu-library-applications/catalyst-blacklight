@@ -231,7 +231,7 @@ class HipPilot
     end
 
     request_confirm = xml.at_xpath("//request_confirm")
-
+    ray(request_confirm.to_s)
     request.available_locations ||=
       request_confirm.xpath("./pickup_location/location").collect do |location_xml|
         # New hip gives us sub-nodes code and description, old HIP
