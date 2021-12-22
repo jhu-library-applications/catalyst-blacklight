@@ -425,11 +425,15 @@ module LocalCatalogHelper
   end
 
   def show_borrow_direct_suggestion(params)
-    ['all_fields', 'author', 'title', 'subject', 'advanced'].include?(params[:search_field])
+    ['all_fields', 'author', 'title', 'subject', 'number', 'isbn'].include?(params[:search_field])
   end
 
   def show_article_search_suggestion(params)
-    ['all_fields', 'author', 'title', 'journal', 'subject', 'advanced'].include?(params[:search_field])
+    if ['isbn'].include?(params[:search_field])
+      false
+    else
+      ['all_fields', 'author', 'title', 'journal', 'subject'].include?(params[:search_field])
+    end
   end
 
   def book_cover(isbns)
