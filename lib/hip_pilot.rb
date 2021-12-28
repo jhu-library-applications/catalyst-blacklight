@@ -707,7 +707,7 @@ class HipPilot
       options.each_pair do |key, value|
         self.send(key.to_s + "=", value)
       end
-      raise "Need to supply bib_id" unless self.bib_id
+      raise "Need to supply bib_id and item_id" unless self.bib_id && self.item_id
     end
 
     # ensure default, HIP really doesn't like it when this is empty.
