@@ -24,15 +24,15 @@
               });
           }
     }">
-    <div id="<%= document["id"] %>_<%= holding.id %>" x-intersect:enter.half.once="retrieveCopies('<%= document["id"] %>', '<%= holding.id %>')">
-
+    <div id="<%= document["id"] %>_<%= holding.id %>"
+         x-intersect:enter.half.once="retrieveCopies('<%= document["id"] %>', '<%= holding.id %>')">
     </div>
   </div>
 <% else %>
 
       <div class="holding">
-        <div style="display: flex; flex-direction: row; align-items: center;">
-          <div style="flex: 1 1 auto;">
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 0.375rem; align-items: center;">
+        <div style="">
             <% if holding.status && holding.status.display_label %>
               <%- unless holding.special_collection? %>
                 <span class="status <%= holding.status.display_label.parameterize %>">
@@ -54,7 +54,7 @@
               <%- end %>
             <%- end %>
           </div>
-          <div style="flex: 1 1 auto; padding-right: 2px; padding-left: 2px;">
+          <div style="padding-right: 2px; padding-left: 2px;">
             <div>
               <%= holding.call_number %>
               <% unless holding.copy_string.blank? %>
@@ -68,7 +68,7 @@
               <% end %>
             </div>
           </div>
-          <div class="request-button-container" style="flex: none;">
+          <div class="request-button-container" style="">
             <% # Holdings %>
             <% if Flipper[:curbside_mode].enabled? %>
               <%= render partial: 'holding_expandable_curbside_request', locals: { document: document, document_id: document_id, holding: holding } %>
