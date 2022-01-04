@@ -1,5 +1,6 @@
 <div x-data="{
-        show: 'borrow-direct'
+        show: 'borrow-direct',
+        availableForRequests: <%= ! @ils_request.available_locations.nil? && @ils_request.available_locations.length >= 1 %>
       }"
      data-ajax-modal="container">
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up

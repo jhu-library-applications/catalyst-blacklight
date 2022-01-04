@@ -79,7 +79,8 @@
                       <%= link_to "Go to Interlibrary Loan Form", ENV['ILLIAD_URL'] + '?Action=10&Form=30&genre=book&' + @document.export_as_openurl_ctx_kev, :class => "btn btn-primary btn-sm", :target => "_blank" %>
                     </div>
                   </div>
-                  <div class="row mt-4">
+                  <div x-show="availableForRequests"
+                       class="row mt-4">
                     <div class="col-8">
                       <h4 class="font-weight-bold mb-0"><small>Wait for local copy</small></h4>
                       <p class="m-0 text-muted">
