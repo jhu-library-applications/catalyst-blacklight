@@ -43,7 +43,7 @@
         <% end %>
         <input type="hidden" name="exact_copy" value="<%= @exact_copy %>" />
         <%= hidden_field :ils_request, :notification_method %>
-        <% if @ils_request.available_locations.length > 1 %>
+        <% if ! @ils_request.available_locations.nil? && @ils_request.available_locations.length > 1 %>
           <div class="form-group">
 
             <% if Flipper[:curbside_mode].enabled? %>
@@ -60,7 +60,7 @@
             </div>
 
           </div>
-        <% elsif @ils_request.available_locations.length == 1 %>
+        <% elsif ! @ils_request.available_locations.nil? && @ils_request.available_locations.length == 1 %>
           <div class="form-group bg-warning text-warning">
             <%= hidden_field :ils_request, :pickup_location %>
             <span class="col-sm-3 restricted-pickup-label">Can only be accessed at</span>

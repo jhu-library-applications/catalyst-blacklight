@@ -15,7 +15,7 @@ class RequestsController < CatalogController
     # The individual item object for use in the view. May wind up
     # with nil for copy/item multi-level holdings, bah.
     @holding = @document.fetch_holding(params[:item_id])
-    ray(@holding)
+    ray('Holding 18', @holding)
 
     horizon_bib_id = @document.ils_bib_id
 
@@ -23,7 +23,7 @@ class RequestsController < CatalogController
     @show_borrow_direct = show_borrow_direct?(@document)
 
     @ils_request = HipPilot::Request.new(:bib_id => horizon_bib_id, :item_id => @exact_copy)
-
+    ray('ILS Request', @ils_request)
     @hip_pilot.init_request(@ils_request)
   end
 
