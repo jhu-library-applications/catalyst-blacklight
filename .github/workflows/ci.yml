@@ -25,6 +25,8 @@ env:
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
   GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
   HORIZON_WS_URL: http://localhost:8080/ws
+  EZPROXY_PREFIX: "http://proxy1.library.jhu.edu/login?url="
+  SFX_BASE_URL: "https://sfx-stage.library.jhu.edu/sfxlcl41"
 jobs:
   tests:
     services:
