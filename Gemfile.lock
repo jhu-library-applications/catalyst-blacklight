@@ -18,6 +18,15 @@ GIT
       rails
 
 GIT
+  remote: https://github.com/jhu-library-applications/openurl.git
+  revision: 6d400bed14cd1cd42718a10e0bca202aebe0b601
+  specs:
+    openurl (1.0.0)
+      marc
+      rexml
+      scrub_rb (~> 1.0)
+
+GIT
   remote: https://github.com/jhu-sheridan-libraries/rails_stackview
   revision: 62a113f4cfcb61b124297e5c2d8ec02d0e3de935
   branch: blacklight-7.0
@@ -370,9 +379,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
-    openurl (1.0.0)
-      marc
-      scrub_rb (~> 1.0)
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
@@ -667,7 +673,7 @@ DEPENDENCIES
   minitest-rails (~> 5.2.0)
   multi_json (~> 1.4)
   mysql2 (~> 0.5)
-  openurl (>= 0.1.0)
+  openurl!
   puma (~> 4.3)
   rack_session_access
   rails (~> 5.2.6)
