@@ -9,6 +9,7 @@
           <%= t('blacklight.email.form.to') %>
         </label>
         <div class="col-sm-10">
+          <% ray(current_user) %>
           <%= email_field_tag :to, params[:to], class: 'form-control', value: current_user.email %>
         </div>
       </div>

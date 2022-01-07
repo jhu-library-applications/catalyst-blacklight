@@ -134,7 +134,7 @@ class HipPilot
 
   def profile
     xml = xml_for(profile_url).xpath("/*/patroninfo")
-
+    ray(xml)
 
     return Profile.new(
       :name => at_xpath_text(xml, "name/full"),
