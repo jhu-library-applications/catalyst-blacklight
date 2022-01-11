@@ -3,7 +3,7 @@ require 'dlf_expanded_passthrough/document_extension'
 require 'dlf_expanded_passthrough/to_holdings_extension'
 
 class SolrDocument 
-
+  include ActionView::Helpers::UrlHelper
   include Blacklight::Solr::Document
       # The following shows how to setup this blacklight document to display marc documents
   extension_parameters[:marc_source_field] = :marc_ss
@@ -151,5 +151,17 @@ class SolrDocument
     end
   end
 
+  def isbn
+    try(:[], :isbn_t).try(:first) ||
+      _source.dig(:response, :docs, :first, :isbn_t, :first) || ''
+  end
+
+  def finding_aid_url
+    marc = to_marc
+
+    return '' unless marc.try(:[], '856').try(:[], 'z').try(:match, /Finding aid:/)
+
+    marc.try(:[], '856').try(:[], 'u').try(:strip) || ''
+  end
 
 end

@@ -101,6 +101,8 @@ Catalyst::Application.routes.draw do
   get 'user/requests' => "users#requests"
   get 'user/profile'  => "users#show"
 
+  get 'online_access/show' => "online_access#show"
+
   # reserves, mostly just ordinary resourceful, but with special
   # one for specifying location limit in path.
   # special location in path URL

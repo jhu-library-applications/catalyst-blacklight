@@ -25,47 +25,6 @@ Blacklight.onLoad(function(){
     dd.prev("dt").show();
   }
 
-  function replace_links_with_umlaut(html) {
-    // Make sure the 'links' section is shown
-    $(".links").show();
-
-    // Change heading to heading from Umlaut.
-    var original_heading = $(html).find(".section_heading").remove().text();
-    if (original_heading != "") {
-      $(".links").find("[data-umlaut-update=heading]").text(original_heading);
-    }
-    //Hide the spinner, cause now we've got our own.
-    $(html).closest(".links").find(".umlaut_load_msg").hide();
-    // Hide any BL-straight-from-marc links.
-    if ($(".umlaut:contains('Finding aid from')").length > 0) {
-      $(html).closest(".links").find(".marc856").hide();
-      // Update label before finding aid url
-      $("a.response_link:contains('Finding aid from')").each(function() {
-        var text = $(this).text();
-        text = text.replace("Finding aid from", "Collection guide available:");
-        $(this).text(text);
-      });
-    } else {
-      if( $(html).closest(".links").find('.umlaut_section_content > p').hasClass('umlaut-unavailable') && $(html).closest(".links").find('.marc856url a').length > 0 ){
-        $('p.umlaut-unavailable').hide();
-      } else{
-        $(html).closest(".links").find(".marc856").find('.marc856*:not(:contains("Finding aid")):not(:contains("Finding Aid")):not(:contains("Complete inventory")):not(:contains("Collection guide available"))').closest('li.marc856').hide();
-      }
-      if ($(html).closest(".links").find(".marc856*:contains('Finding aid'),.marc856*:contains('Finding Aid'),.marc856*:contains('Complete inventory')").length > 0) {
-        $('p.umlaut-unavailable').hide();
-        // Update label before finding aid url
-        $(".marcLine.marc856*:contains('Finding aid'),.marcLine.marc856*:contains('Finding Aid'),.marcLine.marc856*:contains('Complete inventory')").each(function() {
-          $(this).find('span').first().text("Collection guide available:");
-        })
-      }
-    }
-
-    if ($("#hathi-etas").length > 0 && $("#hathi-etas").attr("hathi-present").trim() == "true"){
-      $('p.umlaut-unavailable').hide();
-    }
-  }
-
-
   /* JQuery Content Utility Section Target Configuration
    *
    * We define all our sections in an array here, so we can
@@ -78,24 +37,6 @@ Blacklight.onLoad(function(){
   section_targets.push({
     umlaut_section_id: "cover_image",
     selector: ".cover-image-container"
-  });
-
-  section_targets.push({
-    umlaut_section_id: "fulltext", selector:".links [data-umlaut-update=body]" , position: "prepend",
-    after_update: function(html, count, section_target) {
-      if (count != 0) {
-        replace_links_with_umlaut(html);
-      }
-      else {
-        $(html).hide();
-      }
-    },
-    complete: function(target_obj) {
-      // On complete, replace static with umlaut content even
-      // if there are no hits, to show 'not available' message.
-      $(target_obj.host_div_element).show();
-      replace_links_with_umlaut(target_obj.host_div_element);
-    }
   });
 
   section_targets.push({
@@ -302,7 +243,6 @@ Blacklight.onLoad(function(){
 
         /* Add a progress spinner to the existing static links section. */
         var spinner = '<span class="umlaut_load_msg"><img src="' + umlaut_base + '/assets/spinner.gif" border="0"/> Loading more</span>';
-        $(".links .card-body").append(spinner);
 
         /* And to the sidebar */
          $("section.page-sidebar").append(spinner);
