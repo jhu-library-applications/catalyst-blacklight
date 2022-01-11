@@ -80,7 +80,7 @@
     <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
       <%= render 'links_card', document: document %>
     <% end %>
-    
+
     <% if links_presenter.lines.present? && related_links_type(document) == :online %>
       <%= render 'links_card', document: document %>
     <% end %>

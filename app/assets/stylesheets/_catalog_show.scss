@@ -214,6 +214,9 @@
 
     .holding {
       padding: 1em 1em;
+      ul {
+        margin-bottom: 0px;
+      }
 
       .request-button-container {
         text-align: right;
