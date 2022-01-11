@@ -1,21 +1,23 @@
 <div class="show-marc">
-  <%# Online Access, starts with stuff from MARC record, updated by SFX %>
+  <div class="holdings">
+    <div class="title mb-1 mt-3">
+      <h2>Where to get it</h2>
+      <hr />
+    </div>
+    <%# Online Access, starts with stuff from MARC record, updated by SFX %>
     <%= render 'links_card', document: document %>
 
     <%# borrow direct section, only where appropriate. This duplicates some of
         what's in FindIt/Umlaut, sorry.  %>
     <%# if related_hathi_links_etas_only(document).length == 0 %>
-      <%# if show_borrow_direct? document %>
-        <%#= render 'borrow_direct', :document => document %>
-      <%# end %>
+    <%# if show_borrow_direct? document %>
+    <%#= render 'borrow_direct', :document => document %>
     <%# end %>
+    <%# end %>
+  </div>
+
   <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0  %>
     <div class="holdings">
-      <div class="title mb-1 mt-3">
-        <h2>Where to get it</h2>
-        <hr />
-      </div>
-
       <% locations = document.to_holdings.group_by {|h| h.collection.display_label} %>
       <% locations.each do |holdings| %>
         <div class="holdings-container">
