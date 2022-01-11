@@ -27,6 +27,12 @@ env:
   HORIZON_WS_URL: http://localhost:8080/ws
   EZPROXY_PREFIX: "http://proxy1.library.jhu.edu/login?url="
   SFX_BASE_URL: "https://sfx-stage.library.jhu.edu/sfxlcl41"
+  ILLIAD_URL: https://ill.library.jhu.edu/msel/illiad.dll
+  RELAIS_API_URL: borrow-direct.relais-host.com
+  RELAIS_API_KEY: ${{ secrets.RELAIS_API_KEY }}
+  RELAIS_PARTNERSHIP_ID: BD
+  RELAIS_LIBRARY_SYMBOL: JOHNSHOPKINS
+  RELAIS_PATRON_ID: ${{ secrets.RELAIS_PATRON_ID }}
 jobs:
   tests:
     services:
