@@ -125,14 +125,14 @@
                   <input type=text id="floor" x-model="delivery.floor" class="form-control"  :required="{'required': location != 'EOFFICE'}"/>
                 </div>
                 <div class="col-sm-12">
-                  <label class="" for="drop">Mailbox or Admin?</label>
+                  <label class="" for="drop">Deliver to</label>
                   <div>
                     <input type="radio" id="mailbox" name="drop" value="Mailbox" x-model="delivery.drop">
                     <label for="mailbox">Mailbox</label>
                   </div>
                   <div>
-                    <input type="radio" id="admin" name="drop" value="Admin" x-model="delivery.drop">
-                    <label for="admin">Admin</label>
+                    <input type="radio" id="admin" name="drop" value="Admin Coordinator" x-model="delivery.drop">
+                    <label for="admin">Admin Coordinator</label>
                   </div>
                 </div>
               </div>
