@@ -20,6 +20,9 @@
                 dataType: 'html',
                 success: function(data){
                   $('#<%= document["id"] %>_<%= holding.id %>').html(data);
+                  if($(data).find('.holding').length > 4){
+                    $('#<%= document["id"] %>_<%= holding.id %>').parents('.location-container').addClass('scroll-overflow');
+                  }
                 }
               });
           }

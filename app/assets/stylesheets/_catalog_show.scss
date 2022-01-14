@@ -190,8 +190,10 @@
       margin-bottom: 0em;
     }
     .location-container {
-      max-height: 400px;
-      overflow-y: scroll;
+      &.scroll-overflow{
+        max-height: 400px;
+        overflow-y: scroll;
+      }
 
       & > div {
         background-color: $panel-default-heading-bg;

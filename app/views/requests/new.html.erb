@@ -33,7 +33,7 @@
         <% if ! @available %>
 
           <%# and a heading for the normal local request %>
-          <h4>Place local request for this copy</h4>
+          <h4>Place Hopkins request for this copy</h4>
           <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
 
         <% end %>
@@ -96,9 +96,9 @@
       <div x-show="show == 'borrow-direct'">
         <% if ! @available && @show_borrow_direct %>
           <p>
-            <strong>A local copy is not available, but you can request it from another library.</strong>
+            <strong>A Hopkins copy is not available, but you can request it from another library.</strong>
             <br />
-            <span class="text-muted">Get a copy from a partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</span>
+            <span class="text-muted">Get a copy from a BorrowDirect partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</span>
           </p>
           <%= render 'borrow_direct', :document => @document,
                      :panel_title => "Get a copy faster from BorrowDirect",

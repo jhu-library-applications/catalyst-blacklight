@@ -34,7 +34,7 @@
         <% if ! @available %>
 
           <%# and a heading for the normal local request %>
-          <h4>Place local request for this copy</h4>
+          <h4>Place Hopkins request for this copy</h4>
           <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
 
         <% end %>
@@ -93,8 +93,8 @@
       <div x-show="show == 'borrow-direct'">
         <% if show_borrow_direct?(@document) %>
           <p>
-            <strong>This local copy is not available for delivery.</strong>
-            <span class='text-muted'>(<%= @exception.message %>) A BorrowDirect copy from a partner library may be available.</span>
+            <strong>This Hopkins copy is not available for delivery.</strong>
+            <span class='text-muted'>(<%= @exception.message %>)</span>
            </p>
         <% else %>
           <p><strong><%= @exception.message %></strong></p>
