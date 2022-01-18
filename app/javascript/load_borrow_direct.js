@@ -60,8 +60,8 @@ const hideLoadingIndicator = (entry) => {
 }
 
 const showLoadingIndicator = (entry) => {
-    entry.target.innerHTML = `<div class="spinner-border text-secondary" role="status">
-    <span class="">Checking BorrowDirect</span>
-  </div>
+    entry.target.innerHTML = `<div class="d-flex"><div class="spinner-border text-secondary" role="status">
+    <span class="sr-only">Loading Online Access links</span>
+  </div><div>Checking BorrowDirect</div></div>
   `
 }
