@@ -91,11 +91,12 @@
       </div>
 
       <div x-show="show == 'borrow-direct'">
-        <% if show_borrow_direct?(@document) %>
+        <% if ! @available && @show_borrow_direct %>
           <p>
-            <strong>This Hopkins copy is not available for delivery.</strong>
-            <span class='text-muted'>(<%= @exception.message %>)</span>
-           </p>
+            <strong>A Hopkins copy is not available, but you can request it from another library.</strong>
+            <br />
+            <span class="text-muted">Get a copy from a BorrowDirect partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</span>
+          </p>
         <% else %>
           <p><strong><%= @exception.message %></strong></p>
         <% end %>
