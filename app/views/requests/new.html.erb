@@ -13,7 +13,7 @@
           :borrow_direct_umlaut_wrapper => true
         } do %>
 
-    <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
+
 
     <div class="modal-header">
       <% if Flipper[:curbside_mode].enabled? %>
@@ -31,12 +31,13 @@
       <%# If available show request form %>
       <div x-show="show == 'request'">
         <% if ! @available %>
-
           <%# and a heading for the normal local request %>
           <h4>Place Hopkins request for this copy</h4>
           <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
 
         <% end %>
+
+        <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
           <%= hidden_field :ils_request, :bib_id %>
           <% if @exact_copy %>
             <%= hidden_field :ils_request, :item_id %>
@@ -87,9 +88,7 @@
           <% else %>
 
           <% end %>
-
-
-
+        <% end %>
       </div>
 
       <%# If not available show BD form %>
@@ -113,6 +112,13 @@
         <%= submit_tag "Request", :class => "btn btn-primary submit" %>
       </div>
 
-    <% end %>
   <% end %>
 </div>
+<script>
+  $(function(){
+      $(document).on('click', '.request input[type="submit"]', function(){
+          let $button = $(this);
+          $button.parents('.request').find('form').submit();
+      });
+  });
+</script>
