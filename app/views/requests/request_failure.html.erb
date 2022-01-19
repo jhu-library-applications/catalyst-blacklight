@@ -90,7 +90,7 @@
         <% end %>
       </div>
 
-      <div x-show="show == 'borrow-direct' && 'You have already requested this item.' != '<%= @exception.message %>'">
+      <div x-show="show == 'borrow-direct'">
         <% if ! @available && @show_borrow_direct %>
           <p>
             <strong>A Hopkins copy is not available, but you can request it from another library.</strong>
@@ -101,8 +101,7 @@
           <p><strong><%= @exception.message %></strong></p>
         <% end %>
 
-
-        <% if show_borrow_direct?(@document) %>
+        <% if show_borrow_direct?(@document) && 'You have already requested this item.' != @exception.message %>
           <%= render 'borrow_direct', :document => @document,
                 :panel_title => "Get a copy faster from BorrowDirect",
                 :panel_classes => "panel-info" %>
