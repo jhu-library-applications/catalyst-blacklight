@@ -90,5 +90,10 @@ Blacklight.onLoad(function() {
     // triggerRequestFromUrl();
   });
 
+  // Trigger the request submission for local requests and BD since button is no longer in form
+  $(document).on('click', '.request input[type="submit"]', function(){
+    let $button = $(this);
+    $button.parents('.request').find('form').trigger('submit');
+  });
 
 });
