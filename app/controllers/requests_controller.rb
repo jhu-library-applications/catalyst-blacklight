@@ -32,7 +32,7 @@ class RequestsController < CatalogController
     @response, @document = search_service.fetch(params[:id])
 
     horizon_bib_id = @document.ils_bib_id
-    horizon_item_id = (params[:exact_copy] == true || params[:exact_copy] == 'true' ) ? params[:item_id] : nil
+    horizon_item_id = params[:exact_copy]
 
     params[:ils_request][:bib_id] = horizon_bib_id
     params[:ils_request][:item_id] = horizon_item_id
