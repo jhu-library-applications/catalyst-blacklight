@@ -90,7 +90,7 @@
         <% end %>
       </div>
 
-      <div x-show="show == 'borrow-direct'">
+      <div x-show="show == 'borrow-direct' && 'You have already requested this item.' != <%= @exception.message %>">
         <% if ! @available && @show_borrow_direct %>
           <p>
             <strong>A Hopkins copy is not available, but you can request it from another library.</strong>
