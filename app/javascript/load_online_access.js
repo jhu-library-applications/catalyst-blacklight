@@ -30,7 +30,7 @@ export const loadOnlineAccess = () => {
 }
 
 const shouldFetch = (entry) => {
-  console.log(entry.target);
+  //console.log(entry.target);
   return entry.target.textContent.length > 0 && 
     isFormat(entry, 'Journal/Newspaper') || 
     // Only look for Online Books in SFX if the publisher is Springer
@@ -40,7 +40,7 @@ const shouldFetch = (entry) => {
 
 const isSpringerBook = (entry) => { 
   var entryPublisher = entry.target.getAttribute('data-publisher')
-  console.log(entryPublisher.includes('Springer'))
+  //console.log(entryPublisher.includes('Springer'))
   return entryPublisher.includes('Springer')
 }
 
