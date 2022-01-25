@@ -3,7 +3,7 @@
   <div class="row pb-3">
     <div class="col-md-2 cover-container">
       <img class="cover-image <%= cover_formats(document) %>"
-           src="/bookcover?bib=<%= document['id'] %>" />
+           src="/bookcover?bib=<%= document['id'] %>" alt=""/>
     </div>
     <div class="col-md-10">
       <%- types = heading_type_str(document)
