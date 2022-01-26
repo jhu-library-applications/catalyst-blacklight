@@ -1,11 +1,20 @@
-<% @urls[:show_urls].each do |url| %>
-  <%= "<a href='#{url[0].text}'>#{url[1].text}</a><p>#{url[2]}</p>".html_safe %>
+<% @urls[:show_targets].each do |url| %>
+  <%= "<p><a href='#{url.css('target_url').text}'>#{url.css('target_public_name').text}</a></br>".html_safe %>
+  <% url.css('coverage_statement').each do |coverage_statement| %>
+    <%= coverage_statement.text %>
+    </br>
+  <% end %>
+  </p>
 <% end %>
-<% unless @urls[:overflow_urls].nil? %>
-  <a class="view-overflow-urls btn-sm btn-primary btn"><span class="overflow-label">View</span> <%= @urls[:overflow_urls].size %> More</a>
+<% unless @urls[:overflow_targets].nil? %>
+  <a class="view-overflow-urls btn-sm btn-primary btn"><span class="overflow-label">View</span> <%= @urls[:overflow_targets].size %> More</a>
   <div class="overflow-urls">
-    <% @urls[:overflow_urls].each do |url| %>
-      <%= "<a href='#{url[0].text}'>#{url[1].text}</a><p>#{url[2]}</p>".html_safe %>
+    <% @urls[:overflow_targets].each do |url| %>
+     <%= "<p><a href='#{url.css('target_url').text}'>#{url.css('target_public_name').text}</a></br>".html_safe %>
+  <% url.css('coverage_statement').each do |coverage_statement| %>
+    <%= coverage_statement.text %>
+    </br>
     <% end %>
-  </div>
+    </p>
+  <% end %>
 <% end %>
