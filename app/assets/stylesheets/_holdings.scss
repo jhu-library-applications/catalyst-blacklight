@@ -92,6 +92,12 @@ li.holding {
       padding-bottom: ($line-height-computed / 2);
     }
 
+    &.notes {
+      font-size: .9em;
+      font-weight: normal;
+      padding: 0.3em 0.6em;
+    }
+
     // make right edge match the holding-visible row leaving
     // room for icon.
     padding-right: 1.5em;

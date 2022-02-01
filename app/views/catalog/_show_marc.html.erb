@@ -36,8 +36,8 @@
                   <% end %>
                 </div>
               </div>
-              <div>
-                <% if holdings.last.first.notes.present? %>
+              <% if holdings.last.first.notes.present? %>
+                <div>
                   <% unless holdings.last.first.notes.empty? %>
                     <ul class="list-unstyled holding-line notes">
                       <% holdings.last.first.notes.each do |note| %>
@@ -45,8 +45,8 @@
                       <% end %>
                     </ul>
                   <% end %>
-                <% end %>
-              </div>
+                </div>
+              <% end %>
               <hr />
             </div>
 
