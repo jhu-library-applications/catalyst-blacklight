@@ -80,7 +80,7 @@
             <% end %>
           </div>
           <div>
-            <% if holding.notes.present? || holding.has_children? %>
+            <% if holding.notes.present? %>
               <% unless holding.notes.empty? %>
                 <ul class="list-unstyled holding-line notes">
                   <% holding.notes.each do |note| %>
