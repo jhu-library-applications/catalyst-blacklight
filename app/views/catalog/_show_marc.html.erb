@@ -28,6 +28,17 @@
                   <%= holdings.first %>
                 </div>
                 <div>
+                  <% if holdings.last.first.notes.present? %>
+                    <% unless holdings.last.first.notes.empty? %>
+                      <ul class="list-unstyled holding-line notes">
+                        <% holdings.last.first.notes.each do |note| %>
+                          <li class="note"><%= note %></li>
+                        <% end %>
+                      </ul>
+                    <% end %>
+                  <% end %>
+                </div>
+                <div>
                   <% # Floor Map feature %>
                   <% if Flipper[:curbside_mode].enabled? %>
                     <% # Do not show Floor Map feature in curbside mode %>
