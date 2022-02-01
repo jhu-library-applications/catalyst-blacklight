@@ -79,6 +79,17 @@
               <%= render partial: 'holding_expandable_default_request', locals: { document: document, document_id: document_id, holding: holding } %>
             <% end %>
           </div>
+          <div>
+            <% if holding.notes.present? || holding.has_children? %>
+              <% unless holding.notes.empty? %>
+                <ul class="list-unstyled holding-line notes">
+                  <% holding.notes.each do |note| %>
+                    <li class="note"><%= note %></li>
+                  <% end %>
+                </ul>
+              <% end %>
+            <% end %>
+          </div>
         </div>
         <div>
           <!-- if there's an RMST, display it in a hidden DIV, that'll
