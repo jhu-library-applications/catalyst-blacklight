@@ -95,6 +95,17 @@
                 <div style="display: flex;  align-items: center;">
                   <div class="location">
                     <%= holdings.first %>
+                    <div>
+                      <% if holdings.last.first.notes.present? %>
+                        <% unless holdings.last.first.notes.empty? %>
+                          <ul class="list-unstyled holding-line notes">
+                            <% holdings.last.first.notes.each do |note| %>
+                              <li class="note"><%= note %></li>
+                            <% end %>
+                          </ul>
+                        <% end %>
+                      <% end %>
+                    </div>
                   </div>
                   <div>
                     <% # Floor Map feature %>
