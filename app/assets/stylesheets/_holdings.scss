@@ -92,12 +92,6 @@ li.holding {
       padding-bottom: ($line-height-computed / 2);
     }
 
-    &.notes {
-      font-size: .9em;
-      font-weight: normal;
-      padding: 0.3em 0.6em;
-    }
-
     // make right edge match the holding-visible row leaving
     // room for icon.
     padding-right: 1.5em;
@@ -271,4 +265,10 @@ li.holding .item-children {
 
 .links {
   overflow: hidden; // sometimes get very long URLs that can't be parsed cause they're illegal.
+}
+
+.holding-line.notes {
+  font-size: .9em;
+  font-weight: normal;
+  padding: 0.3em 0.6em;
 }
