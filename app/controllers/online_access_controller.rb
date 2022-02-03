@@ -6,7 +6,7 @@ class OnlineAccessController < ApplicationController
       context_object = OpenURL::ContextObject.new_from_kev(params.to_query)
   
       @sfx_links = SfxLinks.new(context_object: context_object)
-      @urls = OnlineAccessPresenter.new(urls: @sfx_links.links).overflow
+      @urls = OnlineAccessPresenter.new(targets: @sfx_links.links).overflow
   
       respond_to do |format|
         format.html { render layout: false }

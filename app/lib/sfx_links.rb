@@ -8,7 +8,7 @@ require 'base64'
 class SfxLinks
   SFX_REQUEST_OPTIONS = '&sfx.ignore_date_threshold=1&sfx.response_type=multi_obj_xml'.freeze
 
-  attr_reader :context_object, :target_public_names, :target_urls, :target_coverage_statements
+  attr_reader :context_object, :targets
 
   def initialize(context_object:)
     @context_object = context_object
@@ -17,12 +17,9 @@ class SfxLinks
   def links
     doc = Nokogiri::XML(sfx_xml_request)
 
-    # Collect the URLs, public names, and coverage statements
-    @target_urls = doc.xpath('//target/target_url')
-    @target_public_names = doc.xpath('//target/target_public_name')
-    @target_coverage_statements = doc.xpath('//coverage_statement')
-
-    zipped_links
+   # Targets are the URLs from SFX along with their names and coverage statements. They contain
+   # additional information about the target that we don't currently display. 
+    doc.xpath('//target')
   end
 
   def sfx_url
@@ -30,9 +27,9 @@ class SfxLinks
   end
 
   def sfx_xml_request
-    Rails.cache.fetch(cache_id, expires_in: 24.hours) do
+   Rails.cache.fetch(cache_id, expires_in: 24.hours) do
       Faraday.get(URI.parse(sfx_url)).body
-    end
+   end
   end
 
   # This returns a Base64 encoded version of the context object
@@ -45,30 +42,6 @@ class SfxLinks
   end
 
   private
-
-  def zipped_links
-    if !in_sfx?
-      # Combine the URLs, with the names and coverage statements.
-      target_urls
-        .zip(target_public_names, target_coverage_statements)
-        .select { |link| link if link[0].text.match(/catalyst.library/).blank? }
-        .select { |link| link if link[0].text.match(/ill.library/).blank? }
-        .select { |link| link if link[1].text.match(/Electronic full text not available/).blank? }
-    else
-      []
-    end
-  end
-
-  def add_proxy_prefix(url)
-    return url if url.include? ENV['EZPROXY_PREFIX']
-
-    url.content = "#{ENV['EZPROXY_PREFIX']}#{url.text}"
-    url
-  end
-
-  def in_sfx?
-    target_public_names.try(:[], 0).text.match(/not available/)
-  end
 
   def context_object_params
     context_object.kev.to_param
