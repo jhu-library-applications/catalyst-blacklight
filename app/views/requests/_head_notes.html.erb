@@ -1,7 +1,7 @@
 <div class="request-head-notes">
   <div class="citation">
     <div class="bib">
-      <span><%= heading_title(@document) -%>
+      <span><%= heading_title(@document).html_safe? -%>
       <% if subtitle_line = heading_subtitle(@document) %>
         : <%= subtitle_line %>
       <% end %>
