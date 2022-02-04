@@ -1,7 +1,7 @@
 <div class="request-head-notes">
   <div class="citation">
     <div class="bib">
-      <span><%= heading_title(@document).html_safe? -%>
+      <span><%= heading_title(@document) -%>
       <% if subtitle_line = heading_subtitle(@document) %>
         : <%= subtitle_line %>
       <% end %>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="item">
-      <%= h(@ils_request.item_display) %>
+      <%= @ils_request.item_display %>
     </div>
 
   </div>  
