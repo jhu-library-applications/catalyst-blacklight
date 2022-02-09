@@ -2,6 +2,10 @@ require 'test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
 
+  test 'that we can easily decode a URL' do
+    assert_equal('http://proxy.library.jhu.edu/login?url=http://www.heinonline.org/HOL/Index?collection=journals&index=journals/afjincol', url_decode('http://proxy.library.jhu.edu/login?url=http://www.heinonline.org/HOL/Index?collection=journals&index=journals%2Fafjincol'))
+  end
+ 
   def current_page?(arg)
     true
   end
