@@ -1,5 +1,5 @@
 <% @urls[:show_targets].each do |url| %>
-  <%= "<p><a href='#{url.css('target_url').text}'>#{url.css('target_public_name').text}</a></br>".html_safe %>
+  <%= "<p><a href='#{url_decode(url.css('target_url').text)}'>#{url.css('target_public_name').text}</a></br>".html_safe %>
   <% url.css('coverage_statement').each do |coverage_statement| %>
     <%= coverage_statement.text %>
     </br>
@@ -10,7 +10,7 @@
   <a class="view-overflow-urls btn-sm btn-primary btn"><span class="overflow-label">View</span> <%= @urls[:overflow_targets].size %> More</a>
   <div class="overflow-urls">
     <% @urls[:overflow_targets].each do |url| %>
-     <%= "<p><a href='#{url.css('target_url').text}'>#{url.css('target_public_name').text}</a></br>".html_safe %>
+     <%= "<p><a href='#{url_decode(url.css('target_url').text)}'>#{url.css('target_public_name').text}</a></br>".html_safe %>
   <% url.css('coverage_statement').each do |coverage_statement| %>
     <%= coverage_statement.text %>
     </br>
