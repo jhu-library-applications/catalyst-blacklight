@@ -8,7 +8,7 @@ export const loadOnlineAccess = () => {
       const observer = new IntersectionObserver((entries) => {
         observerCallback(entries, observer, el)
       },
-                                                { threshold: 0.25 })
+                                                { threshold: 0.15 })
       observer.observe(el)
     }
   })
@@ -51,7 +51,7 @@ const isFormat = (entry, format) => {
 
 const fetchExternalLinks = (entry) => {
   var originalText = entry.target.innerHTML
-
+  console.log(originalText)
   showLoadingIndicator(entry)
   fetch(entry.target.getAttribute('data-remote-url'))
     .then(errorHandler)
