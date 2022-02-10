@@ -1,3 +1,4 @@
+import IntersectionObserver from 'intersection-observer-polyfill'
 import { onlineAccessOverflow } from './online_access_overflow'
 import isbot from 'isbot'
 
