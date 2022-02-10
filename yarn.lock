@@ -3597,6 +3597,11 @@ interpret@^1.4.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.4.0.tgz#665ab8bc4da27a774a40584e812e3e0fa45b1a1e"
   integrity sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
 
+intersection-observer-polyfill@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/intersection-observer-polyfill/-/intersection-observer-polyfill-0.1.0.tgz#f9ef8e5a6f3e0e8173d0c0fdb563e47a9dda233c"
+  integrity sha1-+e+OWm8+DoFz0MD9tWPkep3aIzw=
+
 ip-regex@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"
