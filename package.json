@@ -10,6 +10,7 @@
     "chosen-js": "^1.8.7",
     "core-js": "^3.8.3",
     "dom4": "^2.1.6",
+    "intersection-observer-polyfill": "^0.1.0",
     "is-svg": "4.2.2",
     "isbot": "^3.3.1",
     "jquery": "^3.5.1",
