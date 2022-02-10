@@ -2,6 +2,7 @@
 
 require 'borrow_direct'
 require 'marc'
+require 'uri'
 
 module LocalCatalogHelper
   include Blacklight::CatalogHelperBehavior
@@ -364,7 +365,8 @@ module LocalCatalogHelper
     cover_image = nil
     if isbns.respond_to?('each')
       isbns.each do |isbn|
-        response = Faraday.get 'https://www.googleapis.com/books/v1/volumes?key='+ ENV['GOOGLE_BOOKS_API_KEY'] +'&fields=items(volumeInfo(imageLinks))&q=isbn:' + isbn
+        google_books_url = 'https://www.googleapis.com/books/v1/volumes?key='+ ENV['GOOGLE_BOOKS_API_KEY'] +'&fields=items(volumeInfo(imageLinks))&q=isbn:' + isbn
+        response = Faraday.get(URI.encode(google_books_url))
         cover = MultiJson.load(response.body)
         if cover['items']
           cover_image = cover['items'][0]['volumeInfo']['imageLinks']['thumbnail']
