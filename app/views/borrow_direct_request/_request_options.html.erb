@@ -1,9 +1,13 @@
 <% # Request Form %>
 <div>
   <% if @available %>
+    <div x-data x-init="$dispatch('bd-available')">
+
+    </div>
     <form action="/borrow_direct_request/request_item/<%= @document[:id] %>"
           method="POST"
           class="form-inline"
+          id="bd-request"
     >
       <label for="pickup_location" class="sr-only">Pickup Location</label>
       <select id="pickup_location" name="pickup_location" class="form-control" required>

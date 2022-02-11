@@ -3,8 +3,10 @@
 <% ray('Available: ', @available, 'BD: ', @show_borrow_direct) %>
 <div x-data="{
   show: '<%= @available ? 'request' : 'borrow-direct' %>',
+  exactMatch: false,
   availableForRequests: <%= ! @ils_request.available_locations.nil? && @ils_request.available_locations.length >= 1 %>
 }"
+     @bd-available.window="exactMatch=true"
      data-ajax-modal="container">
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
       embedded BorrowDirect content %>
@@ -38,7 +40,7 @@
 
         <% end %>
 
-        <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
+        <%= form_tag params, :method=>"post", :id => 'horizon-request', :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
           <%= hidden_field :ils_request, :bib_id %>
           <% if @exact_copy %>
             <%= hidden_field :ils_request, :item_id %>
@@ -110,7 +112,12 @@
 
       <div class="modal-footer">
         <%= link_to "Cancel", request_done_path, :class=>"btn btn-default cancel", :data => {:dismiss => "modal"} %>
-        <%= submit_tag "Request", :class => "btn btn-primary submit" %>
+        <span x-show="show == 'request'">
+          <%= submit_tag "Request", :class => "btn btn-primary submit submit-horizon-request" %>
+        </span>
+        <span x-show="exactMatch">
+          <%= submit_tag "Request", :class => "btn btn-primary submit submit-bd-request" %>
+        </span>
       </div>
 
   <% end %>
