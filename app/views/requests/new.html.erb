@@ -1,4 +1,31 @@
-<div data-ajax-modal="container">
+<div x-data="{
+      location: '<%= @ils_request.pickup_location %>',
+      note: '',
+      delivery: {
+        building: '',
+        department: '',
+        floor: '',
+        drop: ''
+      },
+      init: function() {
+        this.$watch('delivery', (value) => {
+          this.note = this.buildNote(value);
+        });
+        this.$watch('location', (value, oldValue) => {
+          if(oldValue == 'EOFFICE'){
+            this.note = '';
+          } else if(value == 'EOFFICE'){
+            this.note = this.buildNote(this.delivery);
+          }
+        })
+      },
+      buildNote: function(value){
+        return ['Building: ' + value.building, 'Department: ' + value.department, 'Floor: ' + value.floor, 'Drop: ' + value.drop].join('\n');
+      }
+    }"
+     x-init="init"
+     data-ajax-modal="container"
+>
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
       embedded BorrowDirect content %>
   <%= content_tag 'div', :class => "request",
@@ -55,7 +82,7 @@
           <% end %>
 
           <div class="col-sm-9">
-            <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control" %>
+            <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control", "x-model" => "location" %>
           </div>
         </div>
       <% elsif @ils_request.available_locations.length == 1 %>
@@ -70,11 +97,46 @@
 
         <div class="form-group">
           <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
+          <div x-show="location == 'EOFFICE'"
+               class="col-sm-9 text-muted">
+            <p>Enter your campus office address including building/hall, room number, floor, and/or wing to receive your delivery</p>
+          </div>
           <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
              # on moving it to 255.
           %>
           <div class="col-sm-9">
-            <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control" %>
+            <div x-show="location != 'EOFFICE'">
+              <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control", "x-model" => "note" %>
+            </div>
+            <div x-show="location == 'EOFFICE'">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="" for="building">Building</label>
+                    <input type=text id="building" x-model="delivery.building" class="form-control" :required="{'required': location != 'EOFFICE'}"/>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <label class="" for="department">Department</label>
+                  <input type=text id="department" x-model="delivery.department" class="form-control"  :required="{'required': location != 'EOFFICE'}"/>
+                </div>
+                <div class="col-sm-4">
+                  <label class="" for="floor">Floor</label>
+                  <input type=text id="floor" x-model="delivery.floor" class="form-control"  :required="{'required': location != 'EOFFICE'}"/>
+                </div>
+                <div class="col-sm-12">
+                  <label class="" for="drop">Deliver to</label>
+                  <div>
+                    <input type="radio" id="mailbox" name="drop" value="Mailbox" x-model="delivery.drop">
+                    <label for="mailbox">Mailbox</label>
+                  </div>
+                  <div>
+                    <input type="radio" id="admin" name="drop" value="Admin Coordinator" x-model="delivery.drop">
+                    <label for="admin">Admin Coordinator</label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

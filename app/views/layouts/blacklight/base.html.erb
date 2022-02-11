@@ -56,6 +56,10 @@
     <%= stylesheet_packs_with_chunks_tag 'application', media: 'all' %>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
+    <!-- Alpine Plugins -->
+    <script defer="" src="/intersect.min.js"></script>
+    <!-- Alpine Core -->
+    <script defer="" src="/alpine.min.js"></script>
 
     <%= csrf_meta_tags %>
     <%= content_for(:head) %>
