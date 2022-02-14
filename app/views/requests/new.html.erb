@@ -113,16 +113,16 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label class="" for="building">Building</label>
-                    <input type=text id="building" x-model="delivery.building" class="form-control" :required="{'required': location != 'EOFFICE'}"/>
+                    <input type=text id="building" x-model="delivery.building" class="form-control" :required="location == 'EOFFICE'"/>
                   </div>
                 </div>
                 <div class="col-sm-4">
                   <label class="" for="department">Department</label>
-                  <input type=text id="department" x-model="delivery.department" class="form-control"  :required="{'required': location != 'EOFFICE'}"/>
+                  <input type=text id="department" x-model="delivery.department" class="form-control" :required="location == 'EOFFICE'"/>
                 </div>
                 <div class="col-sm-4">
                   <label class="" for="floor">Floor</label>
-                  <input type=text id="floor" x-model="delivery.floor" class="form-control"  :required="{'required': location != 'EOFFICE'}"/>
+                  <input type=text id="floor" x-model="delivery.floor" class="form-control" :required="location == 'EOFFICE'"/>
                 </div>
                 <div class="col-sm-12">
                   <label class="" for="drop">Deliver to</label>
