@@ -48,10 +48,8 @@ class CatalogTest < ApplicationSystemTestCase
   # Scenario: Copy holdings should not show "txt" button
   def test_copy_holdings
     visit '/catalog/bib_305929'
-    page.find('li.holding', match: :first).click # Multiple Items
-    click_link('Items')
     assert page.has_content?("Friedheim -- Main stacks")
-    assert page.has_link?('Request')
+    assert page.has_link?('Get It')
   end
 
   # Scenario: For online access items, it shows the link to the item
@@ -110,9 +108,7 @@ class CatalogTest < ApplicationSystemTestCase
   # Test Request Button - Not signed in
   def test_request_button_auth_redirect
     visit '/catalog/bib_305929'
-    first('div.holding-visible').click
-    first('a.item-children-link').click
-    within('div.holdings-drill-down') do
+    within('div.holdings-drill-down', match: :first) do
       first('a.request').click
     end 
     assert page.has_no_content?('Network Error')

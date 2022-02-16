@@ -15,7 +15,6 @@ class DetailPageTest < ApplicationSystemTestCase
     assert page.has_selector?("span.show-marc-subtitle")
     assert page.has_selector?("span.stmt-resp")
     assert page.has_selector?("span.stmt-resp")
-    assert page.has_selector?("div.links")
     assert page.has_selector?("div.umlaut")
     # assert page.has_selector?("ul.holdings")
     assert page.has_selector?("dl.dl-marc-display")
