@@ -32,7 +32,7 @@ set :passenger_roles, :web
 append :linked_files, "config/database.yml", "config/blacklight.yml", ".env"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/sockets", "public/system", ".bundle"
+append :linked_dirs, "log", "tmp/cache", "tmp/pids", "tmp/sockets", "public/system", ".bundle"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }

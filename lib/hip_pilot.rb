@@ -8,8 +8,6 @@ require 'tzinfo'
 require 'hip_config'
 require 'horizon_borrower_lookup'
 
-require 'ray'
-
 # TODO: Make sure checkout and due dates with times work
 
 class HipPilot

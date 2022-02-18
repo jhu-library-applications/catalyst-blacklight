@@ -1,13 +1,14 @@
+import IntersectionObserver from 'intersection-observer-polyfill'
 import { onlineAccessOverflow } from './online_access_overflow'
 import isbot from 'isbot'
 
-export const loadOnlineAccess = () => {
+export const loadOnlineAccess = () => {  
   document.querySelectorAll('.online-access-container').forEach((el) => {
     if (el && !isbot(navigator.userAgent)) {
       const observer = new IntersectionObserver((entries) => {
         observerCallback(entries, observer, el)
       },
-                                                { threshold: 1 })
+                                                { threshold: 0.15 })
       observer.observe(el)
     }
   })
@@ -30,7 +31,6 @@ export const loadOnlineAccess = () => {
 }
 
 const shouldFetch = (entry) => {
-  //console.log(entry.target);
   return entry.target.textContent.length > 0 && 
     isFormat(entry, 'Journal/Newspaper') || 
     // Only look for Online Books in SFX if the publisher is Springer
@@ -40,7 +40,6 @@ const shouldFetch = (entry) => {
 
 const isSpringerBook = (entry) => { 
   var entryPublisher = entry.target.getAttribute('data-publisher')
-  //console.log(entryPublisher.includes('Springer'))
   return entryPublisher.includes('Springer')
 }
 
@@ -52,7 +51,7 @@ const isFormat = (entry, format) => {
 
 const fetchExternalLinks = (entry) => {
   var originalText = entry.target.innerHTML
-
+  console.log(originalText)
   showLoadingIndicator(entry)
   fetch(entry.target.getAttribute('data-remote-url'))
     .then(errorHandler)

@@ -26,7 +26,7 @@ env:
   GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
   HORIZON_WS_URL: http://localhost:8080/ws
   EZPROXY_PREFIX: "http://proxy1.library.jhu.edu/login?url="
-  SFX_BASE_URL: "https://sfx-stage.library.jhu.edu/sfxlcl41"
+  SFX_BASE_URL: "https://sfx.library.jhu.edu/sfxlcl41"
   ILLIAD_URL: https://ill.library.jhu.edu/msel/illiad.dll
   RELAIS_API_URL: borrow-direct.relais-host.com
   RELAIS_API_KEY: ${{ secrets.RELAIS_API_KEY }}

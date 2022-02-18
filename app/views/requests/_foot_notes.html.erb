@@ -3,7 +3,7 @@
     <li>The item will be available at <%= h(@ils_request.pickup_location) %> in 1-2 business days.</li>
   <% end %>
   <% if @ils_request.notification_method %>
-    <li class="text-muted">Process and pickup times vary by location. You will be notified by <%= @ils_request.notification_method %> when the item is available for pickup. <%= link_to "More information", "https://catalyst.library.jhu.edu/info/pickup_locations", target: "_blank" %></li>
+    <li class="text-muted">You will be notified when the item is available for pickup.</li>
   <% end %>
   <% if @ils_request.expire_date %>
 <!--      <li class="text-muted">Your request will expire if not yet filled by <%#= @ils_request.expire_date.to_formatted_s(:long) %>.</li>-->
