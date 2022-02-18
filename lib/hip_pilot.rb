@@ -132,7 +132,6 @@ class HipPilot
 
   def profile
     xml = xml_for(profile_url).xpath("/*/patroninfo")
-    ray(xml)
 
     return Profile.new(
       :name => at_xpath_text(xml, "name/full"),
@@ -221,16 +220,12 @@ class HipPilot
         )
       xml = get_xml_with_current_session(url)
     end
-    ray('XML to String', xml.to_s)
-
 
     if ( error_msg = xml.at_xpath("//alert/message"))
-      ray('Error msg', error_msg.text, current_user)
       raise RequestFailure.new( error_msg.text, current_user )
     end
 
     request_confirm = xml.at_xpath("//request_confirm")
-    ray('Confirm request', request_confirm.to_s)
     request.available_locations ||=
       request_confirm.xpath("./pickup_location/location").collect do |location_xml|
         # New hip gives us sub-nodes code and description, old HIP
@@ -302,7 +297,6 @@ class HipPilot
     init_request(request)
 
     url = URI.parse(@hip_base_url)
-    ray('URL 307:', url)
     uri_query_merge(url,
       "pickuplocation"  => request.pickup_location,
       "notifyby"        => request.notification_method,
@@ -318,7 +312,6 @@ class HipPilot
       Rails.logger.warn("HipPilot: Weird connection error in making request: #{xml.to_s}")
       raise ConnectionError
     end
-    ray('Success', success)
     return success
   end
 

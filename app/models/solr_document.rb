@@ -33,7 +33,6 @@ class SolrDocument
     status = ''
 
     self.to_holdings.each do |holding|
-      ray('Holding: ', holding)
       if holding.has_children?
         # TODO: I really only need to check the current item not hte whole set at this point, but I need to know if this specific holding is a volume
         holding = self.to_holdings_for_holdingset(holding.id).find {|h| h.id == params[:item_id]}

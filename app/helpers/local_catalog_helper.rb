@@ -227,23 +227,19 @@ module LocalCatalogHelper
   end
 
   def check_availability?(document, holding)
-    ray('Holding: ', holding)
 
     # The item is available so just return true
     if holding.status.try(:display_label) == "Available"
-      ray('Available')
       return [true, true]
     end
 
     # The item is not available, but it's also a volume so just return false
     if holding.status.try(:display_label) != "Available" && holding.copy_string.include?('v.')
-      ray('Not available or volume')
       return [false, true]
     end
 
     # Check to make sure the document can respons to to_holdings
     if ! document.respond_to?(:to_holdings)
-      ray('Respond to holding false')
       return [false, true]
     end
 
@@ -254,38 +250,19 @@ module LocalCatalogHelper
 
     document.to_holdings.each do |doc_holding|
       if doc_holding.has_children?
-        ray('Getting children holdings')
         doc_holding = document.to_holdings_for_holdingset(doc_holding.id)
         if doc_holding.find { |h| h.status.try(:display_label) == "Available" }
           status = true
-          ray('Status: ', status)
           return [status, false]
         end
       else
-        ray('No children')
         if ! doc_holding.copy_string.nil? && doc_holding.status.try(:display_label) == "Available"
           status = true
-          ray('Status: ', status)
           return [status, false]
         end
       end
     end
-    ray('Status: ', status)
     return [status, true]
-
-    # if holding.has_children?
-    #   ray('Getting children holdings')
-    #   if document.to_holdings_for_holdingset(holding.id).find { |h| h.status.try(:display_label) == "Available" }
-    #     status = true
-    #   end
-    # else
-    #   if holding.status.try(:display_label) == "Available"
-    #     ray('No children')
-    #     status = true
-    #   end
-    # end
-    # ray('Status: ', status)
-    # return [status, false]
 
   end
 
