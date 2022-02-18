@@ -39,8 +39,6 @@
           :borrow_direct_umlaut_wrapper => true
         } do %>
 
-
-
     <div class="modal-header">
       <% if Flipper[:curbside_mode].enabled? %>
         <h3 class="modal-title">Request Materials Through Book Pickup Service</h3>
@@ -79,13 +77,6 @@
                 <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
               <% end %>
 
-              <div class="col-sm-9">
-                <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control" %>
-                <div class="help-block">
-                  <%= render :partial => "foot_notes" %>
-                </div>
-              </div>
-
             </div>
           <% elsif @ils_request.available_locations.length == 1 %>
             <div class="form-group bg-warning text-warning">
@@ -99,6 +90,9 @@
 
           <div class="col-sm-9">
             <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control", "x-model" => "location" %>
+            <div class="help-block">
+              <%= render :partial => "foot_notes" %>
+            </div>
           </div>
 
           <% if Flipper[:curbside_mode].enabled? %>
@@ -107,50 +101,56 @@
             </div>
           <% else %>
 
-        <div class="form-group">
-          <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
-          <div x-show="location == 'EOFFICE'"
-               class="col-sm-9 text-muted">
-            <p>Enter your campus office address including building/hall, room number, floor, and/or wing to receive your delivery</p>
-          </div>
-          <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
-             # on moving it to 255.
-          %>
-          <div class="col-sm-9">
-            <div x-show="location != 'EOFFICE'">
-              <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control", "x-model" => "note" %>
+          <% end %>
+
+          <div class="form-group">
+            <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
+            <div x-show="location == 'EOFFICE'"
+                 class="col-sm-9 text-muted">
+              <p>Enter your campus office address including building/hall, room number, floor, and/or wing to receive your delivery</p>
             </div>
-            <div x-show="location == 'EOFFICE'">
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label class="" for="building">Building</label>
-                    <input type=text id="building" x-model="delivery.building" class="form-control" :required="location == 'EOFFICE'"/>
+            <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
+               # on moving it to 255.
+            %>
+            <div class="col-sm-9">
+              <div x-show="location != 'EOFFICE'">
+                <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control", "x-model" => "note" %>
+              </div>
+              <div x-show="location == 'EOFFICE'">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="" for="building">Building</label>
+                      <input type=text id="building" x-model="delivery.building" class="form-control" :required="location == 'EOFFICE'"/>
+                    </div>
                   </div>
-                </div>
-                <div class="col-sm-4">
-                  <label class="" for="department">Department</label>
-                  <input type=text id="department" x-model="delivery.department" class="form-control" :required="location == 'EOFFICE'"/>
-                </div>
-                <div class="col-sm-4">
-                  <label class="" for="floor">Floor</label>
-                  <input type=text id="floor" x-model="delivery.floor" class="form-control" :required="location == 'EOFFICE'"/>
-                </div>
-                <div class="col-sm-12">
-                  <label class="" for="drop">Deliver to</label>
-                  <div>
-                    <input type="radio" id="mailbox" name="drop" value="Mailbox" x-model="delivery.drop">
-                    <label for="mailbox">Mailbox</label>
+                  <div class="col-sm-4">
+                    <label class="" for="department">Department</label>
+                    <input type=text id="department" x-model="delivery.department" class="form-control" :required="location == 'EOFFICE'"/>
                   </div>
-                  <div>
-                    <input type="radio" id="admin" name="drop" value="Admin Coordinator" x-model="delivery.drop">
-                    <label for="admin">Admin Coordinator</label>
+                  <div class="col-sm-4">
+                    <label class="" for="floor">Floor</label>
+                    <input type=text id="floor" x-model="delivery.floor" class="form-control" :required="location == 'EOFFICE'"/>
+                  </div>
+                  <div class="col-sm-12">
+                    <label class="" for="drop">Deliver to</label>
+                    <div>
+                      <input type="radio" id="mailbox" name="drop" value="Mailbox" x-model="delivery.drop">
+                      <label for="mailbox">Mailbox</label>
+                    </div>
+                    <div>
+                      <input type="radio" id="admin" name="drop" value="Admin Coordinator" x-model="delivery.drop">
+                      <label for="admin">Admin Coordinator</label>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+        <% end %>
+
+      </div>
 
       <%# If not available show BD form %>
       <div x-show="show == 'borrow-direct'">
@@ -168,7 +168,7 @@
 
     </div>
 
-      <div class="modal-footer">
+    <div class="modal-footer">
         <%= link_to "Cancel", request_done_path, :class=>"btn btn-default cancel", :data => {:dismiss => "modal"} %>
         <span x-show="show == 'request'">
           <%= submit_tag "Request", :class => "btn btn-primary submit submit-horizon-request" %>
@@ -176,7 +176,7 @@
         <span x-show="exactMatch">
           <%= submit_tag "Request", :class => "btn btn-primary submit submit-bd-request" %>
         </span>
-      </div>
+    </div>
 
   <% end %>
 </div>
