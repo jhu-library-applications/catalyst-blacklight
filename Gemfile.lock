@@ -589,8 +589,9 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (1.7.0)
-    view_component (2.32.0)
-      activesupport (>= 5.0.0, < 7.0)
+    view_component (2.49.1)
+      activesupport (>= 5.0.0, < 8.0)
+      method_source (~> 1.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
