@@ -7,10 +7,10 @@ module MarcDisplay
       attr_accessor :line
       
       @@default_link_text = "More"  
-    
+
+
       def initialize(line, config_hash)
         @line = line
-    
         config_hash = {} if config_hash == true
         if config_hash[:subfields].kind_of?(String)
           config_hash[:subfields] = config_hash[:subfields].split('') 
@@ -26,7 +26,7 @@ module MarcDisplay
         @config_hash = config_hash
       end
     
-      def hash_for_url    
+      def hash_for_url
         hash = {:controller => "catalog",
         :action => "index"}
         if ( facet = @config_hash[:facet])
@@ -74,20 +74,22 @@ module MarcDisplay
       end
     
       def query
-        unless (@query)      
+       unless (@query)
+          
           # Default to just the same as the will be output,
           # but without any prefixes/suffixes
-          @query = @line.parts.collect do |part|
-          
-            if ( @config_hash[:subfields].nil? ||
-                 ((!part.marc_subfield.nil?) &&
-                  @config_hash[:subfields].include?(part.marc_subfield.code)))
-          
-                part.formatted_value
-            end
-          end.compact.join(" ")
-
-          # Remove internal quote marks, they tend to result in not what
+         @query = @line.parts.collect do |part|
+           subject_overrider = SubjectOverrider.new(line: @line, part: part)
+           
+           if ( @config_hash[:subfields].nil? ||
+                ((!part.marc_subfield.nil?) &&
+                 @config_hash[:subfields].include?(part.marc_subfield.code)))
+             
+             subject_overrider.translated_subject
+           end
+         end.compact.join(" ")
+         
+         # Remove internal quote marks, they tend to result in not what
           # was intended, phrase search or not. 
           @query = clean_query(query)
 

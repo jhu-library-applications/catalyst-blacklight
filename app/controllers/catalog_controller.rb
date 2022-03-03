@@ -306,8 +306,8 @@ class CatalogController < ApplicationController
     config.add_search_field("subject") do |field|
       field.label = 'Subject'
       field.solr_local_parameters = {
-        :qf => "$subject_qf",
-        :pf => "$subject_pf"
+        :qf => "$subject_translated_qf $subject_qf",
+        :pf => "$subject_translated_pf $subject_pf"
       }
       field.solr_parameters = {
         :"spellcheck.dictionary" => "subject"
@@ -458,7 +458,7 @@ class CatalogController < ApplicationController
         "title3_unstem^30",
         "title_series_unstem^25"
       ],
-
+      :subject_translated_qf => "subject_translated_unstem^40",
       :subject_qf  => "subject_unstem^40",
       :series_qf   => "title_series_unstem^10",
       # this 'qf' will be used for default 'all fields' search

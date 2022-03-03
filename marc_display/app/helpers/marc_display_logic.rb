@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 
 require 'singleton'
 require 'jh_config'
@@ -283,7 +283,7 @@ module MarcDisplayLogic
     # can cross MARC sub-fields. Specify search field in the display config
     # as normal, this just changes the query to be phrase searches.
     def link_lcsh_subd(link, hash, options ={})
-
+      
       # seperate into an array of strings, one string per subdivision, knowing
       # that subdivisions break on certain subfield codes.
       subdivisions =
@@ -304,7 +304,10 @@ module MarcDisplayLogic
       end
 
       # and join our seperate terms into one query
-      hash[:q] = terms.join(" ")
+      subject_overrides_terms = SubjectOverriderTerms.new(terms: terms).translated_terms
+      
+      hash[:q] = subject_overrides_terms.join(" ")
+
 
       return hash
     end
