@@ -20,7 +20,9 @@
       </div>
     </div>
 
-  </div>
+    <div class="item">
+      <%= @ils_request.item_display.try(:html_safe) %>
+    </div>
 
   <% unless (head_notes = request_head_notes).empty? %>
     <ul class="alert alert-warning list-unstyled">
