@@ -37,6 +37,7 @@ class ArticlesTest < ApplicationSystemTestCase
     visit '/articles'
 
     click_button 'EBSCO databases'
+    sleep(1)
 
     within('.form-selector .dropdown-menu') do
       click_link 'JSTOR database'
