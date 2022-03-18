@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "@popperjs/core": "^2.11.4",
     "@rails/ujs": "^6.1.1",
     "@rails/webpacker": "5.4.3",
     "@sentry/browser": "^6.2.0",
     "@sentry/tracing": "^6.2.0",
+    "@popperjs/core": "^2.10.2",
     "blacklight-frontend": "^7.10.0",
     "blacklight-marc": "https://github.com/projectblacklight/blacklight-marc.git#latest",
     "blacklight-range-limit": "https://github.com/projectblacklight/blacklight_range_limit.git#latest",
@@ -15,7 +15,6 @@
     "is-svg": "4.3.0",
     "isbot": "^3.3.1",
     "jquery": "^3.5.1",
-    "popper.js": "^1.16.1",
     "postcss": "7.0.36",
     "rails-erb-loader": "^5.5.2",
     "regenerator-runtime": "^0.13.7",
