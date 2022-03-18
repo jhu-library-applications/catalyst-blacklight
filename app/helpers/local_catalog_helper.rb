@@ -478,7 +478,7 @@ module LocalCatalogHelper
     elsif 'Video/Film'.in?(formats)
       '/formats/video-film.svg'
     else
-      '1x1.png'
+      '1x1.gif'
     end
   end
 
