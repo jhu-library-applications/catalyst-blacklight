@@ -31,7 +31,6 @@ class DetailPageTest < ApplicationSystemTestCase
   end
 
   def test_tools_cite
-    skip "Check blacklight bootstrap js"
     # Check for action presense
     visit '/catalog/bib_8435478/'
     assert page.has_link?("Cite")
@@ -62,8 +61,6 @@ class DetailPageTest < ApplicationSystemTestCase
   end
 
   def test_tools_email
-    skip "Check blacklight bootstrap js"
-    
     # Check for action presense
     visit '/catalog/bib_8435478/'
     assert page.has_link?("Email")
@@ -91,7 +88,6 @@ class DetailPageTest < ApplicationSystemTestCase
   end
 
   def test_tools_librarian_view
-    skip "Check blacklight bootstrap js"
 
     # Check for action presense
     visit '/catalog/bib_8435478/'

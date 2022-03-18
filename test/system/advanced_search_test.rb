@@ -76,7 +76,6 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
   end
 
   def test_has_remove_selections_button
-    skip "Check blacklight bootstrap js"
     visit "/advanced"
 
     # Form
@@ -85,11 +84,6 @@ class AdvancedSearchPageTest < ApplicationSystemTestCase
       first('input[type="submit"]').click
     end
 
-    click_on('At the Library')
-
-    # Results
-    assert page.has_selector?('span[title="records"]')
-    assert page.has_selector?('span[title="At the Library"]')
-    assert page.has_link?("Start Over")
+    assert page.has_text?("Request In-library Use")
   end
 end
