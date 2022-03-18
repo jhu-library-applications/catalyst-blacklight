@@ -187,30 +187,83 @@ module LocalCatalogHelper
   # we consider locally available. We don't want to rely on Find It JS api here,
   # because we can get some stuff right on the page sooner without it. Sorry for
   # duplication.
-  def show_borrow_direct?(document)
-    # If this item does NOT appear to be a 'journal' type thing -- we
-    # use openurl for this to try stay close to how Umlaut is deciding.
-    #
-    # AND
-    #
-    # If there's at least one holding that is Available or from archives special collections* (See LAG-1242)
-    # and does NOT have collection containing Reserve(s) or "non-circulating",  then it's
-    # locally available for BD purposes.
-    #
-    # * This should be removed after migrating archival collections out of horizon
-    #
-    # BUT
-    # Multiple-item copies (has_children?) do not trigger BD for now.
+  # def show_borrow_direct?(document, options = {})
+  #   is_volume = options[:is_volume] || false
+  #   status = options[:status] || 'Available'
+  #   # If this item does NOT appear to be a 'journal' type thing -- we
+  #   # use openurl for this to try stay close to how Umlaut is deciding.
+  #   #
+  #   # AND
+  #   #
+  #   # If there's at least one holding that is Available or from archives special collections* (See LAG-1242)
+  #   # and does NOT have collection containing Reserve(s) or "non-circulating",  then it's
+  #   # locally available for BD purposes.
+  #   #
+  #   # * This should be removed after migrating archival collections out of horizon
+  #   #
+  #   # BUT
+  #   # Multiple-item copies (has_children?) do not trigger BD for now.
+  #   return  document.respond_to?(:to_openurl) &&
+  #           document.to_openurl.referent.format != "journal" &&
+  #           document.respond_to?(:to_holdings) &&
+  #           ! document.to_holdings.find {|h|
+  #             (h.has_children? || h.status.try(:display_label) == "Available" ||
+  #               %w(ecageki eofart eofms esmanu esgpms esarck esarc).include?(h.collection.try(:internal_code))
+  #             ) &&
+  #               h.collection.try(:display_label) !~ /(reserves?)|(non-circulating)/i
+  #           }
+  #
+  #
+  # end
 
-    return  document.respond_to?(:to_openurl) &&
-            document.to_openurl.referent.format != "journal" &&
-            document.respond_to?(:to_holdings) &&
-            ! document.to_holdings.find {|h|
-                (h.has_children? || h.status.try(:display_label) == "Available" ||
-                    %w(ecageki eofart eofms esmanu esgpms esarck esarc).include?(h.collection.try(:internal_code))
-                ) &&
-                 h.collection.try(:display_label) !~ /(reserves?)|(non-circulating)/i
-            }
+  def show_borrow_direct?(document)
+    return document.respond_to?(:to_openurl) &&
+           document.to_openurl.referent.format != "journal" &&
+           document.respond_to?(:to_holdings) &&
+           ! document.to_holdings.find { |h|
+                  %w(ecageki eofart eofms esmanu esgpms esarck esarc).include?(h.collection.try(:internal_code)) &&
+                  h.collection.try(:display_label) !~ /(reserves?)|(non-circulating)/i
+      }
+  end
+
+  def check_availability?(document, holding)
+
+    # The item is available so just return true
+    if holding.status.try(:display_label) == "Available"
+      return [true, true]
+    end
+
+    # The item is not available, but it's also a volume so just return false
+    if holding.status.try(:display_label) != "Available" && holding.copy_string.include?('v.')
+      return [false, true]
+    end
+
+    # Check to make sure the document can respons to to_holdings
+    if ! document.respond_to?(:to_holdings)
+      return [false, true]
+    end
+
+    # Let's check to see if any other copies are available if so then we will show the request form and send back a flag
+    # to request any available copy rather than a specific one
+    status = false
+    # TODO: This needs to check for all children of document and not just holding
+
+    document.to_holdings.each do |doc_holding|
+      if doc_holding.has_children?
+        doc_holding = document.to_holdings_for_holdingset(doc_holding.id)
+        if doc_holding.find { |h| h.status.try(:display_label) == "Available" }
+          status = true
+          return [status, false]
+        end
+      else
+        if ! doc_holding.copy_string.nil? && doc_holding.status.try(:display_label) == "Available"
+          status = true
+          return [status, false]
+        end
+      end
+    end
+    return [status, true]
+
   end
 
   # Shelf browse is available if we have a record in our table indexing call numbers.
@@ -425,7 +478,7 @@ module LocalCatalogHelper
     elsif 'Video/Film'.in?(formats)
       '/formats/video-film.svg'
     else
-      '1x1.png'
+      '1x1.gif'
     end
   end
 

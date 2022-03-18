@@ -1,5 +1,7 @@
 .request-head-notes {
-  margin-bottom: $line-height-computed;
+  background-color: $panel-default-heading-bg;
+  margin: -1em -1em $line-height-computed;
+  padding: $line-height-computed;
   ul {
     margin-top: $line-height-computed;
   }
@@ -44,4 +46,21 @@
 #curbside-banner p{
   padding: 10px;
   color: white;
+}
+
+.alert-bd_success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-bd_error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.request-foot-notes {
+  font-size: 14px;
+  padding: 8px 12px 0px;
 }

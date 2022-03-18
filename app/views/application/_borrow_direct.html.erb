@@ -1,42 +1,20 @@
-<%# Displays BorrowDirect area, with pre-generated link, and proper
-    data attributes for umlaut_include.js to replace with Umlaut
-    content.
-
-    Used on both item detail page, and request form (both request/new.html when
-    locally requestable, and request/request_failure.html when not)
-
-    Local arguments:
-
-    * document [required]: our SolrDocument object representing
-    a record, which has a to_openurl
-    * panel_title: Default "Request a copy from BorrowDirect"
-    * panel_classes: Default 'panel-default', CSS classes to add to bootstrap panel
-      div to customize look. Request panel addds 'panel-info' instead.
-
-        render 'borrow_direct', :document => @document
-%>
-<%
-    panel_title   = "BorrowDirect"
-    panel_classes = local_assigns[:panel_classes] || "panel-default"
+<%#
+  Displays BorrowDirect area.
 %>
 
-
-<div class="card modal-panel-expand umlaut borrow_direct mb-4 <%= panel_classes %>">
-  <%# hidden findit link used by Javascript to load Umlaut borrow_direct info %>
-  <% if should_include_findit_url?(document: document) %>
-    <%= link_to("FindIt@JH", JHConfig.params[:umlaut_base_url] +  "/resolve?#{document.export_as_openurl_ctx_kev}" ,
-          :rel=>"nofollow",
-          :class=>"findit_link",
-          :style => "display:none;")  %>
-  <% end %>
-  <div class="card-header">
-    BorrowDirect <br/>
-    <small>Get a copy from a partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</small>
-  </div>
-  <div class="card-body umlaut-borrow-direct-content">
-      <div data-umlaut-bd-preload-content="true">
-        <%= link_to_borrow_direct_search(document) %>
+<div class="card-body borrow-direct-container"
+     data-format='<%= (!document['format'].empty? ? document['format'].to_json : '') %>'
+     data-remote-url="/borrow_direct_request/request_options/<%= document['id'] %>"
+     data-umlaut-update="body">
+  <% if !flash.empty? %>
+    <% flash.each do |type, msg| %>
+      <div class="alert alert-<%= type %> mb-0">
+        <%== msg %>
       </div>
-      <div data-umlaut-bd-content="true"></div>
-  </div>
+    <% end %>
+  <% else %>
+    <script>
+        loadBorrowDirect()
+    </script>
+  <% end %>
 </div>

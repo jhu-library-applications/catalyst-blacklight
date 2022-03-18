@@ -1,20 +1,63 @@
 <div class="show-marc">
-  <%# Online Access, starts with stuff from MARC record, updated by SFX %>
+  <div class="holdings">
+    <div class="title mb-1 mt-3">
+      <h2>Where to get it</h2>
+      <hr />
+    </div>
+    <%# Online Access, starts with stuff from MARC record, updated by SFX %>
     <%= render 'links_card', document: document %>
 
     <%# borrow direct section, only where appropriate. This duplicates some of
         what's in FindIt/Umlaut, sorry.  %>
-    <% if related_hathi_links_etas_only(document).length == 0 %>
-      <% if show_borrow_direct? document %>
-        <%= render 'borrow_direct', :document => document %>
-      <% end %>
-    <% end %>
+    <%# if related_hathi_links_etas_only(document).length == 0 %>
+    <%# if show_borrow_direct? document %>
+    <%#= render 'borrow_direct', :document => document %>
+    <%# end %>
+    <%# end %>
+  </div>
 
   <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0  %>
-    <ul class="holdings list-group">
-      <%= render :partial => "catalog/holding_expandable", :collection => document.to_holdings, :locals => { document_id: document["id"], document: document } %>
-    </ul>
+    <div class="holdings">
+      <% locations = document.to_holdings.group_by {|h| h.collection.display_label} %>
+      <% locations.each do |holdings| %>
+        <div class="holdings-container">
+          <div class="location-container">
+            <div class="sticky-top">
+              <div style="display: flex; align-items: center;">
+                <div class="location">
+                  <%= holdings.first %>
+                </div>
+                <div>
+                  <% # Floor Map feature %>
+                  <% if Flipper[:curbside_mode].enabled? %>
+                    <% # Do not show Floor Map feature in curbside mode %>
+                  <% else %>
+                    <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document["id"], holding: holdings.last.first } %>
+                  <% end %>
+                </div>
+              </div>
+              <% if holdings.last.first.notes.present? %>
+                <div>
+                  <% unless holdings.last.first.notes.empty? %>
+                    <ul class="list-unstyled holding-line notes">
+                      <% holdings.last.first.notes.each do |note| %>
+                        <li class="note"><%= note %></li>
+                      <% end %>
+                    </ul>
+                  <% end %>
+                </div>
+              <% end %>
+              <hr />
+            </div>
+
+            <%= render :partial => "catalog/holding_expandable", :collection => holdings.last, :locals => {:document_id => document["id"], document: document  } %>
+          </div>
+        </div>
+      <% end -%>
+    </div>
   <% end %>
+
+
 
 
   <%= render :partial => "marc_display/marc_display", :locals => {:document => document, :marc_presenter_list => JHConfig.params[:main_presenter_list]} %>

@@ -75,19 +75,44 @@
       <% end %>
     <%- # links, with find it link that will be enhanced by JS
     links_presenter = MarcDisplay::FieldPresenter.new(document, document.to_marc, JHConfig.params[:links_presenter].first)
-
     -%>
+
     <% if hathi_eta(document) && related_hathi_links(document).length > 0 %>
       <%= render 'links_card', document: document %>
     <% end %>
-    
+
     <% if links_presenter.lines.present? && related_links_type(document) == :online %>
       <%= render 'links_card', document: document %>
     <% end %>
-    
-    <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0 %>
-      <ul class="holdings list-group">
-        <%= render :partial => "catalog/holding_expandable", :collection => document.to_holdings, :locals => {:document_id => document["id"], document: document  } %>
-      </ul>
-    <% end %>
+
+  <% if document.respond_to?(:to_holdings) && document.to_holdings.present? && related_hathi_links_etas_only(document).length == 0 %>
+    <div class="holdings">
+      <% locations = document.to_holdings.group_by {|h| h.collection.display_label} %>
+        <% locations.each do |holdings| %>
+          <div class="holdings-container">
+            <div class="location-container">
+              <div class="sticky-top">
+                <div style="display: flex;  align-items: center;">
+                  <div class="location">
+                    <%= holdings.first %>
+                  </div>
+                  <div>
+                    <% # Floor Map feature %>
+                    <% if Flipper[:curbside_mode].enabled? %>
+                      <% # Do not show Floor Map feature in curbside mode %>
+                    <% else %>
+                      <%= render partial: 'holding_expandable_default_floor_map', locals: { document: document, document_id: document["id"], holding: holdings.last.first } %>
+                    <% end %>
+                  </div>
+                </div>
+                <hr />
+              </div>
+
+              <%= render :partial => "catalog/holding_expandable", :collection => holdings.last, :locals => {:document_id => document["id"], document: document  } %>
+            </div>
+          </div>
+      <% end -%>
+    </div>
+  <% end %>
+
 </div>

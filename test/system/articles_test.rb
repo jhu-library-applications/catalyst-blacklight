@@ -34,9 +34,11 @@ class ArticlesTest < ApplicationSystemTestCase
   end
 
   def test_jstor_dest_url
+    skip "Check blacklight bootstrap js"
     visit '/articles'
 
     click_button 'EBSCO databases'
+    sleep(1)
 
     within('.form-selector .dropdown-menu') do
       click_link 'JSTOR database'

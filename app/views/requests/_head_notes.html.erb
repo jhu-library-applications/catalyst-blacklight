@@ -1,20 +1,30 @@
 <div class="request-head-notes">
-  <div class="citation">
-    <div class="bib">
+  <div class="row citation">
+    <div class="col-2 col-lg-1 cover-container">
+      <img class="cover-image <%= cover_formats(@document) %>"
+           src="/bookcover?bib=<%= @document['id'] %>" />
+    </div>
+    <div class="col-10 col-lg-11">
+      <div class="bib">
       <span><%= heading_title(@document) -%>
-      <% if subtitle_line = heading_subtitle(@document) %>
+        <% if subtitle_line = heading_subtitle(@document) %>
         : <%= subtitle_line %>
       <% end %>
-      / <%= heading_stmt_resp(@document) %></span>
+        / <%= heading_stmt_resp(@document) %></span>
+      </div>
+
+      <div class="item">
+        <% if ! @ils_request.item_display.nil? %>
+          <%= @ils_request.item_display.html_safe %>
+        <% end %>
+      </div>
     </div>
 
     <div class="item">
       <%= @ils_request.item_display.try(:html_safe) %>
     </div>
 
-  </div>  
-
-  <% unless (head_notes = request_head_notes).empty? %>      
+  <% unless (head_notes = request_head_notes).empty? %>
     <ul class="alert alert-warning list-unstyled">
       <% request_head_notes.each do |line| %>
         <li><span class="ui-icon ui-icon-alert"></span><%= h(line[:text]) %></li>

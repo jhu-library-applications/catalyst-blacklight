@@ -107,6 +107,13 @@ jobs:
             RUBYOPT: W0
           run: |
             bundle exec rake ci
+        
+        - name: Upload Screenshots
+          if: failure()
+          uses: actions/upload-artifact@v2
+          with:
+            name: screenshots
+            path: tmp/screenshots
 
         - name: Upload SimpleCov coverage files
           uses: actions/upload-artifact@v2

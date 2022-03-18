@@ -1,0 +1,104 @@
+<% # Request Form %>
+<div>
+  <% if @available %>
+    <div x-data x-init="$dispatch('bd-available')">
+
+    </div>
+    <form action="/borrow_direct_request/request_item/<%= @document[:id] %>"
+          method="POST"
+          class="form-inline"
+          id="bd-request"
+    >
+      <label for="pickup_location" class="sr-only">Pickup Location</label>
+      <select id="pickup_location" name="pickup_location" class="form-control" required>
+        <option>Please choose a delivery location</option>
+        <% @locations.each do |location| %>
+          <option value="<%= location['PickupLocationCode'] %>"><%= location['PickupLocationDescription'] %></option>
+        <% end %>
+      </select>
+    </form>
+  <% else %>
+    <div>
+      <div class="row">
+        <div class="col-12">
+          <%= link_to_borrow_direct_search(@document) %>
+        </div>
+      </div>
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-12">
+          <div class="accordion" id="optionsContainer">
+            <div class="card">
+              <div class="card-header p-0" style="background-color: #7B838A;" id="optionsHeading">
+                <h2 class="mb-0" style="">
+                  <div style="">
+                    <button class="btn btn-block"
+                            style="color: white; text-align: left;"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#options"
+                            aria-expanded="false"
+                            aria-controls="options">
+                      <div style="display: flex; flex-direction: row; align-items: center;">
+                        <div style="flex-grow: 0;">
+                          Other Options
+                        </div>
+                        <div style="flex-grow: 1;">
+
+                        </div>
+                        <div style="flex-grow: 0;">
+                          <svg aria-hidden="true"
+                               focusable="false"
+                               data-prefix="fas"
+                               data-icon="chevron-right"
+                               role="img"
+                               xmlns="http://www.w3.org/2000/svg"
+                               viewBox="0 0 320 512"
+                               class="svg-inline--fa fa-chevron-right fa-w-10 fa-3x"
+                               style="color: white; height: 12px; width: auto; margin-right: 8px; margin-top: -2px;"
+                          >
+                            <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" class=""></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                </h2>
+              </div>
+
+              <div id="options" class="collapse" aria-labelledby="optionsHeading" data-parent="#optionsContainer">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-8">
+                      <h4 class="font-weight-bold mb-0"><small>Request via Interlibrary Loan</small></h4>
+                      <p class="m-0 text-muted">
+                        Get a print copy or electronic delivery of specific chapters.
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <%= link_to "Go to Interlibrary Loan Form", ENV['ILLIAD_URL'] + '?Action=10&Form=30&genre=book&' + @document.export_as_openurl_ctx_kev, :class => "btn btn-primary btn-sm", :target => "_blank" %>
+                    </div>
+                  </div>
+                  <div x-show="availableForRequests"
+                       class="row mt-4">
+                    <div class="col-8">
+                      <h4 class="font-weight-bold mb-0"><small>Wait for local copy</small></h4>
+                      <p class="m-0 text-muted">
+                        You will be placed on a waiting list to receive this copy.
+                      </p>
+                    </div>
+                    <div class="col-4">
+                      <span x-on:click="show = 'request'"
+                            class="btn btn-primary btn-sm">Join Queue</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
