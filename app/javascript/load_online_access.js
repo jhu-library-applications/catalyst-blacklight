@@ -51,7 +51,7 @@ const isFormat = (entry, format) => {
 
 const fetchExternalLinks = (entry) => {
   var originalText = entry.target.innerHTML
-  console.log(originalText)
+
   showLoadingIndicator(entry)
   fetch(entry.target.getAttribute('data-remote-url'))
     .then(errorHandler)
@@ -65,12 +65,19 @@ const fetchExternalLinks = (entry) => {
         } else {
             hideLoadingIndicator(entry)
             entry.target.innerHTML = originalText
+
+            if(originalText.trim() == 'Not Available') {
+              entry.target.closest('.holdings-container').classList.add('d-none')
+            }
         }
       }
     ).catch((error) => {
       hideLoadingIndicator(entry)
       if (originalText) {
         entry.target.innerHTML = originalText
+        if(originalText.trim() == 'Not Available') {
+          entry.target.closest('.holdings-container').classList.add('d-none')
+        }
       } else {
         entry.target.innerHTML = response
       }

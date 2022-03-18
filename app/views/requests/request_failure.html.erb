@@ -1,4 +1,8 @@
-<div data-ajax-modal="container">
+<div x-data="{
+        show: 'borrow-direct',
+        availableForRequests: <%= ! @ils_request.available_locations.nil? && @ils_request.available_locations.length >= 1 %>
+      }"
+     data-ajax-modal="container">
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
       embedded BorrowDirect content %>
   <%= content_tag 'div', :class => "request", 
@@ -26,26 +30,96 @@
     <div class="modal-body">
       <%= render :partial => "head_notes" %>
 
+      <div x-show="show == 'request'">
+        <% if ! @available %>
 
-      <% if show_borrow_direct?(@document) %>
-        <p>
-          <strong>This local copy is not available for delivery.</strong> 
-          <span class='text-muted'>(<%= @exception.message %>) A BorrowDirect copy from a partner library may be available.</span>
-         </p>
-      <% else %>
-        <p><strong><%= @exception.message %></strong></p>
-      <% end %>
+          <%# and a heading for the normal local request %>
+          <h4>Place Hopkins request for this copy</h4>
+          <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
 
+        <% end %>
+        <%= hidden_field :ils_request, :bib_id %>
+        <% if @exact_copy %>
+          <%= hidden_field :ils_request, :item_id %>
+        <% end %>
+        <input type="hidden" name="exact_copy" value="<%= @exact_copy %>" />
+        <%= hidden_field :ils_request, :notification_method %>
+        <% if ! @ils_request.available_locations.nil? && @ils_request.available_locations.length > 1 %>
+          <div class="form-group">
 
-        <% if show_borrow_direct?(@document) %>          
-          <%= render 'borrow_direct', :document => @document, 
+            <% if Flipper[:curbside_mode].enabled? %>
+              <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
+            <% else %>
+              <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
+            <% end %>
+
+            <div class="col-sm-9">
+              <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control" %>
+              <div class="help-block">
+                <%= render :partial => "foot_notes" %>
+              </div>
+            </div>
+
+          </div>
+        <% elsif ! @ils_request.available_locations.nil? && @ils_request.available_locations.length == 1 %>
+          <div class="form-group bg-warning text-warning">
+            <%= hidden_field :ils_request, :pickup_location %>
+            <span class="col-sm-3 restricted-pickup-label">Can only be accessed at</span>
+            <div class="col-sm-9 restricted-pickup-location">
+              <%= h(@ils_request.available_locations.first.description) %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
+          <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
+             # on moving it to 255.
+          %>
+          <div class="col-sm-9">
+            <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control" %>
+          </div>
+        </div>
+
+        <% if Flipper[:curbside_mode].enabled? %>
+          <div id="curbside-banner">
+            <p>You will receive an email notification when your item is ready for pickup. Please wait for the notification before coming to pick up your item.</p>
+          </div>
+        <% else %>
+
+        <% end %>
+      </div>
+
+      <div x-show="show == 'borrow-direct'">
+        <% if ! @available && @show_borrow_direct %>
+          <p>
+            <strong>A Hopkins copy is not available, but you can request it from another library.</strong>
+            <br />
+            <span class="text-muted">Get a copy from a BorrowDirect partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</span>
+          </p>
+        <% else %>
+          <p><strong><%= @exception.message %></strong></p>
+        <% end %>
+
+        <% if show_borrow_direct?(@document) && 'You have already requested this item.' != @exception.message %>
+          <%= render 'borrow_direct', :document => @document,
                 :panel_title => "Get a copy faster from BorrowDirect",
                 :panel_classes => "panel-info" %>
         <% end %>
+      </div>
     </div>
-    
+
     <div class="modal-footer">
-      <%= link_to "OK", request_done_path, :class => "btn btn-primary", :data => {:dismiss => "modal"} %>
+      <%= link_to "Cancel", request_done_path, :class=>"btn btn-default cancel", :data => {:dismiss => "modal"} %>
+      <%= submit_tag "Request", :class => "btn btn-primary submit" %>
     </div>
   <% end %>
 </div>
+<script>
+    $(function(){
+        $(document).on('click', '.request input[type="submit"]', function(){
+            let $button = $(this);
+            $button.parents('.request').find('form').submit();
+        });
+    });
+</script>

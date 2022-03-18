@@ -28,6 +28,56 @@ class SolrDocument
     document.key?( :marc_display  )
   end
 
+  def has_volumes
+    exists = false
+    status = ''
+
+    self.to_holdings.each do |holding|
+      if holding.has_children?
+        # TODO: I really only need to check the current item not hte whole set at this point, but I need to know if this specific holding is a volume
+        holding = self.to_holdings_for_holdingset(holding.id).find {|h| h.id == params[:item_id]}
+        if self.to_holdings_for_holdingset(holding.id).find {|h|
+          h.copy_string.include?('v.')
+        }
+          exists = true
+          status = h.status.try(:display_label)
+        end
+      else
+        if ! holding.copy_string.nil? && holding.copy_string.include?('v.')
+          exists = true
+          status = holding.status.try(:display_label)
+        end
+      end
+    end
+
+    [exists, status]
+  end
+
+  def fetch_holding(item_id)
+    # Yeah, hardcoded SolrDocument isn't great, but this whole
+    # architecture has become a mess.
+    begin
+      base = SolrDocument.extension_parameters[:ils_di_base]
+      url = base.chomp("/") + "/availability?id_type=item&id=#{item_id}"
+      noko = Nokogiri::XML(DlfExpandedPassthrough::DocumentExtension.safe_http_get(url))
+
+      h = Holding.new
+
+      # check if nil
+      item = noko.at_xpath("dlf:record/dlf:items/dlf:item", DlfExpandedPassthrough::ToHoldingsExtension.xml_namespaces)
+
+      return fake_error_holdings.first if item.nil?
+
+      fill_in_holding_from_xml(h, item)
+    rescue Exception => e
+      Rails.logger.error("Could not load item with id #{self["id"]}, #{e.class} #{e.message}")
+
+      return fake_error_holdings.first
+    end
+
+    return h
+  end
+
   # Custom hack to unescape Marc21 control characters that
   # SolrMarc escapes weirdly, and somehow were automatically unescaped in
   # Solr 1.4, but no longer using Solr 4.3. I don't understand it. This is a mess.

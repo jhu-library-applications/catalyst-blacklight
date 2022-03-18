@@ -152,3 +152,147 @@
     }
   }
 }
+
+#optionsContainer {
+  & button[aria-expanded="true"] svg{
+    transform: rotate(90deg);
+  }
+}
+
+.holdings {
+  margin-bottom: 0.5em;
+
+  .title {
+
+    h2 {
+      font-size: 1.3em;
+      margin-bottom: 0.25px;
+    }
+
+    hr {
+      margin-top: 0px;
+      margin-bottom: 0.5px;
+    }
+  }
+
+  .holdings-container {
+    background-color: $panel-default-heading-bg;
+    margin: 0.5em 0px 0px;
+    padding: 6px 0px 6px 6px;
+
+    .btn-xs {
+      font-size: .8em;
+      padding: .1em .4em;
+    }
+
+    hr {
+      margin: 0em;
+      margin-bottom: 0em;
+    }
+    .location-container {
+      &.scroll-overflow{
+        max-height: 400px;
+        overflow-y: scroll;
+      }
+
+      & > div {
+        background-color: $panel-default-heading-bg;
+      }
+
+      .location {
+        font-size: 1em;
+        padding: .3em .5em;
+      }
+
+      .sticky-top {
+        padding: 0px !important;
+        margin: 0px !important;
+      }
+    }
+
+    .holdings-drill-down {
+
+    }
+
+    .holding {
+      padding: 1em 1em;
+      ul {
+        margin-bottom: 0px;
+      }
+
+      .request-button-container {
+        text-align: right;
+      }
+
+      .due {
+        padding: 4px 2.6em 0px;
+
+        .due-label {
+          margin-right: 4px;
+        }
+      }
+
+      .status {
+        color: $jhuBlue-hover;
+
+        .indicator {
+          height: 12px;
+          width: 12px;
+          border-radius: 9999px;
+          margin: 0px 6px 0px 0px;
+        }
+
+        &.available {
+          color: $jhuDarkGreen;
+          .indicator {
+            background-color: $jhuDarkGreen;
+          }
+        }
+
+        &.checked-out {
+          color: $jhuRed;
+          .indicator {
+            background-color: $jhuRed;
+          }
+        }
+
+        &.transit {
+          color: $jhuBrightBlue;
+          .indicator {
+            background-color: $jhuBrightBlue;
+          }
+        }
+
+        &.in-library-use-only {
+          color: $jhuBlue-hover;
+          .indicator {
+            background-color: $jhuBlue-hover;
+          }
+        }
+
+        &.in-process {
+          color: $jhuBrightBlue;
+          .indicator {
+            background-color: $jhuBrightBlue;
+          }
+        }
+
+        &.newly-acquired {
+          color: $jhuBlue-hover;
+          .indicator {
+            background-color: $jhuBlue-hover;
+          }
+        }
+
+        &.newly-acquired {
+          color: $jhuRed;
+          .indicator {
+            background-color: $jhuRed;
+          }
+        }
+      }
+    }
+
+
+  }
+}

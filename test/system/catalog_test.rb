@@ -17,7 +17,7 @@ class CatalogTest < ApplicationSystemTestCase
   def test_marc_264_citation_copy
     visit '/catalog/bib_4839582'
     click_link 'Cite'
-    assert page.has_content?("Woodbridge, Suffolk, UK: The Boydell Press")
+    assert page.has_content?("Boydell Press")
   end
 
   # Scenario: Display metadata in MARC 351 field
@@ -48,10 +48,8 @@ class CatalogTest < ApplicationSystemTestCase
   # Scenario: Copy holdings should not show "txt" button
   def test_copy_holdings
     visit '/catalog/bib_305929'
-    page.find('li.holding', match: :first).click # Multiple Items
-    click_link('Items')
     assert page.has_content?("Friedheim -- Main stacks")
-    assert page.has_link?('Request')
+    assert page.has_link?('Get It')
   end
 
   # Scenario: For online access items, it shows the link to the item
@@ -74,7 +72,7 @@ class CatalogTest < ApplicationSystemTestCase
   # Scenario: An archives special collection record should not display the borrow direct box
   def test_borrow_direct_box
     visit '/catalog/bib_1929587'
-    assert page.has_no_content?("Request a copy from BorrowDirect")
+    assert page.has_no_content?("Request from another library")
   end
 
   # LAG-1242
@@ -110,9 +108,7 @@ class CatalogTest < ApplicationSystemTestCase
   # Test Request Button - Not signed in
   def test_request_button_auth_redirect
     visit '/catalog/bib_305929'
-    first('div.holding-visible').click
-    first('a.item-children-link').click
-    within('div.holdings-drill-down') do
+    within('div.holdings-drill-down', match: :first) do
       first('a.request').click
     end 
     assert page.has_no_content?('Network Error')
@@ -142,17 +138,5 @@ class CatalogTest < ApplicationSystemTestCase
     sleep(2)
     assert page.has_content?("Previous")
     assert page.has_link?("Next")
-  end
-
-  # Test result set show page pagination
-  def test_show_page_result_set_pagination
-    visit '/catalog?q=piano'
-    sleep(2)
-    click_on('At the Library')
-
-    # Results
-    assert page.has_no_selector?('span[title="piano"]')
-    assert page.has_selector?('span[title="At the Library"]')
-    assert page.has_link?("Remove Selections")
   end
 end

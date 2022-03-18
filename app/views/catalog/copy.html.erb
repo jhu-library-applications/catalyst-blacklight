@@ -3,8 +3,6 @@
   <% if @item_holdings.blank? %>
     <p class="no-items">No items.</p>
   <% else %>
-    <ul class="holdings expandable-disabled">
-      <%= render :partial => "holding_expandable", :collection => @item_holdings, :locals => {:document_id => params[:id], :document => @document} %>
-    </ul>
+    <%= render :partial => "holding_expandable", :collection => @item_holdings, :locals => {:document_id => params[:id], :document => @document} %>
   <% end %>
 </div>

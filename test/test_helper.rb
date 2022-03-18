@@ -61,6 +61,18 @@ class ActiveSupport::TestCase
     )
   end
 
+  def relais_request_unavailable_stub
+    stub_request(:post, /.*available.*/).to_return(
+      status: 200, body: File.read(Rails.root.join('test/fixtures/files/relais/bib_8435478.json')), headers: {}
+    )
+  end
+
+  def relais_request_available_stub
+    stub_request(:post, /.*available.*/).to_return(
+      status: 200, body: File.read(Rails.root.join('test/fixtures/files/relais/bib_8337791.json')), headers: {}
+    )
+  end
+
   def hathi_stub
     stub_request(:get, "https://catalog.hathitrust.org/api/volumes/brief//oclc/1.json").to_return(
       status: 200, body: File.read(Rails.root.join('test/fixtures/files/hathi_response.json')), headers: {})
@@ -83,4 +95,5 @@ class ActiveSupport::TestCase
       pin: Rails.application.credentials.testing[:pin]
     }
   end
+
 end

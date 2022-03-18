@@ -94,10 +94,12 @@ module DlfExpandedPassthrough
       end
     end
 
+
+
     # fetch a single item, return Holding object. 
     # Used in request page, to check an item's details to see if we need
     # to apply custom logic to the request form. 
-    def self.fetch_item_holding(item_id)       
+    def self.fetch_item_holding(item_id)
       # Yeah, hardcoded SolrDocument isn't great, but this whole
       # architecture has become a mess. 
       begin

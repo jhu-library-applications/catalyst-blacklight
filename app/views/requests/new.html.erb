@@ -1,5 +1,10 @@
+<%# available, exact_copy = check_availability?(@document, @holding) %>
+<%# show_borrow_direct = show_borrow_direct?(@document) %>
 <div x-data="{
-      location: '<%= @ils_request.pickup_location %>',
+  show: '<%= @available ? 'request' : 'borrow-direct' %>',
+  exactMatch: false,
+  availableForRequests: <%= ! @ils_request.available_locations.nil? && @ils_request.available_locations.length >= 1 %>,
+  location: '<%= @ils_request.pickup_location %>',
       note: '',
       delivery: {
         building: '',
@@ -22,10 +27,10 @@
       buildNote: function(value){
         return ['Building: ' + value.building, 'Department: ' + value.department, 'Floor: ' + value.floor, 'Drop: ' + value.drop].join('\n');
       }
-    }"
+}"
+     @bd-available.window="exactMatch=true"
      x-init="init"
-     data-ajax-modal="container"
->
+     data-ajax-modal="container">
   <%# this request wrapper div, with it's data elements, is used by umlaut_include.js to properly set up
       embedded BorrowDirect content %>
   <%= content_tag 'div', :class => "request",
@@ -33,7 +38,6 @@
           :request_path => item_request_path(:id => @document.id, :item_id => @ils_request.item_id),
           :borrow_direct_umlaut_wrapper => true
         } do %>
-    <%= form_tag params, :method=>"post", :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
 
     <div class="modal-header">
       <% if Flipper[:curbside_mode].enabled? %>
@@ -48,112 +52,131 @@
     <div class="modal-body">
       <%= render :partial => "head_notes" %>
 
+      <%# If available show request form %>
+      <div x-show="show == 'request'">
+        <% if ! @available %>
+          <%# and a heading for the normal local request %>
+          <h4>Place Hopkins request for this copy</h4>
+          <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
 
+        <% end %>
 
-      <% if show_borrow_direct?(@document) %>
-        <p><strong>This local copy is not immediately available for delivery.</strong></p>
+        <%= form_tag params, :method=>"post", :id => 'horizon-request', :class => "form-horizontal", :data => {:blacklight_modal => "trigger"} do %>
+          <%= hidden_field :ils_request, :bib_id %>
+          <% if @exact_copy %>
+            <%= hidden_field :ils_request, :item_id %>
+          <% end %>
+          <input type="hidden" name="exact_copy" value="<%= @exact_copy %>" />
+          <%= hidden_field :ils_request, :notification_method %>
+          <% if @ils_request.available_locations.length > 1 %>
+            <div class="form-group">
 
-        <%= render 'borrow_direct', :document => @document,
-          :panel_title => "Get a copy faster from BorrowDirect",
-          :panel_classes => "panel-info" %>
+              <% if Flipper[:curbside_mode].enabled? %>
+                <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
+              <% else %>
+                <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
+              <% end %>
 
-        <%# and a heading for the normal local request %>
-        <h4>Place local request for this copy</h4>
-        <p class="text-muted">You will be placed on a waiting list to receive this copy.</p>
-
-      <% end %>
-
-
-      <%= hidden_field :ils_request, :bib_id %>
-      <%= hidden_field :ils_request, :item_id %>
-      <%= hidden_field :ils_request, :notification_method %>
-
-      <p class="text-muted">Process and pickup times vary by location.
-        <%= link_to "More information", "https://catalyst.library.jhu.edu/info/pickup_locations", target: :_blank %>
-      </p>
-
-      <% if @ils_request.available_locations.length > 1 %>
-        <div class="form-group">
-
-          <% if Flipper[:curbside_mode].enabled? %>
-            <%= label :ils_request, :pickup_location, "Pickup Location", :class => "col-sm-3" %>
-          <% else %>
-            <%= label :ils_request, :pickup_location, "Deliver to", :class => "col-sm-3" %>
+            </div>
+          <% elsif @ils_request.available_locations.length == 1 %>
+            <div class="form-group bg-warning text-warning">
+              <%= hidden_field :ils_request, :pickup_location %>
+              <span class="col-sm-3 restricted-pickup-label">Can only be accessed at</span>
+              <div class="col-sm-9 restricted-pickup-location">
+                <%= h(@ils_request.available_locations.first.description) %>
+              </div>
+            </div>
           <% end %>
 
           <div class="col-sm-9">
             <%=  collection_select :ils_request, :pickup_location, @ils_request.available_locations.sort, :code, :description, {}, :class => "form-control", "x-model" => "location" %>
-          </div>
-        </div>
-      <% elsif @ils_request.available_locations.length == 1 %>
-        <div class="form-group bg-warning text-warning">
-            <%= hidden_field :ils_request, :pickup_location %>
-            <span class="col-sm-3 restricted-pickup-label">Can only be accessed at</span>
-            <div class="col-sm-9 restricted-pickup-location">
-              <%= h(@ils_request.available_locations.first.description) %>
+            <div class="help-block">
+              <%= render :partial => "foot_notes" %>
             </div>
-        </div>
-      <% end %>
+          </div>
 
-        <div class="form-group">
-          <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
-          <div x-show="location == 'EOFFICE'"
-               class="col-sm-9 text-muted">
-            <p>Enter your campus office address including building/hall, room number, floor, and/or wing to receive your delivery</p>
-          </div>
-          <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
-             # on moving it to 255.
-          %>
-          <div class="col-sm-9">
-            <div x-show="location != 'EOFFICE'">
-              <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control", "x-model" => "note" %>
+          <% if Flipper[:curbside_mode].enabled? %>
+            <div id="curbside-banner">
+              <p>You will receive an email notification when your item is ready for pickup. Please wait for the notification before coming to pick up your item.</p>
             </div>
-            <div x-show="location == 'EOFFICE'">
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label class="" for="building">Building</label>
-                    <input type=text id="building" x-model="delivery.building" class="form-control" :required="location == 'EOFFICE'"/>
+          <% else %>
+
+          <% end %>
+
+          <div class="form-group">
+            <%= label :ils_request, :comment, "Notes to staff", :class => "col-sm-3" %>
+            <div x-show="location == 'EOFFICE'"
+                 class="col-sm-9 text-muted">
+              <p>Enter your campus office address including building/hall, room number, floor, and/or wing to receive your delivery</p>
+            </div>
+            <% # Maxlength 80 is currently all we can get HIP/Horizon to accept, working
+               # on moving it to 255.
+            %>
+            <div class="col-sm-9">
+              <div x-show="location != 'EOFFICE'">
+                <%= text_area :ils_request, :comment, :rows => 4, :maxlength => "80", :class => "form-control", "x-model" => "note" %>
+              </div>
+              <div x-show="location == 'EOFFICE'">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="" for="building">Building</label>
+                      <input type=text id="building" x-model="delivery.building" class="form-control" :required="location == 'EOFFICE'"/>
+                    </div>
                   </div>
-                </div>
-                <div class="col-sm-4">
-                  <label class="" for="department">Department</label>
-                  <input type=text id="department" x-model="delivery.department" class="form-control" :required="location == 'EOFFICE'"/>
-                </div>
-                <div class="col-sm-4">
-                  <label class="" for="floor">Floor</label>
-                  <input type=text id="floor" x-model="delivery.floor" class="form-control" :required="location == 'EOFFICE'"/>
-                </div>
-                <div class="col-sm-12">
-                  <label class="" for="drop">Deliver to</label>
-                  <div>
-                    <input type="radio" id="mailbox" name="drop" value="Mailbox" x-model="delivery.drop">
-                    <label for="mailbox">Mailbox</label>
+                  <div class="col-sm-4">
+                    <label class="" for="department">Department</label>
+                    <input type=text id="department" x-model="delivery.department" class="form-control" :required="location == 'EOFFICE'"/>
                   </div>
-                  <div>
-                    <input type="radio" id="admin" name="drop" value="Admin Coordinator" x-model="delivery.drop">
-                    <label for="admin">Admin Coordinator</label>
+                  <div class="col-sm-4">
+                    <label class="" for="floor">Floor</label>
+                    <input type=text id="floor" x-model="delivery.floor" class="form-control" :required="location == 'EOFFICE'"/>
+                  </div>
+                  <div class="col-sm-12">
+                    <label class="" for="drop">Deliver to</label>
+                    <div>
+                      <input type="radio" id="mailbox" name="drop" value="Mailbox" x-model="delivery.drop">
+                      <label for="mailbox">Mailbox</label>
+                    </div>
+                    <div>
+                      <input type="radio" id="admin" name="drop" value="Admin Coordinator" x-model="delivery.drop">
+                      <label for="admin">Admin Coordinator</label>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <% if Flipper[:curbside_mode].enabled? %>
-          <div id="curbside-banner">
-            <p>You will receive an email notification when your item is ready for pickup. Please wait for the notification before coming to pick up your item.</p>
-          </div>
-        <% else %>
-          <%= render :partial => "foot_notes" %>
+        <% end %>
+
+      </div>
+
+      <%# If not available show BD form %>
+      <div x-show="show == 'borrow-direct'">
+        <% if ! @available && @show_borrow_direct %>
+          <p>
+            <strong>A Hopkins copy is not available, but you can request it from another library.</strong>
+            <br />
+            <span class="text-muted">Get a copy from a BorrowDirect partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</span>
+          </p>
+          <%= render 'borrow_direct', :document => @document,
+                     :panel_title => "Get a copy faster from BorrowDirect",
+                     :panel_classes => "panel-info" %>
         <% end %>
       </div>
 
-      <div class="modal-footer">
-        <%= link_to "Cancel", request_done_path, :class=>"btn btn-default cancel", :data => {:dismiss => "modal"} %>
-        <%= submit_tag "Request", :class => "btn btn-primary submit" %>
-      </div>
+    </div>
 
-    <% end %>
+    <div class="modal-footer">
+        <%= link_to "Cancel", request_done_path, :class=>"btn btn-default cancel", :data => {:dismiss => "modal"} %>
+        <span x-show="show == 'request'">
+          <%= submit_tag "Request", :class => "btn btn-primary submit submit-horizon-request" %>
+        </span>
+        <span x-show="exactMatch">
+          <%= submit_tag "Request", :class => "btn btn-primary submit submit-bd-request" %>
+        </span>
+    </div>
+
   <% end %>
 </div>

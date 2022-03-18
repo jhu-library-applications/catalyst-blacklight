@@ -30,6 +30,21 @@ a {
   color: #FFFFFF !important;
 }
 
+.request-head-notes {
+  .cover-container {
+    img {
+      background-repeat: no-repeat;
+      background-size: 40px 40px;
+      background-position: center;
+      width: 50px;
+      max-width: 100%;
+      height: auto;
+      margin: 0px auto;
+      display: block;
+    }
+  }
+}
+
 .cover-container {
   img {
     background-repeat: no-repeat;

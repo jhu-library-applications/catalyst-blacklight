@@ -8,7 +8,6 @@ require 'tzinfo'
 require 'hip_config'
 require 'horizon_borrower_lookup'
 
-
 # TODO: Make sure checkout and due dates with times work
 
 class HipPilot
@@ -134,7 +133,6 @@ class HipPilot
   def profile
     xml = xml_for(profile_url).xpath("/*/patroninfo")
 
-
     return Profile.new(
       :name => at_xpath_text(xml, "name/full"),
       :phone => at_xpath_text(xml, "phones/phone/full[1]"),
@@ -186,11 +184,17 @@ class HipPilot
   # pickup location, and call #submit_request( request_obj ).
   def init_request( request )
     url = URI.parse(@hip_base_url)
-    uri_query_merge(url, "menu" => "request",
-        "bibkey"  => request.bib_id,
-        "itemkey" => request.item_id,
-        "time"    =>Time.now.to_i) # HIP wants unix epoch time of 'now' in 'time' param
 
+    if ! request.item_id.nil?
+      uri_query_merge(url, "menu" => "request",
+                    "bibkey"  => request.bib_id,
+                    "itemkey" => request.item_id,
+                    "time"    => Time.now.to_i) # HIP wants unix epoch time of 'now' in 'time' param
+    else
+      uri_query_merge(url, "menu" => "request",
+                      "bibkey"  => request.bib_id,
+                      "time"    => Time.now.to_i) # HIP wants unix epoch time of 'now' in 'time' param
+    end
     xml = get_xml_with_login(url)
 
     # Okay, sometimes horizon gives us a multiple-choice page here
@@ -217,14 +221,11 @@ class HipPilot
       xml = get_xml_with_current_session(url)
     end
 
-
-
     if ( error_msg = xml.at_xpath("//alert/message"))
       raise RequestFailure.new( error_msg.text, current_user )
     end
 
     request_confirm = xml.at_xpath("//request_confirm")
-
     request.available_locations ||=
       request_confirm.xpath("./pickup_location/location").collect do |location_xml|
         # New hip gives us sub-nodes code and description, old HIP
@@ -296,7 +297,6 @@ class HipPilot
     init_request(request)
 
     url = URI.parse(@hip_base_url)
-
     uri_query_merge(url,
       "pickuplocation"  => request.pickup_location,
       "notifyby"        => request.notification_method,
@@ -312,7 +312,6 @@ class HipPilot
       Rails.logger.warn("HipPilot: Weird connection error in making request: #{xml.to_s}")
       raise ConnectionError
     end
-
     return success
   end
 

@@ -90,5 +90,15 @@ Blacklight.onLoad(function() {
     // triggerRequestFromUrl();
   });
 
+  // Trigger the request submission for local requests and BD since button is no longer in form
+  $(document).on('click', '.submit-horizon-request', function(){
+    let $button = $(this);
+    $button.parents('.request').find('form#horizon-request').trigger('submit');
+  });
+
+  $(document).on('click', '.submit-bd-request', function(){
+    let $button = $(this);
+    $button.parents('.request').find('form#bd-request').trigger('submit');
+  });
 
 });
