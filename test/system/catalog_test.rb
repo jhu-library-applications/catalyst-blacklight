@@ -17,7 +17,7 @@ class CatalogTest < ApplicationSystemTestCase
   def test_marc_264_citation_copy
     visit '/catalog/bib_4839582'
     click_link 'Cite'
-    assert page.has_content?("Woodbridge, Suffolk, UK: The Boydell Press")
+    assert page.has_content?("Boydell Press")
   end
 
   # Scenario: Display metadata in MARC 351 field
