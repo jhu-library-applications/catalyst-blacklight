@@ -37,6 +37,7 @@ class DetailPageTest < ApplicationSystemTestCase
 
     # Check modal for citations
     click_link "Cite"
+    sleep(2)
     assert page.has_selector?("#blacklight-modal.modal.show")
     within("#blacklight-modal.modal.show") do
       assert page.has_text?("MLA")
