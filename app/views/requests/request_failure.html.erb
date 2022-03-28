@@ -98,7 +98,7 @@
             <span class="text-muted">Get a copy from a BorrowDirect partner library in 6-9 days. Checkout period is 16 weeks, with no renewals.</span>
           </p>
         <% else %>
-          <p><strong><%= @exception.message %></strong></p>
+          <p><strong><%= RequestFailurePresenter.new(exception: @exception).message %></strong></p>
         <% end %>
 
         <% if show_borrow_direct?(@document) && 'You have already requested this item.' != @exception.message %>
