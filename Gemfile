@@ -6,7 +6,9 @@ ruby '~> 2.6.6'
 # we will no longer need this gem once we migrate to ansible
 gem 'dotenv-rails'
 
-gem 'rails', '~> 5.2.6.2'
+gem 'rails', '~> 5.2.6.3'
+
+gem 'view_component', '2.49.1'
 
 # See https://github.com/advisories/GHSA-8hc4-xxm3-5ppp
 gem "activerecord", ">= 5.2.4.5"
