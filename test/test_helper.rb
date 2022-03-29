@@ -3,6 +3,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
 require 'simplecov-cobertura'
 require 'webmock/minitest'
+require 'ostruct'
 
 SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 
