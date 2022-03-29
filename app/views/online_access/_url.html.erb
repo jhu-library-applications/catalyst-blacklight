@@ -1,0 +1,12 @@
+<p>
+    <%= SfxServicePresenter.new(service_type: url.css('service_type').text).service %>
+    <%= "<a href='#{url_decode(url.css('target_url').text)}'>#{url.css('target_public_name').text}</a></br>".html_safe %>
+    <% url.css('coverage_statement').each do |coverage_statement| %>
+        <%= coverage_statement.text %>
+    </br>
+    <% end %>
+    <% url.css('embargo_statement').each do |embargo_statement| %>
+        <%= embargo_statement.text %>
+    </br>
+    <% end %>
+  </p>
