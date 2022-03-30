@@ -8,7 +8,9 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   [
     "headless",
     "window-size=1280x1280",
-    "disable-gpu"
+    "disable-gpu",
+    "disable-dev-shm-usage",
+    "no-sandbox"
   ].each { |arg| options.add_argument(arg) }
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
@@ -20,8 +22,10 @@ Capybara::Screenshot.register_driver(:selenium_chrome_headless) do |driver, path
   driver.browser.save_screenshot(path)
 end
 
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium_chrome_headless
+
   def setup
     sfx_stub
     holdings_stub

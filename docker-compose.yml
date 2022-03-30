@@ -1,48 +1,70 @@
-version: '3'
+version: "3.7"
 
 services:
-
-  #  solr:
-  #  build: "$PWD/../blacklight-solr/"
-  #  ports:
-  #   - "$SOLR_EXTERNAL_PORT:$SOLR_PORT"
-  #  volumes:
-  #  - "$PWD/../blacklight-solr:/opt/solr/example/blacklight_solr"
-  #  command: java -jar start.jar
-
-  #  db:
-  #    image: mysql:5.7
-  #    volumes:
-  #      - db_data:/var/lib/mysql
-  #    ports:
-  #      - "${MYSQL_EXTERNAL_PORT}:${MYSQL_PORT}"
-  #    restart: always
-  #    dns:
-  #      - "$DNS_1"
-  #      - "$DNS_2"
-  #    environment:
-  #      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-  #      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-  #      MYSQL_USER: "${MYSQL_USER}"
-  #      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-
-  catalyst:
-    #depends_on:
-    #  - db
-    build: .
-    environment:
-      SOLR_URL: "${APP_SOLR_URL}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-    dns:
-      - "$DNS_1"
-      - "$DNS_2"
-    working_dir: "${APP_DIR}" 
+  catalyst: &catalyst
+    build:
+      context: .
+      dockerfile: .docker/catalyst/Dockerfile
     volumes:
-      - "${PWD}:${APP_DIR}"
+      - .:/catalyst
+      - bundler_gems:/usr/local/bundle
+    depends_on:
+      - solr
+      - db
+    tty: true
+    stdin_open: true
     ports:
-      - "${APP_EXTERNAL_PORT}:${APP_PORT}"
-    command: >
-      bash -c "bundle install 
-      && bundle exec rails s -p ${APP_PORT} -b '0.0.0.0'"
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - SOLR_PORT=8983
+      - SOLR_URL=http://solr:8983/solr/blacklight-core
+      - MYSQL_SERVER=db
+      - MYSQL_DATABASE=catalyst
+      - MYSQL_USER=catalyst
+      - MYSQL_PASSWORD=catalyst
+      - MYSQL_PORT=3306
+      - FLIPPER_USERNAME=flipper
+      - FLIPPER_PASSWORD=flipper
+      - BORROW_DIRECT_HOST=bdtest.relaisd2d.com
+      - CATALYST_UMLAUT_BASE_URL=https://findit.library.jhu.edu
+      - HORIZON_WS_URL=http://localhost:8080/ws
+      - GOOGLE_BOOKS_API_KEY="${GOOGLE_BOOKS_API_KEY}"
+      - SECRET_KEY_BASE="${SECRET_KEY_BASE}"
+      - SFX_BASE_URL="sfx.library.jhu.edu"
+      - WEBPACKER_DEV_SERVER_HOST=webpack
+  webpack:
+    <<: *catalyst
+    command: ./bin/webpack-dev-server
+    depends_on:
+      - catalyst
+      - db
+      - solr
+    ports:
+      - 3035:3035
+
+
+  solr:
+    image: "ghcr.io/jhu-library-applications/catalyst-docker-solr"
+    ports:
+      - "8983:8983"
+    volumes:
+      - solr:/var/solr/data
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_USER: catalyst
+      MYSQL_DATABASE: catalyst
+      MYSQL_PASSWORD: catalyst
+      MYSQL_ROOT_PASSWORD: catalyst
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+    security_opt:
+      - seccomp:unconfined
+volumes:
+  bundler_gems:
+  solr:
+  db:
