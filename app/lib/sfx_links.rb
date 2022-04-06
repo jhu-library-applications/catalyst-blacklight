@@ -7,7 +7,7 @@ require 'base64'
 # This represents a hash of links from SFX from an OpenURL request
 class SfxLinks
   SFX_REQUEST_OPTIONS = '&sfx.ignore_date_threshold=1&sfx.response_type=multi_obj_xml'.freeze
-
+  SFX_BASE_URL = ENV['SFX_BASE_URL'].gsub('"', '')
   attr_reader :context_object, :targets
 
   def initialize(context_object:)
@@ -23,7 +23,7 @@ class SfxLinks
   end
 
   def sfx_url
-    "#{ENV['SFX_BASE_URL']}?#{context_object_params}#{SFX_REQUEST_OPTIONS}"
+    "#{SFX_BASE_URL}?#{context_object_params}#{SFX_REQUEST_OPTIONS}"
   end
 
   def sfx_xml_request

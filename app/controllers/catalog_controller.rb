@@ -87,7 +87,7 @@ class CatalogController < ApplicationController
 
   include BlacklightAdvancedSearch::Controller
   include Blacklight::Catalog
-  include BlacklightUnapi::ControllerExtension
+
 
   include BlacklightRangeLimit::ControllerOverride
 

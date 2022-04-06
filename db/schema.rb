@@ -2,17 +2,17 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2021_08_05_170051) do
 
-  create_table "alerts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "alerts", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "alert_type"
     t.string "level"
     t.string "title"
@@ -22,28 +22,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_170051) do
     t.datetime "end_at"
   end
 
-  create_table "blacklight_folders_folder_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.bigint "folder_id", null: false
-    t.bigint "bookmark_id", null: false
-    t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bookmark_id"], name: "index_blacklight_folders_folder_items_on_bookmark_id"
-    t.index ["folder_id"], name: "index_blacklight_folders_folder_items_on_folder_id"
-  end
-
-  create_table "blacklight_folders_folders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "user_type", null: false
-    t.bigint "user_id", null: false
-    t.string "visibility"
-    t.integer "number_of_members", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_type", "user_id"], name: "index_blacklight_folders_folders_on_user_type_and_user_id"
-  end
-
-  create_table "bookmarks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "bookmarks", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "document_id"
     t.string "title"
@@ -54,14 +33,14 @@ ActiveRecord::Schema.define(version: 2021_08_05_170051) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
-  create_table "flipper_features", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "flipper_features", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_flipper_features_on_key", unique: true
   end
 
-  create_table "flipper_gates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "flipper_gates", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "feature_key", null: false
     t.string "key", null: false
     t.string "value"
@@ -70,19 +49,19 @@ ActiveRecord::Schema.define(version: 2021_08_05_170051) do
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
   end
 
-  create_table "reserves_course_bibs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "reserves_course_bibs", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "reserves_course_id", null: false
     t.integer "bib_id", null: false
     t.index ["reserves_course_id"], name: "index_reserves_course_bibs_on_reserves_course_id"
   end
 
-  create_table "reserves_course_instructors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "reserves_course_instructors", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "reserves_course_id", null: false
     t.string "instructor_str", null: false
     t.index ["reserves_course_id"], name: "index_reserves_course_instructors_on_reserves_course_id"
   end
 
-  create_table "reserves_courses", primary_key: "course_id", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "reserves_courses", primary_key: "course_id", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "location_code"
     t.string "location"
@@ -91,8 +70,8 @@ ActiveRecord::Schema.define(version: 2021_08_05_170051) do
     t.string "course_group_descr"
   end
 
-  create_table "searches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.text "query_params"
+  create_table "searches", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
+    t.text "query_params", size: :medium
     t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -100,7 +79,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_170051) do
     t.index ["user_id"], name: "index_searches_on_user_id"
   end
 
-  create_table "stackview_call_numbers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "stackview_call_numbers", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "sort_key", null: false
     t.string "sort_key_display"
     t.string "sort_key_type", null: false
@@ -118,7 +97,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_170051) do
     t.index ["system_id"], name: "index_stackview_call_numbers_on_system_id"
   end
 
-  create_table "taggings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "taggings", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "tag_id"
     t.integer "taggable_id"
     t.string "taggable_type"
@@ -127,15 +106,15 @@ ActiveRecord::Schema.define(version: 2021_08_05_170051) do
     t.index ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type"
   end
 
-  create_table "tags", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "tags", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "users", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "login", null: false
     t.string "email"
     t.string "crypted_password"
-    t.text "last_search_url"
+    t.text "last_search_url", size: :medium
     t.datetime "last_login_at"
     t.datetime "created_at"
     t.datetime "updated_at"

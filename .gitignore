@@ -44,3 +44,4 @@ tramp
 .Trashes
 ehthumbs.db
 Thumbs.db
+.docker-compose.yml.swp

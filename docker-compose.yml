@@ -32,7 +32,7 @@ services:
       - HORIZON_WS_URL=http://horizon_holding_info:8080/ws
       - GOOGLE_BOOKS_API_KEY="${GOOGLE_BOOKS_API_KEY}"
       - SECRET_KEY_BASE="${SECRET_KEY_BASE}"
-      - SFX_BASE_URL="sfx.library.jhu.edu"
+      - SFX_BASE_URL="https://sfx-stage.library.jhu.edu/sfxlcl41"
       - WEBPACKER_DEV_SERVER_HOST=webpack
   webpack:
     <<: *catalyst
@@ -56,7 +56,7 @@ services:
     ports:
       - "8080:8080" 
   db:
-    image: mysql
+    image: mariadb:10.2
     environment:
       MYSQL_USER: catalyst
       MYSQL_DATABASE: catalyst
@@ -66,8 +66,6 @@ services:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
-    security_opt:
-      - seccomp:unconfined
 volumes:
   bundler_gems:
   solr:

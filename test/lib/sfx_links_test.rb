@@ -23,7 +23,7 @@ class SfxLinksTest < ActiveSupport::TestCase
   end
 
   test 'that we can get a SFX url for making API requests' do
-    assert @good_sfx_links.sfx_url.match(/sfx.library.jhu.edu/)
+    assert @good_sfx_links.sfx_url.match(/sfx.library.jhu.edu|sfx-stage.library.jhu.edu/)
   end
 
   test 'that we can make an HTTP request directly' do

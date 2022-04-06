@@ -1,6 +1,7 @@
 .PHONY: up
 up:
 	docker-compose build \
+	&& docker-compose run --rm catalyst gem install bundler \
 	&& docker-compose run --rm catalyst bundle install -j2	\
 	&& docker-compose run -e RAILS_ENV=development --rm catalyst rails db:create  \
 	&& docker-compose run -e RAILS_ENV=development --rm catalyst rails db:migrate \
@@ -9,6 +10,7 @@ up:
 .PHONY: test
 test:
 	docker-compose build \
+	&& docker-compose run --rm catalyst gem install bundler \
 	&& docker-compose run --rm catalyst bundle install -j2	\
 	&& docker-compose run -e RAILS_ENV=test --rm catalyst rails db:create  \
 	&& docker-compose run -e RAILS_ENV=test --rm catalyst rails db:migrate \
