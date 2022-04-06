@@ -12,6 +12,7 @@ services:
       - solr
       - db
       - horizon_holding_info
+      - webpack
     tty: true
     stdin_open: true
     ports:
@@ -38,7 +39,6 @@ services:
     <<: *catalyst
     command: ./bin/webpack-dev-server
     depends_on:
-      - catalyst
       - db
       - solr
     ports:
