@@ -76,7 +76,7 @@ development:
 test:
   <<: *default
 
-  compile: true
+  compile: false
     # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
     https: false
