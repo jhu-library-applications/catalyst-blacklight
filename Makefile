@@ -14,5 +14,6 @@ test:
 	&& docker-compose run --rm catalyst bundle install -j2	\
 	&& docker-compose run -e RAILS_ENV=test --rm catalyst rails db:create  \
 	&& docker-compose run -e RAILS_ENV=test --rm catalyst rails db:migrate \
-	&& docker-compose up -d \
+	&& docker-compose run -e RAILS_ENV=test --rm catalyst yarn \
+	&& docker-compose run -e RAILS_ENV=test --rm catalyst rails assets:precompile \
 	&& docker-compose run -e RAILS_ENV=test -e RUBYOPT='-W0' --rm catalyst bundle exec rake ci
