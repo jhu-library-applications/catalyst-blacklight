@@ -5,16 +5,16 @@ env:
   # these are all referenced in our app's database.yml for test
   # FindIt needs to be the actual prod url because it is loaded
   # on pages when the capybara tests are loaded.
-  MYSQL_SERVER: localhost
-  MYSQL_DATABASE: jhu_bl_test
-  MYSQL_USER: root
-  MYSQL_PASSWORD: root
-  SOLR_URL: http://127.0.0.1:8983/solr/blacklight-core
+  MYSQL_SERVER: db
+  MYSQL_DATABASE: catalyst
+  MYSQL_USER: catalyst
+  MYSQL_PASSWORD: catalyst
+  SOLR_URL: http://solr:8983/solr/blacklight-core
   CATALYST_UMLAUT_BASE_URL: https://findit.library.jhu.edu
   AEON_URL: https://aeon.library.jhu.edu
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
   GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
-  HORIZON_WS_URL: http://localhost:8080/ws
+  HORIZON_WS_URL: http://horizon_holding_info:8080/ws
   EZPROXY_PREFIX: "http://proxy1.library.jhu.edu/login?url="
   SFX_BASE_URL: "https://sfx.library.jhu.edu/sfxlcl41"
   ILLIAD_URL: https://ill.library.jhu.edu/msel/illiad.dll
@@ -24,6 +24,7 @@ env:
   RELAIS_LIBRARY_SYMBOL: JOHNSHOPKINS
   RELAIS_PATRON_ID: ${{ secrets.RELAIS_PATRON_ID }}
   GITHUB_TOKEN: ${{ github.token }}
+  WEBPACKER_DEV_SERVER_HOST: webpack
 jobs:
   compose-test:
     runs-on: ubuntu-latest
