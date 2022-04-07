@@ -9,6 +9,8 @@ env:
   MYSQL_DATABASE: catalyst
   MYSQL_USER: catalyst
   MYSQL_PASSWORD: catalyst
+  FLIPPER_USERNAME: flipper
+  FLIPPER_PASSWORD: flipper
   SOLR_URL: http://solr:8983/solr/blacklight-core
   CATALYST_UMLAUT_BASE_URL: https://findit.library.jhu.edu
   AEON_URL: https://aeon.library.jhu.edu
@@ -35,3 +37,10 @@ jobs:
 
       - name: Run the tests with the Makefile
         run: make test 
+        
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: tmp/screenshots
