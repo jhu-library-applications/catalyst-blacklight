@@ -27,8 +27,15 @@ services:
       - MYSQL_PASSWORD=catalyst
       - MYSQL_PORT=3306
       - FLIPPER_USERNAME=flipper
+      - AEON_URL=https://aeon.library.jhu.edu
       - FLIPPER_PASSWORD=flipper
       - BORROW_DIRECT_HOST=bdtest.relaisd2d.com
+      - ILLIAD_URL=https://ill.library.jhu.edu/msel/illiad.dll
+      - RELAIS_API_URL=borrow-direct.relais-host.com
+      - "RELAIS_API_KEY=${RELAIS_API_KEY}"
+      - RELAIS_PARTNERSHIP_ID=BD
+      - RELAIS_LIBRARY_SYMBOL=JOHNSHOPKINS
+      - "RELAIS_PATRON_ID=${RELAIS_PATRON_ID}"
       - CATALYST_UMLAUT_BASE_URL=https://findit.library.jhu.edu
       - HORIZON_WS_URL=http://horizon_holding_info:8080/ws
       - GOOGLE_BOOKS_API_KEY="${GOOGLE_BOOKS_API_KEY}"

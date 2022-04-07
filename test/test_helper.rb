@@ -10,7 +10,7 @@ SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 
 # These are URLs that do not need to be mocked
 WEBMOCK_ALLOW_LIST = %w[127.0.0.1 localhost googleapis.com www.googleapis.com catalyst.library.jhu.edu bdtest.relaisd2d.com solr sfx-stage.library.jhu.edu
-  sfx.library.jhu.edu jhu.stackmap.com chromedriver.storage.googleapis.com httpstat.us].freeze
+  sfx.library.jhu.edu jhu.stackmap.com chromedriver.storage.googleapis.com webpack httpstat.us].freeze
 
 WebMock.disable_net_connect!(allow: WEBMOCK_ALLOW_LIST)
 
