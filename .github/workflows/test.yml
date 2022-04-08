@@ -1,4 +1,4 @@
-name: Tests via docker-compose
+name: Run the tests
 
 on: push
 env:
@@ -37,6 +37,22 @@ jobs:
 
       - name: Run the tests with the Makefile
         run: make test 
+        
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: tmp/screenshots
+  compose-test-system:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+
+      - name: Run the system tests with the Makefile
+        run: make test-system 
         
       - name: Upload Screenshots
         if: failure()
