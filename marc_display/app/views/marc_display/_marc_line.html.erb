@@ -1,5 +1,7 @@
 <%# getting the whitespace right in this partial is kind of ridiculous, sorry a better technique is needed. -%>
-  <%- if ( prefix = line.prefix ) -%>
+
+
+<%- if ( prefix = line.prefix ) -%>
     <span class="marcPrefix"><%= prefix %>:</span>
   <%- end -%>
   <%- if (alink = line.link) && alink.as_whole_line? && alink.hash_for_url -%>
@@ -12,7 +14,8 @@
             <%= (prefix || raw_prefix) %><%- unless raw_prefix -%>:<%- end -%>
         </span>
       <%- end -%>
-      <%= part.formatted_value.to_s.html_safe %>
+      <% subject_overrider = SubjectOverrider.new(line: line, part: part) %>
+      <%= subject_overrider.translated_subject.html_safe || part.formatted_value.to_s.html_safe %>
     </span>
   <%- end -%>            
   <%- if (alink = line.link ) -%>

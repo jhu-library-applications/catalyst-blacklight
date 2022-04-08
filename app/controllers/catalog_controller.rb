@@ -306,8 +306,8 @@ class CatalogController < ApplicationController
     config.add_search_field("subject") do |field|
       field.label = 'Subject'
       field.solr_local_parameters = {
-        :qf => "$subject_qf",
-        :pf => "$subject_pf"
+        :qf => "subject_translated_unstem AND subject_unstem",
+        :pf => "subject_translated_unstem AND subject_unstem"
       }
       field.solr_parameters = {
         :"spellcheck.dictionary" => "subject"
@@ -316,7 +316,7 @@ class CatalogController < ApplicationController
 
     # Combining numbers is weird. Call numbers end up as multiple tokens,
     # so we use pf/ps/mm to try to make sure call number searches are reasonable
-    # Everything else should just be one token, usually.
+    # Everything else should subjectust be one token, usually.
     config.add_search_field("number") do |field|
       field.label = "Numbers"
       field.solr_local_parameters = {
@@ -332,7 +332,7 @@ class CatalogController < ApplicationController
 
     # Journal title is a copy of title -- we have custom logic below
     # that hardcodes in the facet limit.
-    config.add_search_field("journal_title") do |field|
+    config.add_search_field("subjectournal_title") do |field|
       field.label = 'Journal Title'
       field.solr_local_parameters = {
         :qf => "$title_qf",
@@ -458,7 +458,7 @@ class CatalogController < ApplicationController
         "title3_unstem^30",
         "title_series_unstem^25"
       ],
-
+      :subject_translated_qf => "subject_translated_unstem^40",
       :subject_qf  => "subject_unstem^40",
       :series_qf   => "title_series_unstem^10",
       # this 'qf' will be used for default 'all fields' search
@@ -471,6 +471,7 @@ class CatalogController < ApplicationController
         'author_unstem^90',
         'author_addl_unstem^40',
         'subject_unstem^20',
+        'subject_translated_unstem^20',
         'title_series_unstem^10',
         'isbn_t',
         'issn',

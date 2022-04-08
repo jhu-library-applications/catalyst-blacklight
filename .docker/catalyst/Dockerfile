@@ -12,7 +12,9 @@ RUN apk update && apk add --no-cache \
   tzdata \
   shared-mime-info \
   yarn \
-  curl
+  curl \
+  openssh \
+  openssh-client-common
 
 # Installs latest Chromium package.
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories \
