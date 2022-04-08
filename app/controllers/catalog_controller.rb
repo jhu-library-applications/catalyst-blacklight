@@ -306,8 +306,8 @@ class CatalogController < ApplicationController
     config.add_search_field("subject") do |field|
       field.label = 'Subject'
       field.solr_local_parameters = {
-        :qf => "$subject_translated_qf AND $subject_qf",
-        :pf => "$subject_translated_pf AND $subject_pf"
+        :qf => "subject_translated_unstem AND subject_unstem",
+        :pf => "subject_translated_unstem AND subject_unstem"
       }
       field.solr_parameters = {
         :"spellcheck.dictionary" => "subject"
