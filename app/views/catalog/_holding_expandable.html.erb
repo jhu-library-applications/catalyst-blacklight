@@ -12,6 +12,36 @@
     holding = local_assigns[:holding_expandable]
 %>
 
+<% if holding.notes.present? || holding.run_statements.present? || holding.has_children? %>
+    <% unless holding.notes.empty? %>
+      <ul class="list-unstyled holding-line notes mb-1">
+        <% holding.notes.each do |note| %>
+          <li class="note"><%= note %></li>
+        <% end %>
+      </ul>
+    <% end %>
+<% end %>
+
+<% unless holding.run_statements.empty? %>
+  <div class="holding-line notes">
+    <% holding.run_statements_by_type.keys.each do |run_type| %>
+      <% if (label = run_type_label_for(run_type)) %>
+        <h5 class="run_statements_<%= run_type.parameterize %> run_statements_heading"><%= label %></h5>
+      <% end %>
+      <ul class="list-unstyled run-statements run-statements-<%= run_type.parameterize %>">
+        <% holding.run_statements_by_type[run_type].each do |run_stmt| %>
+          <li>
+            <%= h(run_stmt.display_statement) %>
+              <% if run_stmt.note %>
+                <span class="note"><%= h(run_stmt.note) %></span>
+              <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>
+
 <% if holding.has_children? %>
   <div x-data="{
           retrieveCopies() {
