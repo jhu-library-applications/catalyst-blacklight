@@ -41,6 +41,10 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 RUN mkdir -p /catalyst
 WORKDIR /catalyst
 
+RUN eval $(ssh-agent -s)
+
+RUN gem install bundler --no-document
+
 EXPOSE 3000
 
 CMD bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"

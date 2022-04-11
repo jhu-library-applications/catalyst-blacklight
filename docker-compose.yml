@@ -14,26 +14,14 @@ services:
       - horizon_holding_info
     tty: true
     stdin_open: true
+    restart: always
+    shm_size: "1g"  
     ports:
       - "3000:3000"
-    environment:
-      - RAILS_ENV=development
-      - SOLR_PORT=8983
-      - SOLR_URL=http://solr:8983/solr/blacklight-core
-      - MYSQL_SERVER=db
-      - MYSQL_DATABASE=catalyst
-      - MYSQL_USER=catalyst
-      - MYSQL_PASSWORD=catalyst
-      - MYSQL_PORT=3306
-      - FLIPPER_USERNAME=flipper
-      - FLIPPER_PASSWORD=flipper
-      - BORROW_DIRECT_HOST=bdtest.relaisd2d.com
-      - CATALYST_UMLAUT_BASE_URL=https://findit.library.jhu.edu
-      - HORIZON_WS_URL=http://horizon_holding_info:8080/ws
-      - GOOGLE_BOOKS_API_KEY="${GOOGLE_BOOKS_API_KEY}"
-      - SECRET_KEY_BASE="${SECRET_KEY_BASE}"
-      - SFX_BASE_URL="sfx.library.jhu.edu"
-      - WEBPACKER_DEV_SERVER_HOST=webpack
+    env_file: .env.development
+    networks:    
+      - internal_network
+      - external_network 
   webpack:
     <<: *catalyst
     command: ./bin/webpack-dev-server
@@ -43,32 +31,43 @@ services:
       - solr
     ports:
       - 3035:3035
-
+    networks: 
+      - internal_network 
 
   solr:
+    shm_size: "1g"
     image: "ghcr.io/jhu-library-applications/catalyst-docker-solr"
+    restart: always
+    env_file: .env.development
     ports:
       - "8983:8983"
     volumes:
       - solr:/var/solr/data
+    networks: 
+      - internal_network 
   horizon_holding_info:
     image: "ghcr.io/jhu-library-applications/horizon-holding-info-servlet"
     ports:
-      - "8080:8080" 
+      - "8080:8080"
+    networks: 
+      - internal_network
+      - external_network # Needs internet access to build 
   db:
-    image: mysql
-    environment:
-      MYSQL_USER: catalyst
-      MYSQL_DATABASE: catalyst
-      MYSQL_PASSWORD: catalyst
-      MYSQL_ROOT_PASSWORD: catalyst
+    shm_size: "256m"
+    image: mariadb:10.2
+    restart: always
+    env_file: .env.development
     ports:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
-    security_opt:
-      - seccomp:unconfined
+    networks: 
+      - internal_network
 volumes:
   bundler_gems:
   solr:
   db:
+networks:
+  external_network:
+  internal_network:
+    internal: true
