@@ -12,6 +12,12 @@ class LocalCatalogHelperTest < ActionView::TestCase
     assert_equal(related_links_type(doc), :online)
   end
 
+  test 'related_links_type_helper helper can return online for mixed online/print' do
+    doc = {}
+    doc['format'] = ["Online", "Print"] || ["Online", "Print in English"]
+    assert_equal(related_links_type(doc), :online)
+  end
+
   test 'related_links_type_helper has a default value' do
     doc = {}
     doc['format'] = ["Print"]
