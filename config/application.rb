@@ -56,6 +56,8 @@ module Catalyst
     config.filter_parameters += [:password]
     config.filter_parameters += [:pin]
 
+    config.active_record.use_yaml_unsafe_load = true
+    
     # Sibley hospital runs IE9 forced into compatibility view; we're trying to override
     # to turn off compatibility view, so the bootstrap will display okay
     # https://github.com/h5bp/html5-boilerplate/blob/v4.0.0/doc/html.md#x-ua-compatible
