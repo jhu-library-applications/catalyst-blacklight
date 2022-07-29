@@ -7,12 +7,12 @@ require 'ostruct'
 class SubjectOverriderTermsTest < ActiveSupport::TestCase
 
   def setup
-    terms = ['Zzzzzzxyyyyyyy']
+    terms = ['Illegal immigration']
     @subject_overrider_terms = SubjectOverriderTerms.new(terms: terms)
   end
 
   test 'that we can get a translated term' do
-    assert_equal @subject_overrider_terms.translated_terms, ['Z']
+    assert_equal @subject_overrider_terms.translated_terms, ['Undocumented immigrants']
   end
 
   test 'that we can get a clean string to use a key for the map' do
