@@ -13,11 +13,11 @@ class SubjectOverriderTest < ActiveSupport::TestCase
 
   def setup
     line = OpenStruct.new
-    part = OpenStruct.new(formatted_value: 'Zzzzzzxyyyyyyy')
+    part = OpenStruct.new(formatted_value: 'Illegal immigration')
     @subject_overrider = SubjectOverrider.new(line: line, part: part)
   end
 
   test 'that we can get a translated term' do
-    assert_equal @subject_overrider.translated_subject, 'Z'
+    assert_equal @subject_overrider.translated_subject, 'Undocumented immigrants'
   end
 end
