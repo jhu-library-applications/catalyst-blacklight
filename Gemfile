@@ -6,7 +6,7 @@ ruby '~> 2.6.6'
 # we will no longer need this gem once we migrate to ansible
 gem 'dotenv-rails'
 
-gem 'rails', '~> 5.2.7.1'
+gem 'rails', '~> 5.2.8.1'
 
 gem 'view_component', '2.49.1'
 
