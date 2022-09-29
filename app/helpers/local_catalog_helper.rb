@@ -273,30 +273,15 @@ module LocalCatalogHelper
     StackviewCallNumber.where(:system_id => document.id).order("created_at").pluck(:sort_key).first
   end
 
-
-  # Generate a search link to BorrowDirect -- duplicates some
-  # functionality in Umlaut/Findit umlaut_borrow_direct, but we
-  # want to generate links immediately without waiting for slow
-  # Find It AJAX, and in some places where we don't currently
-  # have access to Find It AJAX. We'll try to keep the link
-  # consistent by using shared borrow_direct gem functionality.
-  #
-  # returns nil if we can't generate a link.
   def borrow_direct_search_url(document)
-    # We use the OpenURL conversion to get author and title out,
-    # to stay consistent with Find It/Umlaut, and because it's
-    # convenient.
     if document.respond_to?(:to_openurl) && (openurl = document.to_openurl)
       ou_metadata = openurl.referent.metadata
 
       author = ou_metadata["aulast"] || ou_metadata["au"]
       title  = ou_metadata["btitle"] || ou_metadata["title"]
 
-      return BorrowDirect::GenerateQuery.new( borrow_direct_url ).
-        normalized_author_title_query(
-          :title  => title,
-          :author => author
-        )
+      response = Faraday.get("#{RESHARE_SERVICE_URL}/request?title=#{title}&author=#{author}")
+      return response.body
     end
   end
 
@@ -313,7 +298,7 @@ module LocalCatalogHelper
       query[:author] = params[:q]
     end
     if params.has_key?(:search_field) and params[:search_field] == 'all_fields'
-      query[:keyword] = params[:q]
+      query[:title] = params[:q]
     end
     if params.has_key?(:search_field) and params[:search_field] == 'subject'
       query[:keyword] = params[:q]
@@ -323,7 +308,7 @@ module LocalCatalogHelper
       query[:author] = params[:author]
       query[:title] = params[:title]
     end
-    url = BorrowDirect::GenerateQuery.new( borrow_direct_url ).query_url_with(query)
+    url = response = Faraday.get("#{RESHARE_SERVICE_URL}/request?title=#{query[:title]}&author=#{query[:author]}")
 
     link_to "Check BorrowDirect", url, :class => "btn btn-primary btn-sm", :target => "_blank"
   end

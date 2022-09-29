@@ -1,0 +1,1 @@
+RESHARE_SERVICE_URL = ENV['RESHARE_SERVICE_URL'] || 'http://localhost:5050'

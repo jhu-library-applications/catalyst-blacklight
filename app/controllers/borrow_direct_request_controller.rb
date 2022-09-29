@@ -14,18 +14,10 @@ class BorrowDirectRequestController < BorrowDirectController
 
     if @document['isbn_t'].respond_to?('each') and !@document['isbn_t'].empty?
       isbns = @document['isbn_t']
-      query = {
-        "PartnershipId": "BD",
-        "ExactSearch": isbns.map{|isbn| { "Type": "ISBN", "Value": isbn }}
-      }
-      response = Faraday.post("https://#{ENV['RELAIS_API_URL']}/dws/item/available?aid=#{authenticate}",
-                              query.to_json,
-                              "Content-Type" => "application/json")
-      body = JSON.parse(response.body)
-      @available = body['Available']
-      if @available
-        @locations = body['PickupLocation']
-      end
+
+      response = Faraday.get("#{RESHARE_SERVICE_URL}/request?isn=#{isbns}")
+      body = response.body
+      @available = body.starts_with? 'http'
     else
       @available = false
     end
