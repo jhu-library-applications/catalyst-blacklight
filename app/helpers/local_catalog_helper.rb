@@ -279,8 +279,10 @@ module LocalCatalogHelper
 
       author = ou_metadata["aulast"] || ou_metadata["au"]
       title  = ou_metadata["btitle"] || ou_metadata["title"]
+      reshare_request_uri = "#{RESHARE_SERVICE_URL}/request?title=#{title}&author=#{author}"
 
-      response = Faraday.get("#{RESHARE_SERVICE_URL}/request?title=#{title}&author=#{author}")
+
+      response = Faraday.get(URI.parse(URI.escape(reshare_request_uri)))
       return response.body
     end
   end

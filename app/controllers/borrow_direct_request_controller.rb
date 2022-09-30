@@ -12,25 +12,15 @@ class BorrowDirectRequestController < BorrowDirectController
   def request_options
     @response, @document = search_service.fetch(params[:id])
 
-    if @document['isbn_t'].respond_to?('each') and !@document['isbn_t'].empty?
-      isbns = @document['isbn_t']
-
-      response = Faraday.get("#{RESHARE_SERVICE_URL}/request?isn=#{isbns}")
-      body = response.body
-      @available = body.starts_with? 'http'
-    else
-      @available = false
-    end
+    @available = true
 
     respond_to do |format|
       format.html
       render :partial => "borrow_direct_request/request_options"
     end
-
   end
 
   def request_item
-
     borrower = HorizonBorrowerLookup.new.lookup(:id => current_user.horizon_borrower_id )
     barcode  = borrower[:barcode]
 
