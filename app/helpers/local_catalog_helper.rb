@@ -292,11 +292,7 @@ module LocalCatalogHelper
       author = ou_metadata["aulast"] || ou_metadata["au"]
       title  = ou_metadata["btitle"] || ou_metadata["title"]
 
-      return BorrowDirect::GenerateQuery.new( borrow_direct_url ).
-        normalized_author_title_query(
-          :title  => title,
-          :author => author
-        )
+      return "https://borrowdirect.reshare.indexdata.com/Search/Results?lookfor=#{title}%20#{author}"
     end
   end
 
