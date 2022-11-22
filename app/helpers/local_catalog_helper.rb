@@ -319,7 +319,8 @@ module LocalCatalogHelper
       query[:author] = params[:author]
       query[:title] = params[:title]
     end
-    url = BorrowDirect::GenerateQuery.new( borrow_direct_url ).query_url_with(query)
+    terms = query.map { |k,v| v }.join("%20")
+    url = "https://borrowdirect.reshare.indexdata.com/Search/Results?lookfor=#{terms}"
 
     link_to "Check BorrowDirect", url, :class => "btn btn-primary btn-sm", :target => "_blank"
   end
