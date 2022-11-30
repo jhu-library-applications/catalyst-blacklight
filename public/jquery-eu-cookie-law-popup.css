@@ -1,0 +1,182 @@
+
+/*  Modified by jkeyes for use by The Sheridan Libraries Room Reservation Survey, Dec 2017  */
+
+/* GENTONA */
+/*=== Medium (500) ===*/
+@font-face {
+  font-family: 'gentona';
+  src: url('https://bespoke.mse.jhu.edu/webfonts/Gentona-Medium.eot');
+  src: url('https://bespoke.mse.jhu.edu/webfonts/Gentona-Medium.eot?#iefix') format('embedded-opentype'),
+       url('https://bespoke.mse.jhu.edu/webfonts/Gentona-Medium.woff') format('woff'),
+       url('https://bespoke.mse.jhu.edu/webfonts/Gentona-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'gentona';
+  src: url('https://bespoke.mse.jhu.edu/webfonts/Gentona-MediumItalic.eot');
+  src: url('https://bespoke.mse.jhu.edu/webfonts/Gentona-MediumItalic.eot?#iefix') format('embedded-opentype'),
+       url('https://bespoke.mse.jhu.edu/webfonts/Gentona-MediumItalic.woff') format('woff'),
+       url('https://bespoke.mse.jhu.edu/webfonts/Gentona-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+
+.clearfix {
+	clear: both;
+}
+
+.eupopup-container {
+	background-color: rgba(0, 45, 114, 0.9);
+	color: #fff;
+	padding: 5px 20px;
+	font-size: 12px;
+	line-height: 1.2em;
+	text-align: center;
+	display: none;
+	z-index: 9999999;
+}
+
+.eupopup-container-top,
+.eupopup-container-fixedtop {
+	position: absolute;
+	top: 0; left: 0; right: 0;
+}
+
+.eupopup-container-fixedtop {
+	position: fixed;
+}
+
+.eupopup-container-bottom {
+	position: fixed;
+	bottom: 0; left: 0; right: 0;
+}
+
+.eupopup-container-bottomleft {
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+	width: 300px;
+}
+
+.eupopup-container-bottomright {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 300px;
+}
+
+.eupopup-closebutton {
+	font-size: 16px;
+	font-weight: 100;
+	line-height: 1;
+	color: #fff;
+	position: absolute;
+	top: 0; right: 0;
+	margin: 5px 5px;
+	padding: 2px 8px 5px 8px;
+	text-decoration: none;
+	font-family: 'gentona', sans-serif;
+}
+.eupopup-closebutton:hover,
+.eupopup-closebutton:active {
+	color: #4A484C;
+	background-color: #E5E2E0;
+	text-decoration: none;
+	border-radius:3px;
+}
+
+.eupopup-head {
+	font-family: 'gentona', sans-serif;
+	font-size: 1.5em;
+	line-height: 1.2em;
+	padding: 7px;
+	color: #fff;
+}
+
+.eupopup-body {
+	color: #fff;
+	font-family: 'gentona', sans-serif;
+	font-size: 1.2em;
+}
+
+.eupopup-buttons {
+	padding: 7px 0 5px 0;
+	margin:20px 0 20px 0;
+	font-family: 'gentona',sans-serif;
+}
+
+.eupopup-button_1 {
+	color: #fff !important;
+	font-size: 1.1em;
+	background-color: #7E7E7C !important;
+	border-radius: 8px;
+	padding:10px 40px;
+	text-decoration:none;
+	width: 100px;
+	font-weight: bold;
+}
+
+.eupopup-button_2 {
+	color: #fff !important;
+	font-size: 1.1em;
+	background-color: #009877 !important;
+	border-radius: 8px;
+	padding:10px 40px;
+	text-decoration:none;
+	width: 100px;
+	font-weight: bold;
+}
+
+.eupopup-button {
+	margin: 0 10px;
+}
+
+.eupopup-button:hover,
+.eupopup-button:focus {
+	color: #4A484C;
+	background-color: #E5E2E0;
+}
+
+body .eupopup-color-inverse {
+	color: #000;
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+body .eupopup-color-inverse .eupopup-head {
+	color: #000;
+}
+
+body .eupopup-style-compact {
+	text-align: left;
+	padding: 8px 30px 7px 20px;
+	line-height: 15px;
+}
+
+body .eupopup-style-compact .eupopup-head,
+body .eupopup-style-compact .eupopup-body,
+body .eupopup-style-compact .eupopup-buttons {
+	display: inline;
+	padding: 0;
+	margin: 0;
+}
+
+body .eupopup-style-compact .eupopup-button {
+	margin: 0 5px;
+}
+
+@media (max-width: 420px) {
+
+.eupopup-button_1 {
+	display:block;
+	padding: 10px 20px;
+	margin: auto;
+}
+.eupopup-button_2 {
+	display: block;
+	padding: 10px 20px;
+	margin:auto;
+	margin-bottom: 10px;
+}
+}

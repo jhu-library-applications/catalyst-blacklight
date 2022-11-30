@@ -61,12 +61,17 @@
     <!-- Alpine Core -->
     <script defer="" src="/alpine.min.js"></script>
 
+    <link rel="stylesheet" href="/jquery-eu-cookie-law-popup.css">
     <%= csrf_meta_tags %>
     <%= content_for(:head) %>
+
+    <script defer="" src="/jquery-2.1.3.min.js"></script>
+    <script defer="" src="/jquery-eu-cookie-law-popup.js"></script>
+    
  </head>
 
 
-  <body class="<%= render_body_class %>">
+  <body class="<%= render_body_class %> eupopup eupopup-fixedtop">
     <div id="wrap">
       <%- if Rails.env.production? %>
       <!-- Google Tag Manager (noscript) -->
