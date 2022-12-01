@@ -22,9 +22,10 @@ class BorrowDirectController < ApplicationController
     bd_library_symbol = "JOHNSHOPKINS"
 
     borrower = HorizonBorrowerLookup.new.lookup(:id => current_user.horizon_borrower_id )
-    barcode  = borrower[:barcode]
+    # The main identifier has changed from the barcode to the hopkins ID
+    hopkins_id  = borrower[:hopkins_id]
 
-    url = "https://#{APP_CONFIG["borrow_direct_host"]}/?LS=#{CGI.escape bd_library_symbol}&PI=#{CGI.escape barcode}"
+    url = "https://#{APP_CONFIG["borrow_direct_host"]}/?LS=#{CGI.escape bd_library_symbol}&PI=#{CGI.escape hopkins_id}"
 
     unless request.query_string.blank?
       url = url + "&" + request.query_string.gsub('+', '%20')
