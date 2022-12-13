@@ -13,7 +13,7 @@ class BorrowDirectController < ApplicationController
   before_action :verify_user
 
   def index
-    redirect_to borrow_direct_url
+    redirect_to 'https://borrowdirect.reshare.indexdata.com/'
   end
 
   protected
