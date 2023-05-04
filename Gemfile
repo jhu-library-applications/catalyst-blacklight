@@ -88,7 +88,7 @@ gem "uglifier", ">= 1.3.0"
 # gem 'coffee-rails', " ~> 4.2.0"
 # gem "therubyracer", '~> 0.12.3', :platforms => :ruby
 
-gem 'jquery-rails', '~> 4.3.5'
+gem 'jquery-rails', '~> 4.4.0'
 # gem 'bootstrap-sass'
 gem 'bootstrap', '~> 4.0'
 
